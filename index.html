@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ESSAzLife World</title>
+
+    <link rel="manifest" href="manifest.json">
+
+<link
+    rel="icon"
+    type="image/png"
+    href="ESSAzLife.World.Icon.png"
+>
+
+<link
+    rel="apple-touch-icon"
+    href="icons/icon-192.png"
+>
+
+<meta
+    name="theme-color"
+    content="#179DF4"
+>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ESSAzLife World Entrance -->
+<div class="welcome-screen" id="welcomeScreen">
+
+    <div class="welcome-card">
+
+        <img
+            src="ESSAzLife.World.Icon.png"
+            alt="ESSAzLife World"
+            class="welcome-logo"
+        >
+
+        <h1>ESSAzLife World</h1>
+
+        <p class="welcome-message">
+            Welcome to the headquarters of ESSAzLife.
+        </p>
+
+        <div class="welcome-buttons">
+            <button id="welcomeCreateButton">Create Account</button>
+            <button id="welcomeLoginButton">Log In</button>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Create Account -->
+<div class="account-overlay" id="createAccountOverlay">
+
+    <div class="account-popup">
+
+        <button class="account-close" id="createAccountClose">×</button>
+
+        <h2>🌎 Create Your World Account</h2>
+
+        <p class="account-intro">
+            Create an account to enter ESSAzLife World. 
+            When you access the apps through here, you will <strong>not</strong>
+            need to create an account or sign in when choosing an app to use.
+        </p>
+
+        <form id="createAccountForm">
+
+            <label for="createNickname">Nickname</label>
+<input
+    type="text"
+    id="createNickname"
+    autocomplete="nickname"
+    required
+>
+
+            <label for="createUsername">Username</label>
+            <input
+                type="text"
+                id="createUsername"
+                autocomplete="username"
+                required
+            >
+
+            <label for="createPassword">Password</label>
+            <input
+                type="password"
+                id="createPassword"
+                autocomplete="new-password"
+                required
+            >
+
+            <label for="confirmPassword">Confirm Password</label>
+            <input
+                type="password"
+                id="confirmPassword"
+                autocomplete="new-password"
+                required
+            >
+
+            <p class="account-error" id="createAccountError"></p>
+
+            <button type="submit" class="account-submit">
+                Create Account
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<!-- Log In -->
+<div class="account-overlay" id="loginOverlay">
+
+    <div class="account-popup">
+
+        <button class="account-close" id="loginClose">×</button>
+
+        <h2>🌎 Log In to World</h2>
+
+        <p class="account-intro">
+            Welcome back! Enter your World account information.
+        </p>
+
+        <form id="loginForm">
+
+            <label for="loginUsername">Username</label>
+            <input
+                type="text"
+                id="loginUsername"
+                autocomplete="username"
+                required
+            >
+
+            <label for="loginPassword">Password</label>
+            <input
+                type="password"
+                id="loginPassword"
+                autocomplete="current-password"
+                required
+            >
+
+            <p class="account-error" id="loginError"></p>
+
+            <button type="submit" class="account-submit">
+                Log In
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+    <header class="world-header">
+
+<div class="world-brand">
+    <img src="ESSAzLife.World.Icon.png" alt="ESSAzLife World">
+
+    <div class="world-brand-text">
+        <h1>ESSAzLife World</h1>
+        <p id="welcomeBackMessage"></p>
+    </div>
+</div>
+
+        <div class="world-controls">
+    <button id="helpButton">❓ Help</button>
+    <button id="bulletinButton">📢 Updates</button>
+    <button id="directoryButton">🔗 Directory</button>
+    <button id="settingsButton">⚙️ Settings</button>
+</div>
+
+    </header>
+
+    <main class="world-main">
+
+    <section class="world-info">
+        <h2>Welcome to ESSAzLife World 🌎</h2>
+
+        <p>
+            ESSAzLife World is the headquarters of all ESSAzLife Apps.
+            But since everything is stored locally, your data stays on
+            the device and browser you're using.
+        </p>
+    </section>
+
+    <section class="app-launcher">
+
+    <div class="app-card" id="handlerApp">
+        <img src="app-icons/Handler.Icon.png" alt="ESSAzLife Handler Edition">
+        <h2>Handler Edition</h2>
+        <p>
+            Log your ESSAs, train them, earn certifications,
+            and access coping tools for anxiety.
+        </p>
+    </div>
+
+    <div class="app-card" id="playModeApp">
+        <img src="app-icons/PlayMode.Icon.png" alt="ESSAzLife PlayMode">
+        <h2>PlayMode</h2>
+        <p>
+            Collect ESSAs, care for them, level up,
+            and unlock new adventures.
+        </p>
+    </div>
+
+    <div class="app-card" id="chorezApp">
+        <img class="chorez-icon" src="app-icons/Chorez.Icon.png" alt="ESSAzLife Chorez">
+        <h2>Chorez</h2>
+        <p>
+            Complete real-life chores, earn rewards,
+            and keep MooCow fed and happy.
+        </p>
+    </div>
+
+</section>
+
+</main>
+
+<div class="directory-overlay" id="directoryOverlay">
+
+    <div class="directory-popup">
+
+        <button class="directory-close" id="directoryClose">×</button>
+
+        <h2>🔗 ESSAzLife App Directory</h2>
+
+      <p class="directory-subheading">
+    Here are the individual ESSAzLife apps and their descriptions.
+    Choose an app to visit its page and download it individually as a PWA.
+    See ❓<strong>Help</strong> for details.
+</p>
+
+        <div class="directory-app">
+            <img src="app-icons/Handler.Icon.png" alt="Handler Edition">
+            <div>
+                <h3>Handler Edition</h3>
+                <p>
+                    Log your ESSAs, train them, earn certifications,
+                    and access coping tools for anxiety.
+                </p>
+            </div>
+        </div>
+
+        <div class="directory-app">
+            <img src="app-icons/PlayMode.Icon.png" alt="PlayMode">
+            <div>
+                <h3>PlayMode</h3>
+                <p>
+                    Collect ESSAs, care for them, level up,
+                    and unlock new adventures.
+                </p>
+            </div>
+        </div>
+
+        <div class="directory-app">
+            <img src="app-icons/Chorez.Icon.png" alt="Chorez">
+            <div>
+                <h3>Chorez</h3>
+                <p>
+                    Complete real-life chores, earn rewards,
+                    and keep MooCow fed and happy.
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="help-overlay" id="helpOverlay">
+
+    <div class="help-popup">
+
+        <button class="help-close" id="helpClose">×</button>
+
+        <h2>❓ ESSAzLife World Help</h2>
+
+        <a
+    class="tutorial-button"
+    href="YOUR_YOUTUBE_LINK_HERE"
+    target="_blank"
+    rel="noopener noreferrer"
+>
+    ▶️ Watch Tutorial
+</a>
+
+        <div class="help-section">
+            <h3>🌎 What is ESSAzLife World?</h3>
+            <p>
+                ESSAzLife World is the headquarters for ESSAzLife apps.
+                It gives you one place to access Handler Edition, PlayMode,
+                Chorez, and future ESSAzLife apps.
+            </p>
+        </div>
+
+        <div class="help-section">
+            <h3>📱 Do I need World?</h3>
+            <p>
+                Nope! ESSAzLife World is optional. You can use World as your
+                all-in-one ESSAzLife app, or use the individual ESSAzLife apps
+                separately.
+            </p>
+        </div>
+
+        <div class="help-section">
+            <h3>🔗 What is Directory?</h3>
+            <p>
+                Directory shows the individual ESSAzLife apps, what they do,
+                and where you can access each standalone app.
+            </p>
+        </div>
+
+        <div class="help-section">
+            <h3>💾 Where is my data stored?</h3>
+            <p>
+                ESSAzLife apps store their data locally in your browser.
+                Your data does not automatically follow you to another device
+                or browser. If you choose to change devices or browsers, or clear 
+                browser history, you will need to get your "Backup" file from <strong>Profile</strong>
+                in the individual app. Take your Downloaded Backup file and restore it in the specific
+                app under profile. Anything from that backup file will be restored on the new device, 
+                however, these will not sync. 
+            </p>
+        </div>
+
+        <div class="help-section">
+            <h3>⬇️ What is a PWA? <strong>(A Message from the developer)</strong></h3>
+            <p>
+                A Progressive Web App (PWA) is a website that can be installed
+                on your device and used more like an app. ESSAzLife World and
+                the individual ESSAzLife apps can be installed as PWAs when
+                supported by your browser and device. PWA is used for all ESSAzLife
+                Apps because if I were to upload the apps to Play Store or App Store, 
+                I would be unable to make these apps available for everyone to enjoy. 
+            </p>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="bulletin-overlay" id="bulletinOverlay">
+
+    <div class="bulletin-popup">
+
+        <button class="bulletin-close" id="bulletinClose">×</button>
+
+        <h2>📢 Update Bulletin Board</h2>
+
+        <p class="bulletin-intro">
+            News, updates, and announcements from ESSAzLife World.
+        </p>
+
+        <div class="bulletin-post">
+
+            <div class="bulletin-date">October 8, 2026 @ 4:00pm EST</div>
+
+            <h3>🌎 Welcome to ESSAzLife World!</h3>
+
+            <p>
+                ESSAzLife World is officially here! World brings your
+                ESSAzLife apps together into one headquarters while still
+                allowing you to use the individual apps separately.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- SETTINGS -->
+<div class="settings-overlay" id="settingsOverlay">
+
+    <div class="settings-popup">
+
+        <button class="settings-close" id="settingsClose">×</button>
+
+        <h2>⚙️ Settings</h2>
+
+        <p class="settings-subheader">
+    Looking for <strong>Backup and Restore</strong>?
+    Find that under the individual app's Profile section.
+</p>
+
+        <div class="settings-section">
+
+            <h3>👤 Account Settings</h3>
+
+            <p class="settings-account-name" id="settingsAccountName"></p>
+
+            <button class="settings-option" id="changeNicknameButton">
+                Change Nickname
+            </button>
+
+            <button class="settings-option" id="changeUsernameButton">
+                Change Username
+            </button>
+
+            <button class="settings-option" id="changePasswordButton">
+                Change Password
+            </button>
+
+        </div>
+
+        <div class="settings-section danger-section">
+
+            <h3>Account</h3>
+
+            <button class="settings-option logout-button" id="logoutButton">
+                Log Out
+            </button>
+
+            <button class="settings-option delete-button" id="deleteAccountButton">
+                Delete Account
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- CHANGE NICKNAME -->
+<div class="account-overlay" id="changeNicknameOverlay">
+
+    <div class="account-popup">
+
+        <button class="account-close" id="changeNicknameClose">×</button>
+
+        <h2>Change Nickname</h2>
+
+        <form id="changeNicknameForm">
+
+            <label for="newNickname">Nickname</label>
+
+            <input
+                type="text"
+                id="newNickname"
+                required
+            >
+
+            <p class="account-error" id="nicknameError"></p>
+
+            <button type="submit" class="account-submit">
+                Save Nickname
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- CHANGE USERNAME -->
+<div class="account-overlay" id="changeUsernameOverlay">
+
+    <div class="account-popup">
+
+        <button class="account-close" id="changeUsernameClose">×</button>
+
+        <h2>Change Username</h2>
+
+        <form id="changeUsernameForm">
+
+            <label for="newUsername">Username</label>
+
+            <input
+                type="text"
+                id="newUsername"
+                autocomplete="username"
+                required
+            >
+
+            <p class="account-error" id="usernameError"></p>
+
+            <button type="submit" class="account-submit">
+                Save Username
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- CHANGE PASSWORD -->
+<div class="account-overlay" id="changePasswordOverlay">
+
+    <div class="account-popup">
+
+        <button class="account-close" id="changePasswordClose">×</button>
+
+        <h2>Change Password</h2>
+
+        <form id="changePasswordForm">
+
+            <label for="currentPassword">Current Password</label>
+
+            <input
+                type="password"
+                id="currentPassword"
+                autocomplete="current-password"
+                required
+            >
+
+            <label for="newPassword">New Password</label>
+
+            <input
+                type="password"
+                id="newPassword"
+                autocomplete="new-password"
+                required
+            >
+
+            <label for="confirmNewPassword">Confirm New Password</label>
+
+            <input
+                type="password"
+                id="confirmNewPassword"
+                autocomplete="new-password"
+                required
+            >
+
+            <p class="account-error" id="passwordChangeError"></p>
+
+            <button type="submit" class="account-submit">
+                Save Password
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- LOG OUT CONFIRMATION -->
+<div class="confirm-overlay" id="logoutConfirmOverlay">
+
+    <div class="confirm-popup">
+
+        <h2>Log Out?</h2>
+
+        <p>
+            Are you sure you want to log out of ESSAzLife World?
+        </p>
+
+        <div class="confirm-buttons">
+
+            <button class="cancel-button" id="cancelLogoutButton">
+                Cancel
+            </button>
+
+            <button class="confirm-logout-button" id="confirmLogoutButton">
+                Log Out
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- DELETE ACCOUNT CONFIRMATION -->
+<div class="confirm-overlay" id="deleteConfirmOverlay">
+
+    <div class="confirm-popup">
+
+        <h2>⚠️ Delete Account?</h2>
+
+        <p>
+            This will permanently delete your ESSAzLife World account
+            from this device.
+        </p>
+
+        <p>
+            This will not delete data stored inside the individual
+            ESSAzLife apps.
+        </p>
+
+        <p>
+            <strong>This cannot be undone.</strong>
+        </p>
+
+        <div class="confirm-buttons">
+
+            <button class="cancel-button" id="cancelDeleteButton">
+                Cancel
+            </button>
+
+            <button class="confirm-delete-button" id="confirmDeleteButton">
+                Delete Account
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>

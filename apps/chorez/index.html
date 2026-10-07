@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>ESSAzLife Chorez</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+<!-- PWA -->
+<link
+    rel="manifest"
+    href="manifest.json"
+>
+
+<meta
+    name="theme-color"
+    content="#f4a261"
+>
+
+<link
+    rel="icon"
+    type="image/png"
+    href="chorez-images/Chorez-Peach-Icon.png"
+>
+
+<link
+    rel="apple-touch-icon"
+    href="chorez-images/Chorez-Peach-Icon.png"
+>
+
+<meta
+    name="apple-mobile-web-app-capable"
+    content="yes"
+>
+
+<meta
+    name="apple-mobile-web-app-status-bar-style"
+    content="default"
+>
+
+<meta
+    name="apple-mobile-web-app-title"
+    content="Chorez"
+>
+</head>
+
+
+<body>
+
+
+<!-- =========================================
+     HEADER
+========================================= -->
+
+<header>
+
+    <div class="header-brand">
+
+        <img
+            src="chorez-images/Chorez-Peach-Icon.png"
+            class="app-icon"
+            alt="ESSAzLife Chorez"
+        >
+
+        <h1>ESSAzLife Chorez</h1>
+
+    </div>
+
+<div class="header-navigation">
+
+    <div class="header-navigation">
+
+    <button
+        id="world-button"
+        class="header-nav-button"
+        aria-label="Back to ESSAzLife World"
+        title="World"
+        type="button"
+    >
+        🌎
+    </button>
+
+    <button
+        id="help-button"
+        class="header-nav-button"
+        aria-label="Help"
+        title="Help"
+        type="button"
+    >
+        ❓
+    </button>
+
+    <button
+        id="profile-button"
+        class="header-nav-button"
+        aria-label="Profile"
+        title="Profile"
+        type="button"
+    >
+        👤
+    </button>
+
+</div>
+
+</div>
+
+</header>
+
+
+
+<!-- =========================================
+     MOOCOW INTRO
+========================================= -->
+
+<div
+    id="intro-overlay"
+    class="intro-overlay"
+>
+
+    <div class="intro-popup">
+
+        <div class="intro-stage">
+
+            <img
+                src="chorez-images/Chorez-Intro-Stage.png"
+                class="stage-background"
+                alt=""
+            >
+
+            <div
+                id="moocow-speech"
+                class="speech-bubble"
+            >
+
+                <strong>
+                    Hello, my name is MooCow.
+                </strong>
+
+                <br><br>
+
+                I am the beloved ESSA of Raising Floofz.
+                She's letting me visit you so I can keep
+                you on track with your chores.
+
+                <br><br>
+
+                I am four years old. I don't know what time it is... 
+
+                <br><br>
+
+                So you will need to start by going into <b>Profile</b>, and setting the date and time.
+                
+                <br><br>
+                You need to feed me by earning coins
+                by completing chores.
+
+                <br><br>
+
+                Failure to feed me will result in me
+                leaving you and going to chill with my
+                buddy Voidy until you do a chore or two.
+
+            </div>
+
+            <img
+                src="chorez-images/MooCow-Formal.png"
+                id="intro-moocow"
+                class="intro-moocow"
+                alt="MooCow"
+            >
+
+        </div>
+
+        <button id="finish-intro">
+            Got it, MooCow!
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================
+     MAIN CHORE SCREEN
+========================================= -->
+
+<main>
+
+    <div class="my-chorez-heading">
+
+    <h2>
+        My Chorez
+    </h2>
+
+    <div id="main-chorez-datetime">
+        Loading date and time...
+    </div>
+
+</div>
+
+    <div class="coin-counter">
+
+        <img
+            src="chorez-images/Chorez-Coin.png"
+            alt="Chorez Coin"
+            class="coin-icon"
+        >
+
+        <span id="coin-count">0</span>
+
+    </div>
+
+
+    <button
+        class="add-chore"
+        id="add-chore"
+    >
+        + Add a Chore
+    </button>
+
+
+    <button
+        class="history-button"
+        id="history-button"
+    >
+        📅 Chore History
+    </button>
+
+
+    <div
+        class="chore-list"
+        id="chore-list"
+    >
+        <p>No chores yet!</p>
+    </div>
+
+
+    <button
+        class="moocow-button"
+        id="visit-moocow"
+    >
+        🐄 Visit MooCow
+    </button>
+
+</main>
+
+
+<!-- =========================================
+     ADD CHORE POPUP
+========================================= -->
+
+<div
+    id="chore-popup"
+    class="chore-popup hidden"
+>
+
+    <div class="chore-popup-card">
+
+        <h2 id="chore-popup-title">
+    Add a Chore
+</h2>
+
+        <label for="chore-name">
+            What do you need to do?
+        </label>
+
+        <input
+            type="text"
+            id="chore-name"
+            maxlength="50"
+            placeholder="Example: Clean my room"
+        >
+
+        <div class="chore-popup-buttons">
+
+            <button id="save-chore">
+                Add Chore
+            </button>
+
+            <button id="cancel-chore">
+                Cancel
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================
+     CHORE HISTORY
+========================================= -->
+
+<div
+    id="history-overlay"
+    class="history-overlay hidden"
+>
+
+    <div class="history-popup">
+
+
+        <!-- CALENDAR VIEW -->
+
+        <div id="history-calendar-view">
+
+            <div class="history-header">
+
+                <div>
+                    <h2>Chore History</h2>
+
+                    <p>
+                        Select a date to see your chores. 🤌🏻
+                    </p>
+                </div>
+
+                <button
+                    id="close-history"
+                    aria-label="Close chore history"
+                >
+                    ✕
+                </button>
+
+            </div>
+
+
+            <div class="history-calendar-controls">
+
+                <button
+                    id="history-previous-month"
+                    aria-label="Previous month"
+                >
+                    ‹
+                </button>
+
+                <h3 id="history-calendar-month">
+                    October 2026
+                </h3>
+
+                <button
+                    id="history-next-month"
+                    aria-label="Next month"
+                >
+                    ›
+                </button>
+
+            </div>
+
+
+            <div class="history-calendar-weekdays">
+                <span>Sun</span>
+                <span>Mon</span>
+                <span>Tue</span>
+                <span>Wed</span>
+                <span>Thu</span>
+                <span>Fri</span>
+                <span>Sat</span>
+            </div>
+
+
+            <div
+                id="history-calendar-grid"
+                class="history-calendar-grid"
+            ></div>
+
+<div class="history-calendar-key">
+
+    <div class="history-key-item">
+        <span class="history-key-dot completed"></span>
+        Completed chores
+    </div>
+
+    <div class="history-key-item">
+        <span class="history-key-dot scheduled"></span>
+        Scheduled / not done
+    </div>
+
+</div>
+
+        </div>
+
+
+        <!-- SELECTED DAY VIEW -->
+
+        <div
+            id="history-day-view"
+            class="hidden"
+        >
+
+            <div class="history-day-top">
+
+                <button
+                    id="history-back-to-calendar"
+                    class="history-back-button"
+                >
+                    ‹ Calendar
+                </button>
+
+                <button
+                    id="close-history-day"
+                    class="history-day-close"
+                    aria-label="Close chore history"
+                >
+                    ✕
+                </button>
+
+            </div>
+
+
+            <div class="history-selected-date-row">
+
+                <h2 id="history-selected-date">
+                    Monday, October 5, 2026
+                </h2>
+
+                <button
+                    id="history-add-chore"
+                    class="history-add-chore-button"
+                    type="button"
+                    aria-label="Add chore to this date"
+                    title="Add chore"
+                >
+                    +
+                </button>
+
+            </div>
+
+
+            <div
+                id="history-list"
+                class="history-list"
+            ></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =========================================
+     CHORE HISTORY ACTION MENU
+========================================= -->
+
+<div
+    id="history-chore-menu"
+    class="history-chore-menu-overlay hidden"
+>
+
+    <div class="history-chore-menu-popup">
+
+        <h2 id="history-chore-menu-name">
+            Chore
+        </h2>
+
+        <p>
+            What would you like to do?
+        </p>
+        
+        <button
+    id="history-complete-chore"
+    type="button"
+>
+    ✓ Mark Done (+1 Coin)
+</button>
+
+        <button
+            id="history-edit-chore"
+            type="button"
+        >
+            ✏️ Edit Chore
+        </button>
+
+        <button
+            id="history-delete-chore"
+            type="button"
+        >
+            🗑️ Delete Chore
+        </button>
+
+        <button
+            id="history-cancel-chore-menu"
+            type="button"
+        >
+            Cancel
+        </button>
+
+    </div>
+
+</div>
+
+<!-- =========================================
+     DELETE HISTORY CHORE CONFIRMATION
+========================================= -->
+
+<div
+    id="history-delete-confirm"
+    class="history-delete-confirm-overlay hidden"
+>
+
+    <div class="history-delete-confirm-popup">
+
+        <h2>
+            Delete Chore?
+        </h2>
+
+        <p id="history-delete-confirm-message">
+            Are you sure you want to delete this chore?
+        </p>
+
+        <p class="history-delete-warning">
+            This cannot be undone.
+        </p>
+
+        <div class="history-delete-confirm-buttons">
+
+            <button
+                id="history-confirm-delete"
+                type="button"
+            >
+                Delete
+            </button>
+
+            <button
+                id="history-cancel-delete"
+                type="button"
+            >
+                Cancel
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =========================================
+     MOOCOW ROOM
+========================================= -->
+
+<div
+    id="moocow-room-overlay"
+    class="moocow-room-overlay hidden"
+>
+
+    <div class="moocow-room-popup">
+
+        <div class="moocow-room-header">
+
+            <div class="room-coins">
+
+                <img
+                    src="chorez-images/Chorez-Coin.png"
+                    alt="Coin"
+                >
+
+                <span id="room-coin-count">
+                    0
+                </span>
+
+            </div>
+
+
+            <div class="hunger-status">
+
+                <span class="hunger-label">
+                    Hunger
+                </span>
+
+                <div class="hunger-bar">
+
+                    <div
+                        id="hunger-fill"
+                        class="hunger-fill"
+                    ></div>
+
+                </div>
+
+                <span id="hunger-number">
+                    100%
+                </span>
+
+                <span id="hunger-message">
+                    Full!
+                </span>
+
+            </div>
+
+
+            <button
+                id="close-moocow-room"
+                aria-label="Close MooCow's room"
+            >
+                ✕
+            </button>
+
+        </div>
+
+
+        <div class="moocow-room">
+
+            <img
+                src="chorez-images/Chorez-White-Room.png"
+                class="moocow-room-background"
+                alt=""
+            >
+
+            <img
+                src="chorez-images/Chorez-Fridge-Shut.png"
+                id="moocow-fridge"
+                class="moocow-fridge"
+                alt="MooCow's Fridge"
+            >
+
+            <img
+                src="chorez-images/MooCow.png"
+                id="room-moocow"
+                class="room-moocow"
+                alt="MooCow"
+            >
+
+            <div
+                id="room-moocow-speech"
+                class="room-moocow-speech hidden"
+            >
+                I'm starving dude, good thing I'm stuffed.
+            </div>
+
+            <div
+                id="moocow-suitcase"
+                class="moocow-suitcase hidden"
+                aria-hidden="true"
+            >
+                🧳
+            </div>
+
+            <img
+                id="room-food"
+                class="room-food hidden"
+                src=""
+                alt=""
+            >
+
+            <button
+                id="moocow-teddy"
+                class="moocow-teddy"
+                aria-label="MooCow's teddy bear"
+            >
+                🧸
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================
+     FOOD CAROUSEL
+========================================= -->
+
+<div
+    id="food-carousel-overlay"
+    class="food-carousel-overlay hidden"
+>
+
+    <div class="food-carousel-popup">
+
+        <div class="food-carousel-header">
+
+            <h2>MooCow's Food</h2>
+
+            <button
+                id="close-food-carousel"
+                aria-label="Close food menu"
+            >
+                ✕
+            </button>
+
+        </div>
+
+
+        <div class="food-carousel-coins">
+
+            <img
+                src="chorez-images/Chorez-Coin.png"
+                alt="Coin"
+            >
+
+            <span id="food-carousel-coin-count">
+                0
+            </span>
+
+        </div>
+
+
+        <div class="food-carousel">
+
+            <button
+                id="previous-food"
+                class="carousel-arrow"
+                aria-label="Previous food"
+            >
+                ❮
+            </button>
+
+            <div class="food-display">
+
+                <img
+                    id="carousel-food-image"
+                    src="chorez-images/banana-disks.png"
+                    alt="Banana Disks"
+                >
+
+            </div>
+
+            <button
+                id="next-food"
+                class="carousel-arrow"
+                aria-label="Next food"
+            >
+                ❯
+            </button>
+
+        </div>
+
+
+        <h3 id="carousel-food-name">
+            Banana Disks
+        </h3>
+
+
+        <div class="food-price">
+
+            <img
+                src="chorez-images/Chorez-Coin.png"
+                alt="Coin"
+            >
+
+            <span>1</span>
+
+        </div>
+
+
+        <button id="get-food-button">
+            GET FOOD
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================
+     MOOCOW MESSAGE
+========================================= -->
+
+<div
+    id="moocow-message-overlay"
+    class="moocow-message-overlay hidden"
+>
+
+    <div class="moocow-message-popup">
+
+        <img
+            src="chorez-images/MooCow.png"
+            class="message-moocow"
+            alt="MooCow"
+        >
+
+        <h2 id="moocow-message-title">
+            Uh oh! 🐄
+        </h2>
+
+        <p id="moocow-message-text">
+            You need to finish a chore first!
+        </p>
+
+        <p class="message-coin-hint">
+
+            Complete a chore to earn
+
+            <img
+                src="chorez-images/Chorez-Coin.png"
+                alt="Coin"
+            >
+
+            <strong>1</strong>
+
+        </p>
+
+        <button id="close-moocow-message">
+            OKAY!
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================
+     VOIDY
+========================================= -->
+
+<div
+    id="voidy-screen"
+    class="voidy-screen hidden"
+>
+
+    <img
+        src="chorez-images/tired-black-voidy.png"
+        class="voidy-screen-image"
+        alt="Voidy"
+    >
+
+    <div class="voidy-screen-content">
+
+        <div class="voidy-screen-text">
+
+            MOOCOW IS NO LONGER HERE.
+
+            <br><br>
+
+            HE IS WITH ME UNTIL YOU GET SOME CHORES DONE.
+
+        </div>
+
+        <button id="close-voidy-screen">
+            GET TO WORK
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================
+     PROFILE MENU
+========================================= -->
+
+<div
+    id="profile-menu-overlay"
+    class="profile-menu-overlay hidden"
+>
+
+    <div class="profile-menu">
+
+        <div class="profile-menu-header">
+
+            <div>
+
+                <h2>Profile</h2>
+
+                <p id="profile-menu-username">
+                    @username
+                </p>
+
+            </div>
+
+            <button
+                id="close-profile-menu"
+                aria-label="Close profile"
+            >
+                ✕
+            </button>
+
+        </div>
+
+
+        <div class="profile-local-warning">
+
+            <strong>
+                📱 Local Account
+            </strong>
+
+            <p>
+                Your Chorez account lives on this device.
+                Create a backup before clearing browser data
+                or moving to another device.
+            </p>
+
+        </div>
+
+        <button
+            id="date-time-button"
+            class="profile-option"
+        >
+            🕐 Date &amp; Time
+        </button>
+
+
+        <div class="profile-divider"></div>
+
+
+        <button
+            id="backup-button"
+            class="profile-option"
+        >
+            💾 Backup Chorez
+        </button>
+
+        <button
+            id="restore-button"
+            class="profile-option"
+        >
+            📂 Restore Backup
+        </button>
+
+        <input
+            id="restore-file-input"
+            type="file"
+            accept=".json,application/json"
+            hidden
+        >
+
+
+        <div class="profile-divider"></div>
+
+
+    </div>
+
+</div>
+
+<!-- =========================================
+     DATE & TIME
+========================================= -->
+
+<div
+    id="date-time-overlay"
+    class="settings-popup-overlay hidden"
+>
+
+    <div class="settings-popup">
+
+        <h2 id="date-time-title">
+            Set Your Date &amp; Time
+        </h2>
+
+        <p>
+            Chorez uses this to keep your
+            chore history organized correctly.
+        </p>
+
+        <label for="chorez-date">
+            Current Date
+        </label>
+
+        <input
+            id="chorez-date"
+            type="date"
+        >
+
+        <label
+            for="chorez-time"
+            class="date-time-label"
+        >
+            Current Time
+        </label>
+
+        <input
+            id="chorez-time"
+            type="time"
+        >
+
+        <p
+            id="date-time-error"
+            class="settings-error hidden"
+        ></p>
+
+        <div class="settings-popup-buttons">
+
+            <button
+                id="cancel-date-time"
+                class="settings-cancel-button"
+            >
+                Cancel
+            </button>
+
+            <button
+                id="save-date-time"
+                class="settings-save-button"
+            >
+                Save
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================
+     SUCCESS POPUP
+========================================= -->
+
+<div
+    id="success-popup-overlay"
+    class="settings-popup-overlay hidden"
+>
+
+    <div class="settings-popup success-popup">
+
+        <div class="success-popup-icon">
+            ✓
+        </div>
+
+        <h2 id="success-popup-title">
+            Success!
+        </h2>
+
+        <p id="success-popup-message">
+            Your changes have been saved.
+        </p>
+
+        <button
+            id="success-popup-button"
+            class="settings-save-button success-popup-button"
+        >
+            OKAY
+        </button>
+
+    </div>
+
+</div>
+
+<!-- =========================================
+     HELP
+========================================= -->
+
+<div
+    id="help-overlay"
+    class="nav-popup-overlay hidden"
+>
+
+    <div class="nav-popup">
+
+        <div class="nav-popup-header">
+
+            <div>
+
+                <h2>❓ Chorez Help</h2>
+
+                <p>
+                    Everything you need to know about
+                    keeping yourself — and MooCow — on track.
+                </p>
+
+            </div>
+
+            <button
+                id="close-help"
+                class="nav-popup-close"
+                aria-label="Close help"
+            >
+                ✕
+            </button>
+
+        </div>
+
+
+        <div class="help-section">
+
+            <h3>🐄 How Chorez Works</h3>
+
+            <p>
+                Add chores to your Chorez list and tap
+                <strong>Done</strong> when you complete one.
+            </p>
+
+            <p>
+                Every completed chore earns you
+                <strong>1 Chorez Coin</strong>.
+            </p>
+
+            <p>
+                Visit MooCow and use your coins to get food
+                from his fridge. Feed him to keep his hunger
+                meter filled.
+            </p>
+
+        </div>
+
+
+        <div class="help-section">
+
+            <h3>🧳 What If MooCow Gets Too Hungry?</h3>
+
+            <p>
+                MooCow's hunger decreases over time.
+                If it reaches 0%, he may pack his little
+                suitcase and go stay with Voidy.
+            </p>
+
+            <p>
+                Complete chores to work toward getting
+                MooCow back.
+            </p>
+
+        </div>
+
+
+        <div class="help-section">
+
+            <h3>📅 Chore History</h3>
+
+            <p>
+                Open <strong>Chore History</strong> to view
+                your calendar.
+            </p>
+
+            <p>
+                Select a date to see which chores were
+                <strong>Done</strong> and which chores from
+                that date are still <strong>Not Done</strong>.
+            </p>
+
+        </div>
+
+
+        <div class="help-section">
+
+            <h3>📱 Your Account Is Local</h3>
+
+            <p>
+                Chorez stores your account and progress
+                on this device instead of an online server.
+            </p>
+
+            <p>
+                Clearing your browser data or switching
+                devices can cause you to lose your Chorez
+                data unless you have a backup.
+            </p>
+
+        </div>
+
+
+        <div class="help-section">
+
+            <h3>💾 How to Back Up Chorez</h3>
+
+            <p>
+                Open <strong>Profile</strong> and select
+                <strong>Backup Chorez</strong>.
+            </p>
+
+            <p>
+                Keep the downloaded backup file somewhere
+                safe. It contains the information Chorez
+                needs to restore your local account and
+                progress.
+            </p>
+
+        </div>
+
+
+        <div class="help-section">
+
+            <h3>📂 How to Restore a Backup</h3>
+
+            <p>
+                Open <strong>Profile</strong> and select
+                <strong>Restore Backup</strong>.
+            </p>
+
+            <p>
+                Choose a Chorez backup file you previously
+                created and follow the restore instructions.
+            </p>
+
+        </div>
+
+
+        <div class="help-tutorial">
+
+            <h3>🎓 Need a Walkthrough?</h3>
+
+            <p>
+                <strong>Note:</strong> Tutorial is in reference to
+                        the main Chorez App,
+                        <strong>not</strong> the version you've accessed
+                        through ESSAzLife World. Watching can help you
+                        understand the main layout, but not all features
+                        are available in this version.
+
+
+
+
+            </p>
+
+            <button
+                id="watch-tutorial-button"
+                class="nav-primary-button"
+            >
+                🎓 Start Tutorial
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================
+     SWITCH ESSAZLIFE APP
+========================================= -->
+
+<div
+    id="switch-overlay"
+    class="nav-popup-overlay hidden"
+>
+
+    <div class="nav-popup">
+
+        <div class="nav-popup-header">
+
+            <div>
+
+                <h2>🔄 Switch</h2>
+
+                <p>
+                    Visit another ESSAzLife app.
+                </p>
+
+            </div>
+
+            <button
+                id="close-switch"
+                class="nav-popup-close"
+                aria-label="Close switch menu"
+            >
+                ✕
+            </button>
+
+        </div>
+
+
+        <div class="switch-app-card">
+
+            <div class="switch-app-icon">
+                🐾
+            </div>
+
+            <div class="switch-app-info">
+
+                <h3>
+                    ESSAzLife Handler Edition
+                </h3>
+
+                <p>
+                    Keep track of your real-life ESSA's
+                    care, routines, training, anxiety,
+                    diary entries, and more.
+                </p>
+
+                <button
+                    id="open-handler-edition"
+                    class="nav-primary-button"
+                >
+                    Open Handler Edition
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="switch-app-card">
+
+            <div class="switch-app-icon">
+                🎮
+            </div>
+
+            <div class="switch-app-info">
+
+                <h3>
+                    ESSAzLife PlayMode
+                </h3>
+
+                <p>
+                    Collect ESSAs, level up your trainer,
+                    unlock items, and hang out with
+                    familiar ESSAzLife characters.
+                </p>
+
+                <button
+                    id="open-playmode"
+                    class="nav-primary-button"
+                >
+                    Open PlayMode
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <p class="switch-note">
+            Your Chorez data stays here when you visit
+            another ESSAzLife app.
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================
+     JAVASCRIPT
+========================================= -->
+
+<script src="script.js"></script>
+
+<script>
+    if ("serviceWorker" in navigator) {
+
+        window.addEventListener(
+            "load",
+            () => {
+
+                navigator.serviceWorker
+                    .register(
+                        "./service-worker.js"
+                    )
+                    .then(() => {
+                        console.log(
+                            "Chorez service worker registered! 🐄"
+                        );
+                    })
+                    .catch(error => {
+                        console.error(
+                            "Chorez service worker failed:",
+                            error
+                        );
+                    });
+            }
+        );
+    }
+</script>
+</body>
+</html>

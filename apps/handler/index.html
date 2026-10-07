@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta charset="UTF-8">
+
+    <title>ESSAzLife · Handler Edition</title>
+
+    <link rel="icon" href="./MooCow.Icon.png?v=2">
+
+<link
+    rel="apple-touch-icon"
+    href="MooCow.Icon.png"
+>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+</head>
+
+<body>
+      <header>
+        <div class="app-name">
+            <img class="app-icon" src="MooCow.Icon.png" alt="ESSAzLife cow icon">
+            ESSAzLife · Handler Edition
+        </div>
+
+      <div class="header-buttons">
+    <button id="world-button" title="Back to ESSAzLife World">🌎</button>
+    <button id="home-button">🏠</button>
+    <button id="help-button">❓</button>
+    <button id="profile-button">👤</button>
+</div> 
+    </header>
+
+    <!-- =========================================
+     SWITCH APP POPUP
+========================================= -->
+
+<div
+    id="switch-overlay"
+    class="switch-overlay hidden"
+>
+    <div class="switch-popup">
+
+        <h2>Switch ESSAzLife App</h2>
+
+        <p>
+            Where would you like to go?
+        </p>
+
+        <button
+            id="switch-playmode-button"
+            type="button"
+        >
+            🎮 ESSAzLife PlayMode
+        </button>
+
+        <button
+            id="switch-chorez-button"
+            type="button"
+        >
+            🐄 ESSAzLife Chorez
+        </button>
+
+        <button
+            id="close-switch-button"
+            type="button"
+        >
+            CANCEL
+        </button>
+
+    </div>
+</div>
+
+    <main>
+        <h1>Welcome Back!</h1>
+
+        <button class="add-essa-button" onclick="showEssaForm()">
+    + Add an ESSA
+</button>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

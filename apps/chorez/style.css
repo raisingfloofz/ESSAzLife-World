@@ -1,0 +1,7201 @@
+/* =========================================
+
+   ESSAzLife Chorez
+
+   style.css
+
+========================================= */
+
+
+
+
+
+/* =========================================
+
+   GLOBAL
+
+========================================= */
+
+
+
+* {
+
+    box-sizing: border-box;
+
+}
+
+
+
+
+
+html,
+
+body {
+
+    margin: 0;
+
+    padding: 0;
+
+
+
+    min-height: 100%;
+
+}
+
+
+
+
+
+body {
+
+    min-height: 100vh;
+
+    min-height: 100dvh;
+
+
+
+    background: #fff7f3;
+
+
+
+    color: #333;
+
+
+
+    font-family:
+
+        Arial,
+
+        Helvetica,
+
+        sans-serif;
+
+}
+
+
+
+
+
+button,
+
+input {
+
+    font-family: inherit;
+
+}
+
+
+
+
+
+button {
+
+    touch-action: manipulation;
+
+}
+
+
+
+
+
+.hidden {
+
+    display: none !important;
+
+}
+
+
+
+
+
+/* =========================================
+
+   HEADER
+
+========================================= */
+
+
+
+header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+
+
+    width: 100%;
+
+
+
+    padding: 12px 18px;
+
+
+
+    background: white;
+
+
+
+    border-bottom:
+
+        1px solid #eaded8;
+
+
+
+    box-shadow:
+
+        0 2px 8px
+
+        rgba(0, 0, 0, 0.06);
+
+
+
+    position: relative;
+
+
+
+    z-index: 20;
+
+}
+
+
+
+
+
+/* =========================================
+
+   HEADER BRAND
+
+========================================= */
+
+
+
+.header-brand {
+
+    display: flex;
+
+    align-items: center;
+
+
+
+    min-width: 0;
+
+}
+
+
+
+
+
+.app-icon {
+
+    width: 48px;
+
+    height: 48px;
+
+
+
+    flex-shrink: 0;
+
+
+
+    object-fit: contain;
+
+
+
+    margin-right: 10px;
+
+}
+
+
+
+
+
+header h1 {
+
+    margin: 0;
+
+
+
+    font-size: 21px;
+
+    line-height: 1.1;
+
+
+
+    color: #252525;
+
+}
+
+
+
+
+
+/* =========================================
+
+   HEADER NAVIGATION
+
+========================================= */
+
+
+
+.header-navigation {
+
+    display: flex;
+
+    align-items: center;
+
+
+
+    gap: 7px;
+
+
+
+    flex-shrink: 0;
+
+
+
+    margin-left: 12px;
+
+}
+
+
+
+
+
+.header-nav-button {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+
+
+    width: 42px;
+
+    height: 42px;
+
+
+
+    padding: 0;
+
+
+
+    border: none;
+
+    border-radius: 12px;
+
+
+
+    background: #ffb49f;
+
+
+
+    font-size: 19px;
+
+    line-height: 1;
+
+
+
+    cursor: pointer;
+
+
+
+    transition:
+
+        transform 0.15s ease,
+
+        background 0.15s ease;
+
+}
+
+
+
+
+
+.header-nav-button:hover {
+
+    transform: translateY(-1px);
+
+}
+
+
+
+
+
+.header-nav-button:active {
+
+    transform: scale(0.94);
+
+}
+
+
+
+
+
+/* =========================================
+
+   MOBILE HEADER
+
+========================================= */
+
+
+
+@media (max-width: 500px) {
+
+
+
+    header {
+
+        padding: 10px 12px;
+
+    }
+
+
+
+
+
+    .app-icon {
+
+        width: 42px;
+
+        height: 42px;
+
+
+
+        margin-right: 7px;
+
+    }
+
+
+
+
+
+    header h1 {
+
+        font-size: 17px;
+
+    }
+
+
+
+
+
+    .header-navigation {
+
+        gap: 5px;
+
+
+
+        margin-left: 7px;
+
+    }
+
+
+
+
+
+    .header-nav-button {
+
+        width: 36px;
+
+        height: 36px;
+
+
+
+        border-radius: 10px;
+
+
+
+        font-size: 17px;
+
+    }
+
+}
+
+
+
+/* =========================================
+
+   MAIN
+
+========================================= */
+
+
+
+main {
+
+    width: 100%;
+
+    max-width: 650px;
+
+
+
+    margin: 0 auto;
+
+
+
+    padding: 24px 18px 40px;
+
+}
+
+
+
+
+
+main h2 {
+
+    margin:
+
+        0 0 18px;
+
+
+
+    font-size: 25px;
+
+}
+
+
+
+
+
+/* =========================================
+
+   COIN COUNTER
+
+========================================= */
+
+
+
+.coin-counter {
+
+    display: inline-flex;
+
+    align-items: center;
+
+
+
+    gap: 7px;
+
+
+
+    min-width: 70px;
+
+
+
+    padding: 10px 14px;
+
+
+
+    margin-bottom: 18px;
+
+
+
+    background: white;
+
+
+
+    border-radius: 16px;
+
+
+
+    box-shadow:
+
+        0 3px 10px
+
+        rgba(0, 0, 0, 0.08);
+
+
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+}
+
+
+
+
+
+.coin-icon {
+
+    width: 28px;
+
+    height: 28px;
+
+
+
+    object-fit: contain;
+
+}
+
+
+
+
+
+/* =========================================
+
+   ADD CHORE
+
+========================================= */
+
+
+
+.add-chore {
+
+    display: block;
+
+
+
+    width: 100%;
+
+
+
+    margin-bottom: 18px;
+
+
+
+    padding: 15px;
+
+
+
+    border: none;
+
+    border-radius: 14px;
+
+
+
+    background: #ffb49f;
+
+
+
+    color: #292929;
+
+
+
+    font-size: 17px;
+
+    font-weight: bold;
+
+
+
+    cursor: pointer;
+
+}
+
+
+
+
+
+.add-chore:hover {
+
+    transform: translateY(-1px);
+
+}
+
+
+
+
+
+.add-chore:active {
+
+    transform: scale(0.99);
+
+}
+
+
+
+
+
+/* =========================================
+
+   CHORE LIST
+
+========================================= */
+
+
+
+.chore-list {
+
+    width: 100%;
+
+
+
+    margin-bottom: 20px;
+
+}
+
+
+
+
+
+.chore-list > p {
+
+    padding: 20px;
+
+
+
+    margin: 0;
+
+
+
+    background: white;
+
+
+
+    border-radius: 14px;
+
+
+
+    text-align: center;
+
+
+
+    color: #777;
+
+
+
+    box-shadow:
+
+        0 3px 10px
+
+        rgba(0, 0, 0, 0.06);
+
+}
+
+
+
+
+
+.chore-item {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+
+
+    gap: 12px;
+
+
+
+    width: 100%;
+
+
+
+    margin-bottom: 10px;
+
+
+
+    padding: 13px 14px;
+
+
+
+    background: white;
+
+
+
+    border-radius: 14px;
+
+
+
+    box-shadow:
+
+        0 3px 10px
+
+        rgba(0, 0, 0, 0.07);
+
+}
+
+
+
+
+
+.chore-name {
+
+    min-width: 0;
+
+
+
+    overflow-wrap: anywhere;
+
+
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+}
+
+
+
+
+
+.complete-chore {
+
+    flex-shrink: 0;
+
+
+
+    padding: 9px 13px;
+
+
+
+    border: none;
+
+    border-radius: 10px;
+
+
+
+    background: #ffb49f;
+
+
+
+    color: #333;
+
+
+
+    font-weight: bold;
+
+
+
+    cursor: pointer;
+
+}
+
+
+
+
+
+/* =========================================
+
+   VISIT MOOCOW
+
+========================================= */
+
+
+
+.moocow-button {
+
+    width: 100%;
+
+
+
+    padding: 15px;
+
+
+
+    border: none;
+
+    border-radius: 14px;
+
+
+
+    background: #333;
+
+
+
+    color: white;
+
+
+
+    font-size: 17px;
+
+    font-weight: bold;
+
+
+
+    cursor: pointer;
+
+}
+
+
+
+
+
+/* =========================================
+
+   MOOCOW INTRO
+
+========================================= */
+
+
+
+.intro-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+
+
+    z-index: 9500;
+
+
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+
+
+    padding: 16px;
+
+
+
+    background: rgba(0, 0, 0, 0.75);
+
+}
+
+
+
+
+
+.intro-popup {
+
+    width: 100%;
+
+    max-width: 700px;
+
+
+
+    overflow: hidden;
+
+
+
+    background: #fff7f3;
+
+
+
+    border-radius: 20px;
+
+
+
+    box-shadow:
+
+        0 12px 40px
+
+        rgba(0, 0, 0, 0.4);
+
+}
+
+
+
+
+
+.intro-stage {
+
+    position: relative;
+
+
+
+    width: 100%;
+
+
+
+    aspect-ratio: 1 / 1;
+
+
+
+    overflow: hidden;
+
+}
+
+
+
+
+
+.stage-background {
+
+    position: absolute;
+
+    inset: 0;
+
+
+
+    width: 100%;
+
+    height: 100%;
+
+
+
+    object-fit: cover;
+
+}
+
+
+
+
+
+.intro-moocow {
+
+    position: absolute;
+
+
+
+    width: 35%;
+
+    height: auto;
+
+
+
+    left: -45%;
+
+    bottom: 4%;
+
+
+
+    z-index: 3;
+
+
+
+    transition:
+
+        left 1.2s ease;
+
+}
+
+
+
+
+
+.intro-moocow.walk-in {
+    left: 32%;
+}
+
+
+
+
+
+.speech-bubble {
+
+    position: absolute;
+
+
+
+    top: 5%;
+
+    left: 10%;
+
+
+
+    width: 80%;
+
+
+
+    z-index: 4;
+
+
+
+    padding: 10px 12px;
+
+    box-sizing: border-box;
+
+
+
+    background: white;
+
+
+
+    border-radius: 18px;
+
+
+
+    box-shadow:
+
+        0 5px 18px
+
+        rgba(0, 0, 0, 0.18);
+
+
+
+    font-size: 13px;
+
+    line-height: 1.25;
+
+
+
+    opacity: 0;
+
+
+
+    transform:
+
+        translateY(-10px);
+
+
+
+    transition:
+
+        opacity 0.4s ease,
+
+        transform 0.4s ease;
+
+}
+
+
+
+.speech-bubble.show {
+
+    opacity: 1;
+
+
+
+    transform:
+
+        translateY(0);
+
+}
+
+
+
+
+
+#finish-intro {
+
+    display: block;
+
+
+
+    width: calc(100% - 30px);
+
+
+
+    margin: 15px;
+
+
+
+    padding: 14px;
+
+
+
+    border: none;
+
+    border-radius: 12px;
+
+
+
+    background: #ffb49f;
+
+
+
+    color: #333;
+
+
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+
+
+    cursor: pointer;
+
+
+
+    opacity: 0;
+
+
+
+    transition:
+
+        opacity 0.4s ease;
+
+}
+
+
+
+
+
+#finish-intro.show {
+
+    opacity: 1;
+
+}
+
+
+
+
+
+/* =========================================
+
+   ADD CHORE POPUP
+
+========================================= */
+
+
+
+.chore-popup {
+
+    position: fixed;
+
+    inset: 0;
+
+
+
+    z-index: 10000;
+
+
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+
+
+    padding: 20px;
+
+
+
+    background:
+
+        rgba(0, 0, 0, 0.7);
+
+}
+
+
+
+
+
+.chore-popup-card {
+
+    width: 100%;
+
+    max-width: 390px;
+
+
+
+    padding: 22px;
+
+
+
+    background: #fff7f3;
+
+
+
+    border-radius: 20px;
+
+
+
+    box-shadow:
+
+        0 12px 35px
+
+        rgba(0, 0, 0, 0.35);
+
+}
+
+
+
+
+
+.chore-popup-card h2 {
+
+    margin:
+
+        0 0 18px;
+
+}
+
+
+
+
+
+.chore-popup-card label {
+
+    display: block;
+
+
+
+    margin-bottom: 7px;
+
+
+
+    font-weight: bold;
+
+}
+
+
+
+
+
+.chore-popup-card input {
+
+    width: 100%;
+
+
+
+    padding: 13px;
+
+
+
+    border:
+
+        2px solid #ddd;
+
+
+
+    border-radius: 12px;
+
+
+
+    background: white;
+
+
+
+    font-size: 16px;
+
+}
+
+
+
+
+
+.chore-popup-card input:focus {
+
+    outline: none;
+
+
+
+    border-color: #ff9e86;
+
+}
+
+
+
+
+
+.chore-popup-buttons {
+
+    display: flex;
+
+
+
+    gap: 10px;
+
+
+
+    margin-top: 20px;
+
+}
+
+
+
+
+
+.chore-popup-buttons button {
+
+    flex: 1;
+
+
+
+    padding: 12px;
+
+
+
+    border: none;
+
+    border-radius: 12px;
+
+
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+
+
+    cursor: pointer;
+
+}
+
+
+
+
+
+#save-chore {
+
+    background: #ffb49f;
+
+}
+
+
+
+
+
+#cancel-chore {
+
+    background: #e8e8e8;
+
+}
+
+
+
+
+
+/* =========================================
+
+   MOOCOW ROOM OVERLAY
+
+========================================= */
+
+
+
+.moocow-room-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+
+
+    z-index: 6000;
+
+
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+
+
+    padding: 14px;
+
+
+
+    background:
+
+        rgba(0, 0, 0, 0.78);
+
+}
+
+
+
+
+
+.moocow-room-popup {
+
+    width: 100%;
+
+    max-width: 800px;
+
+
+
+    overflow: hidden;
+
+
+
+    background: white;
+
+
+
+    border-radius: 18px;
+
+
+
+    box-shadow:
+
+        0 12px 40px
+
+        rgba(0, 0, 0, 0.4);
+
+}
+
+
+
+
+
+/* =========================================
+
+   ROOM HEADER
+
+========================================= */
+
+
+
+.moocow-room-header {
+
+    display: flex;
+
+    align-items: center;
+
+
+
+    gap: 14px;
+
+
+
+    min-height: 62px;
+
+
+
+    padding: 9px 12px;
+
+
+
+    background: #fff7f3;
+
+
+
+    border-bottom:
+
+        1px solid #eaded8;
+
+}
+
+
+
+
+
+.room-coins {
+
+    display: flex;
+
+    align-items: center;
+
+
+
+    gap: 5px;
+
+
+
+    flex-shrink: 0;
+
+
+
+    font-weight: bold;
+
+}
+
+
+
+
+
+.room-coins img {
+
+    width: 28px;
+
+    height: 28px;
+
+
+
+    object-fit: contain;
+
+}
+
+
+
+
+
+.hunger-status {
+
+    display: flex;
+
+    align-items: center;
+
+
+
+    gap: 7px;
+
+
+
+    min-width: 0;
+
+
+
+    flex: 1;
+
+
+
+    font-size: 13px;
+
+}
+
+
+
+
+
+.hunger-label {
+
+    font-weight: bold;
+
+}
+
+
+
+
+
+.hunger-bar {
+
+    position: relative;
+
+
+
+    flex: 1;
+
+
+
+    min-width: 60px;
+
+    height: 12px;
+
+
+
+    overflow: hidden;
+
+
+
+    background: #ddd;
+
+
+
+    border-radius: 999px;
+
+}
+
+
+
+
+
+.hunger-fill {
+
+    width: 100%;
+
+    height: 100%;
+
+
+
+    background: #ffb49f;
+
+
+
+    border-radius: inherit;
+
+
+
+    transition:
+
+        width 0.3s ease;
+
+}
+
+
+
+
+
+#hunger-number {
+
+    font-weight: bold;
+
+}
+
+
+
+
+
+#hunger-message {
+
+    white-space: nowrap;
+
+}
+
+
+
+
+
+#close-moocow-room {
+
+    flex-shrink: 0;
+
+
+
+    width: 38px;
+
+    height: 38px;
+
+
+
+    padding: 0;
+
+
+
+    border: none;
+
+    border-radius: 50%;
+
+
+
+    background: #ececec;
+
+
+
+    font-size: 20px;
+
+
+
+    cursor: pointer;
+
+}
+
+
+
+
+
+/* =========================================
+
+   ROOM
+
+========================================= */
+
+
+
+.moocow-room {
+
+    position: relative;
+
+
+
+    width: 100%;
+
+
+
+    aspect-ratio: 1 / 1;
+
+
+
+    overflow: hidden;
+
+
+
+    background: white;
+
+}
+
+
+
+
+
+.moocow-room-background {
+
+    position: absolute;
+
+    inset: 0;
+
+
+
+    width: 100%;
+
+    height: 100%;
+
+
+
+    object-fit: cover;
+
+
+
+    z-index: 1;
+
+}
+
+
+
+
+
+/* =========================================
+
+   FRIDGE
+
+========================================= */
+
+
+
+.moocow-fridge {
+
+    position: absolute;
+
+
+
+    width: 20%;
+
+    height: auto;
+
+
+
+    right: 5%;
+
+    left: auto;
+
+
+
+    bottom: 27%;
+
+
+
+    z-index: 2;
+
+
+
+    cursor: pointer;
+
+
+
+    transition:
+
+        transform 0.15s ease;
+
+}
+
+
+
+
+
+.moocow-fridge:active {
+
+    transform: scale(0.96);
+
+}
+
+
+
+
+
+/* =========================================
+
+   ROOM MOOCOW
+
+========================================= */
+
+
+
+.room-moocow {
+
+    position: absolute;
+
+
+
+    width: 25%;
+
+    height: auto;
+
+
+
+    left: 42%;
+
+    bottom: 5%;
+
+
+
+    z-index: 3;
+
+
+
+    cursor: pointer;
+
+
+
+    transition:
+
+        left 0.7s ease-out,
+
+        transform 0.2s ease;
+
+}
+
+
+
+
+
+.room-moocow.normal-room-running-in {
+
+    left: 110%;
+
+}
+
+
+
+
+
+.room-moocow.walking-out,
+
+.room-moocow.returning {
+
+    left: -35%;
+
+
+
+    transition:
+
+        left 1.2s ease;
+
+}
+
+
+
+
+
+.room-moocow.no-transition {
+
+    transition: none !important;
+
+}
+
+
+
+
+
+.room-moocow.being-petted {
+
+    transform: scale(1.06);
+
+}
+
+
+
+
+
+/* =========================================
+
+   MOOCOW SPEECH IN ROOM
+
+========================================= */
+
+
+
+.room-moocow-speech {
+
+    position: absolute;
+
+
+
+    left: 50%;
+
+    bottom: 45%;
+
+
+
+    transform:
+
+        translateX(-50%);
+
+
+
+    z-index: 8;
+
+
+
+    width: max-content;
+
+    max-width: 70%;
+
+
+
+    padding: 10px 13px;
+
+
+
+    background: white;
+
+
+
+    border:
+
+        2px solid #333;
+
+
+
+    border-radius: 14px;
+
+
+
+    color: #333;
+
+
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+
+
+    text-align: center;
+
+
+
+    box-shadow:
+
+        0 4px 10px
+
+        rgba(0, 0, 0, 0.18);
+
+}
+
+
+
+
+
+/* =========================================
+
+   SUITCASE
+
+========================================= */
+
+
+
+.moocow-suitcase {
+
+    position: absolute;
+
+
+
+    left: 35%;
+
+    bottom: 5%;
+
+
+
+    z-index: 4;
+
+
+
+    font-size: 65px;
+
+
+
+    transition:
+
+        left 1.2s ease;
+
+}
+
+
+
+
+
+.moocow-suitcase.offscreen-left {
+
+    left: -35%;
+
+}
+
+
+
+
+
+.moocow-suitcase.leaving-with-moocow {
+
+    left: -35%;
+
+}
+
+
+
+
+
+/* =========================================
+
+   FOOD IN ROOM
+
+========================================= */
+
+
+
+.room-food {
+
+    position: absolute;
+
+
+
+    width: 14%;
+
+    height: auto;
+
+
+
+    left: 59%;
+
+    bottom: 4%;
+
+
+
+    z-index: 4;
+
+
+
+    cursor: pointer;
+
+
+
+    transition:
+
+        left 0.55s ease,
+
+        bottom 0.55s ease,
+
+        transform 0.55s ease,
+
+        opacity 0.55s ease;
+
+}
+
+
+
+
+
+.room-food.moocow-eating {
+
+    left: 48%;
+
+    bottom: 15%;
+
+
+
+    transform: scale(0.25);
+
+
+
+    opacity: 0;
+
+}
+
+
+
+
+
+/* =========================================
+
+   TEDDY
+
+========================================= */
+
+
+
+.moocow-teddy {
+
+    position: absolute;
+
+
+
+    left: 12%;
+
+    bottom: 8%;
+
+
+
+    z-index: 3;
+
+
+
+    padding: 0;
+
+
+
+    border: none;
+
+
+
+    background: transparent;
+
+
+
+    font-size: 52px;
+
+
+
+    cursor: pointer;
+
+}
+
+
+
+
+
+/* =========================================
+
+   FOOD CAROUSEL
+
+========================================= */
+
+
+
+.food-carousel-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+
+
+    z-index: 7500;
+
+
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+
+
+    padding: 20px;
+
+
+
+    background:
+
+        rgba(0, 0, 0, 0.72);
+
+}
+
+
+
+
+
+.food-carousel-popup {
+
+    width: 100%;
+
+    max-width: 430px;
+
+
+
+    padding: 20px;
+
+
+
+    background: #fff7f3;
+
+
+
+    border-radius: 20px;
+
+
+
+    text-align: center;
+
+
+
+    box-shadow:
+
+        0 12px 35px
+
+        rgba(0, 0, 0, 0.4);
+
+}
+
+
+
+
+
+.food-carousel-header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+
+
+    gap: 12px;
+
+}
+
+
+
+
+
+.food-carousel-header h2 {
+
+    margin: 0;
+
+
+
+    text-align: left;
+
+}
+
+
+
+
+
+#close-food-carousel {
+
+    flex-shrink: 0;
+
+
+
+    width: 38px;
+
+    height: 38px;
+
+
+
+    border: none;
+
+    border-radius: 50%;
+
+
+
+    background: #eaeaea;
+
+
+
+    font-size: 20px;
+
+
+
+    cursor: pointer;
+
+}
+
+
+
+
+
+.food-carousel-coins {
+
+    display: inline-flex;
+
+    align-items: center;
+
+
+
+    gap: 6px;
+
+
+
+    margin:
+
+        15px auto;
+
+
+
+    padding: 8px 12px;
+
+
+
+    background: white;
+
+
+
+    border-radius: 14px;
+
+
+
+    font-weight: bold;
+
+}
+
+
+
+
+
+.food-carousel-coins img,
+
+.food-price img {
+
+    width: 26px;
+
+    height: 26px;
+
+
+
+    object-fit: contain;
+
+}
+
+
+
+
+
+.food-carousel {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+
+
+    gap: 12px;
+
+
+
+    width: 100%;
+
+}
+
+
+
+
+
+.carousel-arrow {
+
+    flex-shrink: 0;
+
+
+
+    width: 45px;
+
+    height: 45px;
+
+
+
+    border: none;
+
+    border-radius: 50%;
+
+
+
+    background: white;
+
+
+
+    font-size: 24px;
+
+    font-weight: bold;
+
+
+
+    cursor: pointer;
+
+
+
+    box-shadow:
+
+        0 2px 8px
+
+        rgba(0, 0, 0, 0.12);
+
+}
+
+
+
+
+
+.food-display {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+
+
+    width: 210px;
+
+    height: 210px;
+
+
+
+    padding: 10px;
+
+
+
+    background: white;
+
+
+
+    border-radius: 20px;
+
+}
+
+
+
+
+
+.food-display img {
+
+    max-width: 100%;
+
+    max-height: 100%;
+
+
+
+    object-fit: contain;
+
+}
+
+
+
+
+
+#carousel-food-name {
+
+    margin:
+
+        15px 0 10px;
+
+
+
+    font-size: 20px;
+
+}
+
+
+
+
+
+.food-price {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+
+
+    gap: 6px;
+
+
+
+    margin-bottom: 15px;
+
+
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+}
+
+
+
+
+
+#get-food-button {
+
+    width: 100%;
+
+
+
+    padding: 13px;
+
+
+
+    border: none;
+
+    border-radius: 12px;
+
+
+
+    background: #ffb49f;
+
+
+
+    color: #333;
+
+
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+
+
+    cursor: pointer;
+
+}
+
+
+
+
+
+/* =========================================
+
+   MOOCOW MESSAGE
+
+========================================= */
+
+
+
+.moocow-message-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+
+
+    z-index: 8500;
+
+
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+
+
+    padding: 20px;
+
+
+
+    background:
+
+        rgba(0, 0, 0, 0.75);
+
+}
+
+
+
+
+
+.moocow-message-popup {
+
+    width: 100%;
+
+    max-width: 360px;
+
+
+
+    padding: 22px;
+
+
+
+    background: #fff7f3;
+
+
+
+    border-radius: 20px;
+
+
+
+    text-align: center;
+
+
+
+    box-shadow:
+
+        0 12px 35px
+
+        rgba(0, 0, 0, 0.4);
+
+}
+
+
+
+
+
+.message-moocow {
+
+    width: 115px;
+
+    height: auto;
+
+
+
+    object-fit: contain;
+
+}
+
+
+
+
+
+.moocow-message-popup h2 {
+
+    margin:
+
+        10px 0 8px;
+
+}
+
+
+
+
+
+.moocow-message-popup p {
+
+    line-height: 1.4;
+
+}
+
+
+
+
+
+.message-coin-hint {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+
+
+    gap: 5px;
+
+}
+
+
+
+
+
+.message-coin-hint img {
+
+    width: 25px;
+
+    height: 25px;
+
+
+
+    object-fit: contain;
+
+}
+
+
+
+
+
+#close-moocow-message {
+
+    width: 100%;
+
+
+
+    margin-top: 12px;
+
+
+
+    padding: 12px;
+
+
+
+    border: none;
+
+    border-radius: 12px;
+
+
+
+    background: #ffb49f;
+
+
+
+    font-weight: bold;
+
+
+
+    cursor: pointer;
+
+}
+
+
+
+
+
+/* =========================================
+
+   VOIDY FULL SCREEN
+
+========================================= */
+
+
+
+.voidy-screen {
+
+    position: fixed;
+
+    inset: 0;
+
+
+
+    width: 100vw;
+
+    height: 100dvh;
+
+
+
+    z-index: 99999;
+
+
+
+    overflow: hidden;
+
+
+
+    background: black;
+
+}
+
+
+
+
+
+.voidy-screen-image {
+
+    position: absolute;
+
+    inset: 0;
+
+
+
+    width: 100%;
+
+    height: 100%;
+
+
+
+    object-fit: cover;
+
+
+
+    z-index: 1;
+
+}
+
+
+
+
+
+.voidy-screen-content {
+
+    position: absolute;
+
+
+
+    left: 50%;
+
+    bottom: 8%;
+
+
+
+    transform:
+
+        translateX(-50%);
+
+
+
+    width: 88%;
+
+    max-width: 700px;
+
+
+
+    z-index: 2;
+
+
+
+    text-align: center;
+
+}
+
+
+
+
+
+.voidy-screen-text {
+
+    color: white;
+
+
+
+    font-size:
+
+        clamp(
+
+            18px,
+
+            5vw,
+
+            32px
+
+        );
+
+
+
+    font-weight: bold;
+
+
+
+    line-height: 1.35;
+
+
+
+    text-align: center;
+
+
+
+    text-shadow:
+
+        0 2px 5px black,
+
+        0 0 10px black;
+
+}
+
+
+
+
+
+#close-voidy-screen {
+
+    margin-top: 25px;
+
+
+
+    padding: 14px 28px;
+
+
+
+    border:
+
+        2px solid white;
+
+
+
+    border-radius: 12px;
+
+
+
+    background: black;
+
+
+
+    color: white;
+
+
+
+    font-size: 17px;
+
+    font-weight: bold;
+
+
+
+    cursor: pointer;
+
+}
+
+
+
+
+
+/* =========================================
+
+   PROFILE MENU
+
+========================================= */
+
+
+
+.profile-menu-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+
+
+    z-index: 8000;
+
+
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+
+
+    padding: 18px;
+
+
+
+    background:
+
+        rgba(0, 0, 0, 0.72);
+
+}
+
+
+
+
+
+.profile-menu {
+
+    width: 100%;
+
+    max-width: 430px;
+
+
+
+    max-height: 90vh;
+
+
+
+    overflow-y: auto;
+
+
+
+    padding: 22px;
+
+
+
+    background: #fff7f3;
+
+
+
+    border-radius: 22px;
+
+
+
+    box-shadow:
+
+        0 12px 35px
+
+        rgba(0, 0, 0, 0.35);
+
+}
+
+
+
+
+
+.profile-menu-header {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+
+
+    gap: 15px;
+
+
+
+    margin-bottom: 18px;
+
+}
+
+
+
+
+
+.profile-menu-header h2 {
+
+    margin: 0;
+
+
+
+    font-size: 27px;
+
+}
+
+
+
+
+
+#profile-menu-username {
+
+    margin:
+
+        4px 0 0;
+
+
+
+    color: #666;
+
+
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+}
+
+
+
+
+
+#close-profile-menu {
+
+    flex-shrink: 0;
+
+
+
+    width: 38px;
+
+    height: 38px;
+
+
+
+    padding: 0;
+
+
+
+    border: none;
+
+    border-radius: 50%;
+
+
+
+    background: #eee;
+
+
+
+    font-size: 20px;
+
+
+
+    cursor: pointer;
+
+}
+
+
+
+
+
+/* =========================================
+
+   PROFILE OPTIONS
+
+========================================= */
+
+
+
+.profile-option {
+
+    display: block;
+
+
+
+    width: 100%;
+
+
+
+    margin: 8px 0;
+
+
+
+    padding: 14px 15px;
+
+
+
+    border: none;
+
+    border-radius: 13px;
+
+
+
+    background: white;
+
+
+
+    color: #333;
+
+
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+
+
+    text-align: left;
+
+
+
+    cursor: pointer;
+
+
+
+    box-shadow:
+
+        0 2px 7px
+
+        rgba(0, 0, 0, 0.07);
+
+}
+
+
+
+
+
+.profile-option:hover {
+
+    background: #fff0eb;
+
+}
+
+
+
+
+
+.profile-option:active {
+
+    transform: scale(0.99);
+
+}
+
+
+
+
+
+.profile-divider {
+
+    height: 1px;
+
+
+
+    margin: 17px 0;
+
+
+
+    background: #ddd;
+
+}
+
+
+
+
+
+.danger-option {
+
+    color: #b00020;
+
+
+
+    border:
+
+        2px solid #f2b5be;
+
+
+
+    background: #fff5f6;
+
+}
+
+
+
+
+
+.danger-option:hover {
+
+    background: #ffe7ea;
+
+}
+
+
+
+
+
+/* =========================================
+
+   SETTINGS POPUPS
+
+========================================= */
+
+
+
+.settings-popup-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+
+
+    z-index: 9000;
+
+
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+
+
+    padding: 20px;
+
+
+
+    background:
+
+        rgba(0, 0, 0, 0.72);
+
+}
+
+
+
+
+
+.settings-popup {
+
+    width: 100%;
+
+    max-width: 390px;
+
+
+
+    padding: 22px;
+
+
+
+    background: #fff7f3;
+
+
+
+    border-radius: 20px;
+
+
+
+    box-shadow:
+
+        0 12px 35px
+
+        rgba(0, 0, 0, 0.35);
+
+}
+
+
+
+
+
+.settings-popup h2 {
+
+    margin:
+
+        0 0 8px;
+
+
+
+    font-size: 24px;
+
+}
+
+
+
+
+
+.settings-popup p {
+
+    margin:
+
+        0 0 15px;
+
+
+
+    line-height: 1.4;
+
+}
+
+
+
+
+
+.settings-popup input {
+
+    display: block;
+
+
+
+    width: 100%;
+
+
+
+    padding: 13px;
+
+
+
+    border:
+
+        2px solid #ddd;
+
+
+
+    border-radius: 12px;
+
+
+
+    background: white;
+
+
+
+    font-size: 16px;
+
+}
+
+
+
+
+
+.settings-popup input:focus {
+
+    outline: none;
+
+
+
+    border-color: #ff9e86;
+
+}
+
+
+
+
+
+.settings-popup-buttons {
+
+    display: flex;
+
+
+
+    gap: 10px;
+
+
+
+    margin-top: 20px;
+
+}
+
+
+
+
+
+.settings-popup-buttons button {
+
+    flex: 1;
+
+
+
+    min-height: 50px;
+
+
+
+    padding: 11px 12px;
+
+
+
+    border: none;
+
+    border-radius: 12px;
+
+
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+
+
+    cursor: pointer;
+
+}
+
+
+
+
+
+.settings-cancel-button {
+
+    background: #e9e9e9;
+
+
+
+    color: #333;
+
+}
+
+
+
+
+
+.settings-save-button {
+
+    background: #ffb49f;
+
+
+
+    color: #333;
+
+}
+
+
+
+
+
+.settings-error {
+
+    margin-top: 10px !important;
+
+
+
+    color: #b00020;
+
+
+
+    font-size: 13px;
+
+    font-weight: bold;
+
+}
+
+
+
+
+
+/* =========================================
+
+   SUCCESS POPUP
+
+========================================= */
+
+
+
+.success-popup {
+
+    max-width: 330px;
+
+
+
+    text-align: center;
+
+}
+
+
+
+
+
+.success-popup-icon {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+
+
+    width: 58px;
+
+    height: 58px;
+
+
+
+    margin:
+
+        0 auto 14px;
+
+
+
+    border-radius: 50%;
+
+
+
+    background: #ffb49f;
+
+
+
+    color: #333;
+
+
+
+    font-size: 30px;
+
+    font-weight: bold;
+
+}
+
+
+
+
+
+.success-popup h2 {
+
+    margin-bottom: 8px;
+
+}
+
+
+
+
+
+.success-popup p {
+
+    margin-bottom: 20px;
+
+
+
+    color: #555;
+
+}
+
+
+
+
+
+.success-popup-button {
+
+    width: 100%;
+
+
+
+    min-height: 48px;
+
+
+
+    padding: 13px;
+
+
+
+    border: none;
+
+    border-radius: 12px;
+
+
+
+    background: #ffb49f;
+
+
+
+    color: #333;
+
+
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+
+
+    cursor: pointer;
+
+}
+
+
+
+
+
+/* =========================================
+
+   MOBILE
+
+========================================= */
+
+
+
+@media (max-width: 600px) {
+
+
+
+    header {
+
+        padding:
+
+            9px 10px;
+
+    }
+
+
+
+
+
+    .app-icon {
+
+        width: 42px;
+
+        height: 42px;
+
+
+
+        margin-right: 7px;
+
+    }
+
+
+
+
+
+    header h1 {
+
+        font-size: 18px;
+
+    }
+
+
+
+
+
+    .profile-button {
+
+        padding:
+
+            8px 10px;
+
+
+
+        font-size: 12px;
+
+    }
+
+
+
+
+
+    main {
+
+        padding:
+
+            20px 14px 35px;
+
+    }
+
+
+
+
+
+    main h2 {
+
+        font-size: 23px;
+
+    }
+
+
+
+
+
+    /* ---------- LOGIN ---------- */
+
+
+
+    .profile-overlay {
+
+        padding: 15px;
+
+    }
+
+
+
+
+
+    .profile-card {
+
+        padding:
+
+            20px 18px;
+
+    }
+
+
+
+
+
+    /* ---------- INTRO ---------- */
+
+
+
+    .intro-overlay {
+
+        padding: 8px;
+
+    }
+
+
+
+
+
+    .speech-bubble {
+
+        top: 3%;
+
+        left: 10%;
+
+
+
+        width: 80%;
+
+
+
+        padding: 8px;
+
+
+
+        border-radius: 12px;
+
+
+
+        font-size: 10px;
+
+        line-height: 1.15;
+
+    }
+
+
+
+
+
+    #finish-intro {
+
+        margin: 10px;
+
+
+
+        width:
+
+            calc(100% - 20px);
+
+
+
+        padding: 11px;
+
+
+
+        font-size: 14px;
+
+    }
+
+
+
+
+
+    /* ---------- ROOM ---------- */
+
+
+
+    .moocow-room-overlay {
+
+        padding: 6px;
+
+    }
+
+
+
+
+
+    .moocow-room-popup {
+
+        border-radius: 14px;
+
+    }
+
+
+
+
+
+    .moocow-room-header {
+
+        gap: 7px;
+
+
+
+        min-height: 55px;
+
+
+
+        padding: 7px;
+
+    }
+
+
+
+
+
+    .room-coins img {
+
+        width: 23px;
+
+        height: 23px;
+
+    }
+
+
+
+
+
+    .hunger-status {
+
+        gap: 4px;
+
+
+
+        font-size: 10px;
+
+    }
+
+
+
+
+
+    .hunger-label {
+
+        display: none;
+
+    }
+
+
+
+
+
+    #close-moocow-room {
+
+        width: 32px;
+
+        height: 32px;
+
+
+
+        font-size: 17px;
+
+    }
+
+
+
+
+
+    /* Keep the fridge exactly where
+
+       we tuned it for mobile. */
+
+
+
+    .moocow-fridge {
+
+        width: 20%;
+
+
+
+        right: 5%;
+
+        left: auto;
+
+
+
+        bottom: 27%;
+
+    }
+
+
+
+
+
+    .room-moocow {
+
+        width: 25%;
+
+
+
+        left: 42%;
+
+
+
+        bottom: 5%;
+
+    }
+
+
+
+
+
+    .room-moocow.normal-room-running-in {
+
+        left: 110%;
+
+    }
+
+
+
+
+
+    .room-moocow.walking-out,
+
+    .room-moocow.returning {
+
+        left: -35%;
+
+    }
+
+
+
+
+
+    .room-moocow-speech {
+
+        bottom: 46%;
+
+
+
+        max-width: 78%;
+
+
+
+        padding:
+
+            7px 9px;
+
+
+
+        font-size: 10px;
+
+
+
+        border-radius: 10px;
+
+    }
+
+
+
+
+
+    .moocow-suitcase {
+
+        left: 35%;
+
+
+
+        bottom: 5%;
+
+
+
+        font-size: 52px;
+
+    }
+
+
+
+
+
+    .moocow-suitcase.offscreen-left,
+
+    .moocow-suitcase.leaving-with-moocow {
+
+        left: -35%;
+
+    }
+
+
+
+
+
+    .room-food {
+
+        width: 14%;
+
+
+
+        left: 59%;
+
+
+
+        bottom: 4%;
+
+    }
+
+
+
+
+
+    .moocow-teddy {
+
+        font-size: 38px;
+
+    }
+
+
+
+
+
+    /* ---------- FOOD ---------- */
+
+
+
+    .food-carousel-overlay {
+
+        padding: 12px;
+
+    }
+
+
+
+
+
+    .food-carousel-popup {
+
+        padding: 16px;
+
+    }
+
+
+
+
+
+    .food-display {
+
+        width: 170px;
+
+        height: 170px;
+
+    }
+
+
+
+
+
+    .carousel-arrow {
+
+        width: 40px;
+
+        height: 40px;
+
+
+
+        font-size: 20px;
+
+    }
+
+
+
+
+
+    /* ---------- PROFILE MENU ---------- */
+
+
+
+    .profile-menu-overlay {
+
+        padding: 8px;
+
+    }
+
+
+
+
+
+    .profile-menu {
+
+        max-width: 360px;
+
+
+
+        max-height: 92dvh;
+
+
+
+        padding: 18px;
+
+
+
+        border-radius: 20px;
+
+    }
+
+
+
+
+
+    .profile-menu-header h2 {
+
+        font-size: 23px;
+
+    }
+
+
+
+
+
+    .profile-option {
+
+        padding:
+
+            13px 14px;
+
+
+
+        font-size: 14px;
+
+    }
+
+
+
+
+
+    /* ---------- SETTINGS ---------- */
+
+
+
+    .settings-popup-overlay {
+
+        padding: 14px;
+
+    }
+
+
+
+
+
+    .settings-popup {
+
+        max-width: 360px;
+
+
+
+        padding: 20px;
+
+
+
+        border-radius: 18px;
+
+    }
+
+
+
+
+
+    .settings-popup h2 {
+
+        font-size: 22px;
+
+    }
+
+
+
+
+
+    .settings-popup-buttons button {
+
+        font-size: 14px;
+
+    }
+
+
+
+
+
+    /* ---------- VOIDY ---------- */
+
+
+
+    .voidy-screen-content {
+
+        bottom: 6%;
+
+
+
+        width: 90%;
+
+    }
+
+
+
+
+
+    .voidy-screen-text {
+
+        font-size:
+
+            clamp(
+
+                17px,
+
+                5vw,
+
+                25px
+
+            );
+
+    }
+
+
+
+
+
+    #close-voidy-screen {
+
+        margin-top: 18px;
+
+
+
+        padding:
+
+            12px 22px;
+
+
+
+        font-size: 15px;
+
+    }
+
+}
+
+
+
+/* =========================================
+
+   DATE & TIME
+
+========================================= */
+
+
+
+.settings-popup label {
+
+    display: block;
+
+
+
+    margin-bottom: 7px;
+
+
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+}
+
+
+
+
+
+.date-time-label {
+
+    margin-top: 16px;
+
+}
+
+
+
+/* =========================================
+
+   CHORE HISTORY BUTTON
+
+========================================= */
+
+
+
+.history-button {
+
+    display: block;
+
+
+
+    width: 100%;
+
+
+
+    margin: -7px 0 18px;
+
+
+
+    padding: 13px;
+
+
+
+    border: 2px solid #ffb49f;
+
+    border-radius: 14px;
+
+
+
+    background: white;
+
+
+
+    color: #333;
+
+
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+
+
+    cursor: pointer;
+
+}
+
+
+
+
+
+.history-button:active {
+
+    transform: scale(0.99);
+
+}
+
+
+
+
+
+/* =========================================
+
+   CHORE HISTORY
+
+========================================= */
+
+
+
+.history-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+
+
+    z-index: 8000;
+
+
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+
+
+    padding: 18px;
+
+
+
+    background: rgba(0, 0, 0, 0.72);
+
+}
+
+
+
+
+
+.history-popup {
+
+    width: 100%;
+
+    max-width: 500px;
+
+
+
+    max-height: 88dvh;
+
+    overflow-y: auto;
+
+
+
+    padding: 22px;
+
+
+
+    background: #fff7f3;
+
+
+
+    border-radius: 22px;
+
+
+
+    box-shadow:
+
+        0 12px 35px
+
+        rgba(0, 0, 0, 0.35);
+
+}
+
+
+
+/* =========================================
+
+   DONE / NOT DONE SECTIONS
+
+========================================= */
+
+
+
+.history-status-section {
+
+    margin-bottom: 22px;
+
+}
+
+
+
+
+
+.history-status-heading {
+
+    margin: 0 0 9px;
+
+
+
+    padding: 8px 12px;
+
+
+
+    border-radius: 10px;
+
+
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+}
+
+
+
+
+
+.history-status-heading.not-done {
+
+    background: #dcecff;
+
+    color: #245b91;
+
+}
+
+
+
+
+
+.history-status-heading.done {
+
+    background: #ffe5df;
+
+    color: #8a493b;
+
+}
+
+
+
+.history-status-empty {
+
+    padding: 14px;
+
+
+
+    background: white;
+
+
+
+    border-radius: 12px;
+
+
+
+    color: #777;
+
+
+
+    font-size: 13px;
+
+
+
+    text-align: center;
+
+}
+
+
+
+
+
+.history-not-done-entry {
+
+    border-left: 4px solid #4a90e2;
+
+}
+
+
+
+
+
+.history-done-entry {
+
+    border-left: 4px solid #ff9d86;
+
+}
+
+
+
+
+
+/* =========================================
+
+   HISTORY HEADER
+
+========================================= */
+
+
+
+.history-header {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+
+
+    gap: 15px;
+
+
+
+    margin-bottom: 20px;
+
+}
+
+
+
+
+
+.history-header h2 {
+
+    margin: 0;
+
+
+
+    font-size: 26px;
+
+}
+
+
+
+
+
+.history-header p {
+
+    margin: 5px 0 0;
+
+
+
+    color: #666;
+
+
+
+    font-size: 13px;
+
+}
+
+
+
+
+
+#close-history,
+
+.history-day-close {
+
+    flex-shrink: 0;
+
+
+
+    width: 38px;
+
+    height: 38px;
+
+
+
+    padding: 0;
+
+
+
+    border: none;
+
+    border-radius: 50%;
+
+
+
+    background: #eee;
+
+
+
+    color: #333;
+
+
+
+    font-size: 20px;
+
+
+
+    cursor: pointer;
+
+}
+
+
+
+
+
+/* =========================================
+
+   MONTH CONTROLS
+
+========================================= */
+
+
+
+.history-calendar-controls {
+
+    display: grid;
+
+    grid-template-columns: 44px 1fr 44px;
+
+
+
+    align-items: center;
+
+
+
+    gap: 8px;
+
+
+
+    margin-bottom: 18px;
+
+}
+
+
+
+
+
+.history-calendar-controls button {
+
+    width: 44px;
+
+    height: 44px;
+
+
+
+    padding: 0;
+
+
+
+    border: none;
+
+    border-radius: 50%;
+
+
+
+    background: #ffb49f;
+
+
+
+    color: #333;
+
+
+
+    font-size: 28px;
+
+    font-weight: bold;
+
+
+
+    cursor: pointer;
+
+}
+
+
+
+
+
+.history-calendar-controls button:active {
+
+    transform: scale(0.94);
+
+}
+
+
+
+
+
+#history-calendar-month {
+
+    margin: 0;
+
+
+
+    text-align: center;
+
+
+
+    font-size: 19px;
+
+}
+
+
+
+
+
+/* =========================================
+
+   WEEKDAY LABELS
+
+========================================= */
+
+
+
+.history-calendar-weekdays {
+
+    display: grid;
+
+    grid-template-columns: repeat(7, 1fr);
+
+
+
+    margin-bottom: 6px;
+
+}
+
+
+
+
+
+.history-calendar-weekdays span {
+
+    min-width: 0;
+
+
+
+    color: #777;
+
+
+
+    font-size: 11px;
+
+    font-weight: bold;
+
+
+
+    text-align: center;
+
+}
+
+
+
+
+
+/* =========================================
+
+   CALENDAR GRID
+
+========================================= */
+
+
+
+.history-calendar-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(7, 1fr);
+
+
+
+    gap: 5px;
+
+
+
+    width: 100%;
+
+}
+
+
+
+
+
+.history-calendar-day {
+
+    position: relative;
+
+
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+
+
+    aspect-ratio: 1 / 1;
+
+
+
+    min-width: 0;
+
+
+
+    padding: 0;
+
+
+
+    border: none;
+
+    border-radius: 12px;
+
+
+
+    background: white;
+
+
+
+    color: #333;
+
+
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+
+
+    cursor: pointer;
+
+
+
+    box-shadow:
+
+        0 1px 4px
+
+        rgba(0, 0, 0, 0.06);
+
+}
+
+
+
+
+
+.history-calendar-day:active {
+
+    transform: scale(0.94);
+
+}
+
+
+
+
+
+/* Empty calendar spaces */
+
+
+
+.history-calendar-blank {
+
+    aspect-ratio: 1 / 1;
+
+}
+
+
+
+
+
+/* A day that contains completed chores */
+
+
+
+.history-calendar-day.has-history {
+
+    border: 2px solid #ffb49f;
+
+}
+
+
+
+
+
+/* Little chore indicator */
+
+
+
+.history-calendar-day.has-history::after {
+
+    content: "";
+
+
+
+    position: absolute;
+
+
+
+    left: 50%;
+
+    bottom: 5px;
+
+
+
+    width: 5px;
+
+    height: 5px;
+
+
+
+    border-radius: 50%;
+
+
+
+    background: #ff8f75;
+
+
+
+    transform: translateX(-50%);
+
+}
+
+
+
+/* A day that contains unfinished chores */
+
+
+
+.history-calendar-day.has-unfinished::before {
+
+    content: "";
+
+
+
+    position: absolute;
+
+
+
+    left: 50%;
+
+    bottom: 5px;
+
+
+
+    width: 5px;
+
+    height: 5px;
+
+
+
+    border-radius: 50%;
+
+
+
+    background: #4a90e2;
+
+
+
+    transform: translateX(-50%);
+
+}
+
+
+
+
+
+/* If a day has BOTH completed and unfinished chores,
+
+   place the dots beside each other */
+
+
+
+.history-calendar-day.has-history.has-unfinished::after {
+
+    left: calc(50% - 5px);
+
+}
+
+
+
+
+
+.history-calendar-day.has-history.has-unfinished::before {
+
+    left: calc(50% + 5px);
+
+}
+
+
+
+
+
+/* =========================================
+
+   CALENDAR KEY
+
+========================================= */
+
+
+
+.history-calendar-key {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+
+
+    gap: 7px;
+
+
+
+    margin-top: 18px;
+
+
+
+    color: #777;
+
+
+
+    font-size: 12px;
+
+}
+
+
+
+
+
+.history-key-dot {
+
+    width: 7px;
+
+    height: 7px;
+
+
+
+    border-radius: 50%;
+
+
+
+    background: #ff8f75;
+
+}
+
+
+
+
+
+/* =========================================
+
+   SELECTED DAY
+
+========================================= */
+
+
+
+.history-day-top {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+
+
+    gap: 12px;
+
+
+
+    margin-bottom: 18px;
+
+}
+
+
+
+
+
+.history-back-button {
+
+    min-height: 40px;
+
+
+
+    padding: 8px 13px;
+
+
+
+    border: none;
+
+    border-radius: 11px;
+
+
+
+    background: #ffb49f;
+
+
+
+    color: #333;
+
+
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+
+
+    cursor: pointer;
+
+}
+
+
+
+
+
+.history-back-button:active {
+
+    transform: scale(0.97);
+
+}
+
+
+
+
+
+#history-selected-date {
+
+    margin:
+
+        0 0 15px;
+
+
+
+    font-size: 19px;
+
+}
+
+
+
+
+
+/* =========================================
+
+   HISTORY ENTRIES
+
+========================================= */
+
+
+
+.history-list {
+
+    width: 100%;
+
+}
+
+
+
+
+
+.history-empty {
+
+    padding: 30px 15px;
+
+
+
+    background: white;
+
+
+
+    border-radius: 15px;
+
+
+
+    color: #777;
+
+
+
+    text-align: center;
+
+}
+
+
+
+
+
+.history-entry {
+
+    margin-bottom: 8px;
+
+
+
+    padding: 12px 14px;
+
+
+
+    background: white;
+
+
+
+    border-radius: 13px;
+
+
+
+    box-shadow:
+
+        0 2px 7px
+
+        rgba(0, 0, 0, 0.07);
+
+}
+
+
+
+
+
+.history-time {
+
+    display: block;
+
+
+
+    margin-bottom: 3px;
+
+
+
+    color: #777;
+
+
+
+    font-size: 12px;
+
+    font-weight: bold;
+
+}
+
+
+
+
+
+.history-chore-name {
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+
+
+    overflow-wrap: anywhere;
+
+}
+
+
+
+
+
+/* =========================================
+
+   MOBILE
+
+========================================= */
+
+
+
+@media (max-width: 600px) {
+
+
+
+    .history-overlay {
+
+        padding: 10px;
+
+    }
+
+
+
+
+
+    .history-popup {
+
+        max-width: 390px;
+
+
+
+        padding: 17px;
+
+    }
+
+
+
+
+
+    .history-header h2 {
+
+        font-size: 23px;
+
+    }
+
+
+
+
+
+    .history-calendar-grid {
+
+        gap: 4px;
+
+    }
+
+
+
+
+
+    .history-calendar-day {
+
+        border-radius: 10px;
+
+
+
+        font-size: 13px;
+
+    }
+
+
+
+
+
+    .history-calendar-day.has-history::after {
+
+        bottom: 4px;
+
+    }
+
+
+
+
+
+    #history-selected-date {
+
+        font-size: 17px;
+
+    }
+
+}
+
+
+
+@media (max-width: 600px) {
+
+
+
+    .history-overlay {
+
+        padding: 8px;
+
+    }
+
+
+
+
+
+    .history-popup {
+
+        max-width: 360px;
+
+
+
+        max-height: 92dvh;
+
+
+
+        padding: 18px;
+
+    }
+
+
+
+
+
+    .history-header h2 {
+
+        font-size: 23px;
+
+    }
+
+}
+
+
+
+/* =========================================
+
+   HELP + SWITCH NAVIGATION POPUPS
+
+========================================= */
+
+
+
+.nav-popup-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+
+
+    z-index: 8500;
+
+
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+
+
+    padding: 18px;
+
+
+
+    background: rgba(0, 0, 0, 0.72);
+
+}
+
+
+
+
+
+.nav-popup {
+
+    width: 100%;
+
+    max-width: 480px;
+
+
+
+    max-height: 88dvh;
+
+    overflow-y: auto;
+
+
+
+    padding: 22px;
+
+
+
+    background: #fff7f3;
+
+
+
+    border-radius: 22px;
+
+
+
+    box-shadow:
+
+        0 12px 35px
+
+        rgba(0, 0, 0, 0.35);
+
+}
+
+
+
+
+
+/* =========================================
+
+   POPUP HEADER
+
+========================================= */
+
+
+
+.nav-popup-header {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+
+
+    gap: 15px;
+
+
+
+    margin-bottom: 20px;
+
+}
+
+
+
+
+
+.nav-popup-header h2 {
+
+    margin: 0;
+
+
+
+    font-size: 26px;
+
+}
+
+
+
+
+
+.nav-popup-header p {
+
+    margin: 5px 0 0;
+
+
+
+    color: #666;
+
+
+
+    font-size: 13px;
+
+    line-height: 1.4;
+
+}
+
+
+
+
+
+.nav-popup-close {
+
+    flex-shrink: 0;
+
+
+
+    width: 38px;
+
+    height: 38px;
+
+
+
+    padding: 0;
+
+
+
+    border: none;
+
+    border-radius: 50%;
+
+
+
+    background: #eee;
+
+
+
+    color: #333;
+
+
+
+    font-size: 20px;
+
+
+
+    cursor: pointer;
+
+}
+
+
+
+
+
+.nav-popup-close:active {
+
+    transform: scale(0.94);
+
+}
+
+
+
+
+
+/* =========================================
+
+   HELP SECTIONS
+
+========================================= */
+
+
+
+.help-section {
+
+    margin-bottom: 13px;
+
+
+
+    padding: 15px;
+
+
+
+    background: white;
+
+
+
+    border-radius: 15px;
+
+
+
+    box-shadow:
+
+        0 2px 7px
+
+        rgba(0, 0, 0, 0.06);
+
+}
+
+
+
+
+
+.help-section h3 {
+
+    margin: 0 0 8px;
+
+
+
+    font-size: 16px;
+
+}
+
+
+
+
+
+.help-section p {
+
+    margin: 7px 0;
+
+
+
+    color: #555;
+
+
+
+    font-size: 13px;
+
+    line-height: 1.5;
+
+}
+
+
+
+
+
+.help-section p:last-child {
+
+    margin-bottom: 0;
+
+}
+
+
+
+
+
+/* =========================================
+
+   TUTORIAL
+
+========================================= */
+
+
+
+.help-tutorial {
+
+    margin-top: 20px;
+
+
+
+    padding: 17px;
+
+
+
+    border: 2px solid #ffb49f;
+
+    border-radius: 16px;
+
+
+
+    background: white;
+
+
+
+    text-align: center;
+
+}
+
+
+
+
+
+.help-tutorial h3 {
+
+    margin: 0 0 7px;
+
+
+
+    font-size: 17px;
+
+}
+
+
+
+
+
+.help-tutorial p {
+
+    margin: 0 0 14px;
+
+
+
+    color: #666;
+
+
+
+    font-size: 13px;
+
+    line-height: 1.4;
+
+}
+
+
+
+
+
+/* =========================================
+
+   PRIMARY NAV BUTTON
+
+========================================= */
+
+
+
+.nav-primary-button {
+
+    width: 100%;
+
+
+
+    padding: 12px 14px;
+
+
+
+    border: none;
+
+    border-radius: 12px;
+
+
+
+    background: #ffb49f;
+
+
+
+    color: #333;
+
+
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+
+
+    cursor: pointer;
+
+}
+
+
+
+
+
+.nav-primary-button:hover {
+
+    transform: translateY(-1px);
+
+}
+
+
+
+
+
+.nav-primary-button:active {
+
+    transform: scale(0.98);
+
+}
+
+
+
+
+
+/* =========================================
+
+   SWITCH APP CARDS
+
+========================================= */
+
+
+
+.switch-app-card {
+
+    display: flex;
+
+    align-items: flex-start;
+
+
+
+    gap: 13px;
+
+
+
+    margin-bottom: 14px;
+
+
+
+    padding: 16px;
+
+
+
+    background: white;
+
+
+
+    border-radius: 16px;
+
+
+
+    box-shadow:
+
+        0 2px 8px
+
+        rgba(0, 0, 0, 0.07);
+
+}
+
+
+
+
+
+.switch-app-icon {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+
+
+    flex-shrink: 0;
+
+
+
+    width: 48px;
+
+    height: 48px;
+
+
+
+    border-radius: 14px;
+
+
+
+    background: #fff0eb;
+
+
+
+    font-size: 25px;
+
+}
+
+
+
+
+
+.switch-app-info {
+
+    flex: 1;
+
+
+
+    min-width: 0;
+
+}
+
+
+
+
+
+.switch-app-info h3 {
+
+    margin: 0 0 7px;
+
+
+
+    font-size: 17px;
+
+}
+
+
+
+
+
+.switch-app-info p {
+
+    margin: 0 0 13px;
+
+
+
+    color: #666;
+
+
+
+    font-size: 13px;
+
+    line-height: 1.45;
+
+}
+
+
+
+
+
+.switch-note {
+
+    margin: 17px 0 0;
+
+
+
+    color: #777;
+
+
+
+    font-size: 12px;
+
+    line-height: 1.4;
+
+
+
+    text-align: center;
+
+}
+
+
+
+
+
+/* =========================================
+
+   HELP + SWITCH MOBILE
+
+========================================= */
+
+
+
+@media (max-width: 600px) {
+
+
+
+    .nav-popup-overlay {
+
+        padding: 8px;
+
+    }
+
+
+
+
+
+    .nav-popup {
+
+        max-width: 360px;
+
+
+
+        max-height: 92dvh;
+
+
+
+        padding: 18px;
+
+
+
+        border-radius: 20px;
+
+    }
+
+
+
+
+
+    .nav-popup-header h2 {
+
+        font-size: 23px;
+
+    }
+
+
+
+
+
+    .help-section {
+
+        padding: 13px;
+
+    }
+
+
+
+
+
+    .switch-app-card {
+
+        padding: 14px;
+
+    }
+
+
+
+
+
+    .switch-app-icon {
+
+        width: 42px;
+
+        height: 42px;
+
+
+
+        font-size: 22px;
+
+    }
+
+
+
+
+
+    .switch-app-info h3 {
+
+        font-size: 15px;
+
+    }
+
+}
+
+
+
+/* =========================================
+
+   LOGOUT CONFIRMATION POPUP
+
+========================================= */
+
+
+
+#logout-confirm-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 9500;
+
+
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+
+
+    padding: 18px;
+
+
+
+    background:
+
+        rgba(0, 0, 0, 0.65);
+
+}
+
+
+
+
+
+#logout-confirm-overlay.hidden {
+
+    display: none !important;
+
+}
+
+
+
+
+
+#logout-confirm-overlay .popup-card {
+
+    width: 100%;
+
+    max-width: 420px;
+
+
+
+    padding: 24px;
+
+
+
+    background: #fff7f3;
+
+
+
+    border-radius: 22px;
+
+
+
+    box-shadow:
+
+        0 15px 40px
+
+        rgba(0, 0, 0, 0.35);
+
+
+
+    text-align: center;
+
+}
+
+
+
+
+
+#logout-confirm-overlay .popup-card h2 {
+
+    margin:
+
+        0
+
+        0
+
+        12px;
+
+
+
+    font-size: 25px;
+
+    color: #252525;
+
+}
+
+
+
+
+
+#logout-confirm-overlay .popup-card p {
+
+    margin:
+
+        8px
+
+        0;
+
+
+
+    color: #555;
+
+
+
+    font-size: 14px;
+
+    line-height: 1.5;
+
+}
+
+
+
+
+
+#logout-confirm-overlay .popup-button-row {
+
+    display: flex;
+
+    gap: 10px;
+
+
+
+    margin-top: 22px;
+
+}
+
+
+
+
+
+#logout-confirm-overlay .popup-button-row button {
+
+    flex: 1;
+
+
+
+    padding: 12px 14px;
+
+
+
+    border: none;
+
+    border-radius: 12px;
+
+
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+
+
+    cursor: pointer;
+
+}
+
+
+
+
+
+#logout-confirm-overlay .secondary-button {
+
+    background: #eeeeee;
+
+    color: #333333;
+
+}
+
+
+
+
+
+#logout-confirm-overlay .danger-button {
+
+    background: #ff9d89;
+
+    color: #252525;
+
+}
+
+
+
+
+
+#logout-confirm-overlay .popup-button-row button:hover {
+
+    transform: translateY(-1px);
+
+}
+
+
+
+
+
+#logout-confirm-overlay .popup-button-row button:active {
+
+    transform: scale(0.97);
+
+}
+
+
+
+
+
+@media (max-width: 500px) {
+
+
+
+    #logout-confirm-overlay {
+
+        padding: 14px;
+
+    }
+
+
+
+    #logout-confirm-overlay .popup-card {
+
+        max-width: 350px;
+
+        padding: 20px;
+
+        border-radius: 19px;
+
+    }
+
+
+
+    #logout-confirm-overlay .popup-card h2 {
+
+        font-size: 22px;
+
+    }
+
+}
+
+
+
+/* =========================================
+
+   DELETE ACCOUNT CONFIRMATION
+
+========================================= */
+
+
+
+#delete-account-confirm-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 9500;
+
+
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+
+
+    padding: 18px;
+
+
+
+    background: rgba(0, 0, 0, 0.65);
+
+}
+
+
+
+#delete-account-confirm-overlay.hidden {
+
+    display: none !important;
+
+}
+
+
+
+#delete-account-confirm-overlay .popup-card {
+
+    width: 100%;
+
+    max-width: 420px;
+
+    padding: 24px;
+
+
+
+    background: #fff7f3;
+
+    border-radius: 22px;
+
+
+
+    box-shadow:
+
+        0 15px 40px
+
+        rgba(0, 0, 0, 0.35);
+
+
+
+    text-align: center;
+
+}
+
+
+
+#delete-account-confirm-overlay .popup-card h2 {
+
+    margin: 0 0 12px;
+
+    font-size: 25px;
+
+    color: #252525;
+
+}
+
+
+
+#delete-account-confirm-overlay .popup-card p {
+
+    margin: 8px 0;
+
+    color: #555;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+
+}
+
+
+
+#delete-account-confirm-overlay .popup-button-row {
+
+    display: flex;
+
+    gap: 10px;
+
+    margin-top: 22px;
+
+}
+
+
+
+#delete-account-confirm-overlay .popup-button-row button {
+
+    flex: 1;
+
+    padding: 12px 14px;
+
+
+
+    border: none;
+
+    border-radius: 12px;
+
+
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+}
+
+
+
+#delete-account-confirm-overlay .secondary-button {
+
+    background: #eeeeee;
+
+    color: #333333;
+
+}
+
+
+
+#delete-account-confirm-overlay .danger-button {
+
+    background: #ff9d89;
+
+    color: #252525;
+
+}
+
+
+
+/* =========================================
+
+   HISTORY ADD CHORE BUTTON
+
+========================================= */
+
+
+
+.history-selected-date-row {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 16px;
+
+}
+
+
+
+.history-selected-date-row h2 {
+
+    margin: 0;
+
+}
+
+
+
+.history-add-chore-button {
+
+    width: 44px;
+
+    height: 44px;
+
+
+
+    flex-shrink: 0;
+
+
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+
+
+    padding: 0;
+
+
+
+    border: none;
+
+    border-radius: 50%;
+
+
+
+    background: #ffad99;
+
+    color: #222;
+
+
+
+    font-size: 28px;
+
+    font-weight: 700;
+
+    line-height: 1;
+
+
+
+    cursor: pointer;
+
+
+
+    box-shadow:
+
+        0 4px 10px
+
+        rgba(0, 0, 0, 0.12);
+
+}
+
+
+
+.history-add-chore-button:hover {
+
+    transform: scale(1.06);
+
+}
+
+
+
+.history-add-chore-button:active {
+
+    transform: scale(0.94);
+
+}
+
+
+
+/* =========================================
+
+   CHORE HISTORY ACTION MENU
+
+========================================= */
+
+
+
+.history-chore-menu-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+
+
+    z-index: 11000;
+
+
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+
+
+    padding: 20px;
+
+    box-sizing: border-box;
+
+
+
+    background:
+
+        rgba(0, 0, 0, 0.7);
+
+}
+
+
+
+.history-chore-menu-overlay.hidden {
+
+    display: none;
+
+}
+
+
+
+.history-chore-menu-popup {
+
+    width: min(90%, 380px);
+
+
+
+    padding: 24px;
+
+
+
+    background: white;
+
+
+
+    border-radius: 20px;
+
+
+
+    text-align: center;
+
+
+
+    box-shadow:
+
+        0 12px 35px
+
+        rgba(0, 0, 0, 0.25);
+
+}
+
+
+
+.history-chore-menu-popup h2 {
+
+    margin-top: 0;
+
+    margin-bottom: 8px;
+
+}
+
+
+
+.history-chore-menu-popup p {
+
+    margin-bottom: 20px;
+
+}
+
+
+
+.history-chore-menu-popup button {
+
+    display: block;
+
+
+
+    width: 100%;
+
+
+
+    margin: 10px 0;
+
+    padding: 14px 16px;
+
+
+
+    border: none;
+
+    border-radius: 12px;
+
+
+
+    font: inherit;
+
+    font-weight: bold;
+
+
+
+    cursor: pointer;
+
+}
+
+
+
+#history-edit-chore {
+
+    background: #ffad99;
+
+    color: #222;
+
+}
+
+
+
+#history-delete-chore {
+
+    background: #e05a5a;
+
+    color: white;
+
+}
+
+
+
+#history-cancel-chore-menu {
+
+    background: #e8e8e8;
+
+    color: #222;
+
+}
+
+
+
+.history-chore-menu-popup button:active {
+
+    transform: scale(0.98);
+
+}
+
+
+
+
+
+/* Make calendar chores look tappable */
+
+
+
+.history-clickable-entry {
+
+    width: 100%;
+
+
+
+    border: none;
+
+
+
+    font: inherit;
+
+    text-align: left;
+
+
+
+    cursor: pointer;
+
+}
+
+
+
+/* =========================================
+
+   DELETE HISTORY CHORE CONFIRMATION
+
+========================================= */
+
+
+
+.history-delete-confirm-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+
+
+    z-index: 12000;
+
+
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+
+
+    padding: 20px;
+
+    box-sizing: border-box;
+
+
+
+    background:
+
+        rgba(0, 0, 0, 0.7);
+
+}
+
+
+
+.history-delete-confirm-overlay.hidden {
+
+    display: none;
+
+}
+
+
+
+.history-delete-confirm-popup {
+
+    width: min(90%, 380px);
+
+
+
+    padding: 24px;
+
+
+
+    background: white;
+
+
+
+    border-radius: 20px;
+
+
+
+    text-align: center;
+
+
+
+    box-shadow:
+
+        0 12px 35px
+
+        rgba(0, 0, 0, 0.25);
+
+}
+
+
+
+.history-delete-confirm-popup h2 {
+
+    margin-top: 0;
+
+    margin-bottom: 12px;
+
+}
+
+
+
+.history-delete-confirm-popup p {
+
+    margin: 8px 0;
+
+}
+
+
+
+.history-delete-warning {
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+
+
+    color: #b33;
+
+}
+
+
+
+.history-delete-confirm-buttons {
+
+    display: flex;
+
+    gap: 10px;
+
+
+
+    margin-top: 20px;
+
+}
+
+
+
+.history-delete-confirm-buttons button {
+
+    flex: 1;
+
+
+
+    padding: 14px 16px;
+
+
+
+    border: none;
+
+    border-radius: 12px;
+
+
+
+    font: inherit;
+
+    font-weight: bold;
+
+
+
+    cursor: pointer;
+
+}
+
+
+
+#history-confirm-delete {
+
+    background: #e05a5a;
+
+    color: white;
+
+}
+
+
+
+#history-cancel-delete {
+
+    background: #e8e8e8;
+
+    color: #222;
+
+}
+
+
+
+.history-delete-confirm-buttons button:active {
+
+    transform: scale(0.97);
+
+}
+
+
+
+#history-complete-chore {
+
+    background: #ffad99;
+
+    color: #222;
+
+}
+
+
+
+/* =========================================
+
+   MY CHOREZ DATE + TIME
+
+========================================= */
+
+
+
+.my-chorez-heading {
+
+    margin-bottom: 4px;
+
+}
+
+
+
+.my-chorez-heading h2 {
+
+    margin-top: 0;
+
+    margin-bottom: 3px;
+
+}
+
+
+
+#main-chorez-datetime {
+
+    margin: 0;
+
+
+
+    font-family:
+
+        "Trebuchet MS",
+
+        sans-serif;
+
+
+
+    font-size: 14px;
+
+    font-style: italic;
+
+
+
+    line-height: 1.2;
+
+
+
+    color: #555;
+
+}
+
+
+
+/* =========================================
+
+   CHORE HISTORY - TODAY
+
+========================================= */
+
+
+
+.history-calendar-day.history-today {
+
+    background: #ffe1d8;
+
+    border: 2px solid #ffad99;
+
+
+
+    font-weight: bold;
+
+}
+
+
+
+/* =========================================
+
+   CHORE HISTORY CALENDAR KEY
+
+========================================= */
+
+
+
+.history-calendar-key {
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+
+
+    flex-wrap: wrap;
+
+    gap: 8px 16px;
+
+
+
+    margin-top: 12px;
+
+
+
+    font-size: 12px;
+
+    color: #666;
+
+}
+
+
+
+.history-key-item {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+}
+
+
+
+.history-key-dot {
+
+    width: 7px;
+
+    height: 7px;
+
+
+
+    flex-shrink: 0;
+
+
+
+    border-radius: 50%;
+
+}
+
+
+
+.history-key-dot.completed {
+
+    background: #ff8f75;
+
+}
+
+
+
+.history-key-dot.scheduled {
+
+    background: #4a90e2;
+
+}
+
+
+
+/* =========================================
+
+   HUNGRY MOOCOW - BED REST
+
+========================================= */
+
+
+
+.room-moocow.hungry-bed-rest {
+
+    left: 18%;
+
+    top: 65%;
+
+
+
+    transform:
+
+        translate(-50%, -50%)
+
+        rotate(90deg)
+
+       scale(0.68);
+
+
+
+    transform-origin: center;
+
+
+
+    transition:
+
+        left 1.2s ease,
+
+        top 1.2s ease,
+
+        transform 1.2s ease;
+
+
+
+    z-index: 3;
+
+}
