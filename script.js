@@ -582,3 +582,22 @@ if ("serviceWorker" in navigator) {
             });
     });
 }
+
+/* =========================================================
+   WORLD TUTORIAL
+========================================================= */
+
+const watchTutorialButton =
+    document.getElementById("watchTutorialButton");
+
+if (watchTutorialButton) {
+    watchTutorialButton.addEventListener(
+        "click",
+        function () {
+            window.open(
+                "https://youtu.be/kRgJaMIpOGk",
+                "_blank"
+            );
+        }
+    );
+}
