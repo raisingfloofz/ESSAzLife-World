@@ -1,4 +1,4 @@
-const CACHE_NAME = "essazlife-world-v1";
+const CACHE_NAME = "essazlife-world-v2";
 
 const FILES_TO_CACHE = [
     "./",
@@ -49,7 +49,10 @@ self.addEventListener("activate", event => {
 
             return Promise.all(
                 cacheNames
-                    .filter(name => name !== CACHE_NAME)
+                    .filter(name =>
+    name.startsWith("essazlife-world-") &&
+    name !== CACHE_NAME
+)
                     .map(name => caches.delete(name))
             );
         })
