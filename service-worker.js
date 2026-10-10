@@ -1,4 +1,4 @@
-const CACHE_NAME = "essazlife-world-v2";
+const CACHE_NAME = "essazlife-world-v3";
 
 const FILES_TO_CACHE = [
     "./",
@@ -62,37 +62,45 @@ self.addEventListener("activate", event => {
 });
 
 
-// FETCH
+// FETCH — NETWORK FIRST, OFFLINE FALLBACK
 self.addEventListener("fetch", event => {
 
     if (event.request.method !== "GET") {
         return;
     }
 
+    // Only handle requests from ESSAzLife World's own website.
+    if (
+        new URL(event.request.url).origin !==
+        self.location.origin
+    ) {
+        return;
+    }
+
     event.respondWith(
-        caches.match(event.request)
-            .then(cachedResponse => {
+        fetch(event.request)
+            .then(networkResponse => {
 
-                if (cachedResponse) {
-                    return cachedResponse;
-                }
+                if (networkResponse.ok) {
 
-                return fetch(event.request)
-                    .then(networkResponse => {
+                    const responseCopy =
+                        networkResponse.clone();
 
-                        const responseCopy =
-                            networkResponse.clone();
-
+                    event.waitUntil(
                         caches.open(CACHE_NAME)
                             .then(cache => {
-                                cache.put(
+                                return cache.put(
                                     event.request,
                                     responseCopy
                                 );
-                            });
+                            })
+                    );
+                }
 
-                        return networkResponse;
-                    });
+                return networkResponse;
+            })
+            .catch(() => {
+                return caches.match(event.request);
             })
     );
 });

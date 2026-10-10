@@ -569,11 +569,21 @@ if ("serviceWorker" in navigator) {
 
         navigator.serviceWorker
             .register("./service-worker.js")
-            .then(function () {
-                console.log(
-                    "ESSAzLife World service worker registered."
-                );
-            })
+            .then(function (registration) {
+
+    console.log(
+        "ESSAzLife World service worker registered."
+    );
+
+    // Check for a newer version whenever World opens.
+    registration.update().catch(function (error) {
+        console.log(
+            "Update check unavailable:",
+            error
+        );
+    });
+
+})
             .catch(function (error) {
                 console.error(
                     "Service worker registration failed:",
