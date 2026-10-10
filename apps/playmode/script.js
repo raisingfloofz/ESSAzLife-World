@@ -34631,15 +34631,12 @@ onclick="
 }
 
 
-function togglePlayMobileFullscreen() {
+async function togglePlayMobileFullscreen() {
 
     const isPhoneLandscape =
         window.matchMedia(
             "(max-height: 500px) and (orientation: landscape)"
         ).matches;
-
-
-    /* PHONE LANDSCAPE */
 
     if (isPhoneLandscape) {
 
@@ -34650,40 +34647,39 @@ function togglePlayMobileFullscreen() {
         return;
     }
 
-
-    /* DESKTOP */
-
     if (document.fullscreenElement) {
 
-        document.exitFullscreen();
+        if (
+            screen.orientation &&
+            typeof screen.orientation.unlock === "function"
+        ) {
+            screen.orientation.unlock();
+        }
 
+        await document.exitFullscreen();
         return;
     }
 
-
-    const main =
-        document.querySelector(
-            "main"
-        );
-
+    const main = document.querySelector("main");
 
     if (!main) {
         return;
     }
 
+    try {
 
-    main
-        .requestFullscreen()
-        .catch(
-            function(error) {
+        await main.requestFullscreen();
 
-                console.error(
-                    "Could not enter fullscreen:",
-                    error
-                );
+        await lockPlayModeLandscape();
 
-            }
+    } catch (error) {
+
+        console.error(
+            "Could not enter fullscreen:",
+            error
         );
+
+    }
 }
 
 function togglePlayRoomNav() {
