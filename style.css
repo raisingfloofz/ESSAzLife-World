@@ -1220,3 +1220,81 @@ body {
     line-height: 1.4;
     color: #555;
 }
+
+
+/* =========================================
+   WORLD CLOUD UPGRADE POPUP FIX
+   ========================================= */
+
+#cloudVerifyOverlay {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    padding: 16px;
+    box-sizing: border-box;
+
+    overflow-y: auto;
+}
+
+#cloudVerifyOverlay.show {
+    display: flex;
+}
+
+#cloudVerifyOverlay .account-popup {
+    width: 100%;
+    max-width: 390px;
+    max-height: calc(100dvh - 32px);
+
+    box-sizing: border-box;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+
+    margin: auto;
+    padding: 24px 20px;
+}
+
+#cloudVerifyForm {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#cloudVerifyForm input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#cloudVerifyForm .account-submit {
+    width: 100%;
+    margin-top: 8px;
+}
+
+#cloudVerifyError:empty {
+    display: none !important;
+}
+
+@media (max-width: 480px) {
+    #cloudVerifyOverlay {
+        padding: 10px;
+    }
+
+    #cloudVerifyOverlay .account-popup {
+        max-height: calc(100dvh - 20px);
+        padding: 20px 16px;
+    }
+}
+
+
+/* Step 3: disabled cloud account editing controls */
+.settings-option:disabled { opacity: .55; cursor: not-allowed; }
+
+/* Cloud deletion confirmation */
+#cloudDeleteFields[hidden] { display: none; }
+#cloudDeleteFields { text-align:left; margin-top:16px; }
+#cloudDeleteFields label { display:block; margin:10px 0 5px; font-weight:bold; }
+#cloudDeleteFields input { display:block; width:100%; padding:11px; border:2px solid #ddd; border-radius:10px; font-size:16px; }

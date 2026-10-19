@@ -464,6 +464,48 @@
 
         </div>
 
+        <!-- OPTIONAL CLOUD SYNC -->
+<div class="settings-section">
+
+    <h3>☁️ World Cloud Account</h3>
+
+    <p class="settings-subheader">
+    World cloud accounts let you sign in on another device
+    using your username and password.
+
+    Your ESSA profiles, game progress, and other app data
+    remain stored locally. Use each app's Backup & Restore
+    to transfer that information.
+</p>
+
+    <button
+    class="settings-option"
+    id="upgradeWorldCloudButton"
+    type="button"
+>
+    🌎 Upgrade My World Account to Cloud
+</button>
+
+<p id="worldCloudUpgradeStatus"></p>
+
+    <button class="settings-option" id="googleSignInButton">
+        ☁️ Connect with Google
+    </button>
+
+    <button
+    class="settings-option"
+    id="googleSignOutButton"
+    style="display: none;"
+>
+    🔓 Disconnect Google
+</button>
+
+    <p id="cloudSyncStatus">
+        Not connected to cloud.
+    </p>
+
+</div>
+
         <div class="settings-section danger-section">
 
             <h3>Account</h3>
@@ -599,6 +641,88 @@
 </div>
 
 
+
+<!-- WORLD CLOUD PASSWORD VERIFICATION -->
+<div class="account-overlay" id="cloudVerifyOverlay">
+    <div class="account-popup">
+
+        <button
+            class="account-close"
+            id="cloudVerifyClose"
+            type="button"
+        >×</button>
+
+        <h2>🌎 Upgrade to World Cloud</h2>
+
+        <p class="account-intro">
+            Upgrade your existing World account so you
+            can log in on other devices using your
+            username and cloud password.
+        </p>
+
+        <form id="cloudVerifyForm">
+
+            <label for="cloudVerifyPassword">
+                Current World Password
+            </label>
+
+            <input
+                type="password"
+                id="cloudVerifyPassword"
+                autocomplete="current-password"
+                placeholder="Enter your current password"
+                required
+            >
+
+            <label for="cloudNewPassword">
+                New Cloud Password (if needed)
+            </label>
+
+            <input
+                type="password"
+                id="cloudNewPassword"
+                autocomplete="new-password"
+                minlength="12"
+                maxlength="128"
+                placeholder="At least 12 characters"
+            >
+
+            <p class="account-intro">
+                💙 If your current password has at least
+                12 characters, leave the new cloud
+                password field blank.
+
+                If your current password is shorter,
+                choose a new cloud password with at
+                least 12 characters.
+            </p>
+
+            <p
+                class="account-error"
+                id="cloudVerifyError"
+                role="alert"
+            ></p>
+
+            <button
+                type="submit"
+                class="account-submit"
+            >
+                ☁️ Create My Cloud Account
+            </button>
+
+        </form>
+
+        <p class="account-intro">
+            💾 Your existing local World account and
+            individual ESSAzLife app data will remain
+            on this device.
+        </p>
+
+    </div>
+</div>
+
+
+
 <!-- LOG OUT CONFIRMATION -->
 <div class="confirm-overlay" id="logoutConfirmOverlay">
 
@@ -634,10 +758,14 @@
 
         <h2>⚠️ Delete Account?</h2>
 
-        <p>
-            This will permanently delete your ESSAzLife World account
-            from this device.
-        </p>
+        <p id="deleteExplanation">This removes your World account. Your ESSA app data is not deleted.</p>
+        <div id="cloudDeleteFields" hidden>
+            <label for="cloudDeletePassword">Current Cloud Password</label>
+            <input type="password" id="cloudDeletePassword" autocomplete="current-password">
+            <label for="cloudDeleteConfirmText">Type DELETE to confirm</label>
+            <input type="text" id="cloudDeleteConfirmText" autocomplete="off">
+            <p class="account-error" id="cloudDeleteError" role="alert"></p>
+        </div>
 
         <p>
             This will not delete data stored inside the individual
@@ -665,6 +793,7 @@
 </div>
 
 <script src="script.js"></script>
+<script type="module" src="firebase.js"></script>
 
 </body>
 </html>
