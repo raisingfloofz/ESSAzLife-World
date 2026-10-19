@@ -153,7 +153,10 @@ changeNicknameForm.addEventListener("submit", async function (event) {
         submit.disabled = true;
         try {
             const result = await worldCloudAuthenticatedRequest("/account/nickname", { nickname });
-            sessionStorage.setItem("essazlifeWorldCloudAccount", JSON.stringify(result.account));
+            saveWorldCloudSession(
+                sessionStorage.getItem("essazlifeWorldCloudToken") || localStorage.getItem("essazlifeWorldCloudToken"),
+                result.account
+            );
             changeNicknameOverlay.classList.remove("show");
             showWelcomeBackMessage();
         } catch (error) { showWorldFormError(nicknameError, error); }
@@ -257,8 +260,7 @@ changePasswordForm.addEventListener("submit", async function (event) {
             const result = await worldCloudAuthenticatedRequest("/account/password", {
                 currentPassword: currentPassword.value, newPassword: newPassword.value
             });
-            sessionStorage.setItem("essazlifeWorldCloudToken", result.token);
-            sessionStorage.setItem("essazlifeWorldCloudAccount", JSON.stringify(result.account));
+            saveWorldCloudSession(result.token, result.account);
             changePasswordForm.reset();
             changePasswordOverlay.classList.remove("show");
         } catch (error) { showWorldFormError(passwordChangeError, error); }
@@ -519,7 +521,8 @@ function showWorldFormError(element, error) {
 }
 
 async function worldCloudAuthenticatedRequest(endpoint, data) {
-    const token = sessionStorage.getItem("essazlifeWorldCloudToken");
+    const token = sessionStorage.getItem("essazlifeWorldCloudToken") ||
+        localStorage.getItem("essazlifeWorldCloudToken");
     if (!token) throw new Error("Please log in to World Cloud again.");
     let response;
     try {
@@ -594,17 +597,28 @@ async function loginWorldCloudAccount(
 }
 
 
-/* Cloud tokens are tab-scoped and expire on the server after 24 hours.
-   Never trust a cached cloud profile without validating the token via /me. */
+/* Remember World Cloud login across PWA restarts. The server still expires
+   tokens after 24 hours. Never trust the cached profile without /me. */
+function saveWorldCloudSession(token, account) {
+    localStorage.setItem("essazlifeWorldCloudToken", token);
+    localStorage.setItem("essazlifeWorldCloudAccount", JSON.stringify(account));
+    // Embedded apps currently expect the sessionStorage keys too.
+    sessionStorage.setItem("essazlifeWorldCloudToken", token);
+    sessionStorage.setItem("essazlifeWorldCloudAccount", JSON.stringify(account));
+}
+
 function clearWorldCloudSession() {
     sessionStorage.removeItem("essazlifeWorldCloudToken");
     sessionStorage.removeItem("essazlifeWorldCloudAccount");
+    localStorage.removeItem("essazlifeWorldCloudToken");
+    localStorage.removeItem("essazlifeWorldCloudAccount");
 }
 
 function getActiveCloudAccount() {
     if (localStorage.getItem("essazlifeWorldLoginMode") !== "cloud") return null;
     try {
-        const account = JSON.parse(sessionStorage.getItem("essazlifeWorldCloudAccount"));
+        const account = JSON.parse(sessionStorage.getItem("essazlifeWorldCloudAccount") ||
+            localStorage.getItem("essazlifeWorldCloudAccount"));
         return account && typeof account.username === "string" &&
             typeof account.nickname === "string" ? account : null;
     } catch { return null; }
@@ -627,7 +641,8 @@ async function restoreWorldLogin() {
     if (mode === "cloud") {
         // Keep the welcome screen up until the server verifies this session.
         welcomeScreen.style.display = "flex";
-        const token = sessionStorage.getItem("essazlifeWorldCloudToken");
+        const token = sessionStorage.getItem("essazlifeWorldCloudToken") ||
+            localStorage.getItem("essazlifeWorldCloudToken");
         if (!token) {
             localStorage.setItem("essazlifeWorldLoggedIn", "false");
             welcomeBackMessage.textContent = "";
@@ -643,7 +658,7 @@ async function restoreWorldLogin() {
             if (!result.account || !result.account.username || !result.account.nickname) {
                 throw new Error("Invalid cloud profile");
             }
-            sessionStorage.setItem("essazlifeWorldCloudAccount", JSON.stringify(result.account));
+            saveWorldCloudSession(token, result.account);
             localStorage.setItem("essazlifeWorldLoggedIn", "true");
             showWelcomeBackMessage();
             welcomeScreen.style.display = "none";
@@ -716,15 +731,7 @@ loginForm.addEventListener("submit", async function (event) {
             throw new Error("Cloud login was incomplete.");
         }
 
-        sessionStorage.setItem(
-            "essazlifeWorldCloudToken",
-            result.token
-        );
-
-        sessionStorage.setItem(
-            "essazlifeWorldCloudAccount",
-            JSON.stringify(result.account)
-        );
+        saveWorldCloudSession(result.token, result.account);
 
         // Preserve any existing local account without displaying its profile.
         localStorage.setItem("essazlifeWorldLoginMode", "cloud");
@@ -1140,15 +1147,7 @@ cloudVerifyForm.addEventListener("submit", async function (event) {
         }
 
         // Keep the cloud session separate from local login.
-        sessionStorage.setItem(
-            "essazlifeWorldCloudToken",
-            result.token
-        );
-
-        sessionStorage.setItem(
-            "essazlifeWorldCloudAccount",
-            JSON.stringify(result.account)
-        );
+        saveWorldCloudSession(result.token, result.account);
         localStorage.setItem("essazlifeWorldLoginMode", "cloud");
         localStorage.setItem("essazlifeWorldLoggedIn", "true");
         showWelcomeBackMessage();
