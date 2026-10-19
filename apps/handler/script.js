@@ -10,29 +10,28 @@ const WORLD_ACCOUNT_KEY = "essazlifeWorldAccount";
 const WORLD_LOGIN_KEY = "essazlifeWorldLoggedIn";
 
 function getWorldAccount() {
+    if (localStorage.getItem(WORLD_LOGIN_KEY) !== "true") return null;
 
-    const isLoggedIn =
-        localStorage.getItem(
-            WORLD_LOGIN_KEY
-        ) === "true";
+    const mode = localStorage.getItem("essazlifeWorldLoginMode");
 
-    if (!isLoggedIn) {
-        return null;
+    if (mode === "cloud") {
+        // World has already verified this tab's cloud token with /me.
+        // Never substitute an unrelated legacy local account.
+        if (!sessionStorage.getItem("essazlifeWorldCloudToken")) return null;
+        try {
+            const account = JSON.parse(sessionStorage.getItem("essazlifeWorldCloudAccount"));
+            return account && typeof account.username === "string" &&
+                account.username.trim() && typeof account.nickname === "string"
+                ? account : null;
+        } catch (error) {
+            return null;
+        }
     }
 
-    const savedAccount =
-        localStorage.getItem(
-            WORLD_ACCOUNT_KEY
-        );
-
-    if (!savedAccount) {
-        return null;
-    }
-
+    if (mode !== "local" && mode !== null) return null;
     try {
-        return JSON.parse(
-            savedAccount
-        );
+        const account = JSON.parse(localStorage.getItem(WORLD_ACCOUNT_KEY));
+        return account && typeof account.username === "string" ? account : null;
     } catch (error) {
         return null;
     }
@@ -503,6 +502,39 @@ function saveAccounts(
             accounts
         )
     );
+}
+
+function getSafeHandlerCloudProfile() {
+
+    const user = getCurrentUser();
+
+    if (!user) {
+        return null;
+    }
+
+    return {
+        id: String(user.id),
+        nickname: user.nickname || "",
+        username: user.username || "",
+        genderIdentity: user.genderIdentity || "",
+        pronouns: user.pronouns || "",
+        ageGroup: user.ageGroup || "",
+        themeColor: user.themeColor || "#4fb5ae",
+       handlerCertified: user.handlerCertified === true,
+handlerCertificationDate: user.handlerCertificationDate || null,
+handlerCertificationTime: user.handlerCertificationTime || null,
+createdAt: user.createdAt || null
+    };
+}
+
+function getHandlerCloudData() {
+    return {
+        profile: getSafeHandlerCloudProfile(),
+        essas: getSavedEssas(),
+        care: getSavedCare(),
+        tricks: getSavedTricks(),
+        scores: getSavedScores()
+    };
 }
 
 
@@ -2600,13 +2632,17 @@ function backupHandlerData() {
             localStorage.key(i);
 
 
-        if (key) {
-
-            backup.localStorage[key] =
-                localStorage.getItem(
-                    key
-                );
-        }
+        if (
+    key &&
+    (
+        key === "essazLifeAccounts" ||
+        key === "essazLifeCurrentUser" ||
+        key.startsWith("essazLife_")
+    )
+) {
+    backup.localStorage[key] =
+        localStorage.getItem(key);
+}
     }
 
 
@@ -2840,21 +2876,29 @@ function confirmHandlerRestore() {
     }
 
 
-    localStorage.clear();
+    Object.keys(localStorage).forEach(function(key) {
+    if (
+        key === "essazLifeAccounts" ||
+        key === "essazLifeCurrentUser" ||
+        key.startsWith("essazLife_")
+    ) {
+        localStorage.removeItem(key);
+    }
+});
 
 
-    Object.keys(
-        backup.localStorage
-    ).forEach(
-        function(key) {
-
-            localStorage.setItem(
-                key,
-                backup.localStorage[key]
-            );
-        }
-    );
-
+  Object.keys(backup.localStorage).forEach(function(key) {
+    if (
+        key === "essazLifeAccounts" ||
+        key === "essazLifeCurrentUser" ||
+        key.startsWith("essazLife_")
+    ) {
+        localStorage.setItem(
+            key,
+            backup.localStorage[key]
+        );
+    }
+});
 
     window.pendingHandlerBackup =
         null;

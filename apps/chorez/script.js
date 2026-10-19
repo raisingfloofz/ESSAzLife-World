@@ -878,14 +878,15 @@ function updateMainChorezDateTime() {
         getDeviceDateTimeParts();
 
 
-    const date =
-        new Date(
-            currentClock.year,
-            currentClock.month,
-            currentClock.day,
-            currentClock.hour || 0,
-            currentClock.minute || 0
-        );
+    
+const date = new Date(
+    currentClock.year,
+    currentClock.month - 1,
+    currentClock.day,
+    currentClock.hour || 0,
+    currentClock.minute || 0
+);
+
 
 
     const dateText =
@@ -981,52 +982,45 @@ closeProfileMenuButton.addEventListener(
 );
 
 
+const WORLD_LOGIN_KEY = "essazlifeWorldLoggedIn";
+const WORLD_ACCOUNT_KEY = "essazlifeWorldAccount";
+
+function getWorldAccount() {
+    if (localStorage.getItem(WORLD_LOGIN_KEY) !== "true") return null;
+
+    const mode = localStorage.getItem("essazlifeWorldLoginMode");
+
+    if (mode === "cloud") {
+        // World has already verified this tab's cloud token with /me.
+        // Never substitute an unrelated legacy local account.
+        if (!sessionStorage.getItem("essazlifeWorldCloudToken")) return null;
+        try {
+            const account = JSON.parse(sessionStorage.getItem("essazlifeWorldCloudAccount"));
+            return account && typeof account.username === "string" &&
+                account.username.trim() && typeof account.nickname === "string"
+                ? account : null;
+        } catch (error) {
+            return null;
+        }
+    }
+
+    if (mode !== "local" && mode !== null) return null;
+    try {
+        const account = JSON.parse(localStorage.getItem(WORLD_ACCOUNT_KEY));
+        return account && typeof account.username === "string" ? account : null;
+    } catch (error) {
+        return null;
+    }
+}
+
 function initializeApp() {
 
-    const worldLoggedIn =
-        localStorage.getItem(
-            "essazlifeWorldLoggedIn"
-        ) === "true";
+    const worldAccount = getWorldAccount();
 
-
-    const savedWorldAccount =
-        localStorage.getItem(
-            "essazlifeWorldAccount"
-        );
-
-
-    // Chorez can only be opened through
-    // a logged-in ESSAzLife World account.
-    if (
-        !worldLoggedIn ||
-        !savedWorldAccount
-    ) {
-
-        window.location.href =
-            "../../index.html";
-
+    if (!worldAccount) {
+        window.location.href = "../../index.html";
         return;
     }
-
-
-    let worldAccount;
-
-
-    try {
-
-        worldAccount =
-            JSON.parse(
-                savedWorldAccount
-            );
-
-    } catch (error) {
-
-        window.location.href =
-            "../../index.html";
-
-        return;
-    }
-
 
     let profile =
         getChorezProfile();

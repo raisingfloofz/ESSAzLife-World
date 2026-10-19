@@ -6,29 +6,28 @@ const WORLD_ACCOUNT_KEY = "essazlifeWorldAccount";
 const WORLD_LOGIN_KEY = "essazlifeWorldLoggedIn";
 
 function getWorldAccount() {
+    if (localStorage.getItem(WORLD_LOGIN_KEY) !== "true") return null;
 
-    const isLoggedIn =
-        localStorage.getItem(
-            WORLD_LOGIN_KEY
-        ) === "true";
+    const mode = localStorage.getItem("essazlifeWorldLoginMode");
 
-    if (!isLoggedIn) {
-        return null;
+    if (mode === "cloud") {
+        // World has already verified this tab's cloud token with /me.
+        // Never substitute an unrelated legacy local account.
+        if (!sessionStorage.getItem("essazlifeWorldCloudToken")) return null;
+        try {
+            const account = JSON.parse(sessionStorage.getItem("essazlifeWorldCloudAccount"));
+            return account && typeof account.username === "string" &&
+                account.username.trim() && typeof account.nickname === "string"
+                ? account : null;
+        } catch (error) {
+            return null;
+        }
     }
 
-    const savedAccount =
-        localStorage.getItem(
-            WORLD_ACCOUNT_KEY
-        );
-
-    if (!savedAccount) {
-        return null;
-    }
-
+    if (mode !== "local" && mode !== null) return null;
     try {
-        return JSON.parse(
-            savedAccount
-        );
+        const account = JSON.parse(localStorage.getItem(WORLD_ACCOUNT_KEY));
+        return account && typeof account.username === "string" ? account : null;
     } catch (error) {
         return null;
     }
