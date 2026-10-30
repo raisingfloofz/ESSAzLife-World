@@ -10847,7 +10847,7 @@ function renderAnxietySupport() {
                     "🎥",
                     "Watch ESSA Training Videos",
                     "Watch ESSA training videos and spend some time learning with your ESSA.",
-                    "window.open('https://www.youtube.com/playlist?list=PLemizXmM3UrU', '_blank')"
+                    "window.open('https://youtube.com/playlist?list=PLQ3gErgkb3RI&si=Ufm3PXJ7iEY2cbuy', '_blank')"
                 )}
 
 
@@ -10855,15 +10855,15 @@ function renderAnxietySupport() {
                     "💚",
                     "Watch ESSA Care Tips",
                     "Watch videos about caring for and bonding with your ESSA.",
-                    "window.open('https://www.youtube.com/playlist?list=PLXU0FiWnm3rM', '_blank')"
+                    "window.open('https://youtube.com/playlist?list=PLTkRNTgOIk6M&si=m0P9ka9E1S4_wEyW', '_blank')"
                 )}
 
 
                 ${makeAnxietySupportCard(
-                    "🌳",
-                    "Watch ESSA Outing Videos",
-                    "Watch ESSAs head out on adventures and outings.",
-                    "window.open('https://www.youtube.com/playlist?list=PLd_LkzymW8Pc', '_blank')"
+                    "Distractions",
+                    "Watch A Show",
+                    "Watch No Bone Stays Buried, an LPS Series for ages 13+",
+                    "window.open('https://youtube.com/playlist?list=PLG4aLNAYwJ5k&si=89KHvEJkUscljAoi', '_blank')"
                 )} 
                 
 
