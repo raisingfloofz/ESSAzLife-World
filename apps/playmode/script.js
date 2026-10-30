@@ -881,29 +881,15 @@ function connectWorldAccountToPlayMode() {
 
 
 function getCurrentUser() {
-
-    const id =
-        getCurrentUserId();
+    const id = getCurrentUserId();
 
     if (!id) {
         return null;
     }
 
-    return (
-        getAccounts().find(
-            function(account) {
-
-                return (
-                    String(
-                        account.id
-                    ) ===
-                    String(
-                        id
-                    )
-                );
-            }
-        ) || null
-    );
+    return getAccounts().find(function(account) {
+        return String(account.id) === String(id);
+    }) || null;
 }
 
 
@@ -1343,6 +1329,7 @@ function getPlayEssaStats(
 }
 
 
+
 function getSavedPlayData() {
 
     const key =
@@ -1350,23 +1337,23 @@ function getSavedPlayData() {
             "play"
         );
 
-
     const defaults =
         getDefaultPlayData();
 
-
     if (!key) {
-
-        return defaults;
+        return {
+            ...defaults,
+            ownedVoidyToys: Array.isArray(defaults.ownedVoidyToys)
+                ? defaults.ownedVoidyToys
+                : []
+        };
     }
-
 
     const saved =
         safeJSON(
             key,
             defaults
         );
-
 
     const playData = {
 
@@ -1394,18 +1381,14 @@ function getSavedPlayData() {
             Array.isArray(
                 saved.playroomCoins
             )
-
                 ? saved.playroomCoins
-
                 : [],
 
         unlockedEssaIds:
             Array.isArray(
                 saved.unlockedEssaIds
             )
-
                 ? saved.unlockedEssaIds
-
                 : [],
 
         selectedEssaId:
@@ -1423,26 +1406,32 @@ function getSavedPlayData() {
             ),
 
         essaStats:
-    (
-        saved.essaStats &&
-        typeof saved.essaStats ===
-            "object"
-    )
+            (
+                saved.essaStats &&
+                typeof saved.essaStats === "object"
+            )
+                ? saved.essaStats
+                : {},
 
-        ? saved.essaStats
+        ownedVoidyPets:
+            Array.isArray(
+                saved.ownedVoidyPets
+            )
+                ? saved.ownedVoidyPets
+                : [],
 
-        : {},
+        /* =====================================
+           PURCHASED VOIDY STORE TOYS
+        ===================================== */
 
-ownedVoidyPets:
-    Array.isArray(
-        saved.ownedVoidyPets
-    )
+        ownedVoidyToys:
+            Array.isArray(
+                saved.ownedVoidyToys
+            )
+                ? saved.ownedVoidyToys
+                : []
 
-        ? saved.ownedVoidyPets
-
-        : []
     };
-
 
     playData.unlockedEssaIds.forEach(
         function(essaId) {
@@ -1455,14 +1444,13 @@ ownedVoidyPets:
         }
     );
 
-
     savePlayData(
         playData
     );
 
-
     return playData;
 }
+
 
 
 function savePlayData(
@@ -1486,6 +1474,192 @@ function savePlayData(
         JSON.stringify(
             playData
         )
+    );
+}
+
+
+/* =========================================================
+   PASSWORD HELPERS
+========================================================= */
+
+function bytesToHex(
+    bytes
+) {
+
+    return Array.from(
+        bytes
+    )
+        .map(
+            function(byte) {
+
+                return byte
+                    .toString(
+                        16
+                    )
+                    .padStart(
+                        2,
+                        "0"
+                    );
+            }
+        )
+        .join("");
+}
+
+
+function hexToBytes(
+    hex
+) {
+
+    const bytes =
+        new Uint8Array(
+            hex.length /
+            2
+        );
+
+
+    for (
+        let i = 0;
+        i < bytes.length;
+        i++
+    ) {
+
+        bytes[i] =
+            parseInt(
+                hex.substr(
+                    i * 2,
+                    2
+                ),
+                16
+            );
+    }
+
+
+    return bytes;
+}
+
+
+async function hashPassword(
+    password,
+    existingSalt = null
+) {
+
+    const encoder =
+        new TextEncoder();
+
+
+    let salt;
+
+
+    if (existingSalt) {
+
+        salt =
+            hexToBytes(
+                existingSalt
+            );
+
+    } else {
+
+        salt =
+            crypto.getRandomValues(
+                new Uint8Array(
+                    16
+                )
+            );
+    }
+
+
+    const passwordKey =
+        await crypto.subtle.importKey(
+
+            "raw",
+
+            encoder.encode(
+                password
+            ),
+
+            {
+                name:
+                    "PBKDF2"
+            },
+
+            false,
+
+            [
+                "deriveBits"
+            ]
+
+        );
+
+
+    const derivedBits =
+        await crypto.subtle.deriveBits(
+
+            {
+
+                name:
+                    "PBKDF2",
+
+                salt:
+                    salt,
+
+                iterations:
+                    100000,
+
+                hash:
+                    "SHA-256"
+
+            },
+
+            passwordKey,
+
+            256
+
+        );
+
+
+    return {
+
+        salt:
+            bytesToHex(
+                salt
+            ),
+
+        hash:
+            bytesToHex(
+                new Uint8Array(
+                    derivedBits
+                )
+            )
+
+    };
+}
+
+
+async function verifyPassword(
+    password,
+    account
+) {
+
+    if (
+        !account ||
+        !account.passwordSalt ||
+        !account.passwordHash
+    ) {
+
+        return false;
+    }
+
+
+    const result =
+        await hashPassword(
+            password,
+            account.passwordSalt
+        );
+
+
+    return (
+        result.hash ===
+        account.passwordHash
     );
 }
 
@@ -1585,6 +1759,7 @@ function setupHeaderButtons() {
             };
     }
 }
+
 
 function resetPageTheme() {
 
@@ -2112,16 +2287,6 @@ function showHelp() {
                     flex-wrap:wrap;
                 "
             >
-
-            <strong>Note:</strong> Tutorial is in reference to
-                        the main PlayMode App,
-                        <strong>not</strong> the version you've accessed
-                        through ESSAzLife World. Watching can help you
-                        understand the main layout, but not all features
-                        are available in this version.
-
-
-
 
                 <button
                     type="button"
@@ -3143,6 +3308,119 @@ function activateEmergencyBypass() {
     );
 }
 
+
+function showGuestModeWarning() {
+    document.getElementById("guest-mode-warning")?.remove();
+
+    const popup = document.createElement("div");
+    popup.id = "guest-mode-warning";
+
+    popup.style.cssText = `
+        position:fixed;
+        inset:0;
+        background:rgba(0,0,0,0.65);
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        z-index:99999;
+        padding:20px;
+        box-sizing:border-box;
+    `;
+
+    popup.innerHTML = `
+        <div style="
+            background:white;
+            color:#263238;
+            border-radius:22px;
+            padding:28px;
+            width:100%;
+            max-width:430px;
+            text-align:center;
+            box-shadow:0 10px 35px rgba(0,0,0,0.2);
+            box-sizing:border-box;
+        ">
+            <h2 style="margin-top:0;">
+                👤 Continue as Guest?
+            </h2>
+
+            <p style="line-height:1.7;">
+                That's okay! Just remember that your progress
+                is saved on this device.
+            </p>
+
+            <p style="line-height:1.7;">
+                Avoid clearing your browser's site data,
+                and remember to grab your backup file
+                from your profile!
+            </p>
+
+            <div style="
+                display:flex;
+                justify-content:center;
+                gap:12px;
+                margin-top:24px;
+                flex-wrap:wrap;
+            ">
+                <button
+                    type="button"
+                    id="guest-mode-back"
+                    style="
+                        padding:12px 22px;
+                        border:1px solid #cccccc;
+                        border-radius:12px;
+                        background:#eeeeee;
+                        color:#333;
+                        font-weight:bold;
+                        cursor:pointer;
+                    "
+                >
+                    ← Back
+                </button>
+
+                <button
+                    type="button"
+                    id="guest-mode-continue"
+                    style="
+                        padding:12px 22px;
+                        border:none;
+                        border-radius:12px;
+                        background:#4fb5ae;
+                        color:white;
+                        font-weight:bold;
+                        cursor:pointer;
+                    "
+                >
+                    Continue as Guest
+                </button>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(popup);
+
+    popup.querySelector("#guest-mode-back")
+        .addEventListener("click", () => popup.remove());
+
+   
+popup.querySelector("#guest-mode-continue")
+    .addEventListener("click", () => {
+
+        // Close the guest warning.
+        popup.remove();
+
+        // Start or resume the separate guest session.
+        setCurrentUserId("playmode_guest");
+
+        // Show the normal logged-in interface.
+        showHeaderButtons(true);
+
+        // Launch the SAME PlayMode as registered players.
+        renderPlayTab();
+    });
+
+}
+
+
 /* =========================================================
    AUTH HOME
 ========================================================= */
@@ -3246,13 +3524,1970 @@ function renderAuthHome() {
                     Log In
                 </button>
 
+                
+<button
+    type="button"
+    onclick="showGuestModeWarning()"
+    style="
+        padding:12px 22px;
+        border:1px solid #999999;
+        border-radius:12px;
+        background:#f3f3f3;
+        color:#333333;
+        cursor:pointer;
+        font-weight:bold;
+        font-size:14px;
+    "
+>
+    👤 Continue as Guest
+</button>
+
+
             </div>
 
         </div>
 
     `;
 }
+/* =========================================================
+   CREATE ACCOUNT
+========================================================= */
 
+/* =========================================================
+   CREATE ACCOUNT
+========================================================= */
+
+function showCreateAccountForm() {
+
+    resetPageTheme();
+
+    showHeaderButtons(
+        false
+    );
+
+
+    const months = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+    ];
+
+
+    let monthOptions =
+        `<option value="">Choose Month</option>`;
+
+
+    months.forEach(
+        function(month, index) {
+
+            monthOptions += `
+                <option value="${index + 1}">
+                    ${month}
+                </option>
+            `;
+        }
+    );
+
+
+    let dayOptions =
+        `<option value="">Choose Day</option>`;
+
+
+    for (
+        let day = 1;
+        day <= 31;
+        day++
+    ) {
+
+        dayOptions += `
+            <option value="${day}">
+                ${day}
+            </option>
+        `;
+    }
+
+
+    document.querySelector(
+        "main"
+    ).innerHTML = `
+
+        <div
+            style="
+                max-width:650px;
+                margin:50px auto;
+                padding:30px;
+                background:white;
+                border-radius:24px;
+                box-shadow:0 8px 30px rgba(0,0,0,.08);
+            "
+        >
+
+            <button
+                onclick="
+                    renderAuthHome()
+                "
+
+                style="
+                    margin-bottom:20px;
+                    border:none;
+                    background:none;
+                    color:#3b9f99;
+                    cursor:pointer;
+                    font-weight:bold;
+                "
+            >
+                ← Back
+            </button>
+
+
+            <h1>
+                Create Your ESSAzLife Account
+            </h1>
+
+
+            <p
+                style="
+                    color:#68777b;
+                    line-height:1.5;
+                "
+            >
+                Create a username and password
+                for your local ESSAzLife account.
+                (As of October 9, 2026, ESSAzLife PlayMode 
+                no longer requires the entry of an email)
+            </p>
+
+
+            <label>
+                Username
+            </label>
+
+            <input
+                id="create-username"
+                type="text"
+                autocomplete="username"
+
+                style="
+                    width:100%;
+                    box-sizing:border-box;
+                    padding:12px;
+                    margin:7px 0 18px 0;
+                    border:1px solid #ccd7da;
+                    border-radius:10px;
+                "
+            >
+
+
+            <label>
+                Password
+            </label>
+
+            <input
+                id="create-password"
+                type="password"
+                autocomplete="new-password"
+
+                style="
+                    width:100%;
+                    box-sizing:border-box;
+                    padding:12px;
+                    margin:7px 0 18px 0;
+                    border:1px solid #ccd7da;
+                    border-radius:10px;
+                "
+            >
+
+
+            <label>
+                Confirm Password
+            </label>
+
+            <input
+                id="create-confirm-password"
+                type="password"
+                autocomplete="new-password"
+
+                style="
+                    width:100%;
+                    box-sizing:border-box;
+                    padding:12px;
+                    margin:7px 0 28px 0;
+                    border:1px solid #ccd7da;
+                    border-radius:10px;
+                "
+            >
+
+
+            <div
+                style="
+                    padding:20px;
+                    margin-bottom:24px;
+                    background:#f5fbfa;
+                    border:1px solid #cce9e6;
+                    border-radius:16px;
+                "
+            >
+
+                <h2
+                    style="
+                        margin-top:0;
+                        font-size:20px;
+                    "
+                >
+                    🔐 Account Recovery
+                </h2>
+
+
+                <p
+                    style="
+                        color:#68777b;
+                        font-size:13px;
+                        line-height:1.5;
+                    "
+                >
+                    These questions will be used if
+                    you ever forget your password.
+                </p>
+
+
+                <label>
+                    What is your birthday?
+                </label>
+
+
+                <div
+                    style="
+                        display:grid;
+                        grid-template-columns:1fr 1fr;
+                        gap:10px;
+                        margin:7px 0 18px 0;
+                    "
+                >
+
+                    <select
+                        id="create-birth-month"
+
+                        style="
+                            width:100%;
+                            padding:12px;
+                            border:1px solid #ccd7da;
+                            border-radius:10px;
+                            background:white;
+                        "
+                    >
+                        ${monthOptions}
+                    </select>
+
+
+                    <select
+                        id="create-birth-day"
+
+                        style="
+                            width:100%;
+                            padding:12px;
+                            border:1px solid #ccd7da;
+                            border-radius:10px;
+                            background:white;
+                        "
+                    >
+                        ${dayOptions}
+                    </select>
+
+                </div>
+
+
+                <label>
+                    What is your middle name?
+                </label>
+
+                <input
+                    id="create-middle-name"
+                    type="text"
+                    autocomplete="off"
+                    placeholder="Enter NONE if you do not have one"
+
+                    style="
+                        width:100%;
+                        box-sizing:border-box;
+                        padding:12px;
+                        margin:7px 0 18px 0;
+                        border:1px solid #ccd7da;
+                        border-radius:10px;
+                    "
+                >
+
+
+                <label>
+                    What is your last name?
+                </label>
+
+                <input
+                    id="create-last-name"
+                    type="text"
+                    autocomplete="off"
+
+                    style="
+                        width:100%;
+                        box-sizing:border-box;
+                        padding:12px;
+                        margin:7px 0 0 0;
+                        border:1px solid #ccd7da;
+                        border-radius:10px;
+                    "
+                >
+
+            </div>
+
+
+            <button
+                onclick="
+                    createAccount()
+                "
+
+                style="
+                    width:100%;
+                    padding:13px;
+                    border:none;
+                    border-radius:12px;
+                    background:#4fb5ae;
+                    color:white;
+                    font-weight:bold;
+                    cursor:pointer;
+                "
+            >
+                Create Account
+            </button>
+
+        </div>
+
+    `;
+}
+
+
+async function createAccount() {
+
+    const username =
+        document
+            .getElementById(
+                "create-username"
+            )
+            ?.value
+            .trim();
+
+
+    const password =
+        document
+            .getElementById(
+                "create-password"
+            )
+            ?.value;
+
+
+    const confirmPassword =
+        document
+            .getElementById(
+                "create-confirm-password"
+            )
+            ?.value;
+
+
+    const birthMonth =
+        document
+            .getElementById(
+                "create-birth-month"
+            )
+            ?.value;
+
+
+    const birthDay =
+        document
+            .getElementById(
+                "create-birth-day"
+            )
+            ?.value;
+
+
+    const middleName =
+        document
+            .getElementById(
+                "create-middle-name"
+            )
+            ?.value
+            .trim();
+
+
+    const lastName =
+        document
+            .getElementById(
+                "create-last-name"
+            )
+            ?.value
+            .trim();
+
+
+    if (
+        !username ||
+        !password ||
+        !confirmPassword ||
+        !birthMonth ||
+        !birthDay ||
+        !middleName ||
+        !lastName
+    ) {
+
+        alert(
+            "Please fill out every field."
+        );
+
+        return;
+    }
+
+    if (
+        username.length <
+        3
+    ) {
+
+        alert(
+            "Your username must be at least 3 characters long."
+        );
+
+        return;
+    }
+
+
+    if (
+        password.length <
+        6
+    ) {
+
+        alert(
+            "Your password must be at least 6 characters long."
+        );
+
+        return;
+    }
+
+
+    if (
+        password !==
+        confirmPassword
+    ) {
+
+        alert(
+            "Your passwords do not match."
+        );
+
+        return;
+    }
+
+
+    const accounts =
+        getAccounts();
+
+
+    const usernameExists =
+        accounts.some(
+            function(account) {
+
+                return (
+                    String(
+                        account.username
+                    )
+                        .toLowerCase() ===
+                    username.toLowerCase()
+                );
+            }
+        );
+
+
+    if (usernameExists) {
+
+        alert(
+            "That username is already being used."
+        );
+
+        return;
+    }
+
+
+    try {
+
+        const passwordData =
+            await hashPassword(
+                password
+            );
+
+
+        const account = {
+
+            id:
+                makeId(
+                    "user"
+                ),
+
+            username:
+                username,
+
+            nickname:
+                username,
+
+            genderIdentity:
+                "",
+
+            ageGroup:
+                "",
+
+            themeColor:
+                "#4fb5ae",
+
+            passwordSalt:
+                passwordData.salt,
+
+            passwordHash:
+                passwordData.hash,
+
+
+            recoveryBirthMonth:
+                Number(
+                    birthMonth
+                ),
+
+            recoveryBirthDay:
+                Number(
+                    birthDay
+                ),
+
+            recoveryMiddleName:
+                middleName,
+
+            recoveryLastName:
+                lastName,
+
+
+            createdAt:
+                new Date()
+                    .toISOString()
+
+        };
+
+
+        accounts.push(
+            account
+        );
+
+
+        saveAccounts(
+            accounts
+        );
+
+
+        setCurrentUserId(
+            account.id
+        );
+
+
+        pendingWelcomeCredentials = {
+
+            username:
+                username,
+
+            password:
+                password,
+
+            birthMonth:
+                Number(
+                    birthMonth
+                ),
+
+            birthDay:
+                Number(
+                    birthDay
+                ),
+
+            middleName:
+                middleName,
+
+            lastName:
+                lastName
+
+        };
+
+
+        showHeaderButtons(
+            true
+        );
+
+
+        renderOneTimeWelcome();
+
+    } catch (error) {
+
+        console.error(
+            error
+        );
+
+
+        alert(
+            "ESSAzLife could not create the account. Please try again."
+        );
+    }
+}
+
+
+/* =========================================================
+   ONE-TIME WELCOME
+========================================================= */
+
+function renderOneTimeWelcome() {
+
+    const credentials =
+        pendingWelcomeCredentials;
+
+
+    if (!credentials) {
+
+    renderPlayTab();
+
+    return;
+}
+
+    resetPageTheme();
+
+
+    const monthNames = [
+        "",
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+    ];
+
+
+    const birthdayText =
+        monthNames[
+            Number(
+                credentials.birthMonth
+            )
+        ] +
+        " " +
+        Number(
+            credentials.birthDay
+        );
+
+
+    document.querySelector(
+        "main"
+    ).innerHTML = `
+
+        <div
+            style="
+                max-width:750px;
+                margin:40px auto;
+                padding:30px;
+                background:white;
+                border-radius:24px;
+                box-shadow:0 8px 30px rgba(0,0,0,.08);
+                line-height:1.6;
+            "
+        >
+
+            <h1>
+                Welcome to ESSAzLife Play Mode! 🐮💚
+            </h1>
+
+
+            <p>
+                Thank you for creating an account with Play Mode!
+            </p>
+
+
+            <p>
+                PlayMode is designed to give members of the Emotional Support 
+                Stuffed Animal Community a fun way to interact with their ESSAs.
+            </p>
+
+
+            <p>
+                New features are added frequently! Make sure to write
+                your information in a safe place, and don’t share your
+                personal information with anyone except a trusted adult!
+            </p>
+
+
+            <div
+                style="
+                    margin:24px 0;
+                    padding:20px;
+                    background:#eef9f7;
+                    border:1px solid #cfe9e5;
+                    border-radius:16px;
+                "
+            >
+
+                <h2
+                    style="
+                        margin-top:0;
+                    "
+                >
+                    🔐 Save This Information
+                </h2>
+
+
+                <p>
+                    <strong>Username:</strong><br>
+
+                    ${escapeHTML(
+                        credentials.username
+                    )}
+                </p>
+
+
+                <p>
+                    <strong>Password:</strong><br>
+
+                    ${escapeHTML(
+                        credentials.password
+                    )}
+                </p>
+
+
+                <hr
+                    style="
+                        border:none;
+                        border-top:1px solid #cfe9e5;
+                        margin:22px 0;
+                    "
+                >
+
+
+                <h3>
+                    Account Recovery Questions
+                </h3>
+
+
+                <p>
+                    <strong>
+                        What is your birthday?
+                    </strong>
+                    <br>
+
+                    ${escapeHTML(
+                        birthdayText
+                    )}
+                </p>
+
+
+                <p>
+                    <strong>
+                        What is your middle name?
+                    </strong>
+                    <br>
+
+                    ${escapeHTML(
+                        credentials.middleName
+                    )}
+                </p>
+
+
+                <p>
+                    <strong>
+                        What is your last name?
+                    </strong>
+                    <br>
+
+                    ${escapeHTML(
+                        credentials.lastName
+                    )}
+                </p>
+
+            </div>
+
+
+            <p>
+                If you forget your password, you will need
+                your saved username and account recovery answers
+                before you can create a new password.
+            </p>
+
+
+            <p>
+                I can’t thank you all enough for your continued feedback!
+            </p>
+
+
+            <p>
+                Thank you, and remember that if you need help
+                you can always reach out!
+            </p>
+
+
+            <p>
+                <strong>Bia Contino</strong><br>
+
+                Snapchat:
+                moocowsmama
+                <br>
+
+                Youtube:
+
+                <a
+                    href="https://www.youtube.com/@raisingfloofz"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    www.youtube.com/@raisingfloofz
+                </a>
+
+                <br>
+
+                Gmail:
+
+                <a
+                    href="mailto:raisingrebornz@gmail.com"
+                >
+                    raisingrebornz@gmail.com
+                </a>
+
+                <br>
+
+                (Raising Floofz)
+            </p>
+
+
+            <button
+                onclick="
+                    finishOneTimeWelcome()
+                "
+
+                style="
+                    width:100%;
+                    margin-top:15px;
+                    padding:13px;
+                    border:none;
+                    border-radius:12px;
+                    background:#4fb5ae;
+                    color:white;
+                    cursor:pointer;
+                    font-weight:bold;
+                "
+            >
+                Continue to ESSAzLife
+            </button>
+
+        </div>
+
+    `;
+}
+
+
+function finishOneTimeWelcome() {
+
+    pendingWelcomeCredentials =
+        null;
+
+
+    renderPlayTab();
+}
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+function showLoginForm() {
+
+    resetPageTheme();
+
+    showHeaderButtons(
+        false
+    );
+
+
+    document.querySelector(
+        "main"
+    ).innerHTML = `
+
+        <div
+            style="
+                max-width:650px;
+                margin:50px auto;
+                padding:30px;
+                background:white;
+                border-radius:24px;
+                box-shadow:0 8px 30px rgba(0,0,0,.08);
+            "
+        >
+
+            <button
+                onclick="
+                    renderAuthHome()
+                "
+
+                style="
+                    margin-bottom:20px;
+                    border:none;
+                    background:none;
+                    color:#3b9f99;
+                    cursor:pointer;
+                    font-weight:bold;
+                "
+            >
+                ← Back
+            </button>
+
+
+            <h1>
+                Log In
+            </h1>
+
+
+            <label>
+                Username
+            </label>
+
+            <input
+                id="login-identity"
+                type="text"
+                autocomplete="username"
+
+                style="
+                    width:100%;
+                    box-sizing:border-box;
+                    padding:12px;
+                    margin:7px 0 18px 0;
+                    border:1px solid #ccd7da;
+                    border-radius:10px;
+                "
+            >
+
+
+            <label>
+                Password
+            </label>
+
+            <input
+                id="login-password"
+                type="password"
+                autocomplete="current-password"
+
+                style="
+                    width:100%;
+                    box-sizing:border-box;
+                    padding:12px;
+                    margin:7px 0 18px 0;
+                    border:1px solid #ccd7da;
+                    border-radius:10px;
+                "
+            >
+
+
+            <button
+                onclick="
+                    loginUser()
+                "
+
+                style="
+                    width:100%;
+                    padding:13px;
+                    border:none;
+                    border-radius:12px;
+                    background:#4fb5ae;
+                    color:white;
+                    font-weight:bold;
+                    cursor:pointer;
+                "
+            >
+                Log In
+            </button>
+
+
+            <button
+                onclick="
+                    showForgotPasswordForm()
+                "
+
+                style="
+                    width:100%;
+                    margin-top:12px;
+                    padding:10px;
+                    border:none;
+                    background:none;
+                    color:#3b9f99;
+                    cursor:pointer;
+                    font-weight:bold;
+                "
+            >
+                Forgot Password?
+            </button>
+
+        </div>
+
+    `;
+}
+
+
+async function loginUser() {
+
+    const identity =
+        document
+            .getElementById(
+                "login-identity"
+            )
+            ?.value
+            .trim()
+            .toLowerCase();
+
+
+    const password =
+        document
+            .getElementById(
+                "login-password"
+            )
+            ?.value;
+
+
+    if (
+        !identity ||
+        !password
+    ) {
+
+        alert(
+            "Please enter your username and password."
+        );
+
+        return;
+    }
+
+
+  const account =
+    getAccounts().find(
+        function(item) {
+
+            const username =
+                String(
+                    item.username || ""
+                )
+                    .trim()
+                    .toLowerCase();
+
+            return username === identity;
+        }
+    );
+
+
+if (!account) {
+
+    alert(
+        "No ESSAzLife account was found with that username."
+    );
+
+    return;
+}
+
+
+    try {
+
+        const correctPassword =
+            await verifyPassword(
+                password,
+                account
+            );
+
+
+        if (!correctPassword) {
+
+            alert(
+                "Incorrect password."
+            );
+
+            return;
+        }
+
+
+        setCurrentUserId(
+            account.id
+        );
+
+
+       showHeaderButtons(
+    true
+);
+
+renderPlayTab();
+
+    } catch (error) {
+
+        console.error(
+            error
+        );
+
+
+        alert(
+            "ESSAzLife could not log you in. Please try again."
+        );
+    }
+}
+
+
+/* =========================================================
+   FORGOT PASSWORD
+========================================================= */
+
+function showForgotPasswordForm() {
+
+    resetPageTheme();
+
+    showHeaderButtons(
+        false
+    );
+
+
+    document.querySelector(
+        "main"
+    ).innerHTML = `
+
+        <div
+            style="
+                max-width:650px;
+                margin:50px auto;
+                padding:30px;
+                background:white;
+                border-radius:24px;
+                box-shadow:0 8px 30px rgba(0,0,0,.08);
+            "
+        >
+
+            <button
+                onclick="
+                    showLoginForm()
+                "
+
+                style="
+                    margin-bottom:20px;
+                    border:none;
+                    background:none;
+                    color:#3b9f99;
+                    cursor:pointer;
+                    font-weight:bold;
+                "
+            >
+                ← Back to Login
+            </button>
+
+
+            <h1>
+                Forgot Password
+            </h1>
+
+
+            <p
+                style="
+                    color:#68777b;
+                    line-height:1.5;
+                "
+            >
+                Enter the username saved to your ESSAzLife account.
+            </p>
+
+
+            <label>
+                Username
+            </label>
+
+            <input
+               id="forgot-username"
+type="text"
+autocomplete="username"
+
+                style="
+                    width:100%;
+                    box-sizing:border-box;
+                    padding:12px;
+                    margin:7px 0 18px 0;
+                    border:1px solid #ccd7da;
+                    border-radius:10px;
+                "
+            >
+
+
+            <button
+                onclick="
+                    findPasswordResetAccount()
+                "
+
+                style="
+                    width:100%;
+                    padding:13px;
+                    border:none;
+                    border-radius:12px;
+                    background:#4fb5ae;
+                    color:white;
+                    cursor:pointer;
+                    font-weight:bold;
+                "
+            >
+                Continue
+            </button>
+
+
+            <p
+                style="
+                    margin-top:18px;
+                    font-size:13px;
+                    color:#879397;
+                    line-height:1.5;
+                "
+            >
+                Password recovery happens on this device using your saved recovery answers.
+            </p>
+
+        </div>
+
+    `;
+}
+
+
+function findPasswordResetAccount() {
+
+    const username = document
+        .getElementById("forgot-username")
+        ?.value
+        .trim()
+        .toLowerCase();
+
+    if (!username) {
+        alert("Please enter your username.");
+        return;
+    }
+
+    const account = getAccounts().find(function(item) {
+        return String(item.username || "")
+            .trim()
+            .toLowerCase() === username;
+    });
+
+    if (!account) {
+        alert("No ESSAzLife PlayMode account was found with that username.");
+        return;
+    }
+
+    if (
+        !account.recoveryBirthMonth ||
+        !account.recoveryBirthDay ||
+        !account.recoveryMiddleName ||
+        !account.recoveryLastName
+    ) {
+        alert("This account does not have account recovery answers set up yet.");
+        return;
+    }
+
+    showPasswordRecoveryQuestions(account.id);
+}
+
+/* =========================================================
+   PASSWORD RECOVERY QUESTIONS
+========================================================= */
+
+function showPasswordRecoveryQuestions(
+    accountId
+) {
+
+    const account =
+        getAccounts().find(
+            function(item) {
+
+                return (
+                    String(
+                        item.id
+                    ) ===
+                    String(
+                        accountId
+                    )
+                );
+            }
+        );
+
+
+    if (!account) {
+
+        showForgotPasswordForm();
+
+        return;
+    }
+
+
+    const months = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+    ];
+
+
+    let monthOptions =
+        `<option value="">Choose Month</option>`;
+
+
+    months.forEach(
+        function(month, index) {
+
+            monthOptions += `
+
+                <option value="${index + 1}">
+                    ${month}
+                </option>
+
+            `;
+        }
+    );
+
+
+    let dayOptions =
+        `<option value="">Choose Day</option>`;
+
+
+    for (
+        let day = 1;
+        day <= 31;
+        day++
+    ) {
+
+        dayOptions += `
+
+            <option value="${day}">
+                ${day}
+            </option>
+
+        `;
+    }
+
+
+    document.querySelector(
+        "main"
+    ).innerHTML = `
+
+        <div
+            style="
+                max-width:650px;
+                margin:50px auto;
+                padding:30px;
+                background:white;
+                border-radius:24px;
+                box-shadow:0 8px 30px rgba(0,0,0,.08);
+            "
+        >
+
+            <button
+                onclick="
+                    showForgotPasswordForm()
+                "
+
+                style="
+                    margin-bottom:20px;
+                    border:none;
+                    background:none;
+                    color:#3b9f99;
+                    cursor:pointer;
+                    font-weight:bold;
+                "
+            >
+                ← Back
+            </button>
+
+
+            <h1>
+                🔐 Account Recovery
+            </h1>
+
+
+            <p
+                style="
+                    color:#68777b;
+                    line-height:1.5;
+                "
+            >
+                Answer the recovery questions
+                for this account before resetting
+                your password.
+            </p>
+
+
+           <p
+    style="
+        padding:12px;
+        background:#eef9f7;
+        border-radius:12px;
+    "
+>
+    <strong>
+        Account:
+    </strong>
+
+    ${escapeHTML(
+        account.username
+    )}
+</p>
+            <label>
+                What is your birthday?
+            </label>
+
+
+            <div
+                style="
+                    display:grid;
+                    grid-template-columns:1fr 1fr;
+                    gap:10px;
+                    margin:7px 0 18px 0;
+                "
+            >
+
+                <select
+                    id="recovery-birth-month"
+
+                    style="
+                        width:100%;
+                        padding:12px;
+                        border:1px solid #ccd7da;
+                        border-radius:10px;
+                        background:white;
+                    "
+                >
+                    ${monthOptions}
+                </select>
+
+
+                <select
+                    id="recovery-birth-day"
+
+                    style="
+                        width:100%;
+                        padding:12px;
+                        border:1px solid #ccd7da;
+                        border-radius:10px;
+                        background:white;
+                    "
+                >
+                    ${dayOptions}
+                </select>
+
+            </div>
+
+
+            <label>
+                What is your middle name?
+            </label>
+
+
+            <input
+                id="recovery-middle-name"
+
+                type="text"
+
+                autocomplete="off"
+
+                style="
+                    width:100%;
+                    box-sizing:border-box;
+                    padding:12px;
+                    margin:7px 0 18px 0;
+                    border:1px solid #ccd7da;
+                    border-radius:10px;
+                "
+            >
+
+
+            <label>
+                What is your last name?
+            </label>
+
+
+            <input
+                id="recovery-last-name"
+
+                type="text"
+
+                autocomplete="off"
+
+                style="
+                    width:100%;
+                    box-sizing:border-box;
+                    padding:12px;
+                    margin:7px 0 20px 0;
+                    border:1px solid #ccd7da;
+                    border-radius:10px;
+                "
+            >
+
+
+            <button
+                onclick="
+                    verifyPasswordRecoveryAnswers(
+                        '${account.id}'
+                    )
+                "
+
+                style="
+                    width:100%;
+                    padding:13px;
+                    border:none;
+                    border-radius:12px;
+                    background:#4fb5ae;
+                    color:white;
+                    cursor:pointer;
+                    font-weight:bold;
+                "
+            >
+                Verify Answers
+            </button>
+
+        </div>
+
+    `;
+}
+
+/* =========================================================
+   VERIFY PASSWORD RECOVERY ANSWERS
+========================================================= */
+
+function verifyPasswordRecoveryAnswers(
+    accountId
+) {
+
+    const account =
+        getAccounts().find(
+            function(item) {
+
+                return (
+                    String(
+                        item.id
+                    ) ===
+                    String(
+                        accountId
+                    )
+                );
+            }
+        );
+
+
+    if (!account) {
+
+        alert(
+            "That account could not be found."
+        );
+
+        showForgotPasswordForm();
+
+        return;
+    }
+
+
+    const birthMonth =
+        Number(
+            document
+                .getElementById(
+                    "recovery-birth-month"
+                )
+                ?.value
+        );
+
+
+    const birthDay =
+        Number(
+            document
+                .getElementById(
+                    "recovery-birth-day"
+                )
+                ?.value
+        );
+
+
+    const middleName =
+        document
+            .getElementById(
+                "recovery-middle-name"
+            )
+            ?.value
+            .trim()
+            .toLowerCase();
+
+
+    const lastName =
+        document
+            .getElementById(
+                "recovery-last-name"
+            )
+            ?.value
+            .trim()
+            .toLowerCase();
+
+
+    if (
+        !birthMonth ||
+        !birthDay ||
+        !middleName ||
+        !lastName
+    ) {
+
+        alert(
+            "Please answer all three recovery questions."
+        );
+
+        return;
+    }
+
+
+    const savedMiddleName =
+        String(
+            account.recoveryMiddleName ||
+            ""
+        )
+            .trim()
+            .toLowerCase();
+
+
+    const savedLastName =
+        String(
+            account.recoveryLastName ||
+            ""
+        )
+            .trim()
+            .toLowerCase();
+
+
+    const birthdayMatches =
+        birthMonth ===
+            Number(
+                account.recoveryBirthMonth
+            ) &&
+
+        birthDay ===
+            Number(
+                account.recoveryBirthDay
+            );
+
+
+    const middleNameMatches =
+        middleName ===
+        savedMiddleName;
+
+
+    const lastNameMatches =
+        lastName ===
+        savedLastName;
+
+
+    if (
+        !birthdayMatches ||
+        !middleNameMatches ||
+        !lastNameMatches
+    ) {
+
+        alert(
+            "One or more recovery answers are incorrect."
+        );
+
+        return;
+    }
+
+
+    showLocalPasswordReset(
+        account.id
+    );
+}
+
+function showLocalPasswordReset(
+    accountId
+) {
+
+    const account =
+        getAccounts().find(
+            function(item) {
+
+                return (
+                    String(
+                        item.id
+                    ) ===
+                    String(
+                        accountId
+                    )
+                );
+            }
+        );
+
+
+    if (!account) {
+
+        showForgotPasswordForm();
+
+        return;
+    }
+
+
+    document.querySelector(
+        "main"
+    ).innerHTML = `
+
+        <div
+            style="
+                max-width:650px;
+                margin:50px auto;
+                padding:30px;
+                background:white;
+                border-radius:24px;
+                box-shadow:0 8px 30px rgba(0,0,0,.08);
+            "
+        >
+
+            <h1>
+                Reset Password
+            </h1>
+
+
+          <p
+    style="
+        color:#68777b;
+    "
+>
+    Account:
+    <strong>
+        ${escapeHTML(
+            account.username
+        )}
+    </strong>
+</p>
+
+            <label>
+                New Password
+            </label>
+
+            <input
+                id="reset-password"
+                type="password"
+                autocomplete="new-password"
+
+                style="
+                    width:100%;
+                    box-sizing:border-box;
+                    padding:12px;
+                    margin:7px 0 18px 0;
+                    border:1px solid #ccd7da;
+                    border-radius:10px;
+                "
+            >
+
+
+            <label>
+                Confirm New Password
+            </label>
+
+            <input
+                id="reset-confirm-password"
+                type="password"
+                autocomplete="new-password"
+
+                style="
+                    width:100%;
+                    box-sizing:border-box;
+                    padding:12px;
+                    margin:7px 0 18px 0;
+                    border:1px solid #ccd7da;
+                    border-radius:10px;
+                "
+            >
+
+
+            <button
+                onclick="
+                    saveResetPassword('${account.id}')
+                "
+
+                style="
+                    width:100%;
+                    padding:13px;
+                    border:none;
+                    border-radius:12px;
+                    background:#4fb5ae;
+                    color:white;
+                    cursor:pointer;
+                    font-weight:bold;
+                "
+            >
+                Save New Password
+            </button>
+
+        </div>
+
+    `;
+}
+
+
+async function saveResetPassword(
+    accountId
+) {
+
+    const password =
+        document
+            .getElementById(
+                "reset-password"
+            )
+            ?.value;
+
+
+    const confirmPassword =
+        document
+            .getElementById(
+                "reset-confirm-password"
+            )
+            ?.value;
+
+
+    if (
+        !password ||
+        !confirmPassword
+    ) {
+
+        alert(
+            "Please enter and confirm your new password."
+        );
+
+        return;
+    }
+
+
+    if (
+        password.length <
+        6
+    ) {
+
+        alert(
+            "Your password must be at least 6 characters long."
+        );
+
+        return;
+    }
+
+
+    if (
+        password !==
+        confirmPassword
+    ) {
+
+        alert(
+            "Your passwords do not match."
+        );
+
+        return;
+    }
+
+
+    const accounts =
+        getAccounts();
+
+
+    const accountIndex =
+        accounts.findIndex(
+            function(account) {
+
+                return (
+                    String(
+                        account.id
+                    ) ===
+                    String(
+                        accountId
+                    )
+                );
+            }
+        );
+
+
+    if (
+        accountIndex ===
+        -1
+    ) {
+
+        alert(
+            "That account could not be found."
+        );
+
+        return;
+    }
+
+
+    try {
+
+        const passwordData =
+            await hashPassword(
+                password
+            );
+
+
+        accounts[
+            accountIndex
+        ].passwordSalt =
+            passwordData.salt;
+
+
+        accounts[
+            accountIndex
+        ].passwordHash =
+            passwordData.hash;
+
+
+        saveAccounts(
+            accounts
+        );
+
+
+        alert(
+            "Your password has been changed!"
+        );
+
+
+        showLoginForm();
+
+    } catch (error) {
+
+        console.error(
+            error
+        );
+
+
+        alert(
+            "ESSAzLife could not reset the password. Please try again."
+        );
+    }
+}
+
+
+function logoutUser() {
+    // World manages login and logout.
+    window.location.href = "../../index.html";
+}
 
 /* =========================================================
    PROFILE
@@ -3375,12 +5610,100 @@ function renderProfile() {
                 👤 Profile
             </h1>
 
-            <p> 
-            <b>Looking for Something?</b>
-            Username and Password are now managed by ESSAzLife World.
-            This setting only appears through the Standalone app.
-            </p>
+
+            <label>
+                Username
+            </label>
+
+
             
+<input
+    id="profile-username"
+    type="text"
+    value="${escapeHTML(user.username || "")}"
+    ${user.isGuest ? "readonly" : ""}
+    style="${user.isGuest
+        ? 'background:#eeeeee; color:#666666; cursor:not-allowed;'
+        : ''}"
+>
+
+
+
+            <label>
+                Nickname
+            </label>
+
+
+            <input
+                id="profile-nickname"
+
+                type="text"
+
+                value="${escapeHTML(
+                    user.nickname ||
+                    ""
+                )}"
+            >
+
+
+            <label>
+                Gender Identity
+            </label>
+
+
+            <input
+                id="profile-gender"
+
+                type="text"
+
+                value="${escapeHTML(
+                    user.genderIdentity ||
+                    ""
+                )}"
+            >
+
+
+            <label>
+                Age Group
+            </label>
+
+
+            <select
+                id="profile-age-group"
+            >
+
+
+                <option
+                    value=""
+                >
+                    Prefer not to say
+                </option>
+
+
+                <option
+                    value="3-7"
+                >
+                    Ages 3–7
+                </option>
+
+
+                <option
+                    value="8-13"
+                >
+                    Ages 8–13
+                </option>
+
+
+                <option
+                    value="14+"
+                >
+                    Ages 14+
+                </option>
+
+
+            </select>
+
+
             <label>
                 App Background Color
             </label>
@@ -3397,6 +5720,26 @@ function renderProfile() {
                     height:50px;
                 "
             >
+
+
+            <p>
+
+                <strong>
+                    Joined:
+                </strong>
+
+                ${
+                    user.createdAt
+
+                        ? new Date(
+                            user.createdAt
+                        )
+                            .toLocaleDateString()
+
+                        : "Unknown"
+                }
+
+            </p>
 
 
             <div
@@ -3433,6 +5776,132 @@ function renderProfile() {
 
             </div>
 
+
+            <hr
+                style="
+                    margin:30px 0;
+                    border:none;
+                    border-top:
+                        1px solid
+                        #dbe5e7;
+                "
+            >
+
+
+            <div
+                style="
+                    padding:22px;
+                    background:#f5fbfa;
+                    border:1px solid #cce9e6;
+                    border-radius:18px;
+                "
+            >
+
+                <h2
+                    style="
+                        margin-top:0;
+                    "
+                >
+                    🔐 Account Recovery
+                </h2>
+
+
+                <p
+                    style="
+                        color:#68777b;
+                        font-size:13px;
+                        line-height:1.5;
+                    "
+                >
+                    Keep these answers up to date.
+                    You will need them if you forget
+                    your password.
+                </p>
+
+
+                <label>
+                    What is your birthday?
+                </label>
+
+
+                <div
+                    style="
+                        display:grid;
+                        grid-template-columns:1fr 1fr;
+                        gap:10px;
+                        margin:7px 0 18px 0;
+                    "
+                >
+
+                    <select
+                        id="profile-recovery-month"
+                    >
+
+                        ${monthOptions}
+
+                    </select>
+
+
+                    <select
+                        id="profile-recovery-day"
+                    >
+
+                        ${dayOptions}
+
+                    </select>
+
+                </div>
+
+
+                <label>
+                    What is your middle name?
+                </label>
+
+
+                <input
+                    id="profile-recovery-middle"
+                    type="text"
+
+                    placeholder="Enter NONE if you do not have one"
+
+                    value="${escapeHTML(
+                        user.recoveryMiddleName ||
+                        ""
+                    )}"
+                >
+
+
+                <label>
+                    What is your last name?
+                </label>
+
+
+                <input
+                    id="profile-recovery-last"
+                    type="text"
+
+                    value="${escapeHTML(
+                        user.recoveryLastName ||
+                        ""
+                    )}"
+                >
+
+
+                <button
+                    onclick="
+                        saveRecoveryAnswers()
+                    "
+
+                    style="
+                        margin-top:15px;
+                    "
+                >
+
+                    Save Recovery Answers
+
+                </button>
+
+            </div>
 
 
             <hr
@@ -3542,10 +6011,50 @@ function renderProfile() {
 
 </div>
 
+
+            <button
+                onclick="
+                    logoutUser()
+                "
+            >
+
+                Log Out
+
+            </button>
+
+
+            <button
+                onclick="
+                    deleteAccount()
+                "
+
+                style="
+                    color:#b42318;
+                "
+            >
+
+                Delete Account
+
+            </button>
+
+
         </div>
 
     `;
 
+
+    const ageGroup =
+        document.getElementById(
+            "profile-age-group"
+        );
+
+
+    if (ageGroup) {
+
+        ageGroup.value =
+            user.ageGroup ||
+            "";
+    }
 }
 
 function backupPlayModeData() {
@@ -3568,21 +6077,19 @@ function backupPlayModeData() {
         getSavedPlayData();
 
 
-    const backup = {
+    
+const backup = {
+    app: "ESSAzLife Play Mode",
+    backupVersion: 1,
+    createdAt: new Date().toISOString(),
 
-        app:
-            "ESSAzLife Play Mode",
+    playData: playData,
 
-        backupVersion:
-            1,
+    guestProfile: user.isGuest
+        ? safeJSON("essazLife_guest_profile", {})
+        : null
+};
 
-        createdAt:
-            new Date()
-                .toISOString(),
-
-        playData:
-            playData
-    };
 
 
     const file =
@@ -4162,6 +6669,25 @@ function saveProfile() {
         return;
     }
 
+    
+if (current.isGuest) {
+    const guestProfile = {
+        nickname: document.getElementById("profile-nickname").value.trim(),
+        genderIdentity: document.getElementById("profile-gender").value.trim(),
+        ageGroup: document.getElementById("profile-age-group").value,
+        themeColor: document.getElementById("profile-theme").value
+    };
+
+    localStorage.setItem(
+        "essazLife_guest_profile",
+        JSON.stringify(guestProfile)
+    );
+
+    renderPlayTab();
+    return;
+}
+
+
 
     const username =
         document
@@ -4172,15 +6698,6 @@ function saveProfile() {
             .trim();
 
 
-    const email =
-        document
-            .getElementById(
-                "profile-email"
-            )
-            .value
-            .trim()
-            .toLowerCase();
-
 
     if (
         username.length <
@@ -4189,21 +6706,6 @@ function saveProfile() {
 
         alert(
             "Username must be at least 3 characters."
-        );
-
-        return;
-    }
-
-
-    if (
-        !email ||
-        !email.includes(
-            "@"
-        )
-    ) {
-
-        alert(
-            "Please enter a valid email."
         );
 
         return;
@@ -4231,26 +6733,12 @@ function saveProfile() {
                 }
 
 
-                return (
-
-                    String(
-                        account.username ||
-                        ""
-                    )
-                        .toLowerCase() ===
-                    username
-                        .toLowerCase()
-
-                    ||
-
-                    String(
-                        account.email ||
-                        ""
-                    )
-                        .toLowerCase() ===
-                    email
-
-                );
+               return (
+    String(
+        account.username || ""
+    ).toLowerCase() ===
+    username.toLowerCase()
+);
 
             }
         );
@@ -4259,7 +6747,7 @@ function saveProfile() {
     if (duplicate) {
 
         alert(
-            "That username or email is already being used by another account."
+           "That username is already being used by another account."
         );
 
         return;
@@ -4297,11 +6785,6 @@ function saveProfile() {
     ].username =
         username;
 
-
-    accounts[
-        index
-    ].email =
-        email;
 
 
     accounts[
@@ -4353,6 +6836,132 @@ function saveProfile() {
 
    renderPlayTab();
 }
+
+
+/* =========================================================
+   DELETE ACCOUNT
+========================================================= */
+
+function deleteAccount() {
+
+        if (getCurrentUser()?.worldManaged) {
+        alert("Manage your account in ESSAzLife World.");
+        return;
+    }
+
+    const user =
+        getCurrentUser();
+
+
+    if (!user) {
+
+        return;
+    }
+
+
+    const confirmed =
+        confirm(
+            "Delete your ESSAzLife account and all data saved to this browser? This cannot be undone."
+        );
+
+
+    if (!confirmed) {
+
+        return;
+    }
+
+
+    const secondCheck =
+        confirm(
+            "Are you absolutely sure you want to delete your account?"
+        );
+
+
+    if (!secondCheck) {
+
+        return;
+    }
+
+
+    const storageTypes = [
+
+        "essas",
+
+        "care",
+
+        "tricks",
+
+        "scores",
+
+        "drawings",
+
+        "diary",
+
+        "play",
+
+        "playHouse"
+
+    ];
+
+
+    storageTypes.forEach(
+        function(type) {
+
+            localStorage.removeItem(
+
+                "essazLife_" +
+                user.id +
+                "_" +
+                type
+
+            );
+
+        }
+    );
+
+
+    const remainingAccounts =
+        getAccounts().filter(
+            function(account) {
+
+                return (
+                    String(
+                        account.id
+                    ) !==
+                    String(
+                        user.id
+                    )
+                );
+
+            }
+        );
+
+
+    saveAccounts(
+        remainingAccounts
+    );
+
+
+    setCurrentUserId(
+        null
+    );
+
+
+    pendingWelcomeCredentials =
+        null;
+
+
+    resetPageTheme();
+
+
+    showHeaderButtons(
+        false
+    );
+
+
+    renderAuthHome();
+}
+
 
 
 /* =========================================================
@@ -4975,9 +7584,221 @@ function spawnPendingPlayroomCoins() {
     );
 }
 
+
+let playroomCoinRushTimer = null;
+let playroomCoinRushBusy = false;
+
+function stopPlayroomCoinRush() {
+    clearInterval(playroomCoinRushTimer);
+    playroomCoinRushTimer = null;
+    playroomCoinRushBusy = false;
+}
+
+function startPlayroomCoinRush() {
+    stopPlayroomCoinRush();
+
+    playroomCoinRushTimer = setInterval(function() {
+        const room = document.getElementById(
+            "play-house-room"
+        );
+
+        if (!room || room.dataset.roomId !== "playroom") {
+            stopPlayroomCoinRush();
+            return;
+        }
+
+        if (playroomCoinRushBusy) return;
+
+        const playData = getSavedPlayData();
+        const coins = playData.playroomCoins || [];
+
+        if (!coins.length) return;
+
+        const availableEssas = Array.from(
+            room.querySelectorAll("[data-play-house-essa]")
+        ).filter(function(wrapper) {
+            return !isPlayEssaStaying(
+                wrapper.dataset.playHouseEssa
+            );
+        });
+
+        if (!availableEssas.length) return;
+
+        const wrapper = availableEssas[
+            Math.floor(Math.random() * availableEssas.length)
+        ];
+
+        const essaId = wrapper.dataset.playHouseEssa;
+        const coin = coins[0];
+
+        if (!rushPlayroomEssaToCoin(essaId, coin)) {
+            return;
+        }
+
+        playroomCoinRushBusy = true;
+
+        setTimeout(function() {
+            const currentRoom = document.getElementById(
+                "play-house-room"
+            );
+
+            if (
+                currentRoom &&
+                currentRoom.dataset.roomId === "playroom" &&
+                !isPlayEssaStaying(essaId)
+            ) {
+                collectPlayroomCoinForEssa(coin.id);
+            }
+
+            playroomCoinRushBusy = false;
+        }, 400);
+
+    }, 500);
+}
+
+
+function rushPlayroomEssaToCoin(essaId, coin) {
+    const room = document.getElementById(
+        "play-house-room"
+    );
+
+    if (
+        !room ||
+        room.dataset.roomId !== "playroom" ||
+        isPlayEssaStaying(essaId)
+    ) {
+        return false;
+    }
+
+    const wrapper = Array.from(
+        room.querySelectorAll(
+            "[data-play-house-essa]"
+        )
+    ).find(function(element) {
+        return element.dataset.playHouseEssa === essaId;
+    });
+
+    if (!wrapper || !coin) {
+        return false;
+    }
+
+    const targetX = Math.max(
+        8,
+        Math.min(88, Number(coin.x))
+    );
+
+    const targetBottom = Math.max(
+        5,
+        Math.min(38, 100 - Number(coin.y))
+    );
+
+    const currentX =
+        parseFloat(wrapper.style.left) || 50;
+
+    const image = wrapper.querySelector(
+        ".play-house-essa-image"
+    );
+
+    if (image) {
+        image.style.transform =
+            targetX < currentX
+                ? "scaleX(-1)"
+                : "scaleX(1)";
+    }
+
+    wrapper.style.transition =
+        "left 0.35s linear, bottom 0.35s linear";
+
+    wrapper.style.left = targetX + "%";
+    wrapper.style.bottom = targetBottom + "%";
+    
+wrapper.style.top = "auto";
+
+// Remember where the ESSA ran,
+// so room redraws don't send them back.
+const houseData = getSavedPlayHouseData();
+
+houseData.essaPositions[essaId] = {
+    ...(houseData.essaPositions[essaId] || {}),
+    x: targetX,
+    floor: targetBottom
+};
+
+savePlayHouseData(houseData);
+
+return true;
+
+}
+
+
 /* =========================================================
    PLAY MODE — COLLECT PLAYROOM COIN
 ========================================================= */
+
+function collectPlayroomCoinForEssa(coinId) {
+    const playData = getSavedPlayData();
+
+    if (!Array.isArray(playData.playroomCoins)) {
+        return false;
+    }
+
+    const coinExists = playData.playroomCoins.some(
+        function(coin) {
+            return coin.id === coinId;
+        }
+    );
+
+    if (!coinExists) {
+        return false;
+    }
+
+    collectPlayroomCoin(coinId);
+
+    return true;
+}
+
+
+function findNearbyPlayroomCoin(essaId) {
+    const playData = getSavedPlayData();
+    const houseData = getSavedPlayHouseData();
+
+    if (isPlayEssaStaying(essaId)) {
+        return null;
+    }
+
+    if (!Array.isArray(playData.playroomCoins)) {
+        return null;
+    }
+
+    const position =
+        houseData.essaPositions?.[essaId];
+
+    if (!position) {
+        return null;
+    }
+
+    const essaX = Number(position.x);
+    const essaY = 100 - Number(position.floor);
+
+    if (
+        !Number.isFinite(essaX) ||
+        !Number.isFinite(essaY)
+    ) {
+        return null;
+    }
+
+    return playData.playroomCoins.find(
+        function(coin) {
+            const distance = Math.hypot(
+                essaX - Number(coin.x),
+                essaY - Number(coin.y)
+            );
+
+            return distance <= 10;
+        }
+    ) || null;
+}
+
 
 function collectPlayroomCoin(
     coinId
@@ -5059,15 +7880,155 @@ function collectPlayroomCoin(
 
 /* =========================================================
    TRAINER LEVEL BAR
-   Hidden in ESSAzLife World
 ========================================================= */
 
 function makeTrainerLevelBar(
     playData
 ) {
 
-    return "";
+    const progress =
+        getTrainerProgress(
+            playData
+        );
+
+
+    return `
+
+        <div
+          class="trainer-level-bar"
+            style="
+                width:min(
+                    92%,
+                    700px
+                );
+
+                margin:0 auto;
+
+                padding:
+                    12px
+                    15px;
+
+                background:
+                    rgba(
+                        255,
+                        255,
+                        255,
+                        .92
+                    );
+
+                border:
+                    1px solid
+                    rgba(
+                        255,
+                        255,
+                        255,
+                        .8
+                    );
+
+                border-radius:18px;
+
+                box-shadow:
+                    0 4px 16px
+                    rgba(
+                        0,
+                        0,
+                        0,
+                        .12
+                    );
+
+                box-sizing:
+                    border-box;
+            "
+        >
+
+
+            <div
+                style="
+                    display:flex;
+
+                    justify-content:
+                        space-between;
+
+                    gap:15px;
+
+                    margin-bottom:8px;
+
+                    font-size:14px;
+
+                    font-weight:bold;
+
+                    color:#26343b;
+                "
+            >
+
+
+                <span>
+
+                    ⭐ Trainer Level
+
+                    ${playData.trainerLevel}
+
+                </span>
+
+
+                <span>
+
+                    ${progress.currentXP}
+
+                    /
+
+                    ${progress.xpNeeded}
+
+                    XP
+
+                </span>
+
+
+            </div>
+
+
+            <div
+                style="
+                    width:100%;
+
+                    height:14px;
+
+                    background:#e8eeee;
+
+                    border-radius:999px;
+
+                    overflow:hidden;
+                "
+            >
+
+
+                <div
+                    style="
+                        width:
+                            ${progress.percentage}%;
+
+                        height:100%;
+
+                        background:#4fb5ae;
+
+                        border-radius:999px;
+
+                        transition:
+                            width
+                            .3s
+                            ease;
+                    "
+                ></div>
+
+
+            </div>
+
+
+        </div>
+
+    `;
 }
+
 
 /* =========================================================
    PLAYABLE ESSA VISUAL
@@ -11273,6 +14234,33 @@ transition:
    BETTER ESSA WANDERING
 ========================================================= */
 
+
+function isPlayEssaStaying(essaId) {
+    const key = userStorageKey("essaStay");
+
+    if (!key) return false;
+
+    const saved = safeJSON(key, {});
+
+    return saved[essaId] === true;
+}
+
+function setPlayEssaStaying(essaId, staying) {
+    const key = userStorageKey("essaStay");
+
+    if (!key) return;
+
+    const saved = safeJSON(key, {});
+
+    saved[essaId] = staying === true;
+
+    localStorage.setItem(
+        key,
+        JSON.stringify(saved)
+    );
+}
+
+
 function wanderPlayHouseEssas() {
 
     const houseData =
@@ -11294,20 +14282,18 @@ function wanderPlayHouseEssas() {
                     Most ESSAs move during
                     each wandering cycle.
                 */
-                if (
-    !hasSuperEnergy &&
-    Math.random() >
-    0.82
-) {
-
-    return;
-}
-
+               
 
                 const essaId =
                     wrapper
                         .dataset
                         .playHouseEssa;
+
+                        
+if (isPlayEssaStaying(essaId)) {
+    return;
+}
+
                 
                 const playData =
     getSavedPlayData();
@@ -11419,6 +14405,10 @@ if (
             houseData
         );
     }
+
+
+
+    updateVoidyBallCarrying();
 }
 
 /* =========================================================
@@ -11452,6 +14442,13 @@ function runPartyPawsSuperEnergy() {
                     Number(
                         stats.superEnergyUntil
                     ) > Date.now();
+
+                    if (
+    !hasSuperEnergy &&
+    Math.random() > 0.82
+) {
+    return;
+}
 
 
                 if (!hasSuperEnergy) {
@@ -11542,12 +14539,18 @@ function chasePlayHouseClick(event) {
     }
 
 
-    const essas =
-        Array.from(
-            room.querySelectorAll(
-                "[data-play-house-essa]"
-            )
+    
+const essas =
+    Array.from(
+        room.querySelectorAll(
+            "[data-play-house-essa]"
+        )
+    ).filter(function(wrapper) {
+        return !isPlayEssaStaying(
+            wrapper.dataset.playHouseEssa
         );
+    });
+
 
 
     if (essas.length === 0) {
@@ -11856,227 +14859,41 @@ height:528px;
     `;
 }
     
-       if (
-        room.id ===
-        "arcade"
-    ) {
+      
+if (room.id === "arcade") {
+    return `
+        <button
+            type="button"
+            onclick="openArcadeMachineSelector()"
+            aria-label="Select an arcade machine"
+            title="Select a Machine"
+           
+style="
+    position:absolute;
+    left:50%;
+    top:22%;
+    transform:translate(-50%, -50%);
 
-        return `
-            <div
-             class="play-arcade-machines"
-                style="
-                    position:absolute;
-                    left:50%;
-                    bottom:175px;
-                    transform:translateX(-50%);
+    background:white;
+    border:3px solid #dddddd;
+    border-radius:24px;
 
-                    width:min(
-                        94%,
-                        960px
-                    );
+    padding:20px 28px;
+    font-size:90px;
+    line-height:1;
 
-                    display:grid;
+    cursor:pointer;
+    z-index:90;
 
-                    grid-template-columns:
-                        repeat(
-                            5,
-                            minmax(
-                                0,
-                                1fr
-                            )
-                        );
+    box-shadow:0 6px 16px rgba(0,0,0,0.3);
+"
 
-                    gap:12px;
-
-                    align-items:end;
-
-                    z-index:90;
-                "
-            >
-
-
-                <button
-                    onclick="
-                        openESSATwist()
-                    "
-
-                    aria-label="
-                        Play ESSATwist
-                    "
-
-                    style="
-                        padding:0;
-                        border:none;
-                        background:transparent;
-                        box-shadow:none;
-                        cursor:pointer;
-                    "
-                >
-
-                    <img
-                        src="arcade-machines/essatwist.png"
-
-                        alt="ESSATwist arcade machine"
-
-                        style="
-                            display:block;
-                            width:100%;
-                            height:auto;
-                            max-height:235px;
-                            object-fit:contain;
-                        "
-                    >
-
-                </button>
-
-
-                <button
-                    onclick="
-                        openESSAMemory()
-                    "
-
-                    aria-label="
-                        Play ESSA Memory
-                    "
-
-                    style="
-                        padding:0;
-                        border:none;
-                        background:transparent;
-                        box-shadow:none;
-                        cursor:pointer;
-                    "
-                >
-
-                    <img
-                        src="arcade-machines/memory-game.png"
-
-                        alt="ESSA Memory arcade machine"
-
-                        style="
-                            display:block;
-                            width:100%;
-                            height:auto;
-                            max-height:235px;
-                            object-fit:contain;
-                        "
-                    >
-
-  <button
-    type="button"
-
-    onclick="openESSATiles()"
-
-    aria-label="Play ESSA Tiles"
-
-    style="
-        padding:0;
-        border:none;
-        background:transparent;
-        box-shadow:none;
-        cursor:pointer;
-        position:relative;
-        z-index:100;
-    "
->
-    <img
-        src="arcade-machines/essa-tiles.png"
-        alt="ESSA Tiles arcade machine"
-
-        style="
-            display:block;
-            width:100%;
-            height:auto;
-            max-height:235px;
-            object-fit:contain;
-            pointer-events:none;
-        "
-    >
-</button>
-
-                </button>
-
-
-                <button
-                   onclick="
-                   openESSATicTacToe()
-                  "
-
-                    aria-label="
-                        ESSA Tic-Tac-Toe
-                    "
-
-                    style="
-                        padding:0;
-                        border:none;
-                        background:transparent;
-                        box-shadow:none;
-                        cursor:pointer;
-                    "
-                >
-
-                    <img
-                        src="arcade-machines/essa-tictactoe.png"
-
-                        alt="ESSA Tic-Tac-Toe arcade machine"
-
-                        style="
-                            display:block;
-                            width:100%;
-                            height:auto;
-                            max-height:235px;
-                            object-fit:contain;
-                        "
-                    >
-
-                </button>
-
-
-                <button
-                    onclick="
-                        showPlayMessage(
-                            '🔎 Find My ESSA is coming soon!'
-                        )
-                    "
-
-                    aria-label="
-                        Find My ESSA
-                    "
-
-                    style="
-                        padding:0;
-                        border:none;
-                        background:transparent;
-                        box-shadow:none;
-                        cursor:pointer;
-                    "
-                >
-
-                    <img
-                        src="arcade-machines/find-my-essa.png"
-                        
-                        onclick="
-                        openFindMyEssa()
-                        "
-
-                        alt="Find My ESSA arcade machine"
-
-                        style="
-                            display:block;
-                            width:100%;
-                            height:auto;
-                            max-height:235px;
-                            object-fit:contain;
-                        "
-                    >
-
-                </button>
-
-
-            </div>
-        `;
-
+        >
+            🎮
+        </button>
+    `;
 }
+
 
 
 
@@ -13010,6 +15827,621 @@ const voidyPetStoreItems = [
 
 
 ];
+
+
+/* =========================================
+   VOIDY'S STORE — TOY COLLECTION
+========================================= */
+
+const voidyToyStoreItems = [
+    
+{
+    id: "essa-power-ball",
+    name: "ESSA Power Ball",
+    image: "voidy-toys/essa-power-ball.png",
+    artist: "foxy861929",
+    price: 50
+},
+
+    {
+        id: "oreo-art-ball",
+        name: "Oreo Art Ball",
+        image: "voidy-toys/oreo-art-ball.png",
+        artist: "Olliez",
+        price: 50
+    },
+    {
+        id: "sheltie-ball",
+        name: "Sheltie Ball",
+        image: "voidy-toys/sheltie-ball.png",
+        artist: "Raina",
+        price: 50
+    },
+    {
+        id: "burnese-ball",
+        name: "Burnese Ball",
+        image: "voidy-toys/burnese-ball.png",
+        artist: "Horse55",
+        price: 50
+    },
+    {
+        id: "browndog-ball",
+        name: "Brown Dog Ball",
+        image: "voidy-toys/browndog-ball.png",
+        artist: "i_love_sunsets_a_lot",
+        price: 50
+    },
+    {
+        id: "browncat-ball",
+        name: "Brown Cat Ball",
+        image: "voidy-toys/browncat-ball.png",
+        artist: "i_love_sunsets_a_lot",
+        price: 50
+    }
+];
+
+
+/* =========================================
+   VOIDY'S STORE — FREE DOWNLOADABLES
+========================================= */
+
+const voidyCertificateItems = [
+    {
+        id: "certificate-pink",
+        name: "Pink Adoption Certificate",
+        image: "voidy-downloadables/certificatepink-downloadable.png",
+        artist: "Sparkling Seafoam",
+        price: 0
+    },
+    {
+        id: "certificate-blue",
+        name: "Blue Adoption Certificate",
+        image: "voidy-downloadables/certificateblue-downloadable.png",
+        artist: "Sparkling Seafoam",
+        price: 0
+    },
+    {
+        id: "certificate-green",
+        name: "Green Adoption Certificate",
+        image: "voidy-downloadables/certificategreen-downloadable.png",
+        artist: "Sparkling Seafoam",
+        price: 0
+    },
+    {
+        id: "certificate-red",
+        name: "Red Adoption Certificate",
+        image: "voidy-downloadables/certificatered-downloadable.png",
+        artist: "Sparkling Seafoam",
+        price: 0
+    }
+];
+
+
+function makeVoidyCertificateShelfItems() {
+
+    return voidyCertificateItems.map(function(item) {
+
+        return `
+            <button
+                type="button"
+                onclick="openVoidyCertificateDetails('${item.id}')"
+                title="${item.name} - FREE"
+
+                style="
+                    width:100%;
+                    max-width:130px;
+                    height:130px;
+
+                    border:none;
+                    padding:0;
+                    background:transparent;
+
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+
+                    cursor:pointer;
+                "
+            >
+                <img
+                    src="${item.image}"
+                    alt="${item.name}"
+                    draggable="false"
+
+                    style="
+                        width:100%;
+                        height:100%;
+                        object-fit:contain;
+                        pointer-events:none;
+                    "
+                >
+            </button>
+        `;
+
+    }).join("");
+}
+
+
+/* =========================================
+   VOIDY'S STORE — PURCHASE TOY
+========================================= */
+
+async function purchaseVoidyToy(toyId) {
+
+    const toy = voidyToyStoreItems.find(
+        item => item.id === toyId
+    );
+
+    if (!toy) return;
+
+    const playData = getSavedPlayData();
+
+    const currentCoins =
+        Number(playData.coins) || 0;
+
+    const price =
+        Number(toy.price) || 50;
+
+    if (currentCoins < price) {
+
+        showVoidyNotEnoughCoinsPopup(toy);
+        return;
+    }
+
+   const confirmed = await awaitVoidyToyConfirmation(toy, price);
+
+if (!confirmed) return;
+
+    const ownedToy = {
+
+        id: makeId("voidy-toy"),
+
+        originalToyId: toy.id,
+
+        name: toy.name,
+
+        image: toy.image,
+
+        purchasedAt: new Date().toISOString(),
+
+        room: "playroom",
+
+        x: 50,
+
+        y: 50
+
+    };
+
+    if (!Array.isArray(playData.ownedVoidyToys)) {
+        playData.ownedVoidyToys = [];
+    }
+
+    playData.ownedVoidyToys.push(ownedToy);
+
+    playData.coins = currentCoins - price;
+
+    savePlayData(playData);
+
+    document.getElementById(
+        "voidy-item-preview"
+    )?.remove();
+
+    showVoidyToyPurchaseSuccess(toy, playData.coins);
+}
+
+
+function awaitVoidyToyConfirmation(toy, price) {
+    return new Promise(resolve => {
+
+        document.getElementById("voidy-toy-confirm")?.remove();
+
+        const overlay = document.createElement("div");
+        overlay.id = "voidy-toy-confirm";
+
+        overlay.style.cssText = `
+            position:fixed;
+            inset:0;
+            background:rgba(0,0,0,.65);
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            padding:20px;
+            box-sizing:border-box;
+            z-index:100003;
+        `;
+
+        overlay.innerHTML = `
+            <div style="
+                background:white;
+                color:#17313a;
+                border-radius:24px;
+                padding:30px;
+                width:min(400px,90vw);
+                box-sizing:border-box;
+                text-align:center;
+            ">
+                <img
+                    src="${toy.image}"
+                    alt=""
+                    style="
+                        width:120px;
+                        height:120px;
+                        object-fit:contain;
+                    "
+                >
+
+                <h2>Purchase ${toy.name}?</h2>
+
+                <p>🪙 ${price} Coins</p>
+
+                <p style="font-size:12px;color:#68777b;">
+                    Artist: ${toy.artist}
+                </p>
+
+                <div style="
+                    display:flex;
+                    justify-content:center;
+                    gap:12px;
+                    margin-top:24px;
+                ">
+                    <button id="voidy-toy-cancel"
+                        style="padding:12px 22px;border:0;border-radius:12px;cursor:pointer;">
+                        Cancel
+                    </button>
+
+                    <button id="voidy-toy-yes"
+                        style="padding:12px 22px;border:0;border-radius:12px;background:black;color:white;cursor:pointer;">
+                        Purchase
+                    </button>
+                </div>
+            </div>
+        `;
+
+        const host = document.fullscreenElement || document.body;
+        host.appendChild(overlay);
+
+        const finish = result => {
+            overlay.remove();
+            resolve(result);
+        };
+
+        overlay.querySelector("#voidy-toy-cancel")
+            .onclick = () => finish(false);
+
+        overlay.querySelector("#voidy-toy-yes")
+            .onclick = () => finish(true);
+    });
+}
+
+function showVoidyToyPurchaseSuccess(toy, remainingCoins) {
+
+    document.getElementById("voidy-toy-success")?.remove();
+
+    const overlay = document.createElement("div");
+    overlay.id = "voidy-toy-success";
+
+    overlay.style.cssText = `
+        position:fixed;
+        inset:0;
+        background:rgba(0,0,0,.65);
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        padding:20px;
+        box-sizing:border-box;
+        z-index:100003;
+    `;
+
+    overlay.innerHTML = `
+        <div style="
+            background:white;
+            color:#17313a;
+            width:min(400px,90vw);
+            border-radius:24px;
+            padding:30px;
+            box-sizing:border-box;
+            text-align:center;
+        ">
+            <img
+                src="${toy.image}"
+                alt=""
+                style="
+                    width:120px;
+                    height:120px;
+                    object-fit:contain;
+                "
+            >
+
+            <h2>Purchase Successful! 🎉</h2>
+            <p>${toy.name}</p>
+            <p>🪙 Remaining Coins: ${remainingCoins}</p>
+            <p>Your new ball has been added to your collection!</p>
+
+            <button id="voidy-toy-success-close"
+                style="
+                    margin-top:16px;
+                    padding:12px 28px;
+                    border:0;
+                    border-radius:12px;
+                    background:black;
+                    color:white;
+                    cursor:pointer;
+                ">
+                Awesome!
+            </button>
+        </div>
+    `;
+
+    const host = document.fullscreenElement || document.body;
+    host.appendChild(overlay);
+
+    overlay.querySelector("#voidy-toy-success-close")
+        .onclick = () => overlay.remove();
+}
+
+
+/* =========================================
+   VOIDY'S STORE — ITEM PREVIEWS
+========================================= */
+
+function openVoidyToyDetails(toyId) {
+    const item = voidyToyStoreItems.find(
+        toy => toy.id === toyId
+    );
+
+    if (!item) return;
+
+    openVoidyItemPreview(item, "toy");
+}
+
+function openVoidyCertificateDetails(certificateId) {
+    const item = voidyCertificateItems.find(
+        certificate => certificate.id === certificateId
+    );
+
+    if (!item) return;
+
+    openVoidyItemPreview(item, "certificate");
+}
+
+function openVoidyItemPreview(item, type) {
+    document.getElementById("voidy-item-preview")?.remove();
+
+    const items = type === "toy"
+        ? voidyToyStoreItems
+        : voidyCertificateItems;
+
+    const index = items.findIndex(
+        entry => entry.id === item.id
+    );
+
+    const previous = items[
+        (index - 1 + items.length) % items.length
+    ];
+
+    const next = items[
+        (index + 1) % items.length
+    ];
+
+    const isCertificate = type === "certificate";
+
+    const overlay = document.createElement("div");
+    overlay.id = "voidy-item-preview";
+
+    overlay.style.cssText = `
+        position:fixed;
+        inset:0;
+        background:rgba(0,0,0,.65);
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        padding:20px;
+        box-sizing:border-box;
+        z-index:100002;
+    `;
+
+    overlay.innerHTML = `
+        <div style="
+            position:relative;
+            width:min(480px,92vw);
+            max-height:90vh;
+            overflow-y:auto;
+            background:white;
+            border-radius:24px;
+            padding:28px;
+            box-sizing:border-box;
+            text-align:center;
+            color:#17313a;
+            box-shadow:0 18px 50px rgba(0,0,0,.35);
+        ">
+
+            <button
+                type="button"
+                onclick="document.getElementById('voidy-item-preview')?.remove()"
+                aria-label="Close preview"
+                style="
+                    position:absolute;
+                    top:14px;
+                    right:14px;
+                    width:40px;
+                    height:40px;
+                    border:none;
+                    border-radius:50%;
+                    background:#eef3f4;
+                    font-size:22px;
+                    cursor:pointer;
+                "
+            >×</button>
+
+            <button
+                type="button"
+                id="voidy-preview-previous"
+                aria-label="Previous item"
+                style="
+                    position:absolute;
+                    left:12px;
+                    top:43%;
+                    width:42px;
+                    height:42px;
+                    border:none;
+                    border-radius:50%;
+                    background:#eef3f4;
+                    font-size:28px;
+                    cursor:pointer;
+                "
+            >‹</button>
+
+            <button
+                type="button"
+                id="voidy-preview-next"
+                aria-label="Next item"
+                style="
+                    position:absolute;
+                    right:12px;
+                    top:43%;
+                    width:42px;
+                    height:42px;
+                    border:none;
+                    border-radius:50%;
+                    background:#eef3f4;
+                    font-size:28px;
+                    cursor:pointer;
+                "
+            >›</button>
+
+            <img
+                src="${item.image}"
+                alt="${escapeHTML(item.name)}"
+                style="
+                    display:block;
+                    width:${isCertificate ? "240px" : "140px"};
+                    max-width:70%;
+                    height:${isCertificate ? "240px" : "140px"};
+                    object-fit:contain;
+                    margin:12px auto 16px;
+                "
+            >
+
+            <h2 style="margin:0 0 12px;">
+                ${escapeHTML(item.name)}
+            </h2>
+
+            <p style="
+                font-size:13px;
+                color:#68777b;
+                margin:0 0 18px;
+            ">
+                Artist: ${escapeHTML(item.artist)}
+            </p>
+
+            <p style="
+                font-size:20px;
+                font-weight:bold;
+                margin:0 0 18px;
+            ">
+                ${isCertificate ? "FREE DOWNLOAD" : "🪙 50 Coins"}
+            </p>
+
+            <button
+                type="button"
+                id="voidy-preview-action"
+                style="
+                    padding:14px 25px;
+                    border:none;
+                    border-radius:14px;
+                    background:#000;
+                    color:white;
+                    font-size:16px;
+                    font-weight:bold;
+                    cursor:pointer;
+                "
+            >
+                ${isCertificate
+                    ? "Download Certificate"
+                    : "Purchase Item?"}
+            </button>
+
+        </div>
+    `;
+
+    const popupHost =
+        document.fullscreenElement || document.body;
+
+    popupHost.appendChild(overlay);
+
+    const showItem = selected => {
+        openVoidyItemPreview(selected, type);
+    };
+
+    overlay.querySelector("#voidy-preview-previous")
+        .onclick = () => showItem(previous);
+
+    overlay.querySelector("#voidy-preview-next")
+        .onclick = () => showItem(next);
+
+    overlay.querySelector("#voidy-preview-action")
+        .onclick = () => {
+            if (isCertificate) {
+                const link = document.createElement("a");
+                link.href = item.image;
+                link.download = item.image.split("/").pop();
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+            } else {
+    purchaseVoidyToy(item.id);
+}
+        };
+}
+
+
+
+function makeVoidyToyShelfItems() {
+
+    return voidyToyStoreItems.map(function(toy) {
+
+        return `
+            <button
+                type="button"
+                onclick="openVoidyToyDetails('${toy.id}')"
+
+                title="${toy.name} - ${toy.price} Coins"
+
+                style="
+                    width:100%;
+                    max-width:130px;
+                    height:130px;
+
+                    border:none;
+                    padding:0;
+                    background:transparent;
+
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+
+                    cursor:pointer;
+                "
+            >
+                <img
+                    src="${toy.image}"
+                    alt="${toy.name}"
+                    draggable="false"
+
+                    style="
+                        width:100%;
+                        height:100%;
+                        object-fit:contain;
+                        pointer-events:none;
+                    "
+                >
+            </button>
+        `;
+
+    }).join("");
+}
+
+
 
 const voidyLockedItemImage =
     "ESSAzLife.Images/PlayModeAssets/VoidyStore/locked-item.png";
@@ -15837,9 +19269,11 @@ function openVoidyStorePage(
                             "
                         >
 
-                            ${
-                                makeVoidyHolidayPetShelfItems()
-                            }
+                          ${
+    pageName === "pets"
+        ? makeVoidyHolidayPetShelfItems()
+        : ""
+}
 
                         </div>
 
@@ -15848,78 +19282,38 @@ function openVoidyStorePage(
             }
 
 
-            ${
-                pageName === "downloadables"
-                    ? `
+           
+${
+    pageName === "downloadables"
+        ? `
+            <div
+                id="voidy-toy-shelves"
+                style="
+                    position:absolute;
+                    left:50%;
+                    top:25%;
+transform:translateX(-50%);
+                    width:85%;
+                    max-width:720px;
 
-                        <button
-                            type="button"
+                    display:grid;
+                    grid-template-columns:repeat(3, 1fr);
+                    gap:16px;
 
-                            onclick="
-                                showVoidyDownloadablesMessage()
-                            "
+                    justify-items:center;
+                    align-items:center;
 
-                            aria-label="
-                                Locked Downloadables
-                            "
+                    z-index:50;
+                    pointer-events:auto;
+                "
+            >
+                ${makeVoidyToyShelfItems()}
+${makeVoidyCertificateShelfItems()}
+            </div>
+        `
+        : ""
+}
 
-                            style="
-                                position:absolute;
-
-                                left:50%;
-                                top:50%;
-
-                                transform:
-                                    translate(
-                                        -50%,
-                                        -50%
-                                    );
-
-                                width:min(
-                                    300px,
-                                    45vw
-                                );
-
-                                height:min(
-                                    300px,
-                                    55vh
-                                );
-
-                                padding:0;
-
-                                border:none;
-                                background:transparent;
-
-                                cursor:pointer;
-
-                                z-index:50;
-                            "
-                        >
-
-                            <img
-                                src="ESSAzLife.Images/PlayModeAssets/VoidyStore/locked-item.png"
-
-                                alt="Locked"
-
-                                draggable="false"
-
-                                style="
-                                    display:block;
-
-                                    width:100%;
-                                    height:100%;
-
-                                    object-fit:contain;
-
-                                    pointer-events:none;
-                                "
-                            >
-
-                        </button>
-
-                    `
-                    : ""
-            }
 
 
             ${
@@ -17392,141 +20786,6 @@ popupHost.appendChild(
     );
 }
 
-/* =========================================================
-   VOIDY DOWNLOADABLES LOCKED MESSAGE
-========================================================= */
-function showVoidyDownloadablesMessage() {
-
-    const existing =
-        document.getElementById(
-            "voidy-downloadables-message"
-        );
-
-    if (existing) {
-        existing.remove();
-    }
-
-
-    const overlay =
-        document.createElement(
-            "div"
-        );
-
-    overlay.id =
-        "voidy-downloadables-message";
-
-
-    overlay.style.cssText = `
-        position:fixed;
-        inset:0;
-
-        display:flex;
-        align-items:center;
-        justify-content:center;
-
-        padding:20px;
-        box-sizing:border-box;
-
-        background:rgba(0,0,0,.65);
-
-        z-index:1000000;
-    `;
-
-
-    overlay.innerHTML = `
-
-        <div
-            style="
-                width:min(500px, 90vw);
-
-                padding:28px;
-
-                box-sizing:border-box;
-
-                background:white;
-
-                border:
-                    4px solid
-                    var(
-                        --user-theme-color,
-                        #4fb5ae
-                    );
-
-                border-radius:24px;
-
-                text-align:center;
-
-                box-shadow:
-                    0 18px 50px
-                    rgba(0,0,0,.45);
-            "
-        >
-
-            <div
-                style="
-                    font-size:22px;
-                    font-weight:900;
-
-                    color:#17313a;
-
-                    line-height:1.5;
-                "
-            >
-                This page will eventually contain toys for ESSAs to play with.
-                The artwork is made by testers and used with permission from them.
-            </div>
-
-
-            <button
-                type="button"
-
-                onclick="
-                    document
-                        .getElementById(
-                            'voidy-downloadables-message'
-                        )
-                        ?.remove()
-                "
-
-                style="
-                    margin-top:24px;
-
-                    padding:10px 28px;
-
-                    border:none;
-                    border-radius:999px;
-
-                    background:
-                        var(
-                            --user-theme-color,
-                            #4fb5ae
-                        );
-
-                    color:white;
-
-                    font-size:17px;
-                    font-weight:900;
-
-                    cursor:pointer;
-                "
-            >
-                Okay
-            </button>
-
-        </div>
-
-    `;
-
-
-    const popupHost =
-    document.fullscreenElement ||
-    document.body;
-
-popupHost.appendChild(
-    overlay
-);
-
-}
 
 /* =========================================================
    RETRIEVE ESSA FROM VOIDY'S KENNEL
@@ -34032,6 +37291,640 @@ function getHousePlayableEssaById(
 }
 
 
+/* =========================================
+   VOIDY BALL — ESSA PICKUP AND CARRYING
+========================================= */
+
+function updateVoidyBallCarrying() {
+
+    const roomElement =
+        document.getElementById("play-house-room");
+
+    if (!roomElement) return;
+
+    const playData = getSavedPlayData();
+    const houseData = getSavedPlayHouseData();
+
+    if (!Array.isArray(playData.ownedVoidyToys)) return;
+
+    let changed = false;
+
+    const essas = [
+        ...document.querySelectorAll(
+            "[data-play-house-essa]"
+        )
+    ];
+
+    playData.ownedVoidyToys.forEach(function(toy) {
+
+        // A carried ball follows its ESSA between rooms.
+        if (toy.carriedBy) {
+
+            const carrierRoom =
+                houseData.essaRooms[toy.carriedBy];
+
+            if (carrierRoom && toy.room !== carrierRoom) {
+                toy.room = carrierRoom;
+                changed = true;
+            }
+        }
+
+        const ball = [
+            ...document.querySelectorAll(
+                ".playroom-voidy-toy"
+            )
+        ].find(el => el.dataset.toyId === toy.id);
+
+        if (!ball) return;
+
+        if (toy.carriedBy) {
+
+            const carrier = essas.find(
+                el => el.dataset.playHouseEssa === toy.carriedBy
+            );
+
+            if (!carrier) return;
+
+            const roomRect = roomElement.getBoundingClientRect();
+            const carrierRect = carrier.getBoundingClientRect();
+
+            const x =
+                ((carrierRect.left + carrierRect.width / 2
+                    - roomRect.left) / roomRect.width) * 100;
+
+            const bottom =
+                ((roomRect.bottom - carrierRect.bottom)
+                    / roomRect.height) * 100;
+
+            ball.style.left = x + "%";
+            ball.style.bottom = Math.max(2, bottom) + "%";
+
+            if (toy.x !== x) {
+                toy.x = x;
+                changed = true;
+            }
+
+            return;
+        }
+
+        // Detect a collision with an unclaimed ball.
+        const ballRect = ball.getBoundingClientRect();
+
+        const ballCenterX =
+            ballRect.left + ballRect.width / 2;
+
+        const ballCenterY =
+            ballRect.top + ballRect.height / 2;
+
+        for (const essa of essas) {
+
+            const rect = essa.getBoundingClientRect();
+
+            const dx =
+                ballCenterX - (rect.left + rect.width / 2);
+
+            const dy =
+                ballCenterY - (rect.top + rect.height / 2);
+
+            const distance = Math.hypot(dx, dy);
+
+          if (distance < 65) {
+
+    const essaId = essa.dataset.playHouseEssa;
+
+    const alreadyCarrying = playData.ownedVoidyToys.some(
+        otherToy =>
+            otherToy.id !== toy.id &&
+            otherToy.carriedBy === essaId
+    );
+
+    if (alreadyCarrying) {
+        continue;
+    }
+
+    toy.carriedBy = essaId;
+    changed = true;
+    break;
+}
+        }
+    });
+
+    if (changed) {
+        savePlayData(playData);
+    }
+}
+
+
+
+function returnVoidyBallToPlayroom(toyId) {
+    const playData = getSavedPlayData();
+
+    const toy = playData.ownedVoidyToys?.find(
+        item => item.id === toyId
+    );
+
+    if (!toy) return;
+
+    if (toy.room === "playroom" && !toy.carriedBy) {
+        return;
+    }
+
+    // Remove any previous ball confirmation popup.
+    document.getElementById(
+        "return-ball-confirm-popup"
+    )?.remove();
+
+    const popup = document.createElement("div");
+    popup.id = "return-ball-confirm-popup";
+
+    popup.style.cssText = `
+        position:fixed;
+        inset:0;
+        background:rgba(0,0,0,0.65);
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        padding:20px;
+        box-sizing:border-box;
+        z-index:999999;
+    `;
+
+    popup.innerHTML = `
+        <div style="
+            width:min(420px,100%);
+            background:white;
+            border-radius:24px;
+            padding:28px;
+            box-sizing:border-box;
+            text-align:center;
+            box-shadow:0 15px 45px rgba(0,0,0,0.3);
+        ">
+            <div style="font-size:48px;margin-bottom:10px;">
+                🎾
+            </div>
+
+            <h2 style="
+                margin:0 0 12px;
+                color:var(--user-theme-color,#4fb5ae);
+            ">
+                Return Ball?
+            </h2>
+
+            <p style="
+                color:#53666d;
+                font-size:16px;
+                line-height:1.5;
+                margin-bottom:24px;
+            ">
+                Return <strong>${escapeHTML(toy.name)}</strong>
+                to the Playroom?
+            </p>
+
+            <div style="
+                display:flex;
+                gap:12px;
+                justify-content:center;
+                flex-wrap:wrap;
+            ">
+                <button id="cancel-ball-return" style="
+                    padding:12px 20px;
+                    border:1px solid #d3dde0;
+                    border-radius:14px;
+                    background:#f1f4f5;
+                    color:#344349;
+                    font-weight:bold;
+                    cursor:pointer;
+                ">
+                    Cancel
+                </button>
+
+                <button id="confirm-ball-return" style="
+                    padding:12px 20px;
+                    border:none;
+                    border-radius:14px;
+                    background:var(--user-theme-color,#4fb5ae);
+                    color:white;
+                    font-weight:bold;
+                    cursor:pointer;
+                ">
+                    🎾 Return Ball
+                </button>
+            </div>
+        </div>
+    `;
+
+    // Keep the popup inside fullscreen.
+    const popupHost =
+        document.fullscreenElement || document.body;
+
+    popupHost.appendChild(popup);
+
+    popup.querySelector("#cancel-ball-return")
+        .addEventListener("click", function() {
+            popup.remove();
+        });
+
+    popup.querySelector("#confirm-ball-return")
+        .addEventListener("click", function() {
+            const latestPlayData = getSavedPlayData();
+
+            const latestToy =
+                latestPlayData.ownedVoidyToys?.find(
+                    item => item.id === toyId
+                );
+
+            if (!latestToy) {
+                popup.remove();
+                return;
+            }
+
+            latestToy.room = "playroom";
+            latestToy.x = 50;
+            latestToy.y = 50;
+            latestToy.carriedBy = null;
+
+            savePlayData(latestPlayData);
+
+            popup.remove();
+            renderPlayRoom();
+        });
+}
+
+
+
+function openArcadeMachineSelector() {
+    // Prevent duplicate popups
+    document.getElementById("arcade-machine-selector")?.remove();
+
+    const machines = [
+        {
+            name: "ESSATwist",
+            image: "arcade-machines/essatwist.png"
+        },
+        {
+            name: "ESSA Memory",
+            image: "arcade-machines/memory-game.png"
+        },
+        {
+            name: "ESSA Tiles",
+            image: "arcade-machines/essa-tiles.png"
+        },
+        {
+            name: "ESSA Tic-Tac-Toe",
+            image: "arcade-machines/essa-tictactoe.png"
+        },
+        {
+            name: "Find My ESSA",
+            image: "arcade-machines/find-my-essa.png"
+        }
+    ];
+
+    const popup = document.createElement("div");
+    popup.id = "arcade-machine-selector";
+
+    popup.style.cssText = `
+        position:fixed;
+        inset:0;
+        background:rgba(0,0,0,0.7);
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        z-index:99999;
+        padding:16px;
+        box-sizing:border-box;
+    `;
+
+    popup.innerHTML = `
+        <div style="
+            background:white;
+            border-radius:20px;
+            padding:22px;
+            width:100%;
+            max-width:650px;
+            max-height:85vh;
+            overflow-y:auto;
+            box-sizing:border-box;
+            text-align:center;
+            color:#222;
+        ">
+            <h2 style="margin:0 0 20px;">
+                🕹️ Select a Machine
+            </h2>
+
+            <div style="
+                display:grid;
+                grid-template-columns:repeat(
+                    auto-fit,
+                    minmax(150px,1fr)
+                );
+                gap:16px;
+            ">
+                ${machines.map((machine, index) => `
+                    <button
+                        type="button"
+                        data-machine-index="${index}"
+                        style="
+                            background:#f3f3f3;
+                            border:2px solid #ddd;
+                            border-radius:14px;
+                            padding:12px;
+                            cursor:pointer;
+                            color:#222;
+                        "
+                    >
+                        <img
+                            src="${machine.image}"
+                            alt="${machine.name}"
+                            style="
+                                width:100%;
+                               height:175px;
+                                object-fit:contain;
+                            "
+                        >
+                        <div style="
+                            margin-top:8px;
+                            font-weight:bold;
+                        ">
+                            ${machine.name}
+                        </div>
+                    </button>
+                `).join("")}
+            </div>
+
+            <button
+                type="button"
+                id="close-arcade-selector"
+                style="
+                    margin-top:22px;
+                    padding:12px 28px;
+                    border:none;
+                    border-radius:12px;
+                    background:#333;
+                    color:white;
+                    font-size:16px;
+                    cursor:pointer;
+                "
+            >
+                Close
+            </button>
+        </div>
+    `;
+
+    
+(document.fullscreenElement || document.body).appendChild(popup);
+
+
+    popup.querySelector("#close-arcade-selector")
+        .addEventListener("click", () => popup.remove());
+
+    popup.addEventListener("click", event => {
+        if (event.target === popup) {
+            popup.remove();
+        }
+    });
+
+   
+popup.querySelectorAll("[data-machine-index]").forEach(button => {
+    button.addEventListener("click", () => {
+        const machine = machines[Number(button.dataset.machineIndex)];
+
+        popup.remove();
+        openArcadeMachineDetails(machine);
+    });
+});
+
+}
+
+
+function openArcadeMachineDetails(machine) {
+    const descriptions = {
+        "ESSATwist": "Select two tiles to swap them and make three!",
+        "ESSA Memory": "Flip cards and find matching pairs.",
+        "ESSA Tiles": "Swap adjacent tiles to match three in a row.",
+        "ESSA Tic-Tac-Toe": "Get three in a row to win!",
+        "Find My ESSA": "Find the hidden ESSA!"
+    };
+
+    const games = {
+        "ESSATwist": openESSATwist,
+        "ESSA Memory": openESSAMemory,
+        "ESSA Tiles": openESSATiles,
+        "ESSA Tic-Tac-Toe": openESSATicTacToe,
+        "Find My ESSA": openFindMyEssa
+    };
+
+    const popup = document.createElement("div");
+    popup.id = "arcade-machine-details";
+
+    popup.style.cssText = `
+        position:fixed;
+        inset:0;
+        background:rgba(0,0,0,0.7);
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        z-index:99999;
+        padding:16px;
+        box-sizing:border-box;
+    `;
+
+    popup.innerHTML = `
+        <div style="
+            background:white;
+            color:#222;
+            border-radius:20px;
+            padding:24px;
+            width:100%;
+            max-width:400px;
+            max-height:85vh;
+            overflow-y:auto;
+            text-align:center;
+            box-sizing:border-box;
+        ">
+            <h2>${machine.name}</h2>
+
+            <img
+                src="${machine.image}"
+                alt="${machine.name}"
+                style="
+                    height:220px;
+                    max-width:100%;
+                    object-fit:contain;
+                "
+            >
+
+            <p style="font-size:16px;line-height:1.5;">
+                ${descriptions[machine.name]}
+            </p>
+
+            <div style="
+                display:flex;
+                justify-content:center;
+                gap:12px;
+                margin-top:20px;
+            ">
+               
+<button
+    id="arcade-back"
+    type="button"
+    style="
+        background:#eeeeee;
+        color:#333333;
+        border:2px solid #cccccc;
+        border-radius:14px;
+        padding:12px 28px;
+        font-size:16px;
+        font-weight:bold;
+        cursor:pointer;
+        box-shadow:0 3px 6px rgba(0,0,0,0.12);
+        transition:transform 0.2s ease;
+    "
+>
+    ← Back
+</button>
+
+<button
+    id="arcade-play"
+    type="button"
+    style="
+        background:#179DF4;
+        color:white;
+        border:2px solid #0879c4;
+        border-radius:14px;
+        padding:12px 32px;
+        font-size:16px;
+        font-weight:bold;
+        cursor:pointer;
+        box-shadow:0 4px 8px rgba(0,0,0,0.2);
+        transition:transform 0.2s ease;
+    "
+>
+    ▶ Play
+</button>
+
+            </div>
+        </div>
+    `;
+
+    (document.fullscreenElement || document.body).appendChild(popup);
+
+    popup.querySelector("#arcade-back").addEventListener("click", () => {
+        popup.remove();
+        openArcadeMachineSelector();
+    });
+
+    popup.querySelector("#arcade-play").addEventListener("click", () => {
+        const startGame = games[machine.name];
+
+        popup.remove();
+
+        if (typeof startGame === "function") {
+            startGame();
+        } else {
+            showPlayMessage("This game is not available yet.");
+        }
+    });
+}
+
+
+
+/* =========================================
+   VOIDY BALL — FLOOR DRAGGING
+========================================= */
+
+function enableVoidyBallDragging() {
+
+    document.querySelectorAll(".playroom-voidy-toy")
+        .forEach(function(ball) {
+
+            if (ball.dataset.dragReady === "true") return;
+            ball.dataset.dragReady = "true";
+
+            
+ball.addEventListener("click", function() {
+    const playData = getSavedPlayData();
+
+    const toy = playData.ownedVoidyToys?.find(
+        item => item.id === ball.dataset.toyId
+    );
+
+    if (!toy) return;
+
+    if (toy.room !== "playroom" || toy.carriedBy) {
+        returnVoidyBallToPlayroom(toy.id);
+    }
+});
+
+
+            let dragging = false;
+            let startX = 0;
+            let startY = 0;
+
+            ball.addEventListener("pointerdown", function(e) {
+                dragging = true;
+                startX = e.clientX;
+                startY = e.clientY;
+                ball.setPointerCapture(e.pointerId);
+                ball.style.cursor = "grabbing";
+            });
+
+            ball.addEventListener("pointermove", function(e) {
+
+                if (!dragging) return;
+
+                const room = ball.parentElement;
+                const rect = room.getBoundingClientRect();
+
+                const x = Math.max(
+                    5,
+                    Math.min(
+                        95,
+                        ((e.clientX - rect.left) / rect.width) * 100
+                    )
+                );
+
+                ball.style.left = x + "%";
+            });
+
+            ball.addEventListener("pointerup", function(e) {
+
+                if (!dragging) return;
+                dragging = false;
+
+                ball.style.cursor = "grab";
+
+                const room = ball.parentElement;
+                const rect = room.getBoundingClientRect();
+
+                const x = Math.max(
+                    5,
+                    Math.min(
+                        95,
+                        ((e.clientX - rect.left) / rect.width) * 100
+                    )
+                );
+
+                const playData = getSavedPlayData();
+
+                const toy = playData.ownedVoidyToys.find(
+                    item => item.id === ball.dataset.toyId
+                );
+
+                if (toy) {
+                    toy.x = x;
+                    savePlayData(playData);
+                }
+            });
+
+            ball.addEventListener("pointercancel", function() {
+                dragging = false;
+                ball.style.cursor = "grab";
+            });
+
+        });
+}
+
+
 /* =========================================================
    CUSTOM-AWARE HOUSE RENDER
 ========================================================= */
@@ -34195,6 +38088,55 @@ function renderPlayRoom() {
 
         }
     );
+
+    
+/* =========================================
+   DISPLAY PURCHASED VOIDY TOYS
+========================================= */
+
+let voidyToysHTML = "";
+
+if (Array.isArray(playData.ownedVoidyToys)) {
+
+    playData.ownedVoidyToys.forEach(function(toy) {
+
+        if (toy.room !== room.id) {
+            return;
+        }
+
+        const x = Math.max(
+            5,
+            Math.min(95, Number(toy.x) || 50)
+        );
+
+        voidyToysHTML += `
+            <img
+                class="playroom-voidy-toy"
+                data-toy-id="${escapeHTML(toy.id)}"
+                src="${escapeHTML(toy.image)}"
+                alt="${escapeHTML(toy.name)}"
+                draggable="false"
+                style="
+                    position:absolute;
+                    left:${x}%;
+                  bottom:8%;
+transform:translateX(-50%);
+transition: left 0.5s linear, bottom 0.5s linear;
+                    width:75px;
+                    height:75px;
+                    object-fit:contain;
+                    z-index:85;
+                    cursor:grab;
+                    user-select:none;
+                    touch-action:none;
+                    filter:drop-shadow(
+                        0 4px 5px rgba(0,0,0,.25)
+                    );
+                "
+            >
+        `;
+    });
+}
 
 
     /* =====================================================
@@ -34590,11 +38532,11 @@ onclick="
                 ></div>
 
 
-                ${essasHTML}
+               ${essasHTML}
 
+${voidyToysHTML}
 
-                ${playroomCoinsHTML}
-
+${playroomCoinsHTML}
 
                 ${makePlayRoomSpecialControls(
                     room
@@ -34623,19 +38565,36 @@ onclick="
 
         </div>
 
-    `;
+        `;
 
+    enableVoidyBallDragging();
+
+    updateVoidyBallCarrying();
 
     startPlayHouseTimers();
+
+    
+if (
+    document.getElementById("play-house-room")
+        ?.dataset.roomId === "playroom"
+) {
+    startPlayroomCoinRush();
+} else {
+    stopPlayroomCoinRush();
+}
+
 }
 
 
-async function togglePlayMobileFullscreen() {
+function togglePlayMobileFullscreen() {
 
     const isPhoneLandscape =
         window.matchMedia(
             "(max-height: 500px) and (orientation: landscape)"
         ).matches;
+
+
+    /* PHONE LANDSCAPE */
 
     if (isPhoneLandscape) {
 
@@ -34646,39 +38605,40 @@ async function togglePlayMobileFullscreen() {
         return;
     }
 
+
+    /* DESKTOP */
+
     if (document.fullscreenElement) {
 
-        if (
-            screen.orientation &&
-            typeof screen.orientation.unlock === "function"
-        ) {
-            screen.orientation.unlock();
-        }
+        document.exitFullscreen();
 
-        await document.exitFullscreen();
         return;
     }
 
-    const main = document.querySelector("main");
+
+    const main =
+        document.querySelector(
+            "main"
+        );
+
 
     if (!main) {
         return;
     }
 
-    try {
 
-        await main.requestFullscreen();
+    main
+        .requestFullscreen()
+        .catch(
+            function(error) {
 
-        await lockPlayModeLandscape();
+                console.error(
+                    "Could not enter fullscreen:",
+                    error
+                );
 
-    } catch (error) {
-
-        console.error(
-            "Could not enter fullscreen:",
-            error
+            }
         );
-
-    }
 }
 
 function togglePlayRoomNav() {
@@ -34804,9 +38764,45 @@ function focusPlayableEssa(
 }
 
 
+
+
 /* =========================================================
    CUSTOM-AWARE FOCUS SCREEN
 ========================================================= */
+function togglePlayEssaStay(essaId) {
+    const currentlyStaying =
+        isPlayEssaStaying(essaId);
+
+    const newStayStatus =
+        !currentlyStaying;
+
+    setPlayEssaStaying(
+        essaId,
+        newStayStatus
+    );
+
+    const button =
+        document.getElementById(
+            "play-essa-stay-button"
+        );
+
+    
+if (button) {
+    button.textContent =
+        newStayStatus
+            ? "🐕 Wander"
+            : "🐾 Stay";
+
+    button.style.background =
+        newStayStatus
+            ? "#d93636"
+            : "var(--user-theme-color, #4fb5ae)";
+
+    button.style.color = "white";
+    button.style.border = "none";
+}
+
+}
 
 function renderPlayableEssaFocus(essaId) {
 
@@ -34920,6 +38916,15 @@ function renderPlayableEssaFocus(essaId) {
 
                     <button
                         class="play-action-button primary"
+                        
+style="
+    background:${isPlayEssaStaying(essa.id)
+        ? '#d93636'
+        : 'var(--user-theme-color, #4fb5ae)'};
+    color:white;
+    border:none;
+"
+
 
                         onclick="
                             renderPlayRoom()
@@ -34932,6 +38937,29 @@ function renderPlayableEssaFocus(essaId) {
                     </button>
 
                 </div>
+
+                
+<!-- STAY / WANDER BUTTON -->
+
+<div
+    style="
+        position:absolute;
+        top:18px;
+        right:18px;
+        z-index:50;
+    "
+>
+    <button
+        id="play-essa-stay-button"
+        class="play-action-button primary"
+        onclick="togglePlayEssaStay('${essa.id}')"
+    >
+        ${isPlayEssaStaying(essa.id)
+            ? "🐕 Wander"
+            : "🐾 Stay"}
+    </button>
+</div>
+
 
 
                 <!-- NEEDS -->
@@ -37781,6 +41809,7 @@ function startESSAzLife() {
 }
 
 
+
 if (
     document.readyState ===
     "loading"
@@ -37796,48 +41825,24 @@ if (
     startESSAzLife();
 }
 
-/* =========================================================
-   PLAYMODE LANDSCAPE ORIENTATION
-========================================================= */
+// ==========================================
+// PLAYMODE UPDATES BULLETIN
+// ==========================================
 
-async function lockPlayModeLandscape() {
+const playUpdatesButton = document.getElementById("updates-button");
+const playUpdatesOverlay = document.getElementById("updates-overlay");
+const closePlayUpdatesButton = document.getElementById("close-updates");
 
-    if (
-        screen.orientation &&
-        typeof screen.orientation.lock === "function"
-    ) {
-        try {
-            await screen.orientation.lock("landscape");
-        } catch (error) {
-            console.log(
-                "Landscape lock is not supported here:",
-                error
-            );
-        }
+playUpdatesButton?.addEventListener("click", () => {
+    playUpdatesOverlay.classList.remove("hidden");
+});
+
+closePlayUpdatesButton?.addEventListener("click", () => {
+    playUpdatesOverlay.classList.add("hidden");
+});
+
+playUpdatesOverlay?.addEventListener("click", (event) => {
+    if (event.target === playUpdatesOverlay) {
+        playUpdatesOverlay.classList.add("hidden");
     }
-}
-
-
-// Try when PlayMode loads.
-window.addEventListener(
-    "load",
-    function () {
-        lockPlayModeLandscape();
-    }
-);
-
-
-// Try again after the user's first interaction.
-// Some browsers require a user action before orientation can be locked.
-document.addEventListener(
-    "click",
-    function requestLandscapeOnce() {
-
-        lockPlayModeLandscape();
-
-        document.removeEventListener(
-            "click",
-            requestLandscapeOnce
-        );
-    }
-);
+});
