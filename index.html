@@ -303,7 +303,8 @@
         </p>
     </section>
 
-    <section class="app-launcher">
+    <h2 class="app-section-title">✅ Use Now</h2>
+    <section class="app-launcher" id="availableApps">
 
     <div class="app-card" id="handlerApp">
         <img src="app-icons/Handler.Icon.png" alt="ESSAzLife Handler Edition">
@@ -334,7 +335,22 @@
 
 </section>
 
+<h2 class="app-section-title">⏳ Coming Soon</h2>
+<section class="app-launcher" id="comingSoonApps" aria-label="Coming Soon apps"></section>
+
 </main>
+
+<!-- COMING SOON INFORMATION POPUP -->
+<div class="coming-soon-overlay" id="comingSoonOverlay" role="dialog" aria-modal="true" aria-labelledby="comingSoonTitle" aria-hidden="true">
+  <div class="coming-soon-popup">
+    <button type="button" class="coming-soon-close" id="comingSoonClose" aria-label="Close">×</button>
+    <img id="comingSoonIcon" alt="" class="coming-soon-icon">
+    <h2 id="comingSoonTitle"></h2>
+    <div id="comingSoonDescription" class="coming-soon-description"></div>
+    <p class="coming-soon-label">✨ Coming Soon! ✨</p>
+    <button type="button" class="coming-soon-done" id="comingSoonDone">Got It!</button>
+  </div>
+</div>
 
 <div class="directory-overlay" id="directoryOverlay">
 
@@ -473,10 +489,18 @@
         <p class="bulletin-intro">
             News, updates, and announcements from ESSAzLife World.
         </p>
+
     <div class="bulletin-post">
   <div class="bulletin-date">November 4, 2026 @ 12pm EST</div>
 
-  <h3>ESSAzLife World - Guests</h3>
+  <h3>ESSAzLife World - Visual Changes</h3>
+
+   <strong>Sections</strong>
+    <br>
+     The main World page has now been divided into two sections, 
+     ESSAzLife Apps that are available now and ESSAzLife Apps which
+     are coming soon!
+  </p>
 
   <p>
     <strong>Guest Mode in World</strong> 🎉
@@ -495,8 +519,6 @@
     that users create a backup file to restore as needed 
     in each ESSAzLife App. 
   </p>
-
-
 
 </div>
          <div class="bulletin-post">

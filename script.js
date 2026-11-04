@@ -1239,3 +1239,217 @@ cloudVerifyForm.addEventListener("submit", async function (event) {
         submitButton.disabled = false;
     }
 });
+
+
+/* =========================================================
+   ESSAzLife WORLD — COMING SOON APP CATALOG
+   Change status to "available" and add a launchUrl
+   when an app is ready to release.
+========================================================= */
+
+const futureWorldApps = [
+  {
+    id: "wishez",
+    name: "ESSAzLife Wishez",
+    icon: "Wishez.Icon.png",
+    status: "coming-soon",
+    launchUrl: "",
+    description: [
+      "A Wishlist maker being released just in time for Christmas! Add items from other websites into neat categories and then share your profile at the click of a button!",
+      "ESSAzLife Wishez allows users to make their dream wishlist of items, and then share the entire list with loved ones and friends! Then, if the item is obtained, it can be marked for deletion, or moved to an Acquired section!"
+    ]
+  },
+  {
+    id: "billz",
+    name: "ESSAzLife Billz",
+    icon: "Billz.Icon.png",
+    status: "coming-soon",
+    launchUrl: "",
+    description: [
+      "A financial tracker that helps you budget for bills and savings!",
+      "ESSAzLife Billz is designed to teach kids, teens, and even adults better charting and planning practices when it comes to money."
+    ]
+  },
+  {
+    id: "groceriez",
+    name: "ESSAzLife Groceriez",
+    icon: "Groceriez.Icon.png",
+    status: "coming-soon",
+    launchUrl: "",
+    description: [
+      "Ever walked into the store and forgot what you're looking for? With ESSAzLife Groceriez, you can organize by store, list the item and what aisle it will be in, and check the estimated subtotal all in one place!"
+    ]
+  },
+  {
+    id: "roblox",
+    name: "ESSAzLife PlayMode: Roblox Edition",
+    icon: "Roblox.Icon.png",
+    status: "coming-soon",
+    launchUrl: "",
+    description: [
+      "Love ESSAzLife PlayMode? Now imagine playing with your ESSAs alongside your Roblox friends!",
+      "Explore a shared virtual world, customize your ESSAs, care for them, and enjoy exciting adventures together!",
+      "All the fun of ESSAzLife PlayMode, now with multiplayer adventures on Roblox!"
+    ]
+  },
+  {
+    id: "dressup",
+    name: "ESSAzLife: Daisyz DressUp",
+    icon: "Dressup.Icon.png",
+    status: "coming-soon",
+    launchUrl: "",
+    description: [
+      "Play with Raising Floofz's ESSA Cow, DaisyBelle, and dress her up in cute outfits."
+    ]
+  },
+  {
+    id: "echoz",
+    name: "ESSAzLife Echoz",
+    icon: "Echoz.Icon.png",
+    status: "coming-soon",
+    launchUrl: "",
+    description: [
+      "Have you ever wished your ESSA could make realistic sounds and respond to you? With the help of your Echoz app, you can enable your ESSA to do just that!",
+      "ESSAzLife Echoz is an app that works offline, and you can use it with a Bluetooth speaker (recommended) or your device."
+    ]
+  },
+  {
+    id: "social",
+    name: "ESSAzLife Social",
+    icon: "Social.Icon.png",
+    status: "coming-soon",
+    launchUrl: "",
+    description: [
+      "Have you ever been scrolling through social media trying to enjoy ESSA content, only to get frustrated by ads, pop-ups, off-topic videos, and background music?",
+      "ESSAzLife Social is a distraction-free platform dedicated to sharing our love of Emotional Support Stuffed Animals!",
+      "Everyone can explore and enjoy ESSA content, but users must be 13 years or older to create and share posts, photos, or videos.",
+      "No unnecessary distractions, just ESSAs and the people who love them!"
+    ]
+  }
+];
+
+/* =========================================================
+   CREATE APP ICONS AND DESCRIPTION POPUPS
+========================================================= */
+
+(function initializeFutureWorldApps() {
+
+  const upcoming = document.getElementById("comingSoonApps");
+  const available = document.getElementById("availableApps");
+
+  const overlay = document.getElementById("comingSoonOverlay");
+  const popupTitle = document.getElementById("comingSoonTitle");
+  const popupIcon = document.getElementById("comingSoonIcon");
+  const popupDescription = document.getElementById("comingSoonDescription");
+
+  const closeButton = document.getElementById("comingSoonClose");
+  const doneButton = document.getElementById("comingSoonDone");
+
+  if (!upcoming || !available || !overlay ||
+      !popupTitle || !popupIcon || !popupDescription ||
+      !closeButton || !doneButton) {
+    console.warn("Coming Soon elements were not found.");
+    return;
+  }
+
+  let previousFocus = null;
+
+  function closePopup() {
+    overlay.classList.remove("show");
+    overlay.setAttribute("aria-hidden", "true");
+
+    if (previousFocus &&
+        typeof previousFocus.focus === "function") {
+      previousFocus.focus();
+    }
+  }
+
+  function showPopup(app) {
+    previousFocus = document.activeElement;
+
+    popupTitle.textContent = app.name;
+    popupIcon.src = "app-icons/" + app.icon;
+    popupIcon.alt = app.name;
+
+    popupDescription.replaceChildren();
+
+    for (const paragraph of app.description) {
+      const p = document.createElement("p");
+      p.textContent = paragraph;
+      popupDescription.appendChild(p);
+    }
+
+    overlay.classList.add("show");
+    overlay.setAttribute("aria-hidden", "false");
+    closeButton.focus();
+  }
+
+  closeButton.addEventListener("click", closePopup);
+  doneButton.addEventListener("click", closePopup);
+
+  overlay.addEventListener("click", function(event) {
+    if (event.target === overlay) {
+      closePopup();
+    }
+  });
+
+  document.addEventListener("keydown", function(event) {
+    if (!overlay.classList.contains("show")) return;
+
+    if (event.key === "Escape") {
+      closePopup();
+    }
+
+    if (event.key === "Tab") {
+      const buttons = [closeButton, doneButton];
+      const current = buttons.indexOf(document.activeElement);
+
+      if (event.shiftKey && current === 0) {
+        event.preventDefault();
+        doneButton.focus();
+      } else if (!event.shiftKey && current === 1) {
+        event.preventDefault();
+        closeButton.focus();
+      }
+    }
+  });
+
+  for (const app of futureWorldApps) {
+
+    const card = document.createElement("button");
+    card.type = "button";
+    card.className = "app-card future-app-card";
+
+    card.setAttribute(
+      "aria-label",
+      app.name + (
+        app.status === "available" ? "" : " — Coming Soon"
+      )
+    );
+
+    const img = document.createElement("img");
+    img.src = "app-icons/" + app.icon;
+    img.alt = app.name;
+    card.appendChild(img);
+
+    const heading = document.createElement("h2");
+    heading.textContent = app.name;
+    card.appendChild(heading);
+
+    if (app.status === "available" && app.launchUrl) {
+      available.appendChild(card);
+
+      card.addEventListener("click", function() {
+        window.location.href = app.launchUrl;
+      });
+
+    } else {
+      upcoming.appendChild(card);
+
+      card.addEventListener("click", function() {
+        showPopup(app);
+      });
+    }
+  }
+
+})();
