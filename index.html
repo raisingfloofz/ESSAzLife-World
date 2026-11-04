@@ -46,13 +46,126 @@
             Welcome to the headquarters of ESSAzLife.
         </p>
 
-        <div class="welcome-buttons">
-            <button id="welcomeCreateButton">Create Account</button>
-            <button id="welcomeLoginButton">Log In</button>
-        </div>
+        
+
+<div class="welcome-buttons">
+    <button id="welcomeCreateButton">Create Account</button>
+    <button id="welcomeLoginButton">Log In</button>
+    <button id="welcomeGuestButton" type="button">👤 Continue as Guest</button>
+</div>
+
+<button
+    id="forgotLoginButton"
+    type="button"
+    onclick="document.getElementById('forgotLoginOverlay').style.display = 'flex'"
+    style="
+        display:block;
+        margin:18px auto 0;
+        padding:6px;
+        background:none;
+        border:none;
+        color:#179DF4;
+        text-decoration:underline;
+        font-size:14px;
+        cursor:pointer;
+    "
+>
+    Uh-Oh, I forgot my...
+</button>
+
+
 
     </div>
 
+</div>
+
+
+<!-- FORGOT LOGIN INFORMATION POPUP -->
+<div
+    id="forgotLoginOverlay"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="forgotLoginTitle"
+    style="
+        display:none;
+        position:fixed;
+        inset:0;
+        background:rgba(0,0,0,0.6);
+        z-index:99999;
+        align-items:center;
+        justify-content:center;
+        padding:20px;
+        box-sizing:border-box;
+    "
+>
+    <div
+        style="
+            background:white;
+            border-radius:22px;
+            padding:28px;
+            max-width:420px;
+            width:100%;
+            text-align:center;
+            box-shadow:0 12px 35px rgba(0,0,0,0.25);
+        "
+    >
+        <h2 id="forgotLoginTitle" style="color:#179DF4;">
+            🔐 Forgot Your Login Information?
+        </h2>
+
+        <p style="color:#344349;line-height:1.7;">
+            If you forget your password or username, then
+            you should have your backup to restore.
+            Create a new account with your desired username,
+            or choose guest mode, and restore your file.
+        </p>
+
+        <button
+            type="button"
+            onclick="document.getElementById('forgotLoginOverlay').style.display = 'none'"
+            style="
+                background:#179DF4;
+                color:white;
+                border:none;
+                padding:12px 28px;
+                border-radius:12px;
+                font-size:16px;
+                font-weight:bold;
+                cursor:pointer;
+                margin-top:12px;
+            "
+        >
+            Got It!
+        </button>
+    </div>
+</div>
+
+
+<!-- WORLD GUEST MODE CONFIRMATION -->
+<div class="confirm-overlay" id="guestConfirmOverlay">
+    <div class="confirm-popup">
+        <h2>Continue as Guest?</h2>
+
+        <p>
+            You can explore ESSAzLife World without creating an account!
+        </p>
+
+        <p>
+            Just remember not to clear your browser's site data,
+            and regularly download your backup file in each
+            individual app so you don't lose your progress.
+        </p>
+
+        <div class="confirm-buttons">
+            <button class="cancel-button" id="cancelGuestButton" type="button">
+                Cancel
+            </button>
+
+            <button class="confirm-logout-button" id="confirmGuestButton" type="button">
+                Continue as Guest
+            </button>
+        </div>
+    </div>
 </div>
 
 <!-- Create Account -->
@@ -360,8 +473,51 @@
         <p class="bulletin-intro">
             News, updates, and announcements from ESSAzLife World.
         </p>
+    <div class="bulletin-post">
+  <div class="bulletin-date">November 4, 2026 @ 12pm EST</div>
 
-         
+  <h3>ESSAzLife World - Guests</h3>
+
+  <p>
+    <strong>Guest Mode in World</strong> 🎉
+    <br>
+    ESSAzLife World now functions with guest mode, 
+    while keeping the data for guest accounts and 
+    accounts that are created and loggin in separate,
+    unless in the event of a restored backup file.  
+  </p>
+
+  <p>
+    <strong>Forgot Password and Username</strong> 🎉
+    <br>
+    ESSAzLife World is currently running without the 
+    ability to reset your password. It is very IMPORTANT
+    that users create a backup file to restore as needed 
+    in each ESSAzLife App. 
+  </p>
+
+
+
+</div>
+         <div class="bulletin-post">
+  <div class="bulletin-date">October 31, 2026 @ 9pm EST</div>
+
+  <h3>ESSAzLife World - PlayMode Update!</h3>
+
+  <p>
+    <strong>Happy Halloween</strong> 🎉
+    <br>
+    ESSAzLife World will now be the only way to utilize the newest 
+    versions of ESSAzLife Handler Edition, PlayMode, and Chorez. 
+  </p>
+
+  <p>
+    ESSAzLife World now has a Guest Mode option on the login page.
+    <b>Make sure to download your backup files just in case, they <br> 
+    are available under the Profile section of each individual app.</b>
+  </p>
+
+</div>
 
 <div class="bulletin-post">
   <div class="bulletin-date">October 30, 2026 @ 3pm EST</div>
