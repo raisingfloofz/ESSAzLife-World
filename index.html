@@ -495,6 +495,13 @@
 
   <h3>ESSAzLife World - Visual Changes</h3>
 
+   <strong>You've Got Mail!</strong>
+    <br>
+     Users of ESSAzLife World will now receive a 
+     notification on their screen when there is a
+     new update added to the Updates Board.
+  </p>
+
    <strong>Sections</strong>
     <br>
      The main World page has now been divided into two sections, 
@@ -1136,6 +1143,43 @@
     </div>
 
 </div>
+
+
+<!-- NEW UPDATE NOTIFICATION -->
+<div id="newUpdateOverlay" class="new-update-overlay"
+     role="dialog" aria-modal="true"
+     aria-labelledby="newUpdateTitle"
+     style="display:none;">
+
+  <div class="new-update-popup">
+
+    <button id="newUpdateClose"
+            class="new-update-close"
+            type="button"
+            aria-label="Dismiss notification">×</button>
+
+    <div class="new-update-envelope">💌</div>
+
+    <h2 id="newUpdateTitle">
+      You've Got Mail!
+    </h2>
+
+    <p>
+      Changes were made to ESSAzLife World.
+      See what is new in the Updates Board. 
+    </p>
+
+    <button id="newUpdateShowMe"
+            class="new-update-show"
+            type="button">
+      Show Me!
+    </button>
+
+  </div>
+</div>
+
+
+
 
 <script src="script.js"></script>
 <script type="module" src="firebase.js"></script>

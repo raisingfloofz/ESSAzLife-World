@@ -1453,3 +1453,306 @@ const futureWorldApps = [
   }
 
 })();
+
+
+/* ==========================================
+   ESSAzLife World - Update Notifications
+========================================== */
+
+(function initializeUpdateNotifications() {
+
+    const overlay =
+        document.getElementById("newUpdateOverlay");
+
+    const closeButton =
+        document.getElementById("newUpdateClose");
+
+    const showButton =
+        document.getElementById("newUpdateShowMe");
+
+    const bulletinButton =
+        document.getElementById("bulletinButton");
+
+    const welcomeScreen =
+        document.getElementById("welcomeScreen");
+
+    const storageKey = "essazlife_last_seen_update";
+
+    if (!overlay || !closeButton ||
+        !showButton || !bulletinButton) {
+        return;
+    }
+
+    // Get the newest bulletin post.
+    // New posts must be placed at the TOP of the board.
+    const latestPost =
+        document.querySelector(
+            "#bulletinOverlay .bulletin-post"
+        );
+
+    if (!latestPost) return;
+
+    // Generate a unique identifier from the post content.
+    // Editing the newest post also counts as a new update.
+    const postContent =
+        latestPost.textContent.trim();
+
+    let hash = 2166136261;
+
+    for (let i = 0; i < postContent.length; i++) {
+        hash ^= postContent.charCodeAt(i);
+        hash = Math.imul(hash, 16777619);
+    }
+
+    const latestUpdateId = String(hash >>> 0);
+
+    let lastSeenUpdate = null;
+
+    try {
+        lastSeenUpdate =
+            localStorage.getItem(storageKey);
+    } catch (error) {
+        console.warn(
+            "Update notification storage unavailable.",
+            error
+        );
+    }
+
+    if (lastSeenUpdate === latestUpdateId) {
+        return;
+    }
+
+    let notificationShown = false;
+    let previousFocus = null;
+
+    function acknowledgeUpdate() {
+        try {
+            localStorage.setItem(
+                storageKey,
+                latestUpdateId
+            );
+        } catch (error) {
+            console.warn(
+                "Could not save update notification.",
+                error
+            );
+        }
+    }
+
+    function closeNotification() {
+        acknowledgeUpdate();
+        overlay.style.display = "none";
+
+        if (previousFocus &&
+            typeof previousFocus.focus === "function") {
+            previousFocus.focus();
+        }
+    }
+
+    function showNotification() {
+        if (notificationShown) return;
+
+        notificationShown = true;
+        previousFocus = document.activeElement;
+
+        overlay.style.display = "flex";
+        closeButton.focus();
+    }
+
+    // Do not show notifications over the login screen.
+    function isWorldOpen() {
+        if (!welcomeScreen) return true;
+
+        const style =
+            window.getComputedStyle(welcomeScreen);
+
+        return style.display === "none" ||
+               style.visibility === "hidden" ||
+               style.opacity === "0" ||
+               welcomeScreen.hidden;
+    }
+
+    // Wait for the user to enter World.
+    const checkInterval = setInterval(function() {
+
+        if (isWorldOpen()) {
+            clearInterval(checkInterval);
+            showNotification();
+        }
+
+    }, 500);
+
+    // X dismisses until a newer post is published.
+    closeButton.addEventListener(
+        "click",
+        closeNotification
+    );
+
+    // Show Me acknowledges and opens Updates.
+    showButton.addEventListener("click", function() {
+        closeNotification();
+        bulletinButton.click();
+    });
+
+    // Clicking the dark background dismisses.
+    overlay.addEventListener("click", function(event) {
+        if (event.target === overlay) {
+            closeNotification();
+        }
+    });
+
+    // Escape also dismisses the notification.
+    document.addEventListener("keydown", function(event) {
+        if (overlay.style.display !== "flex") return;
+
+        if (event.key === "Escape") {
+            closeNotification();
+        }
+
+        // Keep keyboard focus inside the popup.
+        if (event.key === "Tab") {
+            const buttons = [closeButton, showButton];
+            const current =
+                buttons.indexOf(document.activeElement);
+
+            if (event.shiftKey && current === 0) {
+                event.preventDefault();
+                showButton.focus();
+            } else if (!event.shiftKey && current === 1) {
+                event.preventDefault();
+                closeButton.focus();
+            }
+        }
+    });
+
+})();
+
+
+/* ==========================================
+   ESSAzLife World - Unread Bulletin Posts
+========================================== */
+
+(function initializeUnreadBulletinPosts() {
+
+    const bulletinOverlay =
+        document.getElementById("bulletinOverlay");
+
+    const bulletinButton =
+        document.getElementById("bulletinButton");
+
+    const storageKey = "essazlife_read_bulletin_posts";
+
+    if (!bulletinOverlay || !bulletinButton) return;
+
+    let readPosts = [];
+
+    try {
+        const saved = JSON.parse(
+            localStorage.getItem(storageKey) || "[]"
+        );
+
+        if (Array.isArray(saved)) {
+            readPosts = saved;
+        }
+    } catch (error) {
+        console.warn("Could not load read bulletin posts.", error);
+    }
+
+    function getPostId(post) {
+        // Use the post content to identify each announcement.
+        const content = post.textContent.trim();
+
+        let hash = 2166136261;
+
+        for (let i = 0; i < content.length; i++) {
+            hash ^= content.charCodeAt(i);
+            hash = Math.imul(hash, 16777619);
+        }
+
+        return String(hash >>> 0);
+    }
+
+    function getPosts() {
+        return Array.from(
+            bulletinOverlay.querySelectorAll(".bulletin-post")
+        );
+    }
+
+    function highlightUnreadPosts() {
+        const readSet = new Set(readPosts);
+
+        getPosts().forEach(function(post) {
+            const id = getPostId(post);
+
+            post.classList.toggle(
+                "unread-update",
+                !readSet.has(id)
+            );
+        });
+    }
+
+    function markPostsAsRead() {
+        const allIds = getPosts().map(getPostId);
+
+        readPosts = Array.from(
+            new Set([...readPosts, ...allIds])
+        );
+
+        try {
+            localStorage.setItem(
+                storageKey,
+                JSON.stringify(readPosts)
+            );
+        } catch (error) {
+            console.warn(
+                "Could not save read bulletin posts.",
+                error
+            );
+        }
+
+        getPosts().forEach(function(post) {
+            post.classList.remove("unread-update");
+        });
+    }
+
+    function isBulletinVisible() {
+        const style = window.getComputedStyle(
+            bulletinOverlay
+        );
+
+        return style.display !== "none" &&
+               style.visibility !== "hidden" &&
+               style.opacity !== "0";
+    }
+
+    let wasOpen = isBulletinVisible();
+
+    // Highlight unread posts before opening the board.
+    bulletinButton.addEventListener(
+        "click",
+        highlightUnreadPosts,
+        true
+    );
+
+    // Detect the board opening or closing, including
+    // the existing X button, backdrop, or Escape handling.
+    const observer = new MutationObserver(function() {
+        const isOpen = isBulletinVisible();
+
+        if (isOpen && !wasOpen) {
+            highlightUnreadPosts();
+        }
+
+        if (!isOpen && wasOpen) {
+            markPostsAsRead();
+        }
+
+        wasOpen = isOpen;
+    });
+
+    observer.observe(bulletinOverlay, {
+        attributes: true,
+        attributeFilter: ["style", "class", "hidden"]
+    });
+
+})();
