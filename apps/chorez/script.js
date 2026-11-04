@@ -3,6 +3,10 @@
 // script.js
 // ==========================================
 
+const WORLD_LOGIN_KEY = "essazlifeWorldLoggedIn";
+const WORLD_ACCOUNT_KEY = "essazlifeWorldAccount";
+
+
 
 // ==========================================
 // ELEMENTS
@@ -542,6 +546,30 @@ const HUNGER_LOSS =
 // ==========================================
 // PROFILE HELPERS
 // ==========================================
+function getChorezStorageKey() {
+    const account = getWorldAccount();
+
+    if (!account) {
+        throw new Error("No World account is signed in.");
+    }
+
+    const mode = localStorage.getItem("essazlifeWorldLoginMode");
+
+    if (mode === "guest") {
+        return "chorezProfile:guest";
+    }
+
+    const accountType = mode === "cloud" ? "cloud" : "local";
+
+    return "chorezProfile:" +
+        accountType + ":" +
+        encodeURIComponent(account.username.trim());
+}
+
+function getChorezIntroKey() {
+    return getChorezStorageKey() + ":hasSeenMooCowIntro";
+}
+
 // ==========================================
 // CHORE HISTORY
 // ==========================================
@@ -657,38 +685,29 @@ function formatHistoryTime(entry) {
     );
 }
 
-function getChorezProfile() {
 
-    const saved =
-        localStorage.getItem("chorezProfile");
+function getChorezProfile() {
+    const saved = localStorage.getItem(getChorezStorageKey());
 
     if (!saved) {
         return null;
     }
 
     try {
-
         return JSON.parse(saved);
-
     } catch (error) {
-
-        console.error(
-            "Could not read Chorez profile:",
-            error
-        );
-
+        console.error("Could not read Chorez profile:", error);
         return null;
     }
 }
 
-
 function saveChorezProfile(profile) {
-
     localStorage.setItem(
-        "chorezProfile",
+        getChorezStorageKey(),
         JSON.stringify(profile)
     );
 }
+
 
 // ==========================================
 // CHOREZ CLOCK
@@ -982,13 +1001,22 @@ closeProfileMenuButton.addEventListener(
 );
 
 
-const WORLD_LOGIN_KEY = "essazlifeWorldLoggedIn";
-const WORLD_ACCOUNT_KEY = "essazlifeWorldAccount";
+
 
 function getWorldAccount() {
     if (localStorage.getItem(WORLD_LOGIN_KEY) !== "true") return null;
 
     const mode = localStorage.getItem("essazlifeWorldLoginMode");
+    
+    // Allow Guest Mode users from ESSAzLife World.
+    if (mode === "guest") {
+        return {
+            username: "GUEST ACCOUNT",
+            nickname: "Guest",
+            isGuest: true
+        };
+    }
+
 
     if (mode === "cloud") {
         // World has already verified this tab's cloud token with /me.
@@ -1094,10 +1122,12 @@ function initializeApp() {
     updateRoomCoinDisplays();
 
 
-   const hasSeenIntro =
+   
+const hasSeenIntro =
     localStorage.getItem(
-        "hasSeenMooCowIntro"
+        getChorezIntroKey()
     ) === "true";
+
 
 
 if (!hasSeenIntro) {
@@ -1178,10 +1208,12 @@ finishIntroButton.addEventListener(
     "click",
     () => {
 
-        localStorage.setItem(
-            "hasSeenMooCowIntro",
-            "true"
-        );
+        
+localStorage.setItem(
+    getChorezIntroKey(),
+    "true"
+);
+
 
         introOverlay.classList.add(
             "hidden"
@@ -4298,7 +4330,7 @@ backupButton.addEventListener(
 
             hasSeenMooCowIntro:
                 localStorage.getItem(
-                    "hasSeenMooCowIntro"
+                    getChorezIntroKey()
                 ) === "true"
         };
 
@@ -4428,18 +4460,20 @@ restoreFileInput.addEventListener(
             }
 
 
+
             const restoredProfile =
                 backupData.profile;
 
 
-            // Basic profile validation.
+            // ==========================================
+            // VALIDATE BACKUP PROFILE
+            // ==========================================
+
             if (
-                typeof restoredProfile.username !==
-                    "string" ||
-                typeof restoredProfile.passwordHash !==
-                    "string" ||
-                typeof restoredProfile.salt !==
-                    "string"
+                !restoredProfile ||
+                typeof restoredProfile !== "object" ||
+                !Array.isArray(restoredProfile.chores) ||
+                !Array.isArray(restoredProfile.choreHistory)
             ) {
 
                 throw new Error(
@@ -4448,48 +4482,93 @@ restoreFileInput.addEventListener(
             }
 
 
-            // Restore the profile.
+            // ==========================================
+            // RESTORE TO CURRENT WORLD ACCOUNT
+            // ==========================================
+
+            const currentWorldAccount =
+                getWorldAccount();
+
+            if (!currentWorldAccount) {
+
+                throw new Error(
+                    "No World account is signed in."
+                );
+            }
+
+
+            // Preserve the current World account
+            // identity while restoring progress.
+
+            restoredProfile.username =
+                currentWorldAccount.username;
+
+            restoredProfile.nickname =
+                currentWorldAccount.nickname || "";
+
+            restoredProfile.worldManaged = true;
+
+
+            // Remove old standalone Chorez
+            // authentication information.
+
+            delete restoredProfile.passwordHash;
+            delete restoredProfile.salt;
+
+
+            // Save progress to this account's
+            // separate Chorez storage.
+
             saveChorezProfile(
                 restoredProfile
             );
 
 
-            // Restore whether the MooCow
-            // introduction was already seen.
+            // ==========================================
+            // RESTORE MOOCOW INTRODUCTION
+            // ==========================================
+
             if (
-                backupData.hasSeenMooCowIntro ===
-                true
+                backupData.hasSeenMooCowIntro === true
             ) {
 
                 localStorage.setItem(
-                    "hasSeenMooCowIntro",
+                    getChorezIntroKey(),
                     "true"
                 );
 
             } else {
 
                 localStorage.removeItem(
-                    "hasSeenMooCowIntro"
+                    getChorezIntroKey()
                 );
             }
 
 
-            // Keep the user logged in on
-            // this device after restoring.
-            sessionStorage.setItem(
-                "chorezLoggedIn",
-                "true"
-            );
+            // ==========================================
+            // KEEP WORLD ACCOUNT ACTIVE
+            // ==========================================
+
+            // World handles authentication.
+            // Do not create a separate Chorez login.
 
 
-            // Close Profile menu.
+            // ==========================================
+            // CLOSE PROFILE MENU
+            // ==========================================
+
             profileMenuOverlay.classList.add(
                 "hidden"
             );
 
 
-            // Refresh the visible app data.
+            // ==========================================
+            // REFRESH CHOREZ
+            // ==========================================
+
             renderChores();
+
+            updateMainChorezDateTime();
 
             updateHungerFromTime();
 
@@ -4497,6 +4576,10 @@ restoreFileInput.addEventListener(
 
             updateRoomCoinDisplays();
 
+
+            // ==========================================
+            // SUCCESS MESSAGE
+            // ==========================================
 
             showSuccessPopup(
                 "Backup Restored! 📂",
@@ -4519,12 +4602,12 @@ restoreFileInput.addEventListener(
         }
 
 
-        // Allows selecting the same
-        // backup file again later.
+        // Allow selecting the same backup
+        // file again later.
+
         restoreFileInput.value = "";
     }
 );
-
 
 // ==========================================
 // HUNGER TIMER

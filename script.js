@@ -94,6 +94,23 @@ const cancelDeleteButton = document.getElementById("cancelDeleteButton");
 const confirmDeleteButton = document.getElementById("confirmDeleteButton");
 
 settingsButton.addEventListener("click", function () {
+    
+    if (localStorage.getItem("essazlifeWorldLoginMode") === "guest") {
+        settingsAccountName.textContent = "👤 Guest Account";
+
+        changeNicknameButton.disabled = true;
+        changeUsernameButton.disabled = true;
+        changePasswordButton.disabled = true;
+        upgradeWorldCloudButton.disabled = true;
+        deleteAccountButton.disabled = true;
+
+        worldCloudUpgradeStatus.textContent =
+            "You're exploring as a Guest! Create an account to access account settings.";
+
+        settingsOverlay.classList.add("show");
+        return;
+    }
+
     const cloudAccount = getActiveCloudAccount();
     const savedAccount = localStorage.getItem("essazlifeWorldAccount");
     let localAccount = null;
@@ -635,10 +652,20 @@ function showWelcomeBackMessage() {
         ? "Welcome Back, " + account.nickname : "";
 }
 
+
 async function restoreWorldLogin() {
     const mode = localStorage.getItem("essazlifeWorldLoginMode");
     const loggedIn = localStorage.getItem("essazlifeWorldLoggedIn") === "true";
+
+    // Restore Guest Mode after refreshing or reopening World.
+    if (mode === "guest" && loggedIn) {
+        welcomeScreen.style.display = "none";
+        welcomeBackMessage.textContent = "Welcome, Guest!";
+        return;
+    }
+
     if (mode === "cloud") {
+
         // Keep the welcome screen up until the server verifies this session.
         welcomeScreen.style.display = "flex";
         const token = sessionStorage.getItem("essazlifeWorldCloudToken") ||
@@ -676,6 +703,41 @@ async function restoreWorldLogin() {
         showWelcomeBackMessage();
     }
 }
+
+
+/* =========================================
+   ESSAzLife WORLD GUEST MODE
+   ========================================= */
+
+const welcomeGuestButton = document.getElementById("welcomeGuestButton");
+const guestConfirmOverlay = document.getElementById("guestConfirmOverlay");
+const cancelGuestButton = document.getElementById("cancelGuestButton");
+const confirmGuestButton = document.getElementById("confirmGuestButton");
+
+welcomeGuestButton.addEventListener("click", function () {
+    guestConfirmOverlay.classList.add("show");
+});
+
+cancelGuestButton.addEventListener("click", function () {
+    guestConfirmOverlay.classList.remove("show");
+});
+
+guestConfirmOverlay.addEventListener("click", function (event) {
+    if (event.target === guestConfirmOverlay) {
+        guestConfirmOverlay.classList.remove("show");
+    }
+});
+
+confirmGuestButton.addEventListener("click", function () {
+    // Guest mode must not overwrite existing World account details.
+    localStorage.setItem("essazlifeWorldLoginMode", "guest");
+    localStorage.setItem("essazlifeWorldLoggedIn", "true");
+
+    guestConfirmOverlay.classList.remove("show");
+    welcomeScreen.style.display = "none";
+    welcomeBackMessage.textContent = "Welcome, Guest!";
+});
+
 restoreWorldLogin();
 
 const welcomeLoginButton = document.getElementById("welcomeLoginButton");

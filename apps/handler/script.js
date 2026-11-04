@@ -13,6 +13,16 @@ function getWorldAccount() {
     if (localStorage.getItem(WORLD_LOGIN_KEY) !== "true") return null;
 
     const mode = localStorage.getItem("essazlifeWorldLoginMode");
+    
+    // Allow Guest Mode users from ESSAzLife World.
+    if (mode === "guest") {
+        return {
+            username: "GUEST ACCOUNT",
+            nickname: "Guest",
+            isGuest: true
+        };
+    }
+
 
     if (mode === "cloud") {
         // World has already verified this tab's cloud token with /me.
@@ -561,26 +571,10 @@ function connectWorldAccountToHandler() {
     const accounts =
         getAccounts();
 
-    /*
-        First, check whether the currently selected
-        Handler account still exists.
-
-        This preserves existing Handler data because
-        all Handler data is connected to its internal ID.
-    */
-    const currentHandlerId =
-        getCurrentUserId();
-
-    let handlerAccount =
-        accounts.find(
-            function(account) {
-
-                return (
-                    String(account.id) ===
-                    String(currentHandlerId)
-                );
-            }
-        );
+    // Always identify the Handler profile using
+// the currently logged-in World account.
+// Never reuse the previous Handler session.
+let handlerAccount = null;
 
 
     /*
@@ -2612,160 +2606,131 @@ function renderProfile() {
    DOWNLOAD HANDLER BACKUP
 ========================================================= */
 
+
 function backupHandlerData() {
+    const user = getCurrentUser();
+    const worldAccount = getWorldAccount();
+
+    if (!user || !worldAccount) {
+        alert("Please sign into ESSAzLife World first.");
+        return;
+    }
 
     const backup = {
         app: "ESSAzLife Handler Edition",
-        version: 1,
+        version: 2,
         createdAt: new Date().toISOString(),
-        localStorage: {}
+
+        profile: {
+            nickname: user.nickname || "",
+            genderIdentity: user.genderIdentity || "",
+            pronouns: user.pronouns || "",
+            ageGroup: user.ageGroup || "",
+            themeColor: user.themeColor || "#4fb5ae",
+            handlerCertified: user.handlerCertified === true,
+            handlerCertificationDate: user.handlerCertificationDate || null,
+            handlerCertificationTime: user.handlerCertificationTime || null
+        },
+
+        data: {
+            essas: getSavedEssas(),
+            care: getSavedCare(),
+            tricks: getSavedTricks(),
+            scores: getSavedScores(),
+            drawings: getSavedDrawings(),
+            diary: getSavedDiary()
+        }
     };
 
+    const backupText = JSON.stringify(backup, null, 2);
 
-    for (
-        let i = 0;
-        i < localStorage.length;
-        i++
-    ) {
+    const blob = new Blob([backupText], {
+        type: "application/json"
+    });
 
-        const key =
-            localStorage.key(i);
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
 
+    const date = new Date().toISOString().slice(0, 10);
 
-        if (
-    key &&
-    (
-        key === "essazLifeAccounts" ||
-        key === "essazLifeCurrentUser" ||
-        key.startsWith("essazLife_")
-    )
-) {
-    backup.localStorage[key] =
-        localStorage.getItem(key);
-}
-    }
-
-
-    const backupText =
-        JSON.stringify(
-            backup,
-            null,
-            2
-        );
-
-
-    const blob =
-        new Blob(
-            [backupText],
-            {
-                type:
-                    "application/json"
-            }
-        );
-
-
-    const url =
-        URL.createObjectURL(
-            blob
-        );
-
-
-    const link =
-        document.createElement(
-            "a"
-        );
-
-
-    const date =
-        new Date()
-            .toISOString()
-            .slice(
-                0,
-                10
-            );
-
-
-    link.href =
-        url;
-
-
+    link.href = url;
     link.download =
         "ESSAzLife-Handler-Backup-" +
         date +
         ".json";
 
-
-    document.body.appendChild(
-        link
-    );
-
-
+    document.body.appendChild(link);
     link.click();
-
-
     link.remove();
 
-
-    URL.revokeObjectURL(
-        url
-    );
+    URL.revokeObjectURL(url);
 }
+
 
 /* =========================================================
    READ HANDLER BACKUP
 ========================================================= */
 
-function restoreHandlerData(
-    file
-) {
 
-    if (!file) {
+function restoreHandlerData(file) {
+    if (!file) return;
+
+    const user = getCurrentUser();
+    const worldAccount = getWorldAccount();
+
+    if (!user || !worldAccount) {
+        alert("Please sign into ESSAzLife World first.");
         return;
     }
 
+    const reader = new FileReader();
 
-    const reader =
-        new FileReader();
+    reader.onload = function(event) {
+        try {
+            const backup = JSON.parse(event.target.result);
 
-
-    reader.onload =
-        function(event) {
-
-            try {
-
-                const backup =
-                    JSON.parse(
-                        event.target.result
-                    );
-
-
-                if (
-                    !backup ||
-                    backup.app !==
-                        "ESSAzLife Handler Edition" ||
-                    !backup.localStorage
-                ) {
-
-                    showInvalidBackupPopup();
-
-                    return;
-                }
-
-
-                showRestoreBackupPopup(
-                    backup
-                );
-
-            } catch (error) {
-
+            if (
+                !backup ||
+                backup.app !== "ESSAzLife Handler Edition" ||
+                backup.version !== 2 ||
+                !backup.profile ||
+                typeof backup.profile !== "object" ||
+                Array.isArray(backup.profile) ||
+                !backup.data ||
+                typeof backup.data !== "object" ||
+                Array.isArray(backup.data) ||
+                ![
+                    "essas",
+                    "care",
+                    "tricks",
+                    "scores",
+                    "drawings",
+                    "diary"
+                ].every(function(type) {
+                    return Array.isArray(backup.data[type]);
+                })
+            ) {
                 showInvalidBackupPopup();
+                return;
             }
-        };
 
+            // Remember which Handler account requested
+            // the restore, preventing account switching
+            // before confirmation.
+            backup.targetHandlerId = String(user.id);
 
-    reader.readAsText(
-        file
-    );
+            showRestoreBackupPopup(backup);
+
+        } catch (error) {
+            showInvalidBackupPopup();
+        }
+    };
+
+    reader.onerror = function() {
+        showInvalidBackupPopup();
+    };
+
+    reader.readAsText(file);
 }
 
 /* =========================================================
@@ -2862,61 +2827,105 @@ function showRestoreBackupPopup(
    CONFIRM HANDLER RESTORE
 ========================================================= */
 
+
 function confirmHandlerRestore() {
-
-    const backup =
-        window.pendingHandlerBackup;
-
+    const backup = window.pendingHandlerBackup;
+    const user = getCurrentUser();
+    const worldAccount = getWorldAccount();
 
     if (
         !backup ||
-        !backup.localStorage
+        backup.version !== 2 ||
+        !backup.data ||
+        !backup.profile ||
+        !user ||
+        !worldAccount ||
+        String(user.id) !== String(backup.targetHandlerId)
     ) {
+        alert(
+            "Restore cancelled. Please reopen Handler " +
+            "with the correct World account."
+        );
         return;
     }
 
+    const dataTypes = [
+        "essas",
+        "care",
+        "tricks",
+        "scores",
+        "drawings",
+        "diary"
+    ];
 
-    Object.keys(localStorage).forEach(function(key) {
-    if (
-        key === "essazLifeAccounts" ||
-        key === "essazLifeCurrentUser" ||
-        key.startsWith("essazLife_")
-    ) {
-        localStorage.removeItem(key);
-    }
-});
-
-
-  Object.keys(backup.localStorage).forEach(function(key) {
-    if (
-        key === "essazLifeAccounts" ||
-        key === "essazLifeCurrentUser" ||
-        key.startsWith("essazLife_")
-    ) {
-        localStorage.setItem(
-            key,
-            backup.localStorage[key]
-        );
-    }
-});
-
-    window.pendingHandlerBackup =
-        null;
-
-
-    const popup =
-        document.getElementById(
-            "restore-backup-popup"
-        );
-
-
-    if (popup) {
-        popup.remove();
+    if (!dataTypes.every(function(type) {
+        return Array.isArray(backup.data[type]);
+    })) {
+        showInvalidBackupPopup();
+        return;
     }
 
+    // Save only the current account's data.
+    // Other Handler accounts remain untouched.
+    saveEssas(backup.data.essas);
+    saveCare(backup.data.care);
+    saveTricks(backup.data.tricks);
+    saveScores(backup.data.scores);
+    saveDrawings(backup.data.drawings);
+    saveDiary(backup.data.diary);
+
+    // Restore personal Handler settings without
+    // replacing the World-managed login identity.
+    const accounts = getAccounts();
+
+    const accountIndex = accounts.findIndex(function(account) {
+        return String(account.id) === String(user.id);
+    });
+
+    if (accountIndex !== -1) {
+        const profile = backup.profile;
+        const account = accounts[accountIndex];
+
+        account.genderIdentity =
+            typeof profile.genderIdentity === "string"
+                ? profile.genderIdentity : "";
+
+        account.pronouns =
+            typeof profile.pronouns === "string"
+                ? profile.pronouns : "";
+
+        account.ageGroup =
+            typeof profile.ageGroup === "string"
+                ? profile.ageGroup : "";
+
+        account.themeColor =
+            typeof profile.themeColor === "string" &&
+            /^#[0-9a-f]{6}$/i.test(profile.themeColor)
+                ? profile.themeColor : "#4fb5ae";
+
+        account.handlerCertified =
+            profile.handlerCertified === true;
+
+        account.handlerCertificationDate =
+            profile.handlerCertificationDate || null;
+
+        account.handlerCertificationTime =
+            profile.handlerCertificationTime || null;
+
+        saveAccounts(accounts);
+    }
+
+    window.pendingHandlerBackup = null;
+
+    const popup = document.getElementById(
+        "restore-backup-popup"
+    );
+
+    if (popup) popup.remove();
 
     window.location.reload();
 }
+
 
 /* =========================================================
    SAVE RECOVERY ANSWERS

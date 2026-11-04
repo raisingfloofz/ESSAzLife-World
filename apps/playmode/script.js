@@ -1,7 +1,3 @@
-/* =========================================================
-   ESSAZLIFE WORLD CONNECTION
-========================================================= */
-
 const WORLD_ACCOUNT_KEY = "essazlifeWorldAccount";
 const WORLD_LOGIN_KEY = "essazlifeWorldLoggedIn";
 
@@ -10,28 +6,52 @@ function getWorldAccount() {
 
     const mode = localStorage.getItem("essazlifeWorldLoginMode");
 
+    // Allow guests entering through ESSAzLife World.
+    if (mode === "guest") {
+        return {
+            username: "GUEST ACCOUNT",
+            nickname: "Guest",
+            isGuest: true
+        };
+    }
+
     if (mode === "cloud") {
         // World has already verified this tab's cloud token with /me.
         // Never substitute an unrelated legacy local account.
         if (!sessionStorage.getItem("essazlifeWorldCloudToken")) return null;
+
         try {
-            const account = JSON.parse(sessionStorage.getItem("essazlifeWorldCloudAccount"));
-            return account && typeof account.username === "string" &&
-                account.username.trim() && typeof account.nickname === "string"
+            const account = JSON.parse(
+                sessionStorage.getItem("essazlifeWorldCloudAccount")
+            );
+
+            return account &&
+                typeof account.username === "string" &&
+                account.username.trim() &&
+                typeof account.nickname === "string"
                 ? account : null;
+
         } catch (error) {
             return null;
         }
     }
 
     if (mode !== "local" && mode !== null) return null;
+
     try {
-        const account = JSON.parse(localStorage.getItem(WORLD_ACCOUNT_KEY));
-        return account && typeof account.username === "string" ? account : null;
+        const account = JSON.parse(
+            localStorage.getItem(WORLD_ACCOUNT_KEY)
+        );
+
+        return account &&
+            typeof account.username === "string"
+            ? account : null;
+
     } catch (error) {
         return null;
     }
 }
+
 
 /* =========================================================
    ESSAzLife
@@ -751,24 +771,10 @@ function connectWorldAccountToPlayMode() {
     const accounts =
         getAccounts();
 
-    /*
-        Preserve the existing PlayMode account ID
-        whenever possible because PlayMode data is
-        stored using that internal ID.
-    */
-    const currentPlayModeId =
-        getCurrentUserId();
-
-    let playModeAccount =
-        accounts.find(
-            function(account) {
-
-                return (
-                    String(account.id) ===
-                    String(currentPlayModeId)
-                );
-            }
-        );
+   // Always find the PlayMode account belonging
+// to the currently logged-in World user.
+// Never reuse the previous account's session.
+let playModeAccount = null;
 
 
     /*
