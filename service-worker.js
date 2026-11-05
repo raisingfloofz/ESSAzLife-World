@@ -1,4 +1,4 @@
-const CACHE_NAME = "essazlife-world-v3";
+const CACHE_NAME = "essazlife-world-v4";
 
 const FILES_TO_CACHE = [
     "./",
@@ -21,9 +21,14 @@ const FILES_TO_CACHE = [
     "./apps/playmode/script.js",
 
     // Chorez
-    "./apps/chorez/index.html",
-    "./apps/chorez/style.css",
-    "./apps/chorez/script.js"
+"./apps/chorez/index.html",
+"./apps/chorez/style.css",
+"./apps/chorez/script.js",
+
+// Bookz
+"./apps/bookz/index.html",
+"./apps/bookz/style.css",
+"./apps/bookz/script.js"
 ];
 
 
