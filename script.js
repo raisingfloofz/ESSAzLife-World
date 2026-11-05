@@ -1248,6 +1248,22 @@ cloudVerifyForm.addEventListener("submit", async function (event) {
 ========================================================= */
 
 const futureWorldApps = [
+    
+  {
+    id: "bookz",
+    name: "ESSAzLife Bookz",
+    icon: "Bookz.Icon.png",
+    
+status: "available",
+launchUrl: "apps/bookz/index.html",
+
+    description: [
+      "A digital library filled with original stories and adventures featuring your favorite ESSAzLife characters!",
+      "Choose a book from the library, turn the pages, and enjoy reading wherever you go!",
+      "New books and adventures will be added as the library grows!"
+    ]
+  },
+
   {
     id: "wishez",
     name: "ESSAzLife Wishez",

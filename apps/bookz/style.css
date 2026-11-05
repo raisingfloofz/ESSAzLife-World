@@ -1,0 +1,1085 @@
+
+/* ==========================================
+   ESSAzLife BOOKZ — MAIN STYLES
+========================================== */
+
+:root {
+  --purple: #a95fc4;
+  --dark-purple: #713b8c;
+  --lavender: #f3e5fa;
+  --white: #ffffff;
+  --text: #30243a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--lavender);
+  color: var(--text);
+}
+
+/* HEADER */
+
+.app-header {
+  background: var(--purple);
+  color: white;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+.app-header img {
+  width: 95px;
+  height: 95px;
+  object-fit: cover;
+  border-radius: 20px;
+  border: 3px solid white;
+}
+
+.app-header h1 {
+  margin: 0 0 8px;
+  font-size: 28px;
+}
+
+.app-header p {
+  margin: 0;
+  font-size: 14px;
+}
+
+/* MAIN CONTENT */
+
+main {
+  max-width: 1050px;
+  margin: 30px auto;
+  padding: 0 16px;
+  min-height: 65vh;
+}
+
+.screen {
+  text-align: center;
+}
+
+.screen[hidden] {
+  display: none !important;
+}
+
+.screen h2 {
+  color: var(--dark-purple);
+}
+
+/* BOOK LIBRARY */
+
+.book-library {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 240px));
+  justify-content: center;
+  gap: 24px;
+  margin-top: 30px;
+}
+
+.book-card {
+  background: white;
+  border-radius: 20px;
+  padding: 18px;
+  box-shadow: 0 5px 15px rgba(60, 30, 80, 0.12);
+  border: 2px solid #e0c4ed;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  font: inherit;
+  color: inherit;
+  width: 100%;
+}
+
+.book-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 9px 20px rgba(60, 30, 80, 0.2);
+}
+
+.book-card:focus-visible,
+button:focus-visible {
+  outline: 3px solid #52226d;
+  outline-offset: 3px;
+}
+
+.book-cover {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  border-radius: 12px;
+  background: #ead1f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.book-cover canvas {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+}
+
+.book-card h3 {
+  font-size: 17px;
+  margin: 14px 0 6px;
+}
+
+.book-card p {
+  font-size: 13px;
+  color: #665c70;
+  margin: 0;
+}
+
+/* READER */
+
+.reader-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.reader-header h2 {
+  flex: 1;
+  text-align: center;
+}
+
+button {
+  font-family: inherit;
+}
+
+.reader-controls button,
+.reader-header button {
+  background: var(--purple);
+  border: none;
+  border-radius: 12px;
+  padding: 12px 18px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+button:hover:not(:disabled) {
+  filter: brightness(0.93);
+}
+
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+#readerStatus {
+  color: var(--dark-purple);
+  margin-bottom: 12px;
+}
+
+#readerStatus:empty {
+  display: none;
+}
+
+.page-container {
+  background: #ded0e8;
+  border-radius: 18px;
+  padding: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+}
+
+#bookPage {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  background: white;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+}
+
+.reader-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+#pageIndicator {
+  font-weight: bold;
+  color: var(--dark-purple);
+  min-width: 100px;
+}
+
+/* FOOTER */
+
+footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 13px;
+  color: #735a80;
+}
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+  .app-header {
+    padding: 16px;
+  }
+
+  .app-header img {
+    width: 75px;
+    height: 75px;
+  }
+
+  .app-header h1 {
+    font-size: 23px;
+  }
+
+  main {
+    margin: 20px auto;
+  }
+
+  .reader-header {
+    justify-content: center;
+  }
+
+  .reader-header h2 {
+    flex-basis: 100%;
+    order: -1;
+  }
+
+  .reader-controls {
+    gap: 10px;
+  }
+
+  .reader-controls button {
+    padding: 11px 13px;
+    font-size: 14px;
+  }
+
+  .page-container {
+    padding: 8px;
+  }
+}
+
+
+/* ==========================================
+   BOOKZ — MOBILE FULLSCREEN READER
+========================================== */
+
+@media (max-width: 600px) {
+
+  body.reading-mode {
+    overflow: hidden;
+  }
+
+  body.reading-mode .app-header,
+  body.reading-mode footer {
+    display: none;
+  }
+
+  body.reading-mode main {
+    margin: 0;
+    padding: 0;
+    max-width: none;
+  }
+
+  #readerScreen:not([hidden]) {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100dvh;
+    z-index: 9999;
+    background: #f3e5fa;
+
+    display: flex;
+    flex-direction: column;
+    padding: env(safe-area-inset-top) 8px
+             env(safe-area-inset-bottom);
+  }
+
+  #readerScreen .reader-header {
+    flex-shrink: 0;
+    margin: 0 0 8px;
+    gap: 8px;
+  }
+
+  #readerScreen .reader-header h2 {
+    font-size: 16px;
+    margin: 4px 0;
+  }
+
+  #readerScreen .page-container {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    padding: 4px;
+    touch-action: pan-y;
+  }
+
+  #readerScreen #bookPage {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  #readerScreen .reader-controls {
+    flex-shrink: 0;
+    margin: 8px 0 0;
+    padding-bottom: 4px;
+  }
+
+  #readerScreen .reader-controls button {
+    padding: 10px;
+  }
+}
+
+
+/* FULLSCREEN READER SUPPORT */
+
+html:fullscreen,
+html:fullscreen body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  background: #f3e5fa;
+}
+
+@media (max-width: 600px) {
+  body.reading-mode #readerScreen:not([hidden]) {
+    height: 100dvh;
+    width: 100vw;
+  }
+}
+
+
+/* ==========================================
+   BOOKZ — IMMERSIVE MOBILE READING
+========================================== */
+
+@media (max-width: 600px) {
+
+  body.reading-mode #readerScreen:not([hidden]) {
+    background: #242424;
+    padding: 0;
+    gap: 0;
+  }
+
+  body.reading-mode .reader-header {
+    position: absolute;
+    top: env(safe-area-inset-top);
+    left: 0;
+    right: 0;
+    z-index: 10;
+    padding: 8px;
+    margin: 0;
+    background: rgba(20, 20, 20, 0.75);
+  }
+
+  body.reading-mode .reader-header h2 {
+    color: white;
+    font-size: 14px;
+    margin: 0;
+  }
+
+  body.reading-mode .page-container {
+    background: #242424;
+    border-radius: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  body.reading-mode #bookPage {
+    max-width: 100vw;
+    max-height: 100dvh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    box-shadow: none;
+  }
+
+  body.reading-mode .reader-controls {
+    position: absolute;
+    bottom: env(safe-area-inset-bottom);
+    left: 0;
+    right: 0;
+    z-index: 10;
+    padding: 10px;
+    margin: 0;
+    background: rgba(20, 20, 20, 0.75);
+  }
+
+  body.reading-mode #pageIndicator {
+    color: white;
+  }
+}
+
+
+/* ==========================================
+   BOOKZ — FULLSCREEN BUTTON
+========================================== */
+
+#fullscreenButton {
+  background: #713b8c;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#fullscreenButton:hover {
+  background: #5d2e75;
+}
+
+@media (max-width: 600px) {
+  #fullscreenButton {
+    padding: 9px 12px;
+    font-size: 12px;
+  }
+}
+
+
+/* ==========================================
+   BOOKZ — REAL BOOK COVERS
+========================================== */
+
+.book-cover {
+  background: #ead1f5;
+  padding: 0;
+}
+
+.book-cover canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-height: none;
+  object-fit: contain;
+}
+
+/* BOOKZ — COVER-ONLY LIBRARY */
+
+.book-card {
+  padding: 10px;
+}
+
+.book-cover {
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.book-cover canvas {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+
+/* ==========================================
+   BOOKZ — BACK COVER PREVIEW
+========================================== */
+
+.book-preview[hidden] {
+  display: none !important;
+}
+
+.book-preview {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(25, 15, 35, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+}
+
+.preview-content {
+  position: relative;
+  background: #f3e5fa;
+  border-radius: 18px;
+  padding: 45px 15px 20px;
+  width: 100%;
+  max-width: 480px;
+  max-height: 95dvh;
+  overflow-y: auto;
+  text-align: center;
+}
+
+#closePreview {
+  position: absolute;
+  right: 12px;
+  top: 10px;
+  border: none;
+  background: #713b8c;
+  color: white;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  cursor: pointer;
+}
+
+.back-cover-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#backCoverCanvas {
+  display: block;
+  max-width: 100%;
+  max-height: 65dvh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.preview-actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.preview-actions button {
+  background: #a95fc4;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+
+/* ==========================================
+   BOOKZ — CUSTOM COVER PLACEHOLDER
+========================================== */
+
+.book-cover {
+  position: relative;
+}
+
+.book-cover .cover-placeholder {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.book-cover canvas[hidden],
+.book-cover .cover-placeholder[hidden] {
+  display: none !important;
+}
+
+
+/* ==========================================
+   BOOKZ — RESPONSIVE LIBRARY SHELVES
+========================================== */
+
+/* Neatly arrange books in every library section */
+.book-library {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));
+  gap: 18px;
+  align-items: start;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Each book card */
+.book-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  min-width: 0;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+/* Uniform cover area */
+.book-cover {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+/* Actual PDF covers */
+.book-cover canvas {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Custom placeholder */
+.book-cover .cover-placeholder {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Preserve hidden states */
+.book-cover canvas[hidden],
+.book-cover .cover-placeholder[hidden] {
+  display: none !important;
+}
+
+/* Tablets and smaller screens */
+@media (max-width: 600px) {
+  .book-library {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .book-card {
+    padding: 5px;
+  }
+}
+
+/* Very narrow phones */
+@media (max-width: 340px) {
+  .book-library {
+    gap: 8px;
+  }
+}
+
+
+/* ==========================================
+   BOOKZ — LIBRARY SHELF TABS
+========================================== */
+
+.library-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 18px 0 22px;
+}
+
+.library-tab {
+  flex: 1 1 145px;
+  padding: 12px 14px;
+  border: 2px solid #d7b9f3;
+  border-radius: 12px;
+  background: #f7efff;
+  color: #54227d;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.library-tab:hover {
+  background: #ead8ff;
+}
+
+.library-tab.active {
+  background: #7736b5;
+  border-color: #7736b5;
+  color: white;
+}
+
+.library-tab:active {
+  transform: scale(0.98);
+}
+
+@media (max-width: 600px) {
+  .library-tabs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .library-tab {
+    min-width: 0;
+    padding: 10px 6px;
+    font-size: 12px;
+  }
+}
+
+
+/* ==========================================
+   ESSAzLife BOOKZ — BACKUP BUTTONS
+========================================== */
+
+.library-tools {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  margin: 18px 0;
+}
+
+/* Both backup buttons */
+.library-tools button {
+  flex: 1 1 180px;
+  max-width: 260px;
+  padding: 13px 18px;
+  border: 2px solid transparent;
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  box-shadow: 0 3px 8px rgba(75, 30, 110, 0.12);
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+/* Download Backup — purple */
+#downloadBackup {
+  background: #7736b5;
+  color: white;
+  border-color: #7736b5;
+}
+
+#downloadBackup:hover {
+  background: #62279c;
+  box-shadow: 0 5px 12px rgba(90, 35, 150, 0.22);
+}
+
+/* Restore Backup — lavender */
+#restoreBackup {
+  background: #f0e0ff;
+  color: #54227d;
+  border-color: #c9a3eb;
+}
+
+#restoreBackup:hover {
+  background: #e4c9ff;
+  box-shadow: 0 5px 12px rgba(90, 35, 150, 0.15);
+}
+
+/* Press effect */
+.library-tools button:active {
+  transform: scale(0.96);
+}
+
+/* Keyboard accessibility */
+.library-tools button:focus-visible {
+  outline: 3px solid #a56ce0;
+  outline-offset: 3px;
+}
+
+/* Mobile layout */
+@media (max-width: 600px) {
+  .library-tools {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .library-tools button {
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+    padding: 12px 8px;
+    font-size: 12px;
+  }
+}
+
+/* Extra-small phones */
+@media (max-width: 340px) {
+  .library-tools {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* ==========================================
+   BOOKZ — STANDOUT BACKUP CONTROL PANEL
+========================================== */
+
+.library-tools {
+  background: #35164f;
+  border: 2px solid #a86bda;
+  border-radius: 18px;
+  padding: 18px;
+  margin: 24px 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  box-shadow: 0 5px 18px rgba(53, 22, 79, 0.25);
+}
+
+.library-tools::before {
+  content: "🛡️ Save Your Bookz Progress";
+  display: block;
+  flex-basis: 100%;
+  color: #ffffff;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 800;
+  margin-bottom: 5px;
+}
+
+.library-tools::after {
+  content: "Keep your reading progress and bookshelves safe.";
+  display: block;
+  flex-basis: 100%;
+  color: #dfc9ef;
+  text-align: center;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.library-tools button {
+  flex: 1 1 160px;
+  max-width: 260px;
+  padding: 14px 12px;
+  border-radius: 12px;
+  font-weight: 800;
+  font-size: 14px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+#downloadBackup {
+  background: #ffd66b;
+  color: #3b2050;
+  border: 2px solid #ffd66b;
+}
+
+#restoreBackup {
+  background: #ffffff;
+  color: #54227d;
+  border: 2px solid #ffffff;
+}
+
+.library-tools button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.25);
+}
+
+.library-tools button:active {
+  transform: scale(0.97);
+}
+
+.library-tools button:focus-visible {
+  outline: 3px solid #ffd66b;
+  outline-offset: 3px;
+}
+
+@media (max-width: 600px) {
+  .library-tools {
+    padding: 14px 10px;
+    gap: 8px;
+  }
+
+  .library-tools button {
+    flex: 1 1 0;
+    min-width: 0;
+    font-size: 12px;
+    padding: 12px 6px;
+  }
+
+  .library-tools::before {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 340px) {
+  .library-tools button {
+    flex-basis: 100%;
+    max-width: none;
+  }
+}
+
+
+/* ==========================================
+   ESSAzLife BOOKZ — CUSTOM POPUPS
+========================================== */
+
+.bookz-dialog {
+  width: min(90vw, 390px);
+  max-height: 85dvh;
+  padding: 0;
+  border: 3px solid #a76cdb;
+  border-radius: 22px;
+  background: #f7edff;
+  color: #482263;
+  box-shadow: 0 15px 50px rgba(35, 10, 55, 0.4);
+  overflow: auto;
+}
+
+.bookz-dialog::backdrop {
+  background: rgba(22, 7, 35, 0.75);
+  backdrop-filter: blur(4px);
+}
+
+.bookz-dialog-content {
+  padding: 26px 20px;
+  text-align: center;
+}
+
+.bookz-dialog-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+
+.bookz-dialog h2 {
+  margin: 0 0 14px;
+  color: #69319b;
+  font-size: 23px;
+}
+
+#bookzDialogMessage {
+  color: #503465;
+  font-size: 14px;
+  line-height: 1.7;
+  white-space: pre-line;
+  margin: 0 0 22px;
+}
+
+.bookz-dialog-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.bookz-dialog-actions button {
+  flex: 1;
+  padding: 13px 12px;
+  border-radius: 12px;
+  border: 2px solid #7736b5;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+#bookzDialogCancel {
+  background: #ffffff;
+  color: #69319b;
+}
+
+#bookzDialogConfirm {
+  background: #7736b5;
+  color: white;
+}
+
+#bookzDialogCancel:hover {
+    
+.bookz-dialog-actions button[hidden] {
+  display: none !important;
+}
+
+  background: #eee0fb;
+}
+
+#bookzDialogConfirm:hover {
+  background: #5f2795;
+}
+
+.bookz-dialog-actions button:focus-visible {
+  outline: 3px solid #e3b744;
+  outline-offset: 3px;
+}
+
+@media (max-width: 400px) {
+  .bookz-dialog-content {
+    padding: 22px 15px;
+  }
+
+  .bookz-dialog h2 {
+    font-size: 20px;
+  }
+
+  .bookz-dialog-actions button {
+    font-size: 13px;
+  }
+}
+
+
+
+/* ==========================================
+   BOOKZ — HANDLER-STYLE WORLD BUTTON
+========================================== */
+
+.return-to-world {
+  position: fixed;
+  top: 22px;
+  right: 22px;
+  z-index: 10000;
+
+  width: 66px;
+  height: 52px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #ffffff;
+  border: 1px solid #48b8b5;
+  border-radius: 11px;
+
+  color: #48b8b5;
+  font-size: 21px;
+  text-decoration: none;
+
+  box-shadow: none;
+  transition: background 0.2s ease;
+}
+
+.return-to-world:hover {
+  background: #e9f9f8;
+  transform: none;
+}
+
+.return-to-world:focus-visible {
+  outline: 3px solid #48b8b5;
+  outline-offset: 3px;
+}
+
+/* Keep button accessible in reading mode */
+body.reading-mode .return-to-world {
+  z-index: 10000;
+}
+
+@media (max-width: 600px) {
+  .return-to-world {
+    top: 12px;
+    right: 12px;
+    width: 54px;
+    height: 46px;
+    font-size: 20px;
+  }
+}
+
+

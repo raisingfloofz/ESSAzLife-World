@@ -1,0 +1,17 @@
+
+{
+  "books": [
+    {
+      "id": "cooking-with-cows",
+      "title": "Cooking With Cows",
+      "file": "books/Cooking With Cows.pdf",
+      "description": "A Cooking With Cows story!"
+    },
+    {
+      "id": "voidy",
+      "title": "Voidy",
+      "file": "books/Voidy.pdf",
+      "description": "Discover the story of Voidy!"
+    }
+  ]
+}

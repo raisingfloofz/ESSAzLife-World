@@ -1,0 +1,202 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>ESSAzLife Bookz</title>
+
+  <meta name="theme-color" content="#aa62c5">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="icons/Bookz.Icon.png">
+  <link rel="apple-touch-icon" href="icons/Bookz.Icon.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <header class="app-header">
+
+    
+<a
+  id="returnToWorld"
+  class="return-to-world"
+  href="../../index.html"
+  target="_top"
+  aria-label="Return to ESSAzLife World"
+  title="Return to ESSAzLife World"
+>
+  🌐
+</a>
+
+    <img src="icons/Bookz.Icon.png" alt="ESSAzLife Bookz logo">
+
+    <div>
+      <h1>ESSAzLife Bookz</h1>
+      <p>Stories, adventures, and a little MooCow magic! 🐮</p>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- DIGITAL LIBRARY -->
+    <section id="libraryScreen" class="screen">
+      <h2>📚 My Library</h2>
+      <p>Choose a book to begin reading!</p>
+
+      
+<!-- BACKUP AND RESTORE -->
+<div class="library-tools">
+  <button id="downloadBackup" type="button">
+    💾 Download Backup
+  </button>
+
+  <button id="restoreBackup" type="button">
+    📂 Restore Backup
+  </button>
+
+  <input
+    id="restoreFile"
+    type="file"
+    accept=".json,application/json"
+    hidden
+  >
+</div>
+
+<!-- LIBRARY SECTIONS -->
+<nav class="library-tabs" aria-label="Library sections">
+  <button class="library-tab active"
+          data-shelf="all" type="button">
+    📚 Full Library
+  </button>
+
+  <button class="library-tab"
+          data-shelf="reading" type="button">
+    📖 Currently Reading
+  </button>
+
+  <button class="library-tab"
+          data-shelf="finished" type="button">
+    ⭐ Finished
+  </button>
+
+  <button class="library-tab"
+          data-shelf="wishlist" type="button">
+    💜 Want to Read
+  </button>
+</nav>
+
+<!-- BOOKSHELF -->
+<div id="bookLibrary" class="book-library"></div>
+
+<!-- BACK COVER PREVIEW -->
+<div id="bookPreview" class="book-preview" hidden>
+  <div class="preview-content">
+    <button id="closePreview" type="button"
+            aria-label="Close book preview">
+      ✕
+    </button>
+
+    
+<div class="back-cover-container">
+  <canvas
+    id="backCoverCanvas"
+    aria-label="Book back cover"
+  ></canvas>
+</div>
+
+
+    <div class="preview-actions">
+      <button id="readNow" type="button">
+        📖 Read Now
+      </button>
+
+      <button id="wantToRead" type="button">
+        💜 Want to Read
+      </button>
+    </div>
+  </div>
+</div>
+
+    </section>
+
+    <!-- BOOK READER -->
+    <section id="readerScreen" class="screen" hidden>
+
+      <div class="reader-header">
+        
+<button id="fullscreenButton" type="button">
+  ⛶ Full Screen
+</button>
+
+        <button id="backToLibrary" type="button">
+          ← Back to Library
+        </button>
+
+        <h2 id="readerTitle">Book Title</h2>
+      </div>
+
+      <div id="readerStatus" role="status" aria-live="polite"></div>
+
+      <div class="page-container">
+        <canvas id="bookPage" aria-label="Current book page"></canvas>
+      </div>
+
+      <div class="reader-controls">
+        <button id="previousPage" type="button">
+          ◀ Previous
+        </button>
+
+        <span id="pageIndicator">Page 1</span>
+
+        <button id="nextPage" type="button">
+          Next ▶
+        </button>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer>
+    <p>🐮 ESSAzLife Bookz | Raising Floofz</p>
+  </footer>
+
+  
+<!-- ==========================================
+     BOOKZ — CUSTOM BACKUP POPUP
+========================================== -->
+
+<dialog id="bookzDialog" class="bookz-dialog"
+        aria-labelledby="bookzDialogTitle"
+        aria-describedby="bookzDialogMessage">
+
+  <div class="bookz-dialog-content">
+
+    <div id="bookzDialogIcon" class="bookz-dialog-icon">
+      🐮
+    </div>
+
+    <h2 id="bookzDialogTitle">ESSAzLife Bookz</h2>
+
+    <p id="bookzDialogMessage"></p>
+
+    <div class="bookz-dialog-actions">
+      <button id="bookzDialogCancel" type="button">
+        Cancel
+      </button>
+
+      <button id="bookzDialogConfirm" type="button">
+        OK
+      </button>
+    </div>
+
+  </div>
+</dialog>
+
+
+  <script src="vendor/pdfjs/pdf.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
