@@ -1,0 +1,119 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#b52b3a">
+
+  <title>ESSAzLife Wishez</title>
+
+  <link rel="icon" type="image/png" href="icons/Wishez.Christmas.png">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+  <div class="app-shell">
+
+    <header class="app-header">
+      <div class="branding">
+        <img
+          id="seasonalIcon"
+          src="icons/Wishez.Christmas.png"
+          alt="ESSAzLife Wishez"
+        >
+        <div>
+          <h1>ESSAzLife Wishez</h1>
+          <p id="themeSubtitle">Your wishes, your way!</p>
+        </div>
+      </div>
+
+      
+<div class="header-actions">
+  <button id="worldButton" type="button" aria-label="Return to World" title="Return to World">🌐</button>
+  <button id="helpButton" type="button" aria-label="Help" title="Help">❓</button>
+  <button id="settingsButton" type="button" aria-label="Settings" title="Settings">⚙️</button>
+</div>
+
+    </header>
+
+    <main>
+      <section id="homeScreen" class="screen">
+        <div class="section-heading">
+          <div>
+            <h2>🎁 My Wishlists</h2>
+            <p>Create lists for all the things you're wishing for!</p>
+          </div>
+
+          
+<div class="organize-actions">
+  <button id="organizeWishlistsButton" type="button">
+    ☰ Organize
+  </button>
+  <button id="createWishlistButton" type="button">
+    + Create Wishlist
+  </button>
+</div>
+
+        </div>
+
+        <div id="wishlistGrid" class="wishlist-grid">
+          <!-- Wishlists will be added here using JavaScript. -->
+        </div>
+      </section>
+
+      <section id="wishlistScreen" class="screen hidden">
+        <button id="backToWishlists" type="button">
+          ← My Wishlists
+        </button>
+
+        <div class="section-heading">
+          <div>
+            <h2 id="currentWishlistTitle"></h2>
+            <p id="currentWishlistDescription"></p>
+          </div>
+
+          
+
+<div class="organize-actions">
+  <button id="organizeWishesButton" type="button">
+    ☰ Organize
+  </button>
+
+  
+<button id="shareWishlistButton" type="button" class="hidden wishlist-action-button">
+  🔗 Share / Update
+</button>
+
+
+  <button id="addWishButton" type="button">
+    + Add Wish
+  </button>
+
+  
+<button id="deleteWishlistButton" type="button">
+  🗑️ Delete Wishlist
+</button>
+
+</div>
+
+
+        </div>
+
+        <div id="wishGrid" class="wish-grid"></div>
+      </section>
+    </main>
+
+    <div id="modalOverlay" class="modal-overlay hidden">
+      <div class="modal" role="dialog" aria-modal="true"
+           aria-labelledby="modalTitle">
+        <h2 id="modalTitle"></h2>
+        <div id="modalContent"></div>
+        <div id="modalActions" class="modal-actions"></div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

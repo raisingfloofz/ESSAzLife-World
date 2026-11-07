@@ -1,0 +1,124 @@
+
+/* ==========================================
+   ESSAzLife Wishez — Public Wishlist
+========================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #ffe0f0, #e7d8ff);
+  color: #40254f;
+}
+
+main {
+  width: min(900px, 92%);
+  margin: 40px auto;
+  padding: 30px;
+  background: white;
+  border-radius: 24px;
+  box-shadow: 0 8px 30px rgba(80, 40, 100, 0.12);
+}
+
+h1 {
+  text-align: center;
+  color: #b344a0;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+#sharedWishGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+}
+
+#sharedWishGrid article {
+  padding: 20px;
+  border: 2px solid #f4d5ed;
+  border-radius: 18px;
+  background: #fff9fd;
+  overflow-wrap: anywhere;
+}
+
+#sharedWishGrid a {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 10px 15px;
+  background: #b344a0;
+  color: white;
+  text-decoration: none;
+  border-radius: 12px;
+}
+
+#sharedWishGrid a:hover {
+  background: #92317f;
+}
+
+
+/* ==========================================
+   WISHEZ — MOBILE LAYOUT
+========================================== */
+
+@media (max-width: 600px) {
+  main {
+    width: 94%;
+    margin: 20px auto;
+    padding: 22px 16px;
+    border-radius: 22px;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  h2 {
+    font-size: 1.4rem;
+  }
+
+  #sharedWishGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* ==========================================
+   WISHEZ — PRETTY WISH CARDS
+========================================== */
+
+#sharedWishGrid article {
+  background: linear-gradient(145deg, #fff9fd, #fdf0ff);
+  border: 2px solid #edc5e9;
+  border-radius: 20px;
+  padding: 22px;
+  box-shadow: 0 4px 12px rgba(150, 70, 150, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#sharedWishGrid article:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(150, 70, 150, 0.15);
+}
+
+#sharedWishGrid article h3 {
+  color: #a83e95;
+  font-size: 1.25rem;
+  margin-top: 0;
+}
+
+#sharedWishGrid article p {
+  line-height: 1.5;
+}
+
+.empty-wishlist-message {
+  text-align: center;
+  font-size: 1.1rem;
+  padding: 25px 10px;
+}

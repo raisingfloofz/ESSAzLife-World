@@ -1,0 +1,817 @@
+
+/* =========================================
+   ESSAzLife Wishez
+   Bookz-inspired responsive design
+   ========================================= */
+
+:root {
+  --background: #fff2ed;
+  --surface: #ffffff;
+  --primary: #b52b3a;
+  --primary-dark: #8e2030;
+  --secondary: #217348;
+  --accent: #ffe08a;
+  --text: #432b30;
+  --muted: #795e65;
+  --border: #e9bfc5;
+  --header: #b52b3a;
+  --header-text: #ffffff;
+  --shadow: 0 5px 18px rgba(75, 30, 40, 0.12);
+}
+
+/* CHRISTMAS */
+body.theme-christmas {
+  --background: #fff2ed;
+  --primary: #b52b3a;
+  --primary-dark: #8e2030;
+  --secondary: #217348;
+  --accent: #ffe08a;
+  --text: #432b30;
+  --muted: #795e65;
+  --border: #e9bfc5;
+  --header: #b52b3a;
+}
+
+/* VALENTINE'S */
+body.theme-valentines {
+  --background: #fff0f7;
+  --primary: #c63f72;
+  --primary-dark: #a62b5a;
+  --secondary: #e58bad;
+  --accent: #ffd7e6;
+  --text: #4c2b3b;
+  --muted: #866775;
+  --border: #efbfd3;
+  --header: #c63f72;
+}
+
+/* REGULAR */
+body.theme-regular {
+  --background: #f3e9ff;
+  --primary: #8a69c7;
+  --primary-dark: #6746a7;
+  --secondary: #78bdb3;
+  --accent: #e6d7ff;
+  --text: #352e46;
+  --muted: #797185;
+  --border: #d7bdf1;
+  --header: #9c63bd;
+}
+
+/* HALLOWEEN */
+body.theme-halloween {
+  --background: #f4eaff;
+  --primary: #7846a8;
+  --primary-dark: #57317e;
+  --secondary: #e78231;
+  --accent: #f8c37b;
+  --text: #332940;
+  --muted: #756a7e;
+  --border: #d2b4ed;
+  --header: #7846a8;
+}
+
+/* BIRTHDAY */
+body.theme-birthday {
+  --background: #effaff;
+  --primary: #438cae;
+  --primary-dark: #286d8f;
+  --secondary: #ef9dbd;
+  --accent: #fff0a8;
+  --text: #354451;
+  --muted: #6e7b85;
+  --border: #b6ddec;
+  --header: #79bcd9;
+  --header-text: #253d50;
+}
+
+/* GENERAL */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--background);
+  color: var(--text);
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.app-shell {
+  width: 100%;
+}
+
+/* HEADER */
+
+.app-header {
+  position: relative;
+  width: 100%;
+  min-height: 128px;
+  padding: 16px 160px 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--header);
+  color: var(--header-text);
+}
+
+.branding {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+}
+
+.branding img {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  border: 3px solid white;
+  border-radius: 20px;
+}
+
+.branding h1 {
+  margin: 0 0 8px;
+  color: var(--header-text);
+  font-size: 30px;
+}
+
+.branding p {
+  margin: 0;
+  color: var(--header-text);
+  font-size: 14px;
+}
+
+.header-actions {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  display: flex;
+  gap: 9px;
+}
+
+.header-actions button {
+  width: 43px;
+  height: 43px;
+  padding: 0;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.95);
+  font-size: 22px;
+}
+
+.header-actions button:hover {
+  background: var(--accent);
+}
+
+/* MAIN CONTENT */
+
+main {
+  width: min(100% - 28px, 980px);
+  margin: 30px auto 70px;
+}
+
+.screen {
+  padding: 0;
+  background: transparent;
+}
+
+.section-heading {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.section-heading h2 {
+  margin: 0 0 12px;
+  color: var(--primary);
+  font-size: 28px;
+}
+
+.section-heading p {
+  margin: 0 0 20px;
+  color: var(--text);
+  line-height: 1.5;
+}
+
+#createWishlistButton,
+#addWishButton {
+  padding: 13px 22px;
+  border: none;
+  border-radius: 12px;
+  background: var(--primary);
+  color: white;
+  font-weight: bold;
+}
+
+#createWishlistButton:hover,
+#addWishButton:hover {
+  background: var(--primary-dark);
+}
+
+#backToWishlists {
+  margin-bottom: 24px;
+  padding: 11px 17px;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--primary);
+  font-weight: bold;
+}
+
+/* WISHLIST AND WISH CARDS */
+
+.wishlist-grid,
+.wish-grid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(190px, 1fr)
+  );
+  gap: 16px;
+}
+
+.wishlist-card,
+.wish-card {
+  position: relative;
+  min-width: 0;
+  padding: 16px;
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.wishlist-card {
+  cursor: pointer;
+  text-align: center;
+  transition: transform 0.15s ease;
+}
+
+.wishlist-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--primary);
+}
+
+.wishlist-card h3,
+.wish-card h3 {
+  margin: 10px 0;
+  color: var(--primary);
+  overflow-wrap: anywhere;
+}
+
+.wishlist-card p,
+.wish-card p {
+  color: var(--muted);
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.wishlist-count {
+  display: inline-block;
+  padding: 6px 12px;
+  background: var(--accent);
+  color: var(--text);
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.wish-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  background: white;
+  border-radius: 12px;
+}
+
+.wish-card.received img {
+  filter: grayscale(45%);
+}
+
+/* The received overlay will be positioned
+   inside the photo container in JavaScript. */
+
+.wish-photo {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.received-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(90, 90, 90, 0.45);
+  color: white;
+  font-size: 65px;
+  pointer-events: none;
+}
+
+/* CUSTOM POPUPS */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.55);
+}
+
+.modal {
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 24px;
+  background: var(--surface);
+  border: 3px solid var(--primary);
+  border-radius: 22px;
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.2);
+}
+
+.modal h2 {
+  margin: 0 0 18px;
+  color: var(--primary);
+}
+
+#modalContent {
+  line-height: 1.6;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.modal-actions button,
+.primary-button,
+.secondary-button {
+  padding: 11px 17px;
+  border-radius: 11px;
+  font-weight: bold;
+}
+
+.primary-button {
+  border: none;
+  background: var(--primary);
+  color: white;
+}
+
+.secondary-button {
+  border: 2px solid var(--border);
+  background: var(--background);
+  color: var(--text);
+}
+
+/* FORMS */
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: bold;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid var(--border);
+  border-radius: 11px;
+  background: white;
+  color: #332b2b;
+}
+
+.form-group textarea {
+  min-height: 95px;
+  resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: 2px solid var(--secondary);
+  outline-offset: 1px;
+}
+
+.safety-reminder {
+  margin: 10px 0 18px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+/* MOBILE */
+
+@media (max-width: 650px) {
+  .app-header {
+    min-height: 220px;
+    padding: 58px 12px 20px;
+    align-items: center;
+  }
+
+  .branding {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+
+  .branding img {
+    width: 90px;
+    height: 90px;
+  }
+
+  .branding h1 {
+    font-size: 27px;
+  }
+
+  .branding p {
+    font-size: 14px;
+  }
+
+  .header-actions {
+    top: 10px;
+    right: 10px;
+    gap: 7px;
+  }
+
+  .header-actions button {
+    width: 37px;
+    height: 37px;
+    font-size: 19px;
+  }
+
+  main {
+    width: calc(100% - 28px);
+    margin-top: 28px;
+  }
+
+  .section-heading h2 {
+    font-size: 27px;
+  }
+
+  #createWishlistButton,
+  #addWishButton {
+    width: 100%;
+    max-width: 340px;
+  }
+
+  .wishlist-grid,
+  .wish-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .wishlist-card,
+  .wish-card {
+    padding: 12px;
+  }
+
+  .wishlist-card h3,
+  .wish-card h3 {
+    font-size: 15px;
+  }
+
+  .modal {
+    padding: 18px;
+  }
+}
+
+@media (max-width: 360px) {
+  .wishlist-grid,
+  .wish-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+
+/* Tiny trashcan inside View Wish popup */
+
+.modal {
+  position: relative;
+}
+
+.wish-trash-button {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 5;
+
+  width: 30px;
+  height: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+  border: 1px solid #e5b6bc;
+  border-radius: 9px;
+
+  background: #fff5f5;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.wish-trash-button:hover {
+  background: #ffe2e5;
+  transform: scale(1.08);
+}
+
+
+.modal h2 {
+  padding-right: 42px;
+}
+
+
+/* ==========================================
+   WISHEZ — MULTI-WISHLIST CHECKBOXES
+========================================== */
+
+.wishlist-selector {
+  margin-top: 18px;
+}
+
+.wishlist-selector > p {
+  margin: 4px 0 12px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.wishlist-checkbox-row {
+  display: flex !important;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px !important;
+  padding: 12px;
+  background: var(--background);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.wishlist-checkbox-row input[type="checkbox"] {
+  width: 19px;
+  height: 19px;
+  flex-shrink: 0;
+  margin: 0;
+  accent-color: var(--primary);
+}
+
+.wishlist-checkbox-row span {
+  flex: 1;
+  overflow-wrap: anywhere;
+}
+
+
+/* ==========================================
+   WISHEZ — ORGANIZE CONTROLS
+========================================== */
+
+.organize-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+#organizeWishlistsButton,
+#organizeWishesButton {
+  padding: 13px 22px;
+  border: 2px solid var(--primary);
+  border-radius: 12px;
+  background: white;
+  color: var(--primary);
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#organizeWishlistsButton:hover,
+#organizeWishesButton:hover {
+  background: var(--accent);
+}
+
+#organizeWishlistsButton.organizing,
+#organizeWishesButton.organizing {
+  background: var(--secondary);
+  border-color: var(--secondary);
+  color: white;
+}
+
+@media (max-width: 650px) {
+  .organize-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 9px;
+  }
+
+  #organizeWishlistsButton,
+  #organizeWishesButton,
+  #createWishlistButton,
+  #addWishButton {
+    width: 100%;
+    min-width: 0;
+    padding: 12px 8px;
+    font-size: 13px;
+  }
+}
+
+
+/* ==========================================
+   WISHEZ — DRAG TO ORGANIZE
+========================================== */
+
+.organize-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  grid-column: 1 / -1;
+}
+
+.organize-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-height: 62px;
+  padding: 10px 12px 10px 16px;
+
+  background: white;
+  border: 2px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+}
+
+.organize-row-label {
+  font-weight: bold;
+  color: var(--primary);
+  overflow-wrap: anywhere;
+}
+
+.organize-handle {
+  flex-shrink: 0;
+  width: 46px;
+  height: 42px;
+  padding: 0;
+
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  background: var(--background);
+
+  color: var(--primary);
+  font-size: 24px;
+  font-weight: bold;
+
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+
+.organize-handle:active {
+  cursor: grabbing;
+}
+
+.organize-row.dragging {
+  background: var(--accent);
+  border-color: var(--primary);
+  opacity: 0.85;
+}
+
+.locked-row {
+  grid-column: 1 / -1;
+  color: var(--muted);
+  font-weight: bold;
+  background: var(--background);
+  box-shadow: none;
+}
+
+
+/* ==========================================
+   WISHEZ — SETTINGS
+========================================== */
+
+.settings-section {
+  padding: 16px;
+  margin-bottom: 16px;
+  background: var(--background);
+  border: 2px solid var(--border);
+  border-radius: 14px;
+}
+
+.settings-section h3 {
+  margin: 0 0 8px;
+  color: var(--primary);
+}
+
+.settings-section p {
+  margin: 0 0 14px;
+  line-height: 1.5;
+}
+
+.settings-section button {
+  margin: 5px 6px 5px 0;
+}
+
+
+/* Birthday Preferences */
+
+#birthdayMonth,
+#birthdayDay {
+  width: 100%;
+  padding: 12px;
+  margin-top: 6px;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  background: white;
+  color: #333;
+  font-size: 16px;
+}
+
+
+/* ==========================================
+   WISHEZ — DELETE WISHLIST BUTTON
+========================================== */
+
+#deleteWishlistButton {
+  background: #fff0f3;
+  color: #c43d60;
+  border: 2px solid #e7a2b5;
+  border-radius: 14px;
+  padding: 16px 22px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+#deleteWishlistButton:hover {
+  background: #ffdce6;
+  transform: translateY(-2px);
+}
+
+
+/* ==========================================
+   WISHEZ — SHARE BUTTON STYLING
+========================================== */
+
+#shareWishlistButton {
+  background: #ffffff;
+  color: #bd263b;
+  border: 2px solid #bd263b;
+  border-radius: 16px;
+  padding: 16px 24px;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s ease;
+}
+
+#shareWishlistButton:hover {
+  background: #fff0f3;
+}
+
+#shareWishlistButton.hidden {
+  display: none;
+}
+

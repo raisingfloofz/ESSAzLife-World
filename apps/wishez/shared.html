@@ -1,0 +1,117 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+  <title>Shared Wishlist | ESSAzLife Wishez</title>
+  
+<link rel="stylesheet" href="shared.css">
+
+</head>
+<body>
+  <main>
+    <h1>🎁 ESSAzLife Wishez</h1>
+    <h2 id="sharedWishlistTitle">Loading wishlist...</h2>
+    <div id="sharedWishGrid"></div>
+  </main>
+
+  
+<script>
+const WISHEZ_API =
+  "https://essazlife-world-auth.biawhite1024.workers.dev";
+
+async function loadSharedWishlist() {
+  const title = document.getElementById("sharedWishlistTitle");
+  const grid = document.getElementById("sharedWishGrid");
+
+  const shareId = new URLSearchParams(
+    window.location.search
+  ).get("id");
+
+  if (!shareId) {
+    title.textContent = "Wishlist Not Found";
+    grid.textContent = "This sharing link is missing its ID.";
+    return;
+  }
+
+  try {
+    const response = await fetch(
+      `${WISHEZ_API}/wishez/shared/${encodeURIComponent(shareId)}`
+    );
+
+    if (!response.ok) {
+      throw new Error("Unable to load this wishlist.");
+    }
+
+    const data = await response.json();
+
+    if (data.deleted) {
+      title.textContent = "Wishlist Unavailable";
+      grid.textContent =
+        data.message ||
+        "The User Who Sent You This Deleted The Wishlist.";
+      return;
+    }
+
+    title.textContent = data.name || "Shared Wishlist";
+    grid.replaceChildren();
+
+    
+if (!data.wishes || data.wishes.length === 0) {
+  const emptyMessage = document.createElement("p");
+  emptyMessage.textContent =
+    "🎁 This wishlist doesn't have any wishes yet!";
+  emptyMessage.className = "empty-wishlist-message";
+  grid.appendChild(emptyMessage);
+  return;
+}
+
+
+    for (const wish of data.wishes || []) {
+      const card = document.createElement("article");
+      const heading = document.createElement("h3");
+
+      heading.textContent = wish.name || "Untitled Wish";
+      card.appendChild(heading);
+
+      for (const field of ["price", "store", "description"]) {
+        if (!wish[field]) continue;
+
+        const detail = document.createElement("p");
+        detail.textContent = wish[field];
+        card.appendChild(detail);
+      }
+
+      if (wish.link) {
+        try {
+          const url = new URL(wish.link);
+
+          if (["https:", "http:"].includes(url.protocol)) {
+            const link = document.createElement("a");
+            link.href = url.href;
+            link.textContent = "View Product";
+            link.target = "_blank";
+            link.rel = "noopener noreferrer";
+            card.appendChild(link);
+          }
+        } catch {
+          // Ignore invalid product links.
+        }
+      }
+
+      grid.appendChild(card);
+    }
+
+  } catch (error) {
+    title.textContent = "Unable to Load Wishlist";
+    grid.textContent = error.message;
+  }
+}
+
+loadSharedWishlist();
+</script>
+
+</body>
+</html>

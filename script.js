@@ -1268,8 +1268,8 @@ launchUrl: "apps/bookz/index.html",
     id: "wishez",
     name: "ESSAzLife Wishez",
     icon: "Wishez.Icon.png",
-    status: "coming-soon",
-    launchUrl: "",
+    status: "available",
+    launchUrl: "apps/wishez/index.html",
     description: [
       "A Wishlist maker being released just in time for Christmas! Add items from other websites into neat categories and then share your profile at the click of a button!",
       "ESSAzLife Wishez allows users to make their dream wishlist of items, and then share the entire list with loved ones and friends! Then, if the item is obtained, it can be marked for deletion, or moved to an Acquired section!"
