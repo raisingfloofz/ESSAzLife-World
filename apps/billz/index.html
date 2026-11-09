@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#a83c62">
+  <meta name="description" content="ESSAzLife Billz — your friendly offline paycheck and bill tracker.">
+  <title>ESSAzLife Billz</title>
+  <link rel="icon" type="image/png" href="images/Billz.Icon.png">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><img src="images/Billz.Icon.png" alt="" onerror="this.style.display='none'"><div><strong>ESSAzLife Billz</strong><small>Little buddy. Big budget energy.</small></div></div>
+    <div class="world-header-actions"><span class="offline-pill" id="connectionBadge">Local & private</span><a class="world-return-button" href="../../index.html" aria-label="Return to ESSAzLife World" title="Return to ESSAzLife World">🌎 <span>World</span></a></div>
+  </header>
+  <main class="app-shell">
+    <nav class="tabs" aria-label="Main navigation">
+      <button class="tab" data-tab="budget">💸 Budget</button>
+      <button class="tab" data-tab="statistics">📊 Statistics</button><button class="tab active" data-tab="history" aria-current="page">📜 History</button>
+      <button class="tab" data-tab="profile">👤 Profile</button>
+    </nav>
+    <section class="page" id="budgetPage" hidden>
+      <div class="section-heading"><div><h1>My Budget</h1><p>Keep every paycheck and bill in one cozy place.</p></div><div class="budget-heading-actions"><button class="btn secondary paycheck-filter-toggle" id="togglePaycheckPicker" type="button" aria-label="Choose paycheck" aria-expanded="false" aria-controls="paycheckPicker" title="Choose paycheck"><svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M7 12h10M10 17h4"/></svg></button><button class="btn primary" id="addPaycheckBtn">+ Paycheck</button></div></div>
+      <div class="panel paycheck-picker" id="paycheckPicker" hidden><label for="paycheckSelect">Viewing paycheck</label><div class="picker-row"><select id="paycheckSelect" aria-label="Select paycheck"></select><button class="btn secondary" id="editPaycheckBtn">Edit</button><button class="btn danger-ghost" id="deletePaycheckBtn">Delete</button></div></div>
+      <div id="budgetContent" hidden>
+        <div class="stats-grid">
+          <div class="stat"><span>Paycheck</span><strong id="incomeTotal">$0.00</strong></div>
+          <div class="stat"><span>Planned bills</span><strong id="plannedTotal">$0.00</strong></div>
+          <div class="stat"><span>Paid so far</span><strong id="paidTotal">$0.00</strong></div>
+          <div class="stat highlight"><span>After overdraft &amp; bills</span><strong id="remainingTotal">$0.00</strong></div>
+        </div>
+        <div class="summary-strip"><span id="unpaidSummary"></span><span id="cashSummary"></span></div>
+<div class="section-heading bills-heading"><div><h2>Assigned Bills</h2><p>❌ Unpaid · ✅ Paid</p></div><button class="btn primary" id="addBillBtn">+ Add Bill</button></div>
+        <div class="filter-bar"><label for="billFilter">Show</label><select id="billFilter"><option value="all">All bills</option><option value="need">Needs</option><option value="want">Wants</option><option value="unpaid">Unpaid</option><option value="paid">Paid</option></select><label for="billSort">Sort</label><select id="billSort"><option value="due">Due date</option><option value="priority">Priority</option><option value="amount">Amount (high first)</option></select></div>
+        <div id="billList" class="bill-list"></div>
+      </div>
+      <div id="noPaychecks" class="empty-state"><div class="empty-emoji">💌</div><h2>No paychecks yet!</h2><p>Add your first paycheck to start planning your bills.</p><button class="btn primary" id="emptyAddPaycheckBtn">Create paycheck</button></div>
+    </section>
+    <section class="page" id="statisticsPage" hidden>
+      <div class="section-heading"><div><h1>📊 Statistics</h1><p>Your lifetime budgeting picture across every saved paycheck.</p></div></div>
+      
+      <div id="statsEmpty" class="empty-state" hidden><h2>No paycheck yet</h2><p>Add a paycheck in Budget to see your statistics.</p></div>
+      <div id="statsContent" class="panel" hidden><div class="lifetime-totals" id="lifetimeTotals" aria-label="All-time totals"></div><h2>All-time breakdown</h2><div class="chart-layout"><div class="donut" id="statsDonut" role="img" aria-label="Paycheck allocation"><div class="donut-center"><strong id="statsCenter">0%</strong><span>Allocated</span></div></div><div class="chart-legend"><div><i class="legend-dot need-dot"></i>Needs <strong id="statsNeed">$0.00 · 0%</strong></div><div><i class="legend-dot want-dot"></i>Wants <strong id="statsWant">$0.00 · 0%</strong></div><div><i class="legend-dot remaining-dot"></i>Unallocated <strong id="statsRemaining">$0.00 · 0%</strong></div></div></div><p id="statsOverBudget" class="overbudget-message" hidden></p><p class="fine-print">Percentages use total income across all saved paychecks. Needs and Wants include planned bills, whether paid or unpaid. Overdrafts are tracked separately; if planned bills exceed income, the overage appears below.</p></div>
+    </section>
+    <section class="page active" id="historyPage">
+      <div class="section-heading history-heading"><div><h1>Paycheck Dashboard</h1><p>Paydays, priorities, overdrafts, and every saved paycheck in one place.</p></div><button type="button" id="historySearchToggle" class="btn secondary search-toggle" aria-expanded="false" aria-controls="historySearchPanel" aria-label="Find a paycheck" title="Find a paycheck">🔍</button></div>
+      <div class="panel history-tools" id="historySearchPanel" hidden><label for="historySearch">Find a paycheck</label><input id="historySearch" type="search" placeholder="Search date or note..."></div>
+      <div id="historyList" class="history-list"></div>
+    </section>
+    <section class="page" id="profilePage" hidden>
+      <div class="section-heading"><div><h1>My Profile</h1><p>Customize your buddy and protect your budgets.</p></div></div>
+      <div class="panel"><h2>🐾 My ESSA Buddy</h2><p class="muted">Your tiny budgeting supervisor wanders along the bottom edge of the screen.</p><div class="buddy-preview"><img id="buddyPreview" src="images/MooCow.png" alt="Selected ESSA buddy"><div><strong id="buddyName">MooCow</strong><small>On budget patrol!</small></div></div><label for="buddySelect">Choose your buddy</label><select id="buddySelect"></select><label class="toggle-line"><input type="checkbox" id="buddyEnabled" checked> Show wandering buddy</label><label class="toggle-line"><input type="checkbox" id="reduceMotion"> Keep buddy still (no wandering)</label></div>
+      <div class="panel"><h2>💾 Backup & Restore</h2><p class="muted">Backups include all paychecks, assigned bills, statuses, and buddy settings. Keep the downloaded JSON file somewhere safe.</p><div class="action-row"><button class="btn primary" id="exportBtn">⬇ Export backup</button><button class="btn secondary" id="importBtn">⬆ Restore backup</button></div><input id="importFile" type="file" accept=".json,application/json" hidden><p class="fine-print">Restoring replaces all current Billz data after confirmation. Billz does not automatically sync between devices.</p></div>
+      <div class="panel"><h2>🔒 Privacy & Storage</h2><p class="muted">Your information is stored in this browser on this device. No accounts, servers, or bank connections are used in standalone Billz.</p><button class="btn danger-ghost" id="clearDataBtn">Delete all Billz data</button></div>
+      <p class="footer-note">ESSAzLife Billz · Standalone Edition · v1.5</p>
+    </section>
+  </main>
+  <div class="buddy-lane" id="buddyLane" aria-hidden="true"><img id="walkingBuddy" src="images/MooCow.png" alt=""></div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <dialog id="entryDialog" aria-labelledby="dialogTitle"><form id="entryForm" novalidate><div class="dialog-head"><h2 id="dialogTitle">Add paycheck</h2><button type="button" class="icon-btn" id="closeDialog" aria-label="Close">✕</button></div><div id="paycheckFields"><label for="paycheckDate">Paycheck date</label><input type="date" id="paycheckDate"><label for="paycheckAmount">Paycheck amount ($)</label><input type="number" id="paycheckAmount" min="0" max="999999999" step="0.01" placeholder="0.00"><label for="paycheckOverdraft">Overdraft amount ($)</label><input type="number" id="paycheckOverdraft" min="0" max="999999999" step="0.01" placeholder="0.00"><p class="fine-print">This will be paid before anything.</p><label for="paycheckNote">Note (optional)</label><input id="paycheckNote" maxlength="100" placeholder="e.g. November paycheck"></div><div id="billFields" hidden>        <div class="recurring-panel bill-dialog-recurring"><div class="section-heading"><div><h3>🔁 Assign an Existing Recurring Bill</h3><p>Pick a saved recurring bill below, or enter a new bill using the fields that follow. Nothing is assigned automatically.</p></div></div><div class="picker-row"><label class="sr-only" for="recurringRange">Show bills due</label><select id="recurringRange"><option value="30">Within 30 days of paycheck</option><option value="60">Within 60 days of paycheck</option><option value="90">Within 90 days of paycheck</option><option value="365">Within 1 year of paycheck</option></select></div><div id="recurringSuggestions"></div></div><div class="bill-dialog-divider">Or enter a bill</div><label for="billName">Bill name</label><input id="billName" maxlength="100" placeholder="e.g. Rent"><label for="billPriority">Priority</label><select id="billPriority"><option value="Need">Need</option><option value="Want">Want</option></select><label for="billDue">Date due</label><input type="date" id="billDue"><label for="billAmount">Amount due ($)</label><input type="number" id="billAmount" min="0" max="999999999" step="0.01" placeholder="0.00"><label class="toggle-line"><input type="checkbox" id="billRecurring"> Repeat this bill</label><div id="recurringFields" hidden><label for="billFrequency">How often?</label><select id="billFrequency"><option value="weekly">Every week</option><option value="biweekly">Every 2 weeks</option><option value="monthly">Every month</option><option value="quarterly">Every 3 months</option><option value="yearly">Every year</option></select><p class="fine-print">The due date is the first occurrence. You will choose which future paycheck gets each occurrence.</p></div><label for="billStatus">Payment status</label><select id="billStatus"><option value="false">❌ Unpaid</option><option value="true">✅ Paid</option></select></div><p class="form-error" id="formError" role="alert"></p><div class="dialog-actions"><button type="button" class="btn secondary" id="cancelDialog">Cancel</button><button type="submit" class="btn primary">Save</button></div></form></dialog>
+  <dialog id="confirmDialog" aria-labelledby="confirmTitle"><div class="dialog-head"><h2 id="confirmTitle">Are you sure?</h2></div><p id="confirmMessage"></p><div class="dialog-actions"><button class="btn secondary" id="confirmCancel">Cancel</button><button class="btn danger" id="confirmAccept">Confirm</button></div></dialog>
+</body>
+</html>

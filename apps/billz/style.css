@@ -1,0 +1,87 @@
+:root{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#342733;background:#fff6f9;font-synthesis:none}*{box-sizing:border-box}body{margin:0;min-height:100vh;padding-bottom:96px}button,input,select{font:inherit}button{cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #d97aa1;outline-offset:2px}.topbar{background:#a83c62;color:white;padding:14px max(18px,calc((100vw - 1000px)/2));display:flex;align-items:center;justify-content:space-between;gap:10px;box-shadow:0 3px 15px #5d1d3a20}.brand{display:flex;align-items:center;gap:12px}.brand img{width:43px;height:43px;object-fit:contain;border-radius:12px}.brand strong{display:block;font-size:1.18rem}.brand small{display:block;font-size:.73rem;opacity:.9}.offline-pill{font-size:.72rem;border:1px solid #ffffff7a;padding:7px 10px;border-radius:50px;white-space:nowrap}.app-shell{max-width:1000px;margin:auto;padding:20px 18px 35px}.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;background:#f6dfe8;padding:6px;border-radius:16px;margin-bottom:24px}.tab{border:0;background:transparent;border-radius:11px;padding:12px 5px;font-weight:700;color:#80435c}.tab.active{background:white;color:#9e3159;box-shadow:0 2px 9px #5d1d3a16}.page[hidden], [hidden]{display:none!important}.section-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:0 0 15px}.section-heading h1{font-size:1.65rem;margin:0}.section-heading h2{font-size:1.25rem;margin:0}.section-heading p{font-size:.9rem;color:#786473;margin:4px 0 0}.btn{border:0;border-radius:11px;padding:11px 15px;font-weight:700;transition:transform .15s,filter .15s}.btn:hover:not(:disabled){filter:brightness(.97);transform:translateY(-1px)}.primary{background:#ae3e67;color:white}.secondary{background:#f4dce6;color:#79344e}.danger{background:#b32845;color:white}.danger-ghost{background:#fff0f1;color:#a22b42}.panel{background:white;border:1px solid #efd9e2;border-radius:18px;padding:20px;margin-bottom:17px;box-shadow:0 5px 22px #66213b0b}.panel h2{font-size:1.2rem;margin:0 0 8px}.panel p{line-height:1.5}.muted{color:#786473;font-size:.92rem}.paycheck-picker label,.panel>label:not(.toggle-line),form label{display:block;font-size:.86rem;font-weight:700;margin-bottom:7px}.picker-row{display:flex;gap:9px}.picker-row select{flex:1;min-width:0}select,input:not([type=checkbox]){background:#fff;border:1px solid #d9bdca;border-radius:10px;padding:11px 12px;color:#342733;width:100%;min-height:44px}.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.stat{background:#fff;border:1px solid #efd9e2;border-radius:16px;padding:17px 15px;min-width:0}.stat span{display:block;color:#7e6976;font-size:.81rem;margin-bottom:8px}.stat strong{display:block;font-size:clamp(1.05rem,2.4vw,1.65rem);overflow-wrap:anywhere}.stat.highlight{background:#f9e5ee;border-color:#e9bed0}.negative{color:#bc2549!important}.summary-strip{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:14px 0 27px;color:#76576a;font-size:.87rem}.bills-heading{margin-top:8px}.filter-bar{display:flex;align-items:center;gap:9px;margin-bottom:14px;flex-wrap:wrap}.filter-bar label{font-size:.82rem;font-weight:700;color:#74566a}.filter-bar select{width:auto;min-width:125px;flex:1;max-width:220px}.bill-list,.history-list{display:grid;gap:11px}.bill-card,.history-card{background:white;border:1px solid #efd9e2;border-radius:16px;padding:15px 17px;box-shadow:0 3px 15px #66213b0a}.bill-card{display:flex;justify-content:space-between;gap:14px;align-items:center}.bill-card.paid{background:#f8fff9}.bill-main{min-width:0}.bill-title{font-weight:750;font-size:1.05rem;overflow-wrap:anywhere}.bill-meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:7px;color:#786473;font-size:.79rem}.priority{font-weight:700;border-radius:50px;padding:4px 9px;background:#e8efff;color:#34539b}.priority.need{background:#ffebed;color:#9d3b52}.overdue{color:#b32845;font-weight:750}.bill-actions{display:flex;align-items:center;justify-content:flex-end;gap:6px;flex-wrap:wrap}.bill-amount{font-weight:750;margin-right:5px;white-space:nowrap}.status-btn{background:#fff0f2;border:1px solid #efc4d0;border-radius:10px;padding:9px 11px;font-size:.83rem;font-weight:700;color:#983b59}.status-btn.is-paid{background:#e4f5e9;border-color:#a8ddba;color:#246b40}.mini-btn{border:0;border-radius:9px;padding:9px;background:#f5eaf0;color:#71354e}.mini-btn.delete{background:#fff0f1;color:#a22b42}.empty-state{text-align:center;padding:48px 18px;background:white;border:1px dashed #e4b7c9;border-radius:18px;color:#786473}.empty-state h2{color:#342733;margin:10px 0 4px}.empty-emoji{font-size:2.5rem}.empty-state .btn{margin-top:10px}.history-tools{padding:14px 18px}.history-card-head{display:flex;justify-content:space-between;gap:10px;align-items:start}.history-card h2{font-size:1.08rem;margin:0 0 4px}.history-card small{color:#786473}.history-numbers{display:flex;flex-wrap:wrap;gap:10px 22px;margin:14px 0;font-size:.86rem}.history-numbers strong{display:block;font-size:1rem;margin-top:4px}.history-details{border-top:1px solid #f0dce4;padding-top:10px}.history-details summary{cursor:pointer;font-weight:700;color:#943b60}.history-bill{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid #f6eaf0;font-size:.85rem}.history-bill span:last-child{text-align:right}.history-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.history-actions .btn{padding:8px 12px;font-size:.84rem}.buddy-preview{display:flex;align-items:center;gap:16px;background:#fff4f8;border-radius:13px;padding:13px;margin:15px 0}.buddy-preview img{height:90px;width:90px;object-fit:contain}.buddy-preview strong,.buddy-preview small{display:block}.buddy-preview small{color:#786473;margin-top:4px}.toggle-line{display:flex;gap:10px;align-items:center;margin-top:14px;font-size:.92rem}.toggle-line input{accent-color:#a83c62;width:18px;height:18px}.action-row{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}.fine-print,.footer-note{font-size:.78rem;color:#806c79}.footer-note{text-align:center}.buddy-lane{position:fixed;bottom:0;left:0;right:0;height:76px;pointer-events:none;z-index:8;overflow:hidden}.buddy-lane img{position:absolute;bottom:4px;left:0;width:65px;height:65px;object-fit:contain;filter:drop-shadow(0 4px 3px #4e233d33);animation:buddy-walk 26s linear infinite alternate;transform-origin:center bottom}.buddy-lane img.still{animation:none;left:calc(50% - 32px)}@keyframes buddy-walk{0%{left:0;transform:scaleX(1)}49%{transform:scaleX(1)}50%{left:calc(100% - 66px);transform:scaleX(-1)}100%{left:0;transform:scaleX(-1)}}.toast{position:fixed;left:50%;bottom:82px;transform:translate(-50%,20px);background:#462b3c;color:white;padding:12px 20px;border-radius:12px;box-shadow:0 6px 22px #0003;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:20;max-width:min(90vw,500px);text-align:center}.toast.show{opacity:1;transform:translate(-50%,0)}dialog{border:0;border-radius:20px;padding:23px;width:min(94vw,470px);max-height:90vh;overflow:auto;box-shadow:0 20px 80px #32162b55;color:#342733}dialog::backdrop{background:#28152299}.dialog-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:18px}.dialog-head h2{margin:0;font-size:1.35rem}.icon-btn{background:#f5e8ee;border:0;border-radius:8px;padding:7px 10px}form label{margin-top:13px}.dialog-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:23px}.form-error{color:#a22b42;font-size:.86rem;min-height:1em;margin:10px 0 0}@media(max-width:680px){.app-shell{padding:15px 12px 30px}.topbar{padding:12px}.offline-pill{display:none}.stats-grid{grid-template-columns:repeat(2,1fr);gap:9px}.stat{padding:13px}.section-heading h1{font-size:1.4rem}.section-heading .btn{padding:10px}.bill-card{align-items:stretch;flex-direction:column}.bill-actions{justify-content:space-between}.picker-row{flex-wrap:wrap}.picker-row select{flex-basis:100%}.picker-row button{flex:1}.history-card-head{flex-direction:column}.brand small{font-size:.65rem}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}.buddy-lane img{animation:none;left:calc(50% - 32px)}}
+
+/* v1.1 statistics + recurring */
+.tabs{grid-template-columns:repeat(4,minmax(0,1fr))}.tabs .tab{font-size:.91rem}
+.chart-layout{display:flex;align-items:center;justify-content:center;gap:36px;flex-wrap:wrap;margin:25px 0}.donut{width:240px;height:240px;border-radius:50%;background:conic-gradient(#ec4899 0 0,#3b82f6 0 0,#e5e7eb 0 100%);display:grid;place-items:center;flex-shrink:0}.donut-center{width:170px;height:170px;border-radius:50%;background:white;display:flex;flex-direction:column;align-items:center;justify-content:center}.donut-center strong{font-size:2rem}.donut-center span{font-size:.8rem;color:#786473}.chart-legend{display:grid;gap:18px;min-width:min(100%,260px)}.chart-legend>div{display:grid;grid-template-columns:14px 1fr;gap:4px 9px;align-items:center}.chart-legend strong{grid-column:2}.legend-dot{width:13px;height:13px;border-radius:50%;display:inline-block}.need-dot{background:#ec4899}.want-dot{background:#3b82f6}.remaining-dot{background:#e5e7eb;border:1px solid #b5b5b5}.overbudget-message{color:#b32845;font-weight:700}.recurring-panel{margin-top:12px}.recurring-panel .section-heading{margin-bottom:12px}.recurring-panel .picker-row{margin-bottom:12px}.recurring-suggestion{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-top:1px solid #f0dce4;flex-wrap:wrap}.recurring-suggestion strong{display:block}.recurring-suggestion small{display:block;color:#786473;margin-top:4px}.recurring-suggestion button{white-space:nowrap}.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}#recurringFields{padding:0 0 8px 18px;border-left:3px solid #f4dce6;margin-top:10px}@media(max-width:500px){.tabs{gap:3px;padding:4px}.tabs .tab{font-size:.75rem;padding:11px 2px}.donut{width:210px;height:210px}.donut-center{width:145px;height:145px}}
+
+
+/* Billz v1.2: paycheck dashboard */
+.dashboard-card { display:flex; flex-direction:column; gap:16px; }
+.history-head-right { display:flex; align-items:center; gap:20px; flex-wrap:wrap; justify-content:flex-end; }
+.payday-countdown { display:flex; flex-direction:column; align-items:center; justify-content:center; padding:10px 16px; border-radius:14px; background:#e9f9ed; color:#187b38; min-width:140px; }
+.payday-countdown span { font-size:.76rem; font-weight:700; }
+.payday-countdown strong { font-size:1.35rem; }
+.history-chart-row { display:flex; align-items:center; gap:28px; padding:8px 0; }
+.mini-donut { width:142px; height:142px; border-radius:50%; flex-shrink:0; display:grid; place-items:center; }
+.mini-donut-center { background:white; width:102px; height:102px; border-radius:50%; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+.mini-donut-center strong { font-size:1.3rem; }
+.mini-donut-center small { font-size:.7rem; color:#795e6b; }
+.mini-chart-legend { flex:1; min-width:0; display:grid; gap:10px; }
+.mini-legend-row { display:flex; align-items:center; justify-content:space-between; gap:12px; font-size:.92rem; }
+.mini-legend-row span { display:flex; align-items:center; gap:8px; }
+.mini-legend-row strong { text-align:right; }
+.mini-legend-dot { display:inline-block; width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+.history-overdraft,.overdraft-budget { display:flex; align-items:center; gap:16px; justify-content:space-between; border:1px solid #f4c8ce; background:#fff3f4; border-radius:14px; padding:14px 16px; }
+.history-overdraft div,.overdraft-budget div { display:flex; flex-direction:column; gap:3px; }
+.history-overdraft small,.overdraft-budget p { font-size:.78rem; color:#9c4e59; margin:0; }
+.history-overdraft .negative,.overdraft-budget .negative { color:#c52643; font-size:1.15rem; white-space:nowrap; }
+.overdraft-budget { margin:12px 0 20px; }
+@media(max-width:640px){
+  .history-head-right { justify-content:flex-start; width:100%; }
+  .history-card-head { flex-wrap:wrap; }
+  .history-chart-row { gap:12px; }
+  .mini-donut { width:112px; height:112px; }
+  .mini-donut-center { width:80px; height:80px; }
+  .mini-donut-center strong { font-size:1rem; }
+  .mini-legend-row { font-size:.75rem; align-items:flex-start; flex-wrap:wrap; }
+  .history-overdraft,.overdraft-budget { flex-wrap:wrap; }
+}
+
+/* All-time statistics */
+.lifetime-totals { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; margin-bottom:22px; }
+.lifetime-stat { border:1px solid #efd4df; border-radius:12px; padding:14px; display:flex; flex-direction:column; gap:7px; background:#fffafd; }
+.lifetime-stat span { font-size:.85rem; color:#80566a; }
+.lifetime-stat strong { font-size:1.2rem; overflow-wrap:anywhere; }
+
+/* Billz v1.4: compact bill editor and prominent remaining balance */
+.bill-dialog-recurring{background:#fff6fa;border:1px solid #f0d7e2;border-radius:14px;padding:15px;margin:0 0 18px}
+.bill-dialog-recurring h3{font-size:1rem;margin:0 0 6px}
+.bill-dialog-recurring p{font-size:.83rem;margin:0 0 12px}
+.bill-dialog-recurring .section-heading{margin:0 0 10px}
+.bill-dialog-recurring .picker-row{margin-bottom:10px}
+.bill-dialog-recurring .recurring-suggestion{font-size:.84rem}
+.bill-dialog-divider{text-align:center;color:#895f73;font-weight:700;font-size:.9rem;margin:18px 0 12px;border-top:1px solid #ecd3dd;padding-top:16px}
+.history-remaining-balance{display:flex;flex-direction:column;gap:3px;padding:12px 16px;background:#f9e9f0;border-radius:14px;min-width:185px}
+.history-remaining-balance span{font-size:.77rem;color:#79465c;font-weight:700}
+.history-remaining-balance strong{font-size:clamp(1.6rem,4vw,2.15rem);line-height:1.15;color:#392131}
+.history-remaining-balance strong.negative{color:#c52643}
+.history-remaining-balance small{font-size:.76rem;color:#795e6b}
+@media(max-width:640px){.history-head-right{width:100%;align-items:stretch;gap:10px}.history-remaining-balance{flex:1}.payday-countdown{min-width:120px}}
+
+/* Billz v1.5: compact search and overdraft as first bill */
+.history-heading {display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.search-toggle {font-size:1.25rem;min-width:48px;min-height:48px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;}
+#historySearchPanel[hidden] {display:none!important;}
+.overdraft-bill-row {background:#fff3f4;border:1px solid #f3c7ce;}
+.overdraft-bill-row .bill-title {color:#a52242;}
+.overdraft-subtext {font-size:.82rem;color:#a94e62;margin:5px 0 0;}
+.overdraft-bill-row .negative,.overdraft-history-row .negative {color:#c52643;font-weight:800;}
+.overdraft-history-row {background:#fff3f4;border-radius:10px;padding:12px;align-items:center;gap:10px;}
+.overdraft-history-row span {display:flex;flex-direction:column;gap:3px;}
+.overdraft-history-row small {color:#a94e62;font-size:.75rem;}
+.overdraft-history-row .btn {margin-left:auto;}
+@media(max-width:600px){.history-heading {align-items:flex-start}.overdraft-history-row {flex-wrap:wrap}.overdraft-bill-row {flex-wrap:wrap}}
+
+/* v1.6: compact paycheck filter */
+.budget-heading-actions{display:flex;align-items:center;gap:9px;flex-shrink:0}
+.paycheck-filter-toggle{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;padding:0}
+.paycheck-filter-toggle svg{display:block}
+#paycheckPicker[hidden]{display:none!important}
+@media(max-width:420px){.budget-heading-actions{gap:6px}.budget-heading-actions .primary{padding:10px 11px}}
+
+/* World-edition navigation (standalone edition stays unchanged). */
+.world-header-actions{display:flex;align-items:center;justify-content:flex-end;gap:10px;flex-wrap:wrap}
+.world-return-button{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 13px;border-radius:12px;border:1px solid rgba(255,255,255,.6);background:rgba(255,255,255,.17);color:#fff;text-decoration:none;font-weight:750;white-space:nowrap;transition:background .15s ease}
+.world-return-button:hover,.world-return-button:focus-visible{background:rgba(255,255,255,.32)}
+.world-return-button:focus-visible{outline:3px solid #fff;outline-offset:2px}
+@media(max-width:480px){.world-header-actions{gap:6px}.world-return-button{padding:8px 10px}.world-return-button span{display:none}}
