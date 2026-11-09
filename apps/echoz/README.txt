@@ -1,0 +1,1 @@
+Echoz v1.8 adds My ESSAz under Settings. Save multiple ESSAs (name, species, voice, photo, theme, sensitivity) and load them later. Images are resized for local storage. Keep your existing sounds/ WAV recordings and images/Echoz.Icon.png. Storage is per browser/device; clearing site data deletes saved profiles.

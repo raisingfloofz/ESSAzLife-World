@@ -1,0 +1,24 @@
+ESSAzLife Echoz v1.2 — FREESOUND RECORDING GUIDE
+
+Download recordings yourself from each creator's Freesound page.
+Check the license on the page before redistributing recordings.
+Convert WAV/M4A files to MP3 as needed; changing the extension alone does NOT convert audio.
+Save these exact filenames inside the sounds/ folder:
+
+dog-bark.mp3  https://freesound.org/people/WolfOWI/sounds/588312/
+dog-whine.mp3 https://freesound.org/people/MiscPractice/sounds/652711/
+dog-sleep.mp3 https://freesound.org/people/samueljustice00/sounds/156597/
+heartbeat.mp3 https://freesound.org/people/loudernoises/sounds/332821/
+puppy.mp3 https://freesound.org/people/johnnypanic/sounds/728029/
+dog-eating.mp3 https://freesound.org/people/Trashcan_Studios/sounds/580210/
+kitten-meow.mp3 https://freesound.org/people/designerschoice/sounds/803590/
+cat-meow.mp3 https://freesound.org/people/MaximStudio_official_sounds/sounds/856618/
+cat-purr.mp3 https://freesound.org/people/ChExi/sounds/646599/
+cat-eating.mp3 https://freesound.org/people/patchytherat/sounds/532216/
+cow-moo.mp3 https://freesound.org/people/Cllari/sounds/445572/
+
+Sleep uses dog-sleep.mp3 for dogs and cows, cat-purr.mp3 for cats.
+Heartbeat uses heartbeat.mp3 for all species.
+Cows have no eating or no/wait sound assigned.
+Optional voice recognition may send speech to the browser's speech provider.
+Audio files are NOT included in this ZIP.

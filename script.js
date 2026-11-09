@@ -1322,8 +1322,8 @@ launchUrl: "apps/bookz/index.html",
     id: "echoz",
     name: "ESSAzLife Echoz",
     icon: "Echoz.Icon.png",
-    status: "coming-soon",
-    launchUrl: "",
+    status: "available",
+    launchUrl: "apps/echoz/index.html",
     description: [
       "Have you ever wished your ESSA could make realistic sounds and respond to you? With the help of your Echoz app, you can enable your ESSA to do just that!",
       "ESSAzLife Echoz is an app that works offline, and you can use it with a Bluetooth speaker (recommended) or your device."
