@@ -1,0 +1,17 @@
+{
+  "name": "ESSAzLife Groceriez",
+  "short_name": "Groceriez",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#eefaf4",
+  "theme_color": "#16866b",
+  "description": "Offline grocery lists and shopping trips",
+  "icons": [
+    {
+      "src": "images/Groceriez.Icon.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

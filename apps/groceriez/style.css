@@ -1,0 +1,24 @@
+:root{font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:#174b40;background:#eefaf4}*{box-sizing:border-box}body{margin:0}header{background:linear-gradient(120deg,#16866b,#52bd88);color:white;padding:24px max(20px,calc((100vw - 920px)/2));display:flex;align-items:center;gap:12px;flex-wrap:wrap}header div{flex:1}header h1{font-size:2rem;margin:4px 0}header p{margin:0}header small{font-weight:700;letter-spacing:.08em}button,.button{border:0;background:#16866b;color:white;border-radius:12px;padding:10px 14px;font:inherit;font-weight:650;cursor:pointer;display:inline-block}button:hover,.button:hover{filter:brightness(.94)}button:focus-visible,.button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #e9ad41;outline-offset:2px}.secondary{background:#e0f2e8;color:#185d4a}.danger{background:#b43e52}.mini{padding:6px 10px;font-size:.85rem}nav{display:flex;justify-content:center;gap:8px;background:white;padding:12px;position:sticky;top:0;z-index:1;box-shadow:0 2px 8px #164a3520}nav button{background:#e6f4ed;color:#23674f}nav button.active{background:#16866b;color:white}main{max-width:920px;margin:24px auto;padding:0 16px;min-height:55vh}.hidden{display:none!important}.sectionhead,.cardhead,.actions,.itemrow,.totalrow{display:flex;align-items:center;justify-content:space-between;gap:10px}.sectionhead{margin-bottom:12px}.card{background:white;border:1px solid #d4eadd;border-radius:18px;padding:18px;margin:14px 0;box-shadow:0 4px 12px #174b4010}.card h3{margin:0 0 4px}.muted{color:#647b70}.items{padding:0;list-style:none}.itemrow{padding:12px 0;border-bottom:1px solid #e5f1e9;flex-wrap:wrap}.itemrow:last-child{border-bottom:0}.iteminfo{flex:1;min-width:150px}.iteminfo small{display:block;color:#607b6d}.itemactions{display:flex;align-items:center;gap:7px;flex-wrap:wrap}.checked .iteminfo{text-decoration:line-through;opacity:.55}.totalrow{border-top:2px solid #e2f0e7;padding-top:12px;font-weight:700}.pill{display:inline-block;background:#e1f4e9;color:#13684d;padding:4px 9px;border-radius:20px;font-size:.8rem}.empty{background:white;border:2px dashed #c8e5d4;border-radius:16px;text-align:center;padding:30px;color:#62796b}dialog{border:0;border-radius:18px;width:min(94vw,460px);padding:24px;box-shadow:0 20px 60px #0004}dialog::backdrop{background:#0c312b88}dialog h2{margin-top:0}label.field{display:block;font-weight:650;margin:12px 0}label.field input,label.field select{display:block;width:100%;padding:11px;border:1px solid #bdd8ca;border-radius:10px;font:inherit;margin-top:5px}label.check{display:flex;align-items:center;gap:8px;margin:8px 0}.actions{justify-content:flex-end;margin-top:20px;flex-wrap:wrap}.tripstore{border-left:4px solid #74cba3;padding-left:12px;margin-top:16px}.tripstore h4{margin-bottom:4px}footer{text-align:center;padding:22px;color:#607b6d;font-size:.85rem}@media(max-width:550px){header{padding:20px}nav button{font-size:.9rem;padding:9px}.itemactions{width:100%;justify-content:flex-end}}
+
+.trip-budget{margin:12px 0}.budget-status{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;border-radius:10px;padding:10px 12px;background:#e1f4e9}.budget-status.over-budget{background:#ffe8e7;color:#9c293b}.budget-status.within-budget{color:#116549}.check input[type=checkbox]{width:20px;height:20px;accent-color:#16866b;cursor:pointer}
+
+/* Groceriez custom header icon */
+header .brand{display:flex;align-items:center;gap:16px;flex:1;min-width:220px}
+header .brand-icon{width:76px;height:76px;object-fit:contain;flex-shrink:0}
+header .brand h1{margin:0}
+@media(max-width:520px){header .brand-icon{width:60px;height:60px}header .brand h1{font-size:1.8rem}}
+
+/* Custom Groceriez confirmation dialog (replaces browser confirm popups) */
+.confirm-dialog{width:min(92vw,420px);padding:28px;border:1px solid #cbe7d9;border-radius:22px;text-align:center;color:#174b40;background:#fff;box-shadow:0 24px 70px #092e2755}
+.confirm-dialog::backdrop{background:rgba(9,46,39,.58);backdrop-filter:blur(3px)}
+.confirm-dialog .confirm-symbol{font-size:2rem;background:#e6f6ec;width:64px;height:64px;display:grid;place-items:center;border-radius:50%;margin:0 auto 14px}
+.confirm-dialog h2{margin:0 0 10px;font-size:1.4rem}
+.confirm-dialog p{margin:0;color:#58766a;line-height:1.5}
+.confirm-dialog .actions{justify-content:center;margin-top:24px;gap:12px}
+.confirm-dialog .actions button{min-width:112px}
+@media(max-width:400px){.confirm-dialog{padding:22px}.confirm-dialog .actions button{min-width:0;flex:1}}
+
+/* World-embedded Groceriez only */
+.world-return{display:inline-block;text-decoration:none;background:#e7f6ee;color:#155d47;border-radius:12px;padding:10px 14px;font-weight:700;white-space:nowrap}
+.world-return:hover{filter:brightness(.94)}
+.world-return:focus-visible{outline:3px solid #e9ad41;outline-offset:2px}

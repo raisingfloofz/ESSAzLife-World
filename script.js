@@ -1290,8 +1290,8 @@ launchUrl: "apps/bookz/index.html",
     id: "groceriez",
     name: "ESSAzLife Groceriez",
     icon: "Groceriez.Icon.png",
-    status: "coming-soon",
-    launchUrl: "",
+    status: "available",
+    launchUrl: "apps/groceriez/index.html",
     description: [
       "Ever walked into the store and forgot what you're looking for? With ESSAzLife Groceriez, you can organize by store, list the item and what aisle it will be in, and check the estimated subtotal all in one place!"
     ]
