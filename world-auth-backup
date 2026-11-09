@@ -1,0 +1,79 @@
+// ESSAzLife World cloud authentication — staged update (not yet deployed)
+// Requires existing world_accounts/auth_attempts and world_sessions D1 tables.
+const ORIGINS = new Set(['https://raisingfloofz.github.io','http://localhost:5500','http://127.0.0.1:5500']);
+const enc = new TextEncoder(), dec = new TextDecoder();
+const now = () => Math.floor(Date.now()/1000);
+const hex = b => Array.from(b,x=>x.toString(16).padStart(2,'0')).join('');
+function unhex(s){if(typeof s!=='string'||!/^(?:[a-f\d]{2})+$/i.test(s))throw Error('Bad hash');return Uint8Array.from(s.match(/../g),x=>parseInt(x,16));}
+function b64(b){return btoa(String.fromCharCode(...b)).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');}
+function ub64(s){if(!/^[\w-]+$/.test(s))throw Error('Bad encoding');let x=s.replace(/-/g,'+').replace(/_/g,'/');return Uint8Array.from(atob(x+'='.repeat((4-x.length%4)%4)),c=>c.charCodeAt(0));}
+function reply(data,status=200,h={}){return new Response(JSON.stringify(data),{status,headers:{'Content-Type':'application/json','Cache-Control':'no-store',...h}});}
+function cors(o){return ORIGINS.has(o)?{'Access-Control-Allow-Origin':o,'Access-Control-Allow-Methods':'GET, POST, OPTIONS','Access-Control-Allow-Headers':'Content-Type, Authorization','Vary':'Origin'}:{};}
+async function body(r){if(!r.headers.get('Content-Type')?.includes('application/json'))return null;if(Number(r.headers.get('Content-Length')||0)>4096)return null;let t=await r.text();if(t.length>4096)return null;try{let d=JSON.parse(t);return d&&typeof d==='object'&&!Array.isArray(d)?d:null;}catch{return null;}}
+async function passhash(p,s){let k=await crypto.subtle.importKey('raw',enc.encode(p),'PBKDF2',false,['deriveBits']);return hex(new Uint8Array(await crypto.subtle.deriveBits({name:'PBKDF2',hash:'SHA-256',salt:s,iterations:100000},k,256)));}
+async function matches(p,a){let x=unhex(await passhash(p,unhex(a.password_salt))),y=unhex(a.password_hash);if(x.length!==y.length)return false;let diff=0;for(let i=0;i<x.length;i++)diff|=x[i]^y[i];return diff===0;}
+async function hmac(secret){return crypto.subtle.importKey('raw',enc.encode(secret),{name:'HMAC',hash:'SHA-256'},false,['sign','verify']);}
+async function sign(s,k){return b64(new Uint8Array(await crypto.subtle.sign('HMAC',k,enc.encode(s))));}
+async function issue(env,id){let sid=crypto.randomUUID(),t=now(),exp=t+86400;await env.DB.prepare('INSERT INTO world_sessions (id,account_id,created_at,expires_at,revoked_at) VALUES (?,?,?,?,NULL)').bind(sid,id,t,exp).run();let payload=b64(enc.encode(JSON.stringify({sub:id,jti:sid,iat:t,exp})));return payload+'.'+await sign(payload,await hmac(env.SESSION_SECRET));}
+async function session(r,env){let a=r.headers.get('Authorization')||'';if(!a.startsWith('Bearer '))return null;let parts=a.slice(7).split('.');if(parts.length!==2||parts[0].length>2000||parts[1].length>200)return null;try{let k=await hmac(env.SESSION_SECRET);if(!await crypto.subtle.verify('HMAC',k,ub64(parts[1]),enc.encode(parts[0])))return null;let p=JSON.parse(dec.decode(ub64(parts[0])));if(typeof p.sub!=='string'||typeof p.jti!=='string'||!Number.isSafeInteger(p.iat)||!Number.isSafeInteger(p.exp)||p.iat>now()+60||p.exp<=now()||p.exp>p.iat+86400)return null;let row=await env.DB.prepare('SELECT id,account_id,expires_at,revoked_at FROM world_sessions WHERE id=? AND account_id=?').bind(p.jti,p.sub).first();return row&&row.revoked_at===null&&row.expires_at>now()&&row.expires_at===p.exp?{id:p.sub,jti:p.jti}:null;}catch{return null;}}
+async function account(env,id,withPassword=false){return env.DB.prepare(`SELECT id,username,nickname${withPassword?',password_hash,password_salt':''} FROM world_accounts WHERE id=?`).bind(id).first();}
+async function rate(env,key,limit,seconds){let t=now(),reset=t-seconds;let row=await env.DB.prepare(`INSERT INTO auth_attempts (key,attempts,window_start,blocked_until) VALUES (?,1,?,0) ON CONFLICT(key) DO UPDATE SET attempts=CASE WHEN window_start<=? THEN 1 ELSE attempts+1 END,window_start=CASE WHEN window_start<=? THEN ? ELSE window_start END WHERE window_start<=? OR attempts<? RETURNING attempts`).bind(key,t,reset,reset,t,reset,limit).first();return row!==null;}
+async function throttle(r,env,action,username=''){let ip=r.headers.get('CF-Connecting-IP')||'unknown',key=await hmac(env.SESSION_SECRET),digest=hex(new Uint8Array(await crypto.subtle.sign('HMAC',key,enc.encode(action+':'+ip))));let lim=action==='register'?3:action==='login'?10:5,win=action==='register'?3600:900;if(!await rate(env,action+':ip:'+digest,lim,win))return false;if(action==='login'&&username&&!await rate(env,'login:user:'+username.toLowerCase(),20,900))return false;return true;}
+const validUser = s=>typeof s==='string'&&/^[a-zA-Z0-9_]{3,24}$/.test(s);
+const validNick = s=>typeof s==='string'&&s.trim().length>=1&&s.trim().length<=40;
+const validPass = s=>typeof s==='string'&&s.length>=12&&s.length<=128;
+export default {async fetch(request,env){
+ const origin=request.headers.get('Origin')||'',h=cors(origin),path=new URL(request.url).pathname,method=request.method;
+ if(method==='OPTIONS')return new Response(null,{status:ORIGINS.has(origin)?204:403,headers:h});
+ if(origin&&!ORIGINS.has(origin))return reply({error:'Origin not allowed'},403,h);
+ if(!env.DB||!env.SESSION_SECRET)return reply({error:'Server not configured'},503,h);
+ try{
+  if(method==='GET'&&path==='/health')return reply({ok:true,service:'essazlife-world-auth'},200,h);
+  if(method==='POST'&&path==='/register'){
+   let d=await body(request);if(!d)return reply({error:'Invalid JSON'},400,h);
+   if(!validUser(d.username)||!validNick(d.nickname)||!validPass(d.password))return reply({error:'Username must be 3–24 letters, numbers or underscores; nickname 1–40 characters; password 12–128 characters.'},400,h);
+   if(!await throttle(request,env,'register'))return reply({error:'Too many registration attempts. Try later.'},429,{...h,'Retry-After':'3600'});
+   let id=crypto.randomUUID(),salt=crypto.getRandomValues(new Uint8Array(16));
+   try{await env.DB.prepare('INSERT INTO world_accounts (id,username,nickname,password_hash,password_salt) VALUES (?,?,?,?,?)').bind(id,d.username,d.nickname.trim(),await passhash(d.password,salt),hex(salt)).run();}
+   catch(e){if(String(e).includes('UNIQUE constraint failed'))return reply({error:'Username already taken'},409,h);throw e;}
+   return reply({token:await issue(env,id),account:{id,username:d.username,nickname:d.nickname.trim()}},201,h);
+  }
+  if(method==='POST'&&path==='/login'){
+   let d=await body(request);if(!d||typeof d.username!=='string'||typeof d.password!=='string'||d.username.length>24||d.password.length>128)return reply({error:'Invalid login'},400,h);
+   if(!await throttle(request,env,'login',d.username))return reply({error:'Too many login attempts. Try later.'},429,{...h,'Retry-After':'900'});
+   let a=await env.DB.prepare('SELECT id,username,nickname,password_hash,password_salt FROM world_accounts WHERE username=?').bind(d.username).first();
+   if(!a||!await matches(d.password,a))return reply({error:'Incorrect username or password'},401,h);
+   return reply({token:await issue(env,a.id),account:{id:a.id,username:a.username,nickname:a.nickname}},200,h);
+  }
+  if(method==='GET'&&path==='/me'){
+   let s=await session(request,env);if(!s)return reply({error:'Not authenticated'},401,h);let a=await account(env,s.id);return a?reply({account:a},200,h):reply({error:'Not authenticated'},401,h);
+  }
+  if(method==='POST'&&path==='/logout'){
+   let s=await session(request,env);if(!s)return reply({error:'Not authenticated'},401,h);
+   await env.DB.prepare('UPDATE world_sessions SET revoked_at=? WHERE id=? AND account_id=? AND revoked_at IS NULL').bind(now(),s.jti,s.id).run();return reply({ok:true},200,h);
+  }
+  if(method==='POST'&&path==='/account/nickname'){
+   let s=await session(request,env);if(!s)return reply({error:'Not authenticated'},401,h);let d=await body(request);if(!d||!validNick(d.nickname))return reply({error:'Nickname must be 1–40 characters'},400,h);
+   await env.DB.prepare('UPDATE world_accounts SET nickname=? WHERE id=?').bind(d.nickname.trim(),s.id).run();return reply({account:await account(env,s.id)},200,h);
+  }
+  if(method==='POST'&&path==='/account/password'){
+   let s=await session(request,env);if(!s)return reply({error:'Not authenticated'},401,h);let d=await body(request);
+   if(!d||typeof d.currentPassword!=='string'||!validPass(d.newPassword))return reply({error:'Current password and new password (12–128 characters) required'},400,h);
+   if(!await throttle(request,env,'password'))return reply({error:'Too many attempts. Try later.'},429,h);
+   let a=await account(env,s.id,true);if(!a||!await matches(d.currentPassword,a))return reply({error:'Incorrect current password'},401,h);
+   let salt=crypto.getRandomValues(new Uint8Array(16)),hash=await passhash(d.newPassword,salt);
+   // Revoke all sessions. Caller receives a fresh token after password change.
+   await env.DB.batch([env.DB.prepare('UPDATE world_accounts SET password_hash=?,password_salt=? WHERE id=?').bind(hash,hex(salt),s.id),env.DB.prepare('UPDATE world_sessions SET revoked_at=? WHERE account_id=? AND revoked_at IS NULL').bind(now(),s.id)]);
+   return reply({token:await issue(env,s.id),account:await account(env,s.id)},200,h);
+  }
+  if(method==='POST'&&path==='/account/delete'){
+   let s=await session(request,env);if(!s)return reply({error:'Not authenticated'},401,h);let d=await body(request);
+   if(!d||typeof d.password!=='string'||d.confirm!=='DELETE')return reply({error:'Password and DELETE confirmation required'},400,h);
+   if(!await throttle(request,env,'delete'))return reply({error:'Too many attempts. Try later.'},429,h);
+   let a=await account(env,s.id,true);if(!a||!await matches(d.password,a))return reply({error:'Incorrect password'},401,h);
+   await env.DB.batch([env.DB.prepare('DELETE FROM world_sessions WHERE account_id=?').bind(s.id),env.DB.prepare('DELETE FROM world_accounts WHERE id=?').bind(s.id)]);
+   return reply({ok:true},200,h);
+  }
+  return reply({error:'Not found'},404,h);
+ }catch(e){console.error('Authentication error:',e);return reply({error:'Server error'},500,h);}
+}};

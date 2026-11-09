@@ -1279,8 +1279,8 @@ launchUrl: "apps/bookz/index.html",
     id: "billz",
     name: "ESSAzLife Billz",
     icon: "Billz.Icon.png",
-    status: "coming-soon",
-    launchUrl: "",
+    status: "available",
+    launchUrl: "apps/billz/index.html",
     description: [
       "A financial tracker that helps you budget for bills and savings!",
       "ESSAzLife Billz is designed to teach kids, teens, and even adults better charting and planning practices when it comes to money."
@@ -1300,8 +1300,8 @@ launchUrl: "apps/bookz/index.html",
     id: "roblox",
     name: "ESSAzLife PlayMode: Roblox Edition",
     icon: "Roblox.Icon.png",
-    status: "coming-soon",
-    launchUrl: "",
+    status: "available",
+    launchUrl: "https://www.roblox.com/games/86451999788896/ESSAzLife",
     description: [
       "Love ESSAzLife PlayMode? Now imagine playing with your ESSAs alongside your Roblox friends!",
       "Explore a shared virtual world, customize your ESSAs, care for them, and enjoy exciting adventures together!",
@@ -1456,7 +1456,11 @@ launchUrl: "apps/bookz/index.html",
       available.appendChild(card);
 
       card.addEventListener("click", function() {
-        window.location.href = app.launchUrl;
+        if (app.id === "roblox") {
+          openRobloxWorldPopup();
+        } else {
+          window.location.href = app.launchUrl;
+        }
       });
 
     } else {
@@ -1771,4 +1775,42 @@ launchUrl: "apps/bookz/index.html",
         attributeFilter: ["style", "class", "hidden"]
     });
 
+})();
+
+/* Roblox Edition: World launch confirmation */
+(function initializeRobloxWorldPopup() {
+  const overlay = document.getElementById("robloxWorldOverlay");
+  const close = document.getElementById("robloxWorldClose");
+  const cancel = document.getElementById("robloxWorldCancel");
+  const play = document.getElementById("robloxWorldPlay");
+  if (!overlay || !close || !cancel || !play) return;
+  let lastFocus = null;
+  window.openRobloxWorldPopup = function () {
+    lastFocus = document.activeElement;
+    overlay.hidden = false;
+    close.focus();
+  };
+  function dismiss() {
+    overlay.hidden = true;
+    if (lastFocus && typeof lastFocus.focus === "function") lastFocus.focus();
+  }
+  close.addEventListener("click", dismiss);
+  cancel.addEventListener("click", dismiss);
+  overlay.addEventListener("click", function (event) {
+    if (event.target === overlay) dismiss();
+  });
+  play.addEventListener("click", function () {
+    // Open the official Roblox experience page; Roblox handles app launching.
+    window.open("https://www.roblox.com/games/86451999788896/ESSAzLife", "_blank", "noopener,noreferrer");
+  });
+  document.addEventListener("keydown", function (event) {
+    if (overlay.hidden) return;
+    if (event.key === "Escape") dismiss();
+    if (event.key === "Tab") {
+      const controls = [close, play, cancel];
+      const index = controls.indexOf(document.activeElement);
+      if (event.shiftKey && index === 0) { event.preventDefault(); cancel.focus(); }
+      else if (!event.shiftKey && index === 2) { event.preventDefault(); close.focus(); }
+    }
+  });
 })();

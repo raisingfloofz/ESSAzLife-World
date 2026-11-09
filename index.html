@@ -431,6 +431,15 @@
 </div>
 
 
+        <div class="directory-app">
+            <img src="app-icons/Billz.Icon.png" alt="ESSAzLife Billz">
+            <div>
+                <h3>ESSAzLife Billz</h3>
+                <p>Track paychecks, plan bills and overdrafts, and see your spending statistics.</p>
+                <p><a href="https://raisingfloofz.github.io/ESSAzLife-Billz/" target="_blank" rel="noopener noreferrer">🌐 Open Standalone App ↗</a></p>
+            </div>
+        </div>
+
     </div>
 
 </div>
@@ -517,6 +526,24 @@
         <p class="bulletin-intro">
             News, updates, and announcements from ESSAzLife World.
         </p>
+
+         <div class="bulletin-post">
+            <div class="bulletin-date">November 8, 2026 @ 9pm EST</div>
+            <h3>💸 ESSAzLife Billz Is Here!</h3>
+            <p><strong>ESSAzLife Billz has joined ESSAzLife World!</strong> 🐮</p>
+            <p>Organize multiple paychecks, manage Needs and Wants, plan recurring bills and overdrafts, and view your spending statistics. Pick an ESSA buddy to keep you company!</p>
+            <p>Find Billz in <strong>✅ Use Now</strong>, or visit its standalone website through the Directory.</p>
+            <p><strong>💾 Remember:</strong> Budget data stays in your browser. Use Billz's Backup &amp; Restore to transfer data between standalone Billz and World.</p>
+             <br>
+             <h4>NEW ESSAZLIFE ROBLOX GAME!</h4>
+             <strong>ESSAzLife Roblox Game</strong>
+             <br>
+             Play a virtual pet experience with other members of the ESSA community.
+             In ESSAzLife Roblox Edition, you journey into the woods to tame wild 
+             ESSAs, and live in a house where you can take care of them.
+             <br>
+             This is an ongoing work-in-progress, some features may not work. 
+        </div>
 
          <div class="bulletin-post">
   <div class="bulletin-date">November 7, 2026 @ 12pm EST</div>
@@ -1248,6 +1275,34 @@
 
 
 
+
+
+<!-- ROBLOX EDITION LAUNCH POPUP -->
+<style>
+  #robloxWorldOverlay[hidden] { display: none !important; }
+  #robloxWorldOverlay { position: fixed; inset: 0; z-index: 100000; background: rgba(0,0,0,.68); display: flex; align-items: center; justify-content: center; padding: 18px; box-sizing: border-box; }
+  #robloxWorldOverlay .roblox-world-dialog { background: white; color: #263742; width: min(100%, 460px); border-radius: 22px; padding: 26px; box-sizing: border-box; box-shadow: 0 14px 45px rgba(0,0,0,.28); text-align: center; position: relative; }
+  #robloxWorldOverlay h2 { color: #179DF4; margin: 8px 22px 12px; }
+  #robloxWorldOverlay p { line-height: 1.55; }
+  #robloxWorldOverlay .roblox-world-note { font-weight: 700; margin: 16px 0; }
+  #robloxWorldOverlay .roblox-world-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 18px; }
+  #robloxWorldOverlay button { cursor: pointer; border-radius: 12px; padding: 12px 18px; font-weight: 700; font-size: 15px; }
+  #robloxWorldPlay { background: #179DF4; border: 2px solid #179DF4; color: white; }
+  #robloxWorldCancel { background: white; border: 2px solid #a9b9c4; color: #263742; }
+  #robloxWorldClose { position: absolute; right: 12px; top: 8px; background: transparent; border: 0; font-size: 28px !important; padding: 4px 10px !important; }
+</style>
+<div id="robloxWorldOverlay" hidden role="dialog" aria-modal="true" aria-labelledby="robloxWorldTitle" aria-describedby="robloxWorldDescription">
+  <div class="roblox-world-dialog">
+    <button type="button" id="robloxWorldClose" aria-label="Close Roblox popup">×</button>
+    <h2 id="robloxWorldTitle">🎮 ESSAzLife PlayMode: Roblox Edition</h2>
+    <p id="robloxWorldDescription">Explore ESSAzLife in Roblox with friends! Visit the game's Roblox page to play.</p>
+    <p class="roblox-world-note">⚠️ This is an ongoing work in progress.</p>
+    <div class="roblox-world-actions">
+      <button type="button" id="robloxWorldPlay">🎮 Play on Roblox</button>
+      <button type="button" id="robloxWorldCancel">Cancel</button>
+    </div>
+  </div>
+</div>
 
 <script src="script.js"></script>
 <script type="module" src="firebase.js"></script>
