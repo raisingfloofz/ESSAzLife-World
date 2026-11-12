@@ -1329,19 +1329,6 @@ launchUrl: "apps/bookz/index.html",
       "ESSAzLife Echoz is an app that works offline, and you can use it with a Bluetooth speaker (recommended) or your device."
     ]
   },
-  {
-    id: "social",
-    name: "ESSAzLife Social",
-    icon: "Social.Icon.png",
-    status: "coming-soon",
-    launchUrl: "",
-    description: [
-      "Have you ever been scrolling through social media trying to enjoy ESSA content, only to get frustrated by ads, pop-ups, off-topic videos, and background music?",
-      "ESSAzLife Social is a distraction-free platform dedicated to sharing our love of Emotional Support Stuffed Animals!",
-      "Everyone can explore and enjoy ESSA content, but users must be 13 years or older to create and share posts, photos, or videos.",
-      "No unnecessary distractions, just ESSAs and the people who love them!"
-    ]
-  }
 ];
 
 /* =========================================================
