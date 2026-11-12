@@ -1310,8 +1310,8 @@ launchUrl: "apps/bookz/index.html",
   },
   {
     id: "dressup",
-    name: "ESSAzLife: Daisyz DressUp",
-    icon: "Dressup.Icon.png",
+    name: "ESSAzLife: DaisyBelle",
+    icon: "DaisyBelle.Icon.png",
     status: "coming-soon",
     launchUrl: "",
     description: [
