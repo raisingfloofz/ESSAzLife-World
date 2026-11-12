@@ -1341,6 +1341,17 @@ launchUrl: "apps/bookz/index.html",
     ]
   },
   {
+    id: "moocow",
+    name: "ESSAzLife: MooCow",
+    icon: "MooCow.Icon.png",
+    status: "coming-soon",
+    launchUrl: "",
+    description: [
+      "ESSAzLife: MyMooCow, also known as ESSAzLife: MooCow, will be the same concept as the ESSAzLife: MyDaisyBelle app.",
+      "ESSAzLife: MooCow will let users take care of a virtual pet version of my stuffed cow ESSA, MooCow."
+    ]
+  },
+  {
     id: "go",
     name: "ESSAzLife Go",
     icon: "Go.Icon.png",
