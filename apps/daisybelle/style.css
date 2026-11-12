@@ -23,3 +23,7 @@ background:linear-gradient(#ffe6f3,#ff9ac7);color:#84204d;
 box-shadow:0 3px 7px #0007;text-decoration:none}
 #worldReturn svg{width:60%;height:60%}
 #worldReturn:focus-visible{outline:3px solid #84204d;outline-offset:2px}
+
+/* Position the World shortcut directly to the left of the coin counter */
+.hud-right{display:flex;align-items:flex-start;gap:6px;margin-left:auto;flex-shrink:0;pointer-events:auto}
+#worldReturn{margin-left:0}
