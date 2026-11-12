@@ -1309,13 +1309,13 @@ launchUrl: "apps/bookz/index.html",
     ]
   },
   {
-    id: "dressup",
-    name: "ESSAzLife: DaisyBelle",
+    id: "daisybelle",
+    name: "ESSAzLife: MyDaisyBelle",
     icon: "DaisyBelle.Icon.png",
-    status: "coming-soon",
-    launchUrl: "",
+    status: "available",
+    launchUrl: "apps/daisybelle/index.html",
     description: [
-      "Play with Raising Floofz's ESSA Cow, DaisyBelle, and dress her up in cute outfits."
+      "Take care of DaisyBelle, your virtual stuffed cow ESSA, with outfits, rooms, activities, school, and mini-games."
     ]
   },
   {
