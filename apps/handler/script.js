@@ -2672,6 +2672,62 @@ function backupHandlerData() {
 ========================================================= */
 
 
+// Convert legacy standalone Handler backups without importing old login credentials.
+function normalizeHandlerBackup(backup) {
+    if (!backup || backup.app !== "ESSAzLife Handler Edition") return null;
+    if (backup.version === 2) return backup;
+    if (backup.version !== 1 || !backup.localStorage ||
+        typeof backup.localStorage !== "object" ||
+        Array.isArray(backup.localStorage)) return null;
+
+    const storage = backup.localStorage;
+    let legacyAccounts;
+    try {
+        legacyAccounts = JSON.parse(storage.essazLifeAccounts || "[]");
+    } catch (error) { return null; }
+    if (!Array.isArray(legacyAccounts)) return null;
+
+    const legacyId = storage.essazLifeCurrentUser;
+    const account = legacyAccounts.find(function(item) {
+        return item && String(item.id) === String(legacyId);
+    });
+    if (!account) return null;
+
+    const prefix = "essazLife_" + legacyId + "_";
+    const data = {};
+    for (const type of ["essas", "care", "tricks", "scores", "diary"]) {
+        const raw = storage[prefix + type];
+        if (typeof raw !== "string") return null;
+        try { data[type] = JSON.parse(raw); }
+        catch (error) { return null; }
+        if (!Array.isArray(data[type])) return null;
+    }
+    // Legacy anxietyDrawings are separate from newer drawing records.
+    // Keep them as an additional supported drawing source when available.
+    try {
+        const raw = storage[prefix + "drawings"] || storage[prefix + "anxietyDrawings"] || "[]";
+        data.drawings = JSON.parse(raw);
+    } catch (error) { return null; }
+    if (!Array.isArray(data.drawings)) return null;
+
+    return {
+        app: "ESSAzLife Handler Edition",
+        version: 2,
+        createdAt: backup.createdAt || null,
+        profile: {
+            genderIdentity: account.genderIdentity || "",
+            pronouns: account.pronouns || "",
+            ageGroup: account.ageGroup || "",
+            themeColor: account.themeColor || "#4fb5ae",
+            handlerCertified: account.handlerCertified === true,
+            handlerCertificationDate: account.handlerCertificationDate || null,
+            handlerCertificationTime: account.handlerCertificationTime || null
+        },
+        data: data,
+        legacyVersion: 1
+    };
+}
+
 function restoreHandlerData(file) {
     if (!file) return;
 
@@ -2687,7 +2743,7 @@ function restoreHandlerData(file) {
 
     reader.onload = function(event) {
         try {
-            const backup = JSON.parse(event.target.result);
+            const backup = normalizeHandlerBackup(JSON.parse(event.target.result));
 
             if (
                 !backup ||
@@ -2865,54 +2921,53 @@ function confirmHandlerRestore() {
         return;
     }
 
-    // Save only the current account's data.
-    // Other Handler accounts remain untouched.
-    saveEssas(backup.data.essas);
-    saveCare(backup.data.care);
-    saveTricks(backup.data.tricks);
-    saveScores(backup.data.scores);
-    saveDrawings(backup.data.drawings);
-    saveDiary(backup.data.diary);
-
-    // Restore personal Handler settings without
-    // replacing the World-managed login identity.
+    // Stage all changes before writing. Roll back on storage quota errors.
     const accounts = getAccounts();
-
     const accountIndex = accounts.findIndex(function(account) {
         return String(account.id) === String(user.id);
     });
+    if (accountIndex === -1) {
+        alert("Restore cancelled: current Handler profile was not found.");
+        return;
+    }
+    const profile = backup.profile;
+    const updatedAccounts = JSON.parse(JSON.stringify(accounts));
+    const account = updatedAccounts[accountIndex];
+    account.genderIdentity = typeof profile.genderIdentity === "string" ? profile.genderIdentity : "";
+    account.pronouns = typeof profile.pronouns === "string" ? profile.pronouns : "";
+    account.ageGroup = typeof profile.ageGroup === "string" ? profile.ageGroup : "";
+    account.themeColor = typeof profile.themeColor === "string" &&
+        /^#[0-9a-f]{6}$/i.test(profile.themeColor) ? profile.themeColor : "#4fb5ae";
+    account.handlerCertified = profile.handlerCertified === true;
+    account.handlerCertificationDate = profile.handlerCertificationDate || null;
+    account.handlerCertificationTime = profile.handlerCertificationTime || null;
 
-    if (accountIndex !== -1) {
-        const profile = backup.profile;
-        const account = accounts[accountIndex];
-
-        account.genderIdentity =
-            typeof profile.genderIdentity === "string"
-                ? profile.genderIdentity : "";
-
-        account.pronouns =
-            typeof profile.pronouns === "string"
-                ? profile.pronouns : "";
-
-        account.ageGroup =
-            typeof profile.ageGroup === "string"
-                ? profile.ageGroup : "";
-
-        account.themeColor =
-            typeof profile.themeColor === "string" &&
-            /^#[0-9a-f]{6}$/i.test(profile.themeColor)
-                ? profile.themeColor : "#4fb5ae";
-
-        account.handlerCertified =
-            profile.handlerCertified === true;
-
-        account.handlerCertificationDate =
-            profile.handlerCertificationDate || null;
-
-        account.handlerCertificationTime =
-            profile.handlerCertificationTime || null;
-
-        saveAccounts(accounts);
+    const updates = dataTypes.map(function(type) {
+        return [userStorageKey(type), JSON.stringify(backup.data[type])];
+    });
+    updates.push([ACCOUNTS_KEY, JSON.stringify(updatedAccounts)]);
+    const originals = updates.map(function(entry) {
+        return [entry[0], localStorage.getItem(entry[0])];
+    });
+    let written = 0;
+    try {
+        for (const entry of updates) {
+            localStorage.setItem(entry[0], entry[1]);
+            written++;
+        }
+    } catch (error) {
+        // Restore only keys that this operation successfully modified.
+        for (let i = written - 1; i >= 0; i--) {
+            try {
+                if (originals[i][1] === null) localStorage.removeItem(originals[i][0]);
+                else localStorage.setItem(originals[i][0], originals[i][1]);
+            } catch (rollbackError) {
+                console.error("Restore rollback failed for", originals[i][0], rollbackError);
+            }
+        }
+        console.error("Handler restore failed", error);
+        alert("Restore failed, possibly because browser storage is full. Your previous data was kept where possible. Download a backup before retrying.");
+        return;
     }
 
     window.pendingHandlerBackup = null;
