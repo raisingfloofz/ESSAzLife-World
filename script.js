@@ -1329,6 +1329,28 @@ launchUrl: "apps/bookz/index.html",
       "ESSAzLife Echoz is an app that works offline, and you can use it with a Bluetooth speaker (recommended) or your device."
     ]
   },
+  {
+    id: "tap",
+    name: "ESSAzLife Tap",
+    icon: "Tap.Icon.png",
+    status: "coming-soon",
+    launchUrl: "",
+    description: [
+      "ESSAzLife Tap is coming soon!",
+      "More details about the app will be announced as development continues."
+    ]
+  },
+  {
+    id: "go",
+    name: "ESSAzLife Go",
+    icon: "Go.Icon.png",
+    status: "coming-soon",
+    launchUrl: "",
+    description: [
+      "ESSAzLife Go is coming soon!",
+      "More details about the app will be announced as development continues."
+    ]
+  }
 ];
 
 /* =========================================================
