@@ -1,0 +1,2054 @@
+console.log("WORLD JS IS WORKING");
+
+const directoryButton = document.getElementById("directoryButton");
+const directoryOverlay = document.getElementById("directoryOverlay");
+const directoryClose = document.getElementById("directoryClose");
+
+directoryButton.addEventListener("click", function () {
+    directoryOverlay.classList.add("show");
+});
+
+directoryClose.addEventListener("click", function () {
+    directoryOverlay.classList.remove("show");
+});
+
+directoryOverlay.addEventListener("click", function (event) {
+    if (event.target === directoryOverlay) {
+        directoryOverlay.classList.remove("show");
+    }
+});
+
+const helpButton = document.getElementById("helpButton");
+const helpOverlay = document.getElementById("helpOverlay");
+const helpClose = document.getElementById("helpClose");
+
+helpButton.addEventListener("click", function () {
+    helpOverlay.classList.add("show");
+});
+
+helpClose.addEventListener("click", function () {
+    helpOverlay.classList.remove("show");
+});
+
+helpOverlay.addEventListener("click", function (event) {
+    if (event.target === helpOverlay) {
+        helpOverlay.classList.remove("show");
+    }
+});
+
+const bulletinButton = document.getElementById("bulletinButton");
+const bulletinOverlay = document.getElementById("bulletinOverlay");
+const bulletinClose = document.getElementById("bulletinClose");
+
+bulletinButton.addEventListener("click", function () {
+    bulletinOverlay.classList.add("show");
+});
+
+bulletinClose.addEventListener("click", function () {
+    bulletinOverlay.classList.remove("show");
+});
+
+bulletinOverlay.addEventListener("click", function (event) {
+    if (event.target === bulletinOverlay) {
+        bulletinOverlay.classList.remove("show");
+    }
+});
+
+const settingsButton = document.getElementById("settingsButton");
+const settingsOverlay = document.getElementById("settingsOverlay");
+const settingsClose = document.getElementById("settingsClose");
+
+const settingsAccountName = document.getElementById("settingsAccountName");
+
+const changeNicknameButton = document.getElementById("changeNicknameButton");
+const changeNicknameOverlay = document.getElementById("changeNicknameOverlay");
+const changeNicknameClose = document.getElementById("changeNicknameClose");
+const changeNicknameForm = document.getElementById("changeNicknameForm");
+const newNickname = document.getElementById("newNickname");
+const nicknameError = document.getElementById("nicknameError");
+
+const changeUsernameButton = document.getElementById("changeUsernameButton");
+const changeUsernameOverlay = document.getElementById("changeUsernameOverlay");
+const changeUsernameClose = document.getElementById("changeUsernameClose");
+const changeUsernameForm = document.getElementById("changeUsernameForm");
+const newUsername = document.getElementById("newUsername");
+const usernameError = document.getElementById("usernameError");
+
+const changePasswordButton = document.getElementById("changePasswordButton");
+const changePasswordOverlay = document.getElementById("changePasswordOverlay");
+const changePasswordClose = document.getElementById("changePasswordClose");
+const changePasswordForm = document.getElementById("changePasswordForm");
+const currentPassword = document.getElementById("currentPassword");
+const newPassword = document.getElementById("newPassword");
+const confirmNewPassword = document.getElementById("confirmNewPassword");
+const passwordChangeError = document.getElementById("passwordChangeError");
+
+const logoutButton = document.getElementById("logoutButton");
+const logoutConfirmOverlay = document.getElementById("logoutConfirmOverlay");
+const cancelLogoutButton = document.getElementById("cancelLogoutButton");
+const confirmLogoutButton = document.getElementById("confirmLogoutButton");
+
+const deleteAccountButton = document.getElementById("deleteAccountButton");
+const deleteConfirmOverlay = document.getElementById("deleteConfirmOverlay");
+const cancelDeleteButton = document.getElementById("cancelDeleteButton");
+const confirmDeleteButton = document.getElementById("confirmDeleteButton");
+
+settingsButton.addEventListener("click", function () {
+    
+    if (localStorage.getItem("essazlifeWorldLoginMode") === "guest") {
+        settingsAccountName.textContent = "👤 Guest Account";
+
+        changeNicknameButton.disabled = true;
+        changeUsernameButton.disabled = true;
+        changePasswordButton.disabled = true;
+        upgradeWorldCloudButton.disabled = true;
+        deleteAccountButton.disabled = true;
+
+        worldCloudUpgradeStatus.textContent =
+            "You're exploring as a Guest! Create an account to access account settings.";
+
+        settingsOverlay.classList.add("show");
+        return;
+    }
+
+    const cloudAccount = getActiveCloudAccount();
+    const savedAccount = localStorage.getItem("essazlifeWorldAccount");
+    let localAccount = null;
+    try { localAccount = savedAccount ? JSON.parse(savedAccount) : null; } catch {}
+    const account = cloudAccount || localAccount;
+    settingsAccountName.textContent = account
+        ? account.nickname + " • @" + account.username
+        : "No World account signed in";
+
+    // Cloud account changes are handled by the Cloudflare backend.
+    const cloudMode = localStorage.getItem("essazlifeWorldLoginMode") === "cloud";
+    changeNicknameButton.disabled = false;
+    changePasswordButton.disabled = false;
+    changeUsernameButton.disabled = cloudMode;
+    changeUsernameButton.title = cloudMode ? "Cloud username changes are not supported." : "";
+    deleteAccountButton.disabled = false;
+    upgradeWorldCloudButton.disabled = cloudMode;
+    upgradeWorldCloudButton.title = cloudMode
+        ? "This is already a cloud account." : "";
+    worldCloudUpgradeStatus.textContent = cloudMode
+        ? "☁️ Signed in to World Cloud. Nickname, password, and deletion are managed securely online."
+        : "";
+    settingsOverlay.classList.add("show");
+});
+
+changeNicknameButton.addEventListener("click", function () {
+    const cloud = getActiveCloudAccount();
+    const savedAccount = localStorage.getItem("essazlifeWorldAccount");
+    if (!cloud && !savedAccount) return;
+    const account = cloud || JSON.parse(savedAccount);
+    newNickname.value = account.nickname;
+
+    nicknameError.style.display = "none";
+    nicknameError.textContent = "";
+
+    settingsOverlay.classList.remove("show");
+    changeNicknameOverlay.classList.add("show");
+});
+
+changeNicknameClose.addEventListener("click", function () {
+    changeNicknameOverlay.classList.remove("show");
+});
+
+changeNicknameForm.addEventListener("submit", async function (event) {
+    event.preventDefault();
+    const cloudMode = localStorage.getItem("essazlifeWorldLoginMode") === "cloud";
+    const nickname = newNickname.value.trim();
+
+    if (nickname.length < 1) {
+        nicknameError.textContent = "Please enter a nickname.";
+        nicknameError.style.display = "block";
+        return;
+    }
+
+    if (cloudMode) {
+        const submit = changeNicknameForm.querySelector('button[type="submit"]');
+        submit.disabled = true;
+        try {
+            const result = await worldCloudAuthenticatedRequest("/account/nickname", { nickname });
+            saveWorldCloudSession(
+                sessionStorage.getItem("essazlifeWorldCloudToken") || localStorage.getItem("essazlifeWorldCloudToken"),
+                result.account
+            );
+            changeNicknameOverlay.classList.remove("show");
+            showWelcomeBackMessage();
+        } catch (error) { showWorldFormError(nicknameError, error); }
+        finally { submit.disabled = false; }
+        return;
+    }
+    const account = JSON.parse(localStorage.getItem("essazlifeWorldAccount"));
+    account.nickname = nickname;
+
+    localStorage.setItem(
+        "essazlifeWorldAccount",
+        JSON.stringify(account)
+    );
+
+    changeNicknameOverlay.classList.remove("show");
+
+    showWelcomeBackMessage();
+});
+
+changeUsernameButton.addEventListener("click", function () {
+    const savedAccount = localStorage.getItem("essazlifeWorldAccount");
+
+    if (!savedAccount) {
+        return;
+    }
+
+    const account = JSON.parse(savedAccount);
+
+    newUsername.value = account.username;
+
+    usernameError.style.display = "none";
+    usernameError.textContent = "";
+
+    settingsOverlay.classList.remove("show");
+    changeUsernameOverlay.classList.add("show");
+});
+
+changeUsernameClose.addEventListener("click", function () {
+    changeUsernameOverlay.classList.remove("show");
+});
+
+changeUsernameForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+    if (localStorage.getItem("essazlifeWorldLoginMode") === "cloud") return;
+
+    const username = newUsername.value.trim();
+
+    if (username.length < 3) {
+        usernameError.textContent =
+            "Username must be at least 3 characters.";
+
+        usernameError.style.display = "block";
+        return;
+    }
+
+    const account = JSON.parse(
+        localStorage.getItem("essazlifeWorldAccount")
+    );
+
+    account.username = username;
+
+    localStorage.setItem(
+        "essazlifeWorldAccount",
+        JSON.stringify(account)
+    );
+
+    changeUsernameOverlay.classList.remove("show");
+});
+
+changePasswordButton.addEventListener("click", function () {
+    changePasswordForm.reset();
+
+    passwordChangeError.style.display = "none";
+    passwordChangeError.textContent = "";
+
+    settingsOverlay.classList.remove("show");
+    changePasswordOverlay.classList.add("show");
+});
+
+changePasswordClose.addEventListener("click", function () {
+    changePasswordOverlay.classList.remove("show");
+});
+
+changePasswordForm.addEventListener("submit", async function (event) {
+    event.preventDefault();
+    const cloudMode = localStorage.getItem("essazlifeWorldLoginMode") === "cloud";
+
+    passwordChangeError.style.display = "none";
+    passwordChangeError.textContent = "";
+
+    if (cloudMode) {
+        if (newPassword.value.length < 12 || newPassword.value.length > 128) {
+            return showWorldFormError(passwordChangeError, new Error("Cloud passwords must be 12–128 characters."));
+        }
+        if (newPassword.value !== confirmNewPassword.value) {
+            return showWorldFormError(passwordChangeError, new Error("New passwords do not match."));
+        }
+        const submit = changePasswordForm.querySelector('button[type="submit"]');
+        submit.disabled = true;
+        try {
+            const result = await worldCloudAuthenticatedRequest("/account/password", {
+                currentPassword: currentPassword.value, newPassword: newPassword.value
+            });
+            saveWorldCloudSession(result.token, result.account);
+            changePasswordForm.reset();
+            changePasswordOverlay.classList.remove("show");
+        } catch (error) { showWorldFormError(passwordChangeError, error); }
+        finally { submit.disabled = false; }
+        return;
+    }
+    const account = JSON.parse(localStorage.getItem("essazlifeWorldAccount"));
+    const currentPasswordHash =
+        await hashPassword(currentPassword.value);
+
+    if (currentPasswordHash !== account.passwordHash) {
+        passwordChangeError.textContent =
+            "Current password is incorrect.";
+
+        passwordChangeError.style.display = "block";
+        return;
+    }
+
+    if (newPassword.value.length < 6) {
+        passwordChangeError.textContent =
+            "New password must be at least 6 characters.";
+
+        passwordChangeError.style.display = "block";
+        return;
+    }
+
+    if (newPassword.value !== confirmNewPassword.value) {
+        passwordChangeError.textContent =
+            "New passwords do not match.";
+
+        passwordChangeError.style.display = "block";
+        return;
+    }
+
+    account.passwordHash =
+        await hashPassword(newPassword.value);
+
+    localStorage.setItem(
+        "essazlifeWorldAccount",
+        JSON.stringify(account)
+    );
+
+    changePasswordForm.reset();
+    changePasswordOverlay.classList.remove("show");
+});
+
+logoutButton.addEventListener("click", function () {
+    logoutConfirmOverlay.classList.add("show");
+});
+
+cancelLogoutButton.addEventListener("click", function () {
+    logoutConfirmOverlay.classList.remove("show");
+});
+
+confirmLogoutButton.addEventListener("click", async function () {
+    confirmLogoutButton.disabled = true;
+    try {
+        if (localStorage.getItem("essazlifeWorldLoginMode") === "cloud") {
+            await worldCloudAuthenticatedRequest("/logout", {});
+        }
+        clearWorldCloudSession();
+        localStorage.setItem("essazlifeWorldLoginMode", "none");
+        localStorage.setItem("essazlifeWorldLoggedIn", "false");
+        logoutConfirmOverlay.classList.remove("show");
+        settingsOverlay.classList.remove("show");
+        welcomeBackMessage.textContent = "";
+        welcomeScreen.style.display = "flex";
+    } catch (error) {
+        alert("Cloud logout could not be confirmed. Please check your connection and try again. " + error.message);
+    } finally { confirmLogoutButton.disabled = false; }
+});
+
+deleteAccountButton.addEventListener("click", function () {
+    const cloud = localStorage.getItem("essazlifeWorldLoginMode") === "cloud";
+    document.getElementById("cloudDeleteFields").hidden = !cloud;
+    document.getElementById("deleteExplanation").textContent = cloud
+        ? "Permanently delete your World Cloud account. Your local World account and ESSA app data will remain on this device. This cannot be undone."
+        : "This removes only your local World account on this device. ESSA app data is not deleted.";
+    document.getElementById("cloudDeleteError").style.display = "none";
+    deleteConfirmOverlay.classList.add("show");
+});
+
+cancelDeleteButton.addEventListener("click", function () {
+    deleteConfirmOverlay.classList.remove("show");
+});
+
+confirmDeleteButton.addEventListener("click", async function () {
+    if (localStorage.getItem("essazlifeWorldLoginMode") === "cloud") {
+        const password = document.getElementById("cloudDeletePassword").value;
+        const confirmation = document.getElementById("cloudDeleteConfirmText").value;
+        const errorBox = document.getElementById("cloudDeleteError");
+        if (!password || confirmation !== "DELETE") {
+            return showWorldFormError(errorBox, new Error("Enter your cloud password and type DELETE."));
+        }
+        confirmDeleteButton.disabled = true;
+        try {
+            await worldCloudAuthenticatedRequest("/account/delete", {password, confirm:"DELETE"});
+            clearWorldCloudSession();
+            localStorage.setItem("essazlifeWorldLoginMode", "none");
+            localStorage.setItem("essazlifeWorldLoggedIn", "false");
+            deleteConfirmOverlay.classList.remove("show");
+            settingsOverlay.classList.remove("show");
+            welcomeBackMessage.textContent = "";
+            welcomeScreen.style.display = "flex";
+            document.getElementById("cloudDeletePassword").value = "";
+            document.getElementById("cloudDeleteConfirmText").value = "";
+        } catch (error) { showWorldFormError(errorBox, error); }
+        finally { confirmDeleteButton.disabled = false; }
+        return;
+    }
+    clearWorldCloudSession();
+    localStorage.setItem("essazlifeWorldLoginMode", "none");
+    localStorage.removeItem("essazlifeWorldAccount");
+    localStorage.removeItem("essazlifeWorldLoggedIn");
+    deleteConfirmOverlay.classList.remove("show");
+    settingsOverlay.classList.remove("show");
+    welcomeBackMessage.textContent = "";
+    welcomeScreen.style.display = "flex";
+});
+
+settingsClose.addEventListener("click", function () {
+    settingsOverlay.classList.remove("show");
+});
+
+settingsOverlay.addEventListener("click", function (event) {
+    if (event.target === settingsOverlay) {
+        settingsOverlay.classList.remove("show");
+    }
+});
+
+const welcomeCreateButton = document.getElementById("welcomeCreateButton");
+const createAccountOverlay = document.getElementById("createAccountOverlay");
+const createAccountClose = document.getElementById("createAccountClose");
+
+const welcomeScreen = document.getElementById("welcomeScreen");
+const welcomeBackMessage = document.getElementById("welcomeBackMessage");
+
+welcomeCreateButton.addEventListener("click", function () {
+    createAccountOverlay.classList.add("show");
+});
+
+createAccountClose.addEventListener("click", function () {
+    createAccountOverlay.classList.remove("show");
+});
+
+createAccountOverlay.addEventListener("click", function (event) {
+    if (event.target === createAccountOverlay) {
+        createAccountOverlay.classList.remove("show");
+    }
+});
+
+const createAccountForm = document.getElementById("createAccountForm");
+const createUsername = document.getElementById("createUsername");
+const createPassword = document.getElementById("createPassword");
+const createNickname = document.getElementById("createNickname");
+const confirmPassword = document.getElementById("confirmPassword");
+const createAccountError = document.getElementById("createAccountError");
+
+async function hashPassword(password) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(password);
+
+    const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+
+    return hashArray
+        .map(byte => byte.toString(16).padStart(2, "0"))
+        .join("");
+}
+
+
+createAccountForm.addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+   const nickname = createNickname.value.trim();
+const username = createUsername.value.trim();
+const password = createPassword.value;
+    const confirmedPassword = confirmPassword.value;
+    
+
+    createAccountError.style.display = "none";
+    createAccountError.textContent = "";
+
+    if (nickname.length < 1) {
+    createAccountError.textContent =
+        "Please enter a nickname.";
+
+    createAccountError.style.display = "block";
+    return;
+}
+
+    if (username.length < 3) {
+        createAccountError.textContent =
+            "Username must be at least 3 characters.";
+
+        createAccountError.style.display = "block";
+        return;
+    }
+
+    if (password.length < 6) {
+        createAccountError.textContent =
+            "Password must be at least 6 characters.";
+
+        createAccountError.style.display = "block";
+        return;
+    }
+
+    if (password !== confirmedPassword) {
+        createAccountError.textContent =
+            "Passwords do not match.";
+
+        createAccountError.style.display = "block";
+        return;
+    }
+
+    const passwordHash = await hashPassword(password);
+
+    const worldAccount = {
+    nickname: nickname,
+    username: username,
+    passwordHash: passwordHash
+};
+
+    localStorage.setItem(
+        "essazlifeWorldAccount",
+        JSON.stringify(worldAccount)
+    );
+
+    clearWorldCloudSession();
+    localStorage.setItem("essazlifeWorldLoginMode", "local");
+    localStorage.setItem(
+        "essazlifeWorldLoggedIn",
+        "true"
+    );
+
+    createAccountOverlay.classList.remove("show");
+    welcomeScreen.style.display = "none";
+
+    createAccountForm.reset();
+
+    console.log("ESSAzLife World account created.");
+
+    showWelcomeBackMessage();
+});
+
+
+/* =========================================
+   ESSAzLife World Cloud Authentication
+   ========================================= */
+
+const WORLD_AUTH_URL =
+    "https://essazlife-world-auth.biawhite1024.workers.dev";
+
+function showWorldFormError(element, error) {
+    element.textContent = error.message || "Something went wrong.";
+    element.style.display = "block";
+}
+
+async function worldCloudAuthenticatedRequest(endpoint, data) {
+    const token = sessionStorage.getItem("essazlifeWorldCloudToken") ||
+        localStorage.getItem("essazlifeWorldCloudToken");
+    if (!token) throw new Error("Please log in to World Cloud again.");
+    let response;
+    try {
+        response = await fetch(WORLD_AUTH_URL + endpoint, {
+            method: "POST",
+            headers: {"Content-Type":"application/json", Authorization:"Bearer " + token},
+            body: JSON.stringify(data), cache: "no-store"
+        });
+    } catch { throw new Error("Cloud unavailable. Check your connection."); }
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(result.error || "Cloud request failed (" + response.status + ").");
+    return result;
+}
+
+async function worldCloudRequest(endpoint, data) {
+    const response = await fetch(
+        WORLD_AUTH_URL + endpoint,
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        }
+    );
+
+    const result = await response.json();
+
+    if (!response.ok) {
+        throw new Error(
+            result.error || "Cloud authentication failed."
+        );
+    }
+
+    return result;
+}
+
+
+async function registerWorldCloudAccount(
+    username,
+    nickname,
+    password
+) {
+    if (password.length < 12) {
+        throw new Error(
+            "Cloud passwords must be at least 12 characters."
+        );
+    }
+
+    if (password.length > 128) {
+        throw new Error(
+            "Cloud passwords cannot exceed 128 characters."
+        );
+    }
+
+    return worldCloudRequest("/register", {
+        username,
+        nickname,
+        password
+    });
+}
+
+
+async function loginWorldCloudAccount(
+    username,
+    password
+) {
+    return worldCloudRequest("/login", {
+        username,
+        password
+    });
+}
+
+
+/* Remember World Cloud login across PWA restarts. The server still expires
+   tokens after 24 hours. Never trust the cached profile without /me. */
+function saveWorldCloudSession(token, account) {
+    localStorage.setItem("essazlifeWorldCloudToken", token);
+    localStorage.setItem("essazlifeWorldCloudAccount", JSON.stringify(account));
+    // Embedded apps currently expect the sessionStorage keys too.
+    sessionStorage.setItem("essazlifeWorldCloudToken", token);
+    sessionStorage.setItem("essazlifeWorldCloudAccount", JSON.stringify(account));
+}
+
+function clearWorldCloudSession() {
+    sessionStorage.removeItem("essazlifeWorldCloudToken");
+    sessionStorage.removeItem("essazlifeWorldCloudAccount");
+    localStorage.removeItem("essazlifeWorldCloudToken");
+    localStorage.removeItem("essazlifeWorldCloudAccount");
+}
+
+function getActiveCloudAccount() {
+    if (localStorage.getItem("essazlifeWorldLoginMode") !== "cloud") return null;
+    try {
+        const account = JSON.parse(sessionStorage.getItem("essazlifeWorldCloudAccount") ||
+            localStorage.getItem("essazlifeWorldCloudAccount"));
+        return account && typeof account.username === "string" &&
+            typeof account.nickname === "string" ? account : null;
+    } catch { return null; }
+}
+
+function showWelcomeBackMessage() {
+    let account = getActiveCloudAccount();
+    if (!account && localStorage.getItem("essazlifeWorldLoginMode") !== "cloud") {
+        try {
+            account = JSON.parse(localStorage.getItem("essazlifeWorldAccount"));
+        } catch { account = null; }
+    }
+    welcomeBackMessage.textContent = account && account.nickname
+        ? "Welcome Back, " + account.nickname : "";
+}
+
+
+async function restoreWorldLogin() {
+    const mode = localStorage.getItem("essazlifeWorldLoginMode");
+    const loggedIn = localStorage.getItem("essazlifeWorldLoggedIn") === "true";
+
+    // Restore Guest Mode after refreshing or reopening World.
+    if (mode === "guest" && loggedIn) {
+        welcomeScreen.style.display = "none";
+        welcomeBackMessage.textContent = "Welcome, Guest!";
+        return;
+    }
+
+    if (mode === "cloud") {
+
+        // Keep the welcome screen up until the server verifies this session.
+        welcomeScreen.style.display = "flex";
+        const token = sessionStorage.getItem("essazlifeWorldCloudToken") ||
+            localStorage.getItem("essazlifeWorldCloudToken");
+        if (!token) {
+            localStorage.setItem("essazlifeWorldLoggedIn", "false");
+            welcomeBackMessage.textContent = "";
+            return;
+        }
+        try {
+            const response = await fetch(WORLD_AUTH_URL + "/me", {
+                headers: { Authorization: "Bearer " + token },
+                cache: "no-store"
+            });
+            if (!response.ok) throw new Error("Cloud session expired or unavailable");
+            const result = await response.json();
+            if (!result.account || !result.account.username || !result.account.nickname) {
+                throw new Error("Invalid cloud profile");
+            }
+            saveWorldCloudSession(token, result.account);
+            localStorage.setItem("essazlifeWorldLoggedIn", "true");
+            showWelcomeBackMessage();
+            welcomeScreen.style.display = "none";
+        } catch (error) {
+            // Preserve the token for a possible transient network outage, but
+            // never grant access without verification. Explicit login can retry.
+            localStorage.setItem("essazlifeWorldLoggedIn", "false");
+            welcomeBackMessage.textContent = "";
+            console.warn("World Cloud session requires a new login:", error.message);
+        }
+        return;
+    }
+    if (loggedIn && localStorage.getItem("essazlifeWorldAccount")) {
+        welcomeScreen.style.display = "none";
+        showWelcomeBackMessage();
+    }
+}
+
+
+/* =========================================
+   ESSAzLife WORLD GUEST MODE
+   ========================================= */
+
+const welcomeGuestButton = document.getElementById("welcomeGuestButton");
+const guestConfirmOverlay = document.getElementById("guestConfirmOverlay");
+const cancelGuestButton = document.getElementById("cancelGuestButton");
+const confirmGuestButton = document.getElementById("confirmGuestButton");
+
+welcomeGuestButton.addEventListener("click", function () {
+    guestConfirmOverlay.classList.add("show");
+});
+
+cancelGuestButton.addEventListener("click", function () {
+    guestConfirmOverlay.classList.remove("show");
+});
+
+guestConfirmOverlay.addEventListener("click", function (event) {
+    if (event.target === guestConfirmOverlay) {
+        guestConfirmOverlay.classList.remove("show");
+    }
+});
+
+confirmGuestButton.addEventListener("click", function () {
+    // Guest mode must not overwrite existing World account details.
+    localStorage.setItem("essazlifeWorldLoginMode", "guest");
+    localStorage.setItem("essazlifeWorldLoggedIn", "true");
+
+    guestConfirmOverlay.classList.remove("show");
+    welcomeScreen.style.display = "none";
+    welcomeBackMessage.textContent = "Welcome, Guest!";
+});
+
+restoreWorldLogin();
+
+const welcomeLoginButton = document.getElementById("welcomeLoginButton");
+const loginOverlay = document.getElementById("loginOverlay");
+const loginClose = document.getElementById("loginClose");
+const loginForm = document.getElementById("loginForm");
+const loginUsername = document.getElementById("loginUsername");
+const loginPassword = document.getElementById("loginPassword");
+const loginError = document.getElementById("loginError");
+
+welcomeLoginButton.addEventListener("click", function () {
+    loginError.style.display = "none";
+    loginOverlay.classList.add("show");
+});
+
+loginClose.addEventListener("click", function () {
+    loginOverlay.classList.remove("show");
+});
+
+loginOverlay.addEventListener("click", function (event) {
+    if (event.target === loginOverlay) {
+        loginOverlay.classList.remove("show");
+    }
+});
+
+
+/* =========================================
+   WORLD LOGIN — CLOUD + LEGACY LOCAL
+   ========================================= */
+
+loginForm.addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    loginError.style.display = "none";
+    loginError.textContent = "";
+
+    const username = loginUsername.value.trim();
+    const password = loginPassword.value;
+
+    const submitButton =
+        loginForm.querySelector('button[type="submit"]');
+
+    submitButton.disabled = true;
+
+    try {
+        // Try the cloud account first.
+        const result = await loginWorldCloudAccount(
+            username,
+            password
+        );
+
+        if (!result.token || !result.account) {
+            throw new Error("Cloud login was incomplete.");
+        }
+
+        saveWorldCloudSession(result.token, result.account);
+
+        // Preserve any existing local account without displaying its profile.
+        localStorage.setItem("essazlifeWorldLoginMode", "cloud");
+        localStorage.setItem(
+            "essazlifeWorldLoggedIn",
+            "true"
+        );
+
+        loginOverlay.classList.remove("show");
+        welcomeScreen.style.display = "none";
+        loginForm.reset();
+
+        welcomeBackMessage.textContent =
+            "Welcome Back, " + result.account.nickname;
+
+    } catch (error) {
+        // Only permit legacy login for a matching
+        // account already saved on this device.
+        let localAccount = null;
+
+        try {
+            localAccount = JSON.parse(
+                localStorage.getItem("essazlifeWorldAccount")
+            );
+        } catch {
+            localAccount = null;
+        }
+
+        const localMatches =
+            localAccount &&
+            localAccount.username === username &&
+            localAccount.passwordHash ===
+                await hashPassword(password);
+
+        if (localMatches) {
+            clearWorldCloudSession();
+            localStorage.setItem("essazlifeWorldLoginMode", "local");
+
+            localStorage.setItem(
+                "essazlifeWorldLoggedIn",
+                "true"
+            );
+
+            loginOverlay.classList.remove("show");
+            welcomeScreen.style.display = "none";
+            loginForm.reset();
+
+            showWelcomeBackMessage();
+        } else {
+            loginError.textContent =
+                error.message === "Failed to fetch"
+                    ? "Cloud unavailable. Check your connection."
+                    : "Incorrect username or password, or cloud login unavailable.";
+
+            loginError.style.display = "block";
+        }
+    } finally {
+        submitButton.disabled = false;
+    }
+});
+
+
+/* =========================================================
+   OPEN HANDLER EDITION
+========================================================= */
+
+const handlerApp = document.getElementById("handlerApp");
+
+handlerApp.addEventListener("click", function () {
+    window.location.href = "apps/handler/index.html";
+});
+
+const playModeApp = document.getElementById("playModeApp");
+
+playModeApp.addEventListener("click", function () {
+    window.location.href = "apps/playmode/index.html";
+});
+
+/*-------------------------------------------------------
+  OPEN CHOREZ APP
+---------------------------------------------------------*/
+
+const chorezApp =
+    document.getElementById("chorezApp");
+
+if (chorezApp) {
+
+    chorezApp.addEventListener(
+        "click",
+        function () {
+
+            window.location.href =
+                "apps/chorez/index.html";
+        }
+    );
+}
+
+/* =========================================================
+   PWA SERVICE WORKER
+========================================================= */
+
+if ("serviceWorker" in navigator) {
+
+    window.addEventListener("load", function () {
+
+        navigator.serviceWorker
+            .register("./service-worker.js")
+            .then(function (registration) {
+
+    console.log(
+        "ESSAzLife World service worker registered."
+    );
+
+    // Check for a newer version whenever World opens.
+    registration.update().catch(function (error) {
+        console.log(
+            "Update check unavailable:",
+            error
+        );
+    });
+
+})
+            .catch(function (error) {
+                console.error(
+                    "Service worker registration failed:",
+                    error
+                );
+            });
+    });
+}
+
+/* =========================================================
+   WORLD TUTORIAL
+========================================================= */
+
+const watchTutorialButton =
+    document.getElementById("watchTutorialButton");
+
+if (watchTutorialButton) {
+    watchTutorialButton.addEventListener(
+        "click",
+        function () {
+            window.open(
+                "https://youtu.be/kRgJaMIpOGk",
+                "_blank"
+            );
+        }
+    );
+}
+
+/* =========================================================
+   OPTIONAL GOOGLE CLOUD SIGN-IN
+========================================================= */
+
+const googleSignInButton =
+    document.getElementById("googleSignInButton");
+
+const cloudSyncStatus =
+    document.getElementById("cloudSyncStatus");
+
+window.addEventListener("load", function () {
+
+    const firebase = window.essazFirebase;
+
+    if (!firebase) {
+        console.log("Firebase is not available.");
+        return;
+    }
+
+    firebase.onAuthStateChanged(firebase.auth, function (user) {
+
+        if (user) {
+
+            googleSignOutButton.style.display = "block";
+
+            cloudSyncStatus.textContent =
+                "Connected to Google: " +
+                (user.email || "Account connected");
+
+            googleSignInButton.textContent =
+                "✅ Google Connected";
+
+        } else {
+
+            googleSignOutButton.style.display = "none";
+
+            cloudSyncStatus.textContent =
+                "Not connected to cloud.";
+
+            googleSignInButton.textContent =
+                "☁️ Connect with Google";
+
+        }
+
+    });
+
+});
+
+if (googleSignInButton && cloudSyncStatus) {
+
+    googleSignInButton.addEventListener("click", async function () {
+
+        googleSignInButton.disabled = true;
+        cloudSyncStatus.textContent = "Connecting to Google...";
+
+        try {
+
+            const firebase = window.essazFirebase;
+
+            if (!firebase) {
+                throw new Error("Firebase is not ready.");
+            }
+
+            const user = await firebase.signInWithGoogle();
+
+            cloudSyncStatus.textContent =
+                "Connected to Google: " + (user.email || "Account connected");
+
+            googleSignInButton.textContent =
+                "✅ Google Connected";
+
+        } catch (error) {
+
+            console.error("Google sign-in error:", error);
+
+            cloudSyncStatus.textContent =
+                "Could not connect to Google. Please try again.";
+
+        } finally {
+
+            googleSignInButton.disabled = false;
+
+        }
+
+    });
+
+}
+
+/* =========================================================
+   DISCONNECT GOOGLE CLOUD ACCOUNT
+========================================================= */
+
+const googleSignOutButton =
+    document.getElementById("googleSignOutButton");
+
+if (googleSignOutButton) {
+
+    googleSignOutButton.addEventListener("click", async function () {
+
+        googleSignOutButton.disabled = true;
+
+        try {
+
+            const firebase = window.essazFirebase;
+
+            if (!firebase) {
+                throw new Error("Firebase is not ready.");
+            }
+
+            await firebase.signOut(firebase.auth);
+
+            cloudSyncStatus.textContent =
+                "Not connected to cloud.";
+
+            googleSignInButton.textContent =
+                "☁️ Connect with Google";
+
+            googleSignOutButton.style.display = "none";
+
+            console.log("Google disconnected successfully.");
+
+        } catch (error) {
+
+            console.error("Google disconnect error:", error);
+
+            cloudSyncStatus.textContent =
+                "Could not disconnect Google. Please try again.";
+
+        } finally {
+
+            googleSignOutButton.disabled = false;
+
+        }
+
+    });
+
+}
+
+
+
+
+/* =========================================
+   WORLD CLOUD ACCOUNT UPGRADE
+   ========================================= */
+
+const upgradeWorldCloudButton =
+    document.getElementById("upgradeWorldCloudButton");
+
+const worldCloudUpgradeStatus =
+    document.getElementById("worldCloudUpgradeStatus");
+
+const cloudVerifyOverlay =
+    document.getElementById("cloudVerifyOverlay");
+
+const cloudVerifyClose =
+    document.getElementById("cloudVerifyClose");
+
+const cloudVerifyForm =
+    document.getElementById("cloudVerifyForm");
+
+const cloudVerifyPassword =
+    document.getElementById("cloudVerifyPassword");
+
+const cloudVerifyError =
+    document.getElementById("cloudVerifyError");
+
+let verifiedWorldAccount = null;
+
+function closeCloudVerify() {
+    cloudVerifyOverlay.classList.remove("show");
+    cloudVerifyForm.reset();
+    cloudVerifyError.textContent = "";
+    cloudVerifyError.style.display = "none";
+    verifiedWorldAccount = null;
+}
+
+function cloudUpgradeError(message) {
+    cloudVerifyError.textContent = message;
+    cloudVerifyError.style.display = "block";
+}
+
+upgradeWorldCloudButton.addEventListener("click", function () {
+    closeCloudVerify();
+
+    cloudVerifyOverlay.classList.add("show");
+    cloudVerifyPassword.focus();
+});
+
+cloudVerifyClose.addEventListener("click", closeCloudVerify);
+
+cloudVerifyOverlay.addEventListener("click", function (event) {
+    if (event.target === cloudVerifyOverlay) {
+        closeCloudVerify();
+    }
+});
+
+cloudVerifyForm.addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    cloudVerifyError.style.display = "none";
+    cloudVerifyError.textContent = "";
+
+    const submitButton =
+        cloudVerifyForm.querySelector('button[type="submit"]');
+
+    submitButton.disabled = true;
+
+    try {
+        const savedAccount =
+            localStorage.getItem("essazlifeWorldAccount");
+
+        if (!savedAccount) {
+            throw new Error("No local World account was found.");
+        }
+
+        const account = JSON.parse(savedAccount);
+        const enteredPassword = cloudVerifyPassword.value;
+
+        if (!account.username || !account.nickname ||
+            !account.passwordHash) {
+            throw new Error("Your local account is incomplete.");
+        }
+
+        const enteredHash = await hashPassword(enteredPassword);
+
+        if (enteredHash !== account.passwordHash) {
+            throw new Error("Incorrect World password.");
+        }
+
+        let cloudPassword = enteredPassword;
+
+        if (cloudPassword.length < 12) {
+            const newPassword =
+                document.getElementById("cloudNewPassword").value;
+
+            if (newPassword.length < 12) {
+                throw new Error(
+                    "Your existing password is verified. " +
+                    "Choose a cloud password with at least 12 characters."
+                );
+            }
+
+            if (newPassword.length > 128) {
+                throw new Error(
+                    "Cloud passwords cannot exceed 128 characters."
+                );
+            }
+
+            cloudPassword = newPassword;
+        }
+
+        worldCloudUpgradeStatus.textContent =
+            "⏳ Creating your cloud account...";
+
+        const result = await registerWorldCloudAccount(
+            account.username,
+            account.nickname,
+            cloudPassword
+        );
+
+        if (!result.token || !result.account) {
+            throw new Error("Cloud registration was incomplete.");
+        }
+
+        // Keep the cloud session separate from local login.
+        saveWorldCloudSession(result.token, result.account);
+        localStorage.setItem("essazlifeWorldLoginMode", "cloud");
+        localStorage.setItem("essazlifeWorldLoggedIn", "true");
+        showWelcomeBackMessage();
+
+        closeCloudVerify();
+
+        worldCloudUpgradeStatus.textContent =
+            "✅ Cloud account created! @" +
+            result.account.username +
+            " can now log in on another device.";
+
+        console.log("World cloud account registration successful.");
+
+    } catch (error) {
+        console.error("Cloud upgrade error:", error);
+
+        const message = error instanceof TypeError
+            ? "Could not connect to Cloudflare. Try again later."
+            : error.message;
+
+        cloudUpgradeError(message);
+
+        worldCloudUpgradeStatus.textContent =
+            "Cloud upgrade not completed. Your local account is safe.";
+
+    } finally {
+        submitButton.disabled = false;
+    }
+});
+
+
+/* =========================================================
+   ESSAzLife WORLD — COMING SOON APP CATALOG
+   Change status to "available" and add a launchUrl
+   when an app is ready to release.
+========================================================= */
+
+const futureWorldApps = [
+  {
+    "id": "helperz",
+    "name": "ESSAzLife: Helperz",
+    "icon": "helperz.icon.png",
+    "status": "coming-soon",
+    "launchUrl": "",
+    "description": [
+      "A guide to ESSAzLife apps with information, history, tutorials, screenshots, and secrets."
+    ]
+  },
+  {
+    "id": "calculator",
+    "name": "Calculator",
+    "icon": "calculator.icon.png",
+    "status": "coming-soon",
+    "launchUrl": "",
+    "description": [
+      "A calculator for everyday calculations."
+    ]
+  },
+  {
+    "id": "cityz",
+    "name": "ESSAzLife: Cityz",
+    "icon": "cityz.icon.png",
+    "status": "coming-soon",
+    "launchUrl": "",
+    "description": [
+      "A life simulation game where ESSAs live, work, build relationships, and raise families."
+    ]
+  },
+  {
+    "id": "court",
+    "name": "ESSAzLife Court",
+    "icon": "court.icon.png",
+    "status": "coming-soon",
+    "launchUrl": "",
+    "description": [
+      "Become the judge as ESSAs face silly charges in a playful courtroom game."
+    ]
+  },
+  {
+    "id": "retroz",
+    "name": "ESSAzLife: Retroz",
+    "icon": "retroz.icon.png",
+    "status": "coming-soon",
+    "launchUrl": "",
+    "description": [
+      "Play your own Nintendo DS games through a touchscreen-focused emulator, with coins and unlockable themes."
+    ]
+  },
+  {
+    "id": "collectorz",
+    "name": "ESSAzLife: Collectorz",
+    "icon": "collectorz.icon.png",
+    "status": "coming-soon",
+    "launchUrl": "",
+    "description": [
+      "Catalog your ESSA collection with photos, breeds, species, brands, origins, dates, themes, and notes."
+    ]
+  },
+  {
+    "id": "gearz",
+    "name": "ESSAzLife: Gearz",
+    "icon": "gearz.icon.png",
+    "status": "coming-soon",
+    "launchUrl": "",
+    "description": [
+      "Use NFC stickers to track which ESSA owns each piece of gear, and reassign or delete gear."
+    ]
+  },
+  {
+    "id": "tapless",
+    "name": "ESSAzLife: Tapless",
+    "icon": "tapless.icon.png",
+    "status": "coming-soon",
+    "launchUrl": "",
+    "description": [
+      "Access touchscreen-based alternatives to ESSAzLife NFC apps."
+    ]
+  },
+  {
+    "id": "math",
+    "name": "ESSAzLife: Math",
+    "icon": "math.games.icon.png",
+    "status": "coming-soon",
+    "launchUrl": "",
+    "description": [
+      "Play math-learning games featuring ESSA artwork."
+    ]
+  },
+  {
+    "id": "breedz",
+    "name": "ESSAzLife: Breedz",
+    "icon": "breedz.icon.png",
+    "status": "coming-soon",
+    "launchUrl": "",
+    "description": [
+      "An educational ESSAzLife app about animal breeds."
+    ]
+  },
+  {
+    "id": "finderz",
+    "name": "ESSAzLife: Finderz",
+    "icon": "finderz.icon.png",
+    "status": "coming-soon",
+    "launchUrl": "",
+    "description": [
+      "Search a plush encyclopedia, view details, and build I Have It and I Want It lists."
+    ]
+  },
+  {
+    "id": "dictionary",
+    "name": "Dictionary",
+    "icon": "dictionary.icon.png",
+    "status": "coming-soon",
+    "launchUrl": "",
+    "description": [
+      "Look up words and their meanings."
+    ]
+  },
+  {
+    "id": "swipez",
+    "name": "ESSAzLife: Swipez",
+    "icon": "swipez.icon.png",
+    "status": "coming-soon",
+    "launchUrl": "",
+    "description": [
+      "Discover YouTube channels by swiping, and save channels you like or want to revisit."
+    ]
+  },
+  {
+    "id": "magazine",
+    "name": "ESSAzLife: Magazine",
+    "icon": "magazine.icon.png",
+    "status": "coming-soon",
+    "launchUrl": "",
+    "description": [
+      "Explore ESSAzLife magazine content and features."
+    ]
+  },
+
+    
+  {
+    id: "bookz",
+    name: "ESSAzLife Bookz",
+    icon: "Bookz.Icon.png",
+    
+status: "available",
+launchUrl: "apps/bookz/index.html",
+
+    description: [
+      "A digital library filled with original stories and adventures featuring your favorite ESSAzLife characters!",
+      "Choose a book from the library, turn the pages, and enjoy reading wherever you go!",
+      "New books and adventures will be added as the library grows!"
+    ]
+  },
+
+  {
+    id: "wishez",
+    name: "ESSAzLife Wishez",
+    icon: "Wishez.Icon.png",
+    status: "available",
+    launchUrl: "apps/wishez/index.html",
+    description: [
+      "A Wishlist maker being released just in time for Christmas! Add items from other websites into neat categories and then share your profile at the click of a button!",
+      "ESSAzLife Wishez allows users to make their dream wishlist of items, and then share the entire list with loved ones and friends! Then, if the item is obtained, it can be marked for deletion, or moved to an Acquired section!"
+    ]
+  },
+  {
+    id: "billz",
+    name: "ESSAzLife Billz",
+    icon: "Billz.Icon.png",
+    status: "available",
+    launchUrl: "apps/billz/index.html",
+    description: [
+      "A financial tracker that helps you budget for bills and savings!",
+      "ESSAzLife Billz is designed to teach kids, teens, and even adults better charting and planning practices when it comes to money."
+    ]
+  },
+  {
+    id: "groceriez",
+    name: "ESSAzLife Groceriez",
+    icon: "Groceriez.Icon.png",
+    status: "available",
+    launchUrl: "apps/groceriez/index.html",
+    description: [
+      "Ever walked into the store and forgot what you're looking for? With ESSAzLife Groceriez, you can organize by store, list the item and what aisle it will be in, and check the estimated subtotal all in one place!"
+    ]
+  },
+  {
+    id: "roblox",
+    name: "ESSAzLife PlayMode: Roblox Edition",
+    icon: "Roblox.Icon.png",
+    status: "available",
+    launchUrl: "https://www.roblox.com/games/86451999788896/ESSAzLife",
+    description: [
+      "Love ESSAzLife PlayMode? Now imagine playing with your ESSAs alongside your Roblox friends!",
+      "Explore a shared virtual world, customize your ESSAs, care for them, and enjoy exciting adventures together!",
+      "All the fun of ESSAzLife PlayMode, now with multiplayer adventures on Roblox!"
+    ]
+  },
+  {
+    id: "daisybelle",
+    name: "ESSAzLife: MyDaisyBelle",
+    icon: "DaisyBelle.Icon.png",
+    status: "available",
+    launchUrl: "apps/daisybelle/index.html",
+    description: [
+      "Take care of DaisyBelle, your virtual stuffed cow ESSA, with outfits, rooms, activities, school, and mini-games."
+    ]
+  },
+  {
+    id: "echoz",
+    name: "ESSAzLife Echoz",
+    icon: "Echoz.Icon.png",
+    status: "available",
+    launchUrl: "apps/echoz/index.html",
+    description: [
+      "Have you ever wished your ESSA could make realistic sounds and respond to you? With the help of your Echoz app, you can enable your ESSA to do just that!",
+      "ESSAzLife Echoz is an app that works offline, and you can use it with a Bluetooth speaker (recommended) or your device."
+    ]
+  },
+  {
+    id: "tap",
+    name: "ESSAzLife Tap",
+    icon: "Tap.Icon.png",
+    status: "coming-soon",
+    launchUrl: "",
+    description: [
+      "ESSAzLife Tap is coming soon!",
+      "More details about the app will be announced as development continues."
+    ]
+  },
+  {
+    id: "moocow",
+    name: "ESSAzLife: MooCow",
+    icon: "MooCow.Icon.png",
+    status: "coming-soon",
+    launchUrl: "",
+    description: [
+      "ESSAzLife: MyMooCow, also known as ESSAzLife: MooCow, will be the same concept as the ESSAzLife: MyDaisyBelle app.",
+      "ESSAzLife: MooCow will let users take care of a virtual pet version of my stuffed cow ESSA, MooCow."
+    ]
+  },
+  {
+    id: "go",
+    name: "ESSAzLife Go",
+    icon: "Go.Icon.png",
+    status: "coming-soon",
+    launchUrl: "",
+    description: [
+      "ESSAzLife Go is coming soon!",
+      "More details about the app will be announced as development continues."
+    ]
+  }
+];
+
+/* =========================================================
+   CREATE APP ICONS AND DESCRIPTION POPUPS
+========================================================= */
+
+(function initializeFutureWorldApps() {
+
+  const upcoming = document.getElementById("comingSoonApps");
+  const available = document.getElementById("availableApps");
+
+  const overlay = document.getElementById("comingSoonOverlay");
+  const popupTitle = document.getElementById("comingSoonTitle");
+  const popupIcon = document.getElementById("comingSoonIcon");
+  const popupDescription = document.getElementById("comingSoonDescription");
+
+  const closeButton = document.getElementById("comingSoonClose");
+  const doneButton = document.getElementById("comingSoonDone");
+
+  if (!upcoming || !available || !overlay ||
+      !popupTitle || !popupIcon || !popupDescription ||
+      !closeButton || !doneButton) {
+    console.warn("Coming Soon elements were not found.");
+    return;
+  }
+
+  let previousFocus = null;
+
+  function closePopup() {
+    overlay.classList.remove("show");
+    overlay.setAttribute("aria-hidden", "true");
+
+    if (previousFocus &&
+        typeof previousFocus.focus === "function") {
+      previousFocus.focus();
+    }
+  }
+
+  function showPopup(app) {
+    previousFocus = document.activeElement;
+
+    popupTitle.textContent = app.name;
+    popupIcon.src = "app-icons/" + app.icon;
+    popupIcon.alt = app.name;
+
+    popupDescription.replaceChildren();
+
+    for (const paragraph of app.description) {
+      const p = document.createElement("p");
+      p.textContent = paragraph;
+      popupDescription.appendChild(p);
+    }
+
+    overlay.classList.add("show");
+    overlay.setAttribute("aria-hidden", "false");
+    closeButton.focus();
+  }
+
+  closeButton.addEventListener("click", closePopup);
+  doneButton.addEventListener("click", closePopup);
+
+  overlay.addEventListener("click", function(event) {
+    if (event.target === overlay) {
+      closePopup();
+    }
+  });
+
+  document.addEventListener("keydown", function(event) {
+    if (!overlay.classList.contains("show")) return;
+
+    if (event.key === "Escape") {
+      closePopup();
+    }
+
+    if (event.key === "Tab") {
+      const buttons = [closeButton, doneButton];
+      const current = buttons.indexOf(document.activeElement);
+
+      if (event.shiftKey && current === 0) {
+        event.preventDefault();
+        doneButton.focus();
+      } else if (!event.shiftKey && current === 1) {
+        event.preventDefault();
+        closeButton.focus();
+      }
+    }
+  });
+
+  for (const app of futureWorldApps) {
+
+    const card = document.createElement("button");
+    card.type = "button";
+    card.className = "app-card future-app-card";
+
+    card.setAttribute(
+      "aria-label",
+      app.name + (
+        app.status === "available" ? "" : " — Coming Soon"
+      )
+    );
+
+    const img = document.createElement("img");
+    img.src = "app-icons/" + app.icon;
+    img.alt = app.name;
+    card.appendChild(img);
+
+    const heading = document.createElement("h2");
+    heading.textContent = app.name;
+    card.appendChild(heading);
+
+    if (app.status === "available" && app.launchUrl) {
+      available.appendChild(card);
+
+      card.addEventListener("click", function() {
+        if (app.id === "roblox") {
+          openRobloxWorldPopup();
+        } else {
+          window.location.href = app.launchUrl;
+        }
+      });
+
+    } else {
+      upcoming.appendChild(card);
+
+      card.addEventListener("click", function() {
+        showPopup(app);
+      });
+    }
+  }
+
+})();
+
+
+/* ==========================================
+   ESSAzLife World - Update Notifications
+========================================== */
+
+(function initializeUpdateNotifications() {
+
+    const overlay =
+        document.getElementById("newUpdateOverlay");
+
+    const closeButton =
+        document.getElementById("newUpdateClose");
+
+    const showButton =
+        document.getElementById("newUpdateShowMe");
+
+    const bulletinButton =
+        document.getElementById("bulletinButton");
+
+    const welcomeScreen =
+        document.getElementById("welcomeScreen");
+
+    const storageKey = "essazlife_last_seen_update";
+
+    if (!overlay || !closeButton ||
+        !showButton || !bulletinButton) {
+        return;
+    }
+
+    // Get the newest bulletin post.
+    // New posts must be placed at the TOP of the board.
+    const latestPost =
+        document.querySelector(
+            "#bulletinOverlay .bulletin-post"
+        );
+
+    if (!latestPost) return;
+
+    // Generate a unique identifier from the post content.
+    // Editing the newest post also counts as a new update.
+    const postContent =
+        latestPost.textContent.trim();
+
+    let hash = 2166136261;
+
+    for (let i = 0; i < postContent.length; i++) {
+        hash ^= postContent.charCodeAt(i);
+        hash = Math.imul(hash, 16777619);
+    }
+
+    const latestUpdateId = String(hash >>> 0);
+
+    let lastSeenUpdate = null;
+
+    try {
+        lastSeenUpdate =
+            localStorage.getItem(storageKey);
+    } catch (error) {
+        console.warn(
+            "Update notification storage unavailable.",
+            error
+        );
+    }
+
+    if (lastSeenUpdate === latestUpdateId) {
+        return;
+    }
+
+    let notificationShown = false;
+    let previousFocus = null;
+
+    function acknowledgeUpdate() {
+        try {
+            localStorage.setItem(
+                storageKey,
+                latestUpdateId
+            );
+        } catch (error) {
+            console.warn(
+                "Could not save update notification.",
+                error
+            );
+        }
+    }
+
+    function closeNotification() {
+        acknowledgeUpdate();
+        overlay.style.display = "none";
+
+        if (previousFocus &&
+            typeof previousFocus.focus === "function") {
+            previousFocus.focus();
+        }
+    }
+
+    function showNotification() {
+        if (notificationShown) return;
+
+        notificationShown = true;
+        previousFocus = document.activeElement;
+
+        overlay.style.display = "flex";
+        closeButton.focus();
+    }
+
+    // Do not show notifications over the login screen.
+    function isWorldOpen() {
+        if (!welcomeScreen) return true;
+
+        const style =
+            window.getComputedStyle(welcomeScreen);
+
+        return style.display === "none" ||
+               style.visibility === "hidden" ||
+               style.opacity === "0" ||
+               welcomeScreen.hidden;
+    }
+
+    // Wait for the user to enter World.
+    const checkInterval = setInterval(function() {
+
+        if (isWorldOpen()) {
+            clearInterval(checkInterval);
+            showNotification();
+        }
+
+    }, 500);
+
+    // X dismisses until a newer post is published.
+    closeButton.addEventListener(
+        "click",
+        closeNotification
+    );
+
+    // Show Me acknowledges and opens Updates.
+    showButton.addEventListener("click", function() {
+        closeNotification();
+        bulletinButton.click();
+    });
+
+    // Clicking the dark background dismisses.
+    overlay.addEventListener("click", function(event) {
+        if (event.target === overlay) {
+            closeNotification();
+        }
+    });
+
+    // Escape also dismisses the notification.
+    document.addEventListener("keydown", function(event) {
+        if (overlay.style.display !== "flex") return;
+
+        if (event.key === "Escape") {
+            closeNotification();
+        }
+
+        // Keep keyboard focus inside the popup.
+        if (event.key === "Tab") {
+            const buttons = [closeButton, showButton];
+            const current =
+                buttons.indexOf(document.activeElement);
+
+            if (event.shiftKey && current === 0) {
+                event.preventDefault();
+                showButton.focus();
+            } else if (!event.shiftKey && current === 1) {
+                event.preventDefault();
+                closeButton.focus();
+            }
+        }
+    });
+
+})();
+
+
+/* ==========================================
+   ESSAzLife World - Unread Bulletin Posts
+========================================== */
+
+(function initializeUnreadBulletinPosts() {
+
+    const bulletinOverlay =
+        document.getElementById("bulletinOverlay");
+
+    const bulletinButton =
+        document.getElementById("bulletinButton");
+
+    const storageKey = "essazlife_read_bulletin_posts";
+
+    if (!bulletinOverlay || !bulletinButton) return;
+
+    let readPosts = [];
+
+    try {
+        const saved = JSON.parse(
+            localStorage.getItem(storageKey) || "[]"
+        );
+
+        if (Array.isArray(saved)) {
+            readPosts = saved;
+        }
+    } catch (error) {
+        console.warn("Could not load read bulletin posts.", error);
+    }
+
+    function getPostId(post) {
+        // Use the post content to identify each announcement.
+        const content = post.textContent.trim();
+
+        let hash = 2166136261;
+
+        for (let i = 0; i < content.length; i++) {
+            hash ^= content.charCodeAt(i);
+            hash = Math.imul(hash, 16777619);
+        }
+
+        return String(hash >>> 0);
+    }
+
+    function getPosts() {
+        return Array.from(
+            bulletinOverlay.querySelectorAll(".bulletin-post")
+        );
+    }
+
+    function highlightUnreadPosts() {
+        const readSet = new Set(readPosts);
+
+        getPosts().forEach(function(post) {
+            const id = getPostId(post);
+
+            post.classList.toggle(
+                "unread-update",
+                !readSet.has(id)
+            );
+        });
+    }
+
+    function markPostsAsRead() {
+        const allIds = getPosts().map(getPostId);
+
+        readPosts = Array.from(
+            new Set([...readPosts, ...allIds])
+        );
+
+        try {
+            localStorage.setItem(
+                storageKey,
+                JSON.stringify(readPosts)
+            );
+        } catch (error) {
+            console.warn(
+                "Could not save read bulletin posts.",
+                error
+            );
+        }
+
+        getPosts().forEach(function(post) {
+            post.classList.remove("unread-update");
+        });
+    }
+
+    function isBulletinVisible() {
+        const style = window.getComputedStyle(
+            bulletinOverlay
+        );
+
+        return style.display !== "none" &&
+               style.visibility !== "hidden" &&
+               style.opacity !== "0";
+    }
+
+    let wasOpen = isBulletinVisible();
+
+    // Highlight unread posts before opening the board.
+    bulletinButton.addEventListener(
+        "click",
+        highlightUnreadPosts,
+        true
+    );
+
+    // Detect the board opening or closing, including
+    // the existing X button, backdrop, or Escape handling.
+    const observer = new MutationObserver(function() {
+        const isOpen = isBulletinVisible();
+
+        if (isOpen && !wasOpen) {
+            highlightUnreadPosts();
+        }
+
+        if (!isOpen && wasOpen) {
+            markPostsAsRead();
+        }
+
+        wasOpen = isOpen;
+    });
+
+    observer.observe(bulletinOverlay, {
+        attributes: true,
+        attributeFilter: ["style", "class", "hidden"]
+    });
+
+})();
+
+/* Roblox Edition: World launch confirmation */
+(function initializeRobloxWorldPopup() {
+  const overlay = document.getElementById("robloxWorldOverlay");
+  const close = document.getElementById("robloxWorldClose");
+  const cancel = document.getElementById("robloxWorldCancel");
+  const play = document.getElementById("robloxWorldPlay");
+  if (!overlay || !close || !cancel || !play) return;
+  let lastFocus = null;
+  window.openRobloxWorldPopup = function () {
+    lastFocus = document.activeElement;
+    overlay.hidden = false;
+    close.focus();
+  };
+  function dismiss() {
+    overlay.hidden = true;
+    if (lastFocus && typeof lastFocus.focus === "function") lastFocus.focus();
+  }
+  close.addEventListener("click", dismiss);
+  cancel.addEventListener("click", dismiss);
+  overlay.addEventListener("click", function (event) {
+    if (event.target === overlay) dismiss();
+  });
+  play.addEventListener("click", function () {
+    // Open the official Roblox experience page; Roblox handles app launching.
+    window.open("https://www.roblox.com/games/86451999788896/ESSAzLife", "_blank", "noopener,noreferrer");
+  });
+  document.addEventListener("keydown", function (event) {
+    if (overlay.hidden) return;
+    if (event.key === "Escape") dismiss();
+    if (event.key === "Tab") {
+      const controls = [close, play, cancel];
+      const index = controls.indexOf(document.activeElement);
+      if (event.shiftKey && index === 0) { event.preventDefault(); cancel.focus(); }
+      else if (!event.shiftKey && index === 2) { event.preventDefault(); close.focus(); }
+    }
+  });
+})();
+
+/* World horizontal section navigation and favorites. Existing account and app code is unchanged. */
+(function initWorldPages(){
+  const order=['favorites','tools','games','nfc','sims','educational','media','coming'];
+  const names=['Favorites','Tools','Games','NFC','Sims','Educational','Media','Coming Soon'];
+  const track=document.getElementById('worldPageTrack');
+  const viewport=document.getElementById('worldPageViewport');
+  if(!track||!viewport)return;
+  const prev=document.getElementById('worldPreviousPage'),next=document.getElementById('worldNextPage'),indicator=document.getElementById('worldPageIndicator');
+  const appSections={handler:'tools',chorez:'tools',wishez:'tools',billz:'tools',groceriez:'tools',playmode:'games',daisybelle:'games',moocow:'games',roblox:'games',babiez:'nfc',tap:'nfc',go:'nfc',collectorz:'nfc',gearz:'nfc',tapless:'sims',echoz:'sims',math:'educational',breedz:'educational',finderz:'educational',bookz:'media',dictionary:'media',swipez:'media',magazine:'media',helperz:'tools',calculator:'tools',cityz:'games',court:'games',retroz:'games'};
+  const registered=[];
+  function register(id,source,section,ready){
+    if(!source)return;
+    const node=source.cloneNode(true);
+    node.removeAttribute('id');
+    node.classList.remove('future-app-card');
+    node.dataset.worldAppId=id;
+    node.removeAttribute('aria-hidden');
+    node.addEventListener('click',()=>source.click());
+    registered.push({id,source,node,section,ready});
+    const target=document.getElementById('world'+section[0].toUpperCase()+section.slice(1)+'Apps');
+    if(target)target.appendChild(node);
+  }
+  const legacy=[['handler','handlerApp','tools'],['playmode','playModeApp','games'],['chorez','chorezApp','tools']];
+  legacy.forEach(([id,element,section])=>register(id,document.getElementById(element),section,true));
+  const catalog=typeof futureWorldApps!=='undefined'?futureWorldApps:[];
+  const catalogNodes=[...document.querySelectorAll('#availableApps > .future-app-card, #comingSoonApps > .future-app-card')];
+  catalog.forEach((app,i)=>{
+    const source=catalogNodes.find(n=>n.querySelector('img')?.getAttribute('src')==='app-icons/'+app.icon);if(!source)return;
+    const ready=app.status==='available'&&!!app.launchUrl;
+    const section=ready?(appSections[app.id]||'tools'):'coming';
+    register(app.id,source,section,ready);
+    // Hide original while preserving its existing click handler.
+    source.hidden=true;
+  });
+  // Move original dynamic cards out of view without affecting their click listeners.
+  const available=document.getElementById('availableApps');
+  const coming=document.getElementById('comingSoonApps');
+  const originals=[...available.querySelectorAll('.future-app-card')];
+  originals.forEach(n=>document.getElementById('worldLegacyApps').appendChild(n));
+  // Coming Soon originals are moved to the legacy area; only copies stay visible.
+  [...coming.querySelectorAll('.future-app-card')].forEach(n=>document.getElementById('worldLegacyApps').appendChild(n));
+  // Keep empty category messages.
+  for(const key of ['nfc','educational']){
+    const container=document.getElementById('world'+key[0].toUpperCase()+key.slice(1)+'Apps');
+    if(container&&!container.children.length){const p=document.createElement('p');p.className='world-empty-message';p.textContent='Nothing is here yet… 👀';container.appendChild(p);}
+  }
+  const storageKey='essazlifeWorldFavoritesV1';
+  let favorites=[];
+  try{const saved=JSON.parse(localStorage.getItem(storageKey)||'[]');if(Array.isArray(saved))favorites=saved.filter(x=>typeof x==='string');}catch(e){}
+  const favoriteArea=document.getElementById('worldFavoritesApps');
+  function renderFavorites(){favoriteArea.replaceChildren();for(const app of registered){if(!app.ready||!favorites.includes(app.id))continue;const clone=app.node.cloneNode(true);clone.addEventListener('click',()=>app.source.click());favoriteArea.appendChild(clone);}if(!favoriteArea.children.length){const p=document.createElement('p');p.className='world-empty-message';p.textContent='No favorites selected yet. Tap Favorites to add some!';favoriteArea.appendChild(p);}}
+  const overlay=document.getElementById('worldFavoritesOverlay'),choices=document.getElementById('worldFavoritesChoices');let draft=[];
+  document.getElementById('worldEditFavorites').addEventListener('click',()=>{draft=[...favorites];choices.replaceChildren();for(const app of registered.filter(a=>a.ready)){const button=document.createElement('button');button.type='button';button.textContent=app.node.querySelector('h2')?.textContent||app.id;button.dataset.app=app.id;button.className=draft.includes(app.id)?'is-favorite':'not-favorite';button.addEventListener('click',()=>{if(draft.includes(app.id))draft=draft.filter(x=>x!==app.id);else draft.push(app.id);button.className=draft.includes(app.id)?'is-favorite':'not-favorite';});choices.appendChild(button);}overlay.hidden=false;});
+  function closeFavorites(){overlay.hidden=true;}
+  document.getElementById('worldFavoritesCancel').addEventListener('click',closeFavorites);
+  document.getElementById('worldFavoritesSave').addEventListener('click',()=>{favorites=[...draft];try{localStorage.setItem(storageKey,JSON.stringify(favorites));}catch(e){}renderFavorites();closeFavorites();});
+  overlay.addEventListener('click',e=>{if(e.target===overlay)closeFavorites();});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!overlay.hidden)closeFavorites();});
+  renderFavorites();
+  // Keep each section on one horizontal page; Coming Soon has its own internal pages.
+  let pages=[];let index=0;
+  function repaginate(){
+    track.querySelectorAll('.world-extra-page').forEach(n=>n.remove());
+    const originalPages=[...track.querySelectorAll('.world-page')];
+    // Return any previously paginated cards to the appropriate original page before measuring.
+    for(let section of originalPages){const grid=section.querySelector('.app-launcher');if(!grid)continue;const nodes=[...grid.children];const max=section.dataset.worldSection==='coming'?9:12;if(nodes.length>max){const chunks=[];for(let i=max;i<nodes.length;i+=max)chunks.push(nodes.slice(i,i+max));for(const chunk of chunks){const extra=document.createElement('section');extra.className='world-page world-extra-page';extra.dataset.worldSection=section.dataset.worldSection;const title=document.createElement('h2');title.textContent=section.querySelector('h2')?.textContent+' (continued)';extra.appendChild(title);const g=document.createElement('div');g.className='app-launcher';chunk.forEach(n=>g.appendChild(n));extra.appendChild(g);section.after(extra);section=extra;}}}
+    pages=[...track.querySelectorAll('.world-page')];index=Math.min(index,pages.length-1);show(index);
+  }
+  function show(i){index=Math.max(0,Math.min(i,pages.length-1));track.style.transform='translateX(-'+(index*100)+'%)';indicator.textContent=pages[index]?.querySelector('h2')?.textContent||names[index]||'World';prev.disabled=index===0;next.disabled=index===pages.length-1;}
+  prev.addEventListener('click',()=>show(index-1));next.addEventListener('click',()=>show(index+1));
+  let startX=0,startY=0;
+  viewport.addEventListener('touchstart',e=>{if(e.touches.length===1){startX=e.touches[0].clientX;startY=e.touches[0].clientY;}},{passive:true});
+  viewport.addEventListener('touchend',e=>{if(!e.changedTouches.length)return;const dx=e.changedTouches[0].clientX-startX,dy=e.changedTouches[0].clientY-startY;if(Math.abs(dx)>55&&Math.abs(dx)>Math.abs(dy)*1.4)show(index+(dx<0?1:-1));},{passive:true});
+  viewport.addEventListener('keydown',e=>{if(e.target!==viewport)return;if(e.key==='ArrowRight')show(index+1);if(e.key==='ArrowLeft')show(index-1);});
+  repaginate();
+})();
