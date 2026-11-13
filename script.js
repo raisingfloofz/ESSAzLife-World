@@ -2052,3 +2052,34 @@ launchUrl: "apps/bookz/index.html",
   viewport.addEventListener('keydown',e=>{if(e.target!==viewport)return;if(e.key==='ArrowRight')show(index+1);if(e.key==='ArrowLeft')show(index-1);});
   repaginate();
 })();
+
+/* Friday 5 PM America/New_York: once per Friday, per browser. */
+(function setupFridayBackupReminder() {
+  const overlay = document.getElementById('worldBackupFridayOverlay');
+  const dismiss = document.getElementById('worldBackupFridayDismiss');
+  if (!overlay || !dismiss) return;
+  const keyPrefix = 'essazlifeWorldFridayBackupShown-';
+  function checkFridayBackup() {
+    const parts = new Intl.DateTimeFormat('en-US', {
+      timeZone: 'America/New_York', weekday: 'short', year: 'numeric',
+      month: '2-digit', day: '2-digit', hour: '2-digit',
+      hourCycle: 'h23'
+    }).formatToParts(new Date());
+    const part = type => parts.find(p => p.type === type)?.value || '';
+    if (part('weekday') !== 'Fri' || Number(part('hour')) < 17) return;
+    const dateKey = part('year') + '-' + part('month') + '-' + part('day');
+    if (localStorage.getItem(keyPrefix + dateKey) === 'yes') return;
+    // Do not display above login or another open modal.
+    const welcome = document.getElementById('welcomeScreen');
+    if (welcome && getComputedStyle(welcome).display !== 'none') return;
+    if (document.querySelector('.show[role="dialog"], .settings-overlay.show, .bulletin-overlay.show, .coming-soon-overlay.show')) return;
+    overlay.hidden = false;
+    dismiss.onclick = () => {
+      localStorage.setItem(keyPrefix + dateKey, 'yes');
+      overlay.hidden = true;
+    };
+  }
+  checkFridayBackup();
+  setInterval(checkFridayBackup, 15000);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) checkFridayBackup(); });
+})();
