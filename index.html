@@ -1,0 +1,1394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ESSAzLife World</title>
+
+    <link rel="manifest" href="manifest.json">
+
+<link
+    rel="icon"
+    type="image/png"
+    href="ESSAzLife.World.Icon.png"
+>
+
+<link
+    rel="apple-touch-icon"
+    href="icons/icon-192.png"
+>
+
+<meta
+    name="theme-color"
+    content="#179DF4"
+>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ESSAzLife World Entrance -->
+<div class="welcome-screen" id="welcomeScreen">
+
+    <div class="welcome-card">
+
+        <img
+            src="ESSAzLife.World.Icon.png"
+            alt="ESSAzLife World"
+            class="welcome-logo"
+        >
+
+        <h1>ESSAzLife World</h1>
+
+        <p class="welcome-message">
+            Welcome to the headquarters of ESSAzLife.
+        </p>
+
+        
+
+<div class="welcome-buttons">
+    <button id="welcomeCreateButton">Create Account</button>
+    <button id="welcomeLoginButton">Log In</button>
+    <button id="welcomeGuestButton" type="button">👤 Continue as Guest</button>
+</div>
+
+<button
+    id="forgotLoginButton"
+    type="button"
+    onclick="document.getElementById('forgotLoginOverlay').style.display = 'flex'"
+    style="
+        display:block;
+        margin:18px auto 0;
+        padding:6px;
+        background:none;
+        border:none;
+        color:#179DF4;
+        text-decoration:underline;
+        font-size:14px;
+        cursor:pointer;
+    "
+>
+    Uh-Oh, I forgot my...
+</button>
+
+
+
+    </div>
+
+</div>
+
+
+<!-- FORGOT LOGIN INFORMATION POPUP -->
+<div
+    id="forgotLoginOverlay"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="forgotLoginTitle"
+    style="
+        display:none;
+        position:fixed;
+        inset:0;
+        background:rgba(0,0,0,0.6);
+        z-index:99999;
+        align-items:center;
+        justify-content:center;
+        padding:20px;
+        box-sizing:border-box;
+    "
+>
+    <div
+        style="
+            background:white;
+            border-radius:22px;
+            padding:28px;
+            max-width:420px;
+            width:100%;
+            text-align:center;
+            box-shadow:0 12px 35px rgba(0,0,0,0.25);
+        "
+    >
+        <h2 id="forgotLoginTitle" style="color:#179DF4;">
+            🔐 Forgot Your Login Information?
+        </h2>
+
+        <p style="color:#344349;line-height:1.7;">
+            If you forget your password or username, then
+            you should have your backup to restore.
+            Create a new account with your desired username,
+            or choose guest mode, and restore your file.
+        </p>
+
+        <button
+            type="button"
+            onclick="document.getElementById('forgotLoginOverlay').style.display = 'none'"
+            style="
+                background:#179DF4;
+                color:white;
+                border:none;
+                padding:12px 28px;
+                border-radius:12px;
+                font-size:16px;
+                font-weight:bold;
+                cursor:pointer;
+                margin-top:12px;
+            "
+        >
+            Got It!
+        </button>
+    </div>
+</div>
+
+
+<!-- WORLD GUEST MODE CONFIRMATION -->
+<div class="confirm-overlay" id="guestConfirmOverlay">
+    <div class="confirm-popup">
+        <h2>Continue as Guest?</h2>
+
+        <p>
+            You can explore ESSAzLife World without creating an account!
+        </p>
+
+        <p>
+            Just remember not to clear your browser's site data,
+            and regularly download your backup file in each
+            individual app so you don't lose your progress.
+        </p>
+
+        <div class="confirm-buttons">
+            <button class="cancel-button" id="cancelGuestButton" type="button">
+                Cancel
+            </button>
+
+            <button class="confirm-logout-button" id="confirmGuestButton" type="button">
+                Continue as Guest
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Create Account -->
+<div class="account-overlay" id="createAccountOverlay">
+
+    <div class="account-popup">
+
+        <button class="account-close" id="createAccountClose">×</button>
+
+        <h2>🌎 Create Your World Account</h2>
+
+        <p class="account-intro">
+            Create an account to enter ESSAzLife World. 
+            When you access the apps through here, you will <strong>not</strong>
+            need to create an account or sign in when choosing an app to use.
+        </p>
+
+        <form id="createAccountForm">
+
+            <label for="createNickname">Nickname</label>
+<input
+    type="text"
+    id="createNickname"
+    autocomplete="nickname"
+    required
+>
+
+            <label for="createUsername">Username</label>
+            <input
+                type="text"
+                id="createUsername"
+                autocomplete="username"
+                required
+            >
+
+            <label for="createPassword">Password</label>
+            <input
+                type="password"
+                id="createPassword"
+                autocomplete="new-password"
+                required
+            >
+
+            <label for="confirmPassword">Confirm Password</label>
+            <input
+                type="password"
+                id="confirmPassword"
+                autocomplete="new-password"
+                required
+            >
+
+            <p class="account-error" id="createAccountError"></p>
+
+            <button type="submit" class="account-submit">
+                Create Account
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<!-- Log In -->
+<div class="account-overlay" id="loginOverlay">
+
+    <div class="account-popup">
+
+        <button class="account-close" id="loginClose">×</button>
+
+        <h2>🌎 Log In to World</h2>
+
+        <p class="account-intro">
+            Welcome back! Enter your World account information.
+        </p>
+
+        <form id="loginForm">
+
+            <label for="loginUsername">Username</label>
+            <input
+                type="text"
+                id="loginUsername"
+                autocomplete="username"
+                required
+            >
+
+            <label for="loginPassword">Password</label>
+            <input
+                type="password"
+                id="loginPassword"
+                autocomplete="current-password"
+                required
+            >
+
+            <p class="account-error" id="loginError"></p>
+
+            <button type="submit" class="account-submit">
+                Log In
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+    <header class="world-header">
+
+<div class="world-brand">
+    <img src="ESSAzLife.World.Icon.png" alt="ESSAzLife World">
+
+    <div class="world-brand-text">
+        <h1>ESSAzLife World</h1>
+        <p id="welcomeBackMessage"></p>
+    </div>
+</div>
+
+        <div class="world-controls">
+    <button id="helpButton">❓ Help</button>
+    <button id="bulletinButton">📢 Updates</button>
+    <button id="directoryButton">🔗 Directory</button>
+    <button id="settingsButton">⚙️ Settings</button>
+</div>
+
+    </header>
+
+    <main class="world-main world-paged-main">
+      <div class="world-page-navigation" aria-label="World section navigation">
+        <button type="button" id="worldPreviousPage">Previous</button>
+        <span id="worldPageIndicator" aria-live="polite">Favorites</span>
+        <button type="button" id="worldNextPage">Next</button>
+      </div>
+      <div id="worldPageViewport" class="world-page-viewport" tabindex="0" aria-label="Swipe left or right to change World sections">
+        <div id="worldPageTrack" class="world-page-track">
+          <section class="world-page" data-world-section="favorites"><h2><button type="button" id="worldEditFavorites" class="world-favorites-heading">Favorites <span aria-hidden="true">✎</span></button></h2><p class="world-page-hint">Select Favorites to choose your apps.</p><div class="app-launcher" id="worldFavoritesApps"></div></section>
+          <section class="world-page" data-world-section="tools"><h2>Tools</h2><div class="app-launcher" id="worldToolsApps"></div></section>
+          <section class="world-page" data-world-section="games"><h2>Games</h2><div class="app-launcher" id="worldGamesApps"></div></section>
+          <section class="world-page" data-world-section="nfc"><h2>NFC</h2><p class="world-page-hint">You need NFC stickers to play these</p><div class="app-launcher" id="worldNfcApps"></div></section>
+          <section class="world-page" data-world-section="sims"><h2>Sims</h2><div class="app-launcher" id="worldSimsApps"></div></section>
+          <section class="world-page" data-world-section="educational"><h2>Educational</h2><div class="app-launcher" id="worldEducationalApps"></div></section>
+          <section class="world-page" data-world-section="media"><h2>Media</h2><div class="app-launcher" id="worldMediaApps"></div></section>
+          <section class="world-page" data-world-section="coming"><h2>Coming Soon</h2><div class="app-launcher" id="comingSoonApps" aria-label="Coming Soon apps"></div></section>
+        </div>
+      </div>
+      <section id="worldLegacyApps" hidden aria-hidden="true"><div id="availableApps">
+
+    <div class="app-card" id="handlerApp">
+        <img src="app-icons/Handler.Icon.png" alt="ESSAzLife Handler Edition">
+        <h2>Handler Edition</h2>
+        <p>
+            Log your ESSAs, train them, earn certifications,
+            and access coping tools for anxiety.
+        </p>
+    </div>
+
+    <div class="app-card" id="playModeApp">
+        <img src="app-icons/PlayMode.Icon.png" alt="ESSAzLife PlayMode">
+        <h2>PlayMode</h2>
+        <p>
+            Collect ESSAs, care for them, level up,
+            and unlock new adventures.
+        </p>
+    </div>
+
+    <div class="app-card" id="chorezApp">
+        <img class="chorez-icon" src="app-icons/Chorez.Icon.png" alt="ESSAzLife Chorez">
+        <h2>Chorez</h2>
+        <p>
+            Complete real-life chores, earn rewards,
+            and keep MooCow fed and happy.
+        </p>
+    </div>
+
+</div></section>
+    </main>
+    <div id="worldFavoritesOverlay" class="world-favorites-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="worldFavoritesTitle">
+      <div class="world-favorites-dialog"><h2 id="worldFavoritesTitle">Choose Your Favorites</h2><p>Green apps are favorites. Red apps are not selected. Tap to change them.</p><div id="worldFavoritesChoices" class="world-favorites-choices"></div><div class="world-favorites-actions"><button type="button" id="worldFavoritesCancel">Cancel</button><button type="button" id="worldFavoritesSave">Save</button></div></div>
+    </div>
+
+<!-- COMING SOON INFORMATION POPUP -->
+<div class="coming-soon-overlay" id="comingSoonOverlay" role="dialog" aria-modal="true" aria-labelledby="comingSoonTitle" aria-hidden="true">
+  <div class="coming-soon-popup">
+    <button type="button" class="coming-soon-close" id="comingSoonClose" aria-label="Close">×</button>
+    <img id="comingSoonIcon" alt="" class="coming-soon-icon">
+    <h2 id="comingSoonTitle"></h2>
+    <div id="comingSoonDescription" class="coming-soon-description"></div>
+    <p class="coming-soon-label">✨ Coming Soon! ✨</p>
+    <button type="button" class="coming-soon-done" id="comingSoonDone">Got It!</button>
+  </div>
+</div>
+
+<div class="directory-overlay" id="directoryOverlay">
+
+    <div class="directory-popup">
+
+        <button class="directory-close" id="directoryClose">×</button>
+
+        <h2>🔗 ESSAzLife App Directory</h2>
+
+      <p class="directory-subheading">
+    Here are the individual ESSAzLife apps and their descriptions.
+    Choose an app to visit its page and download it individually as a PWA.
+    See ❓<strong>Help</strong> for details.
+    <b>DON'T FORGET YOUR BACKUP FILES!</b>
+</p>
+
+        <div class="directory-app">
+            <img src="app-icons/Handler.Icon.png" alt="Handler Edition">
+            <div>
+                <h3>Handler Edition</h3>
+                <p>
+                    Log your ESSAs, train them, earn certifications,
+                    and access coping tools for anxiety.
+                </p>
+                <p><a href="https://raisingfloofz.github.io/ESSAzLife-Handler-Edition/" target="_blank" rel="noopener noreferrer">🌐 Open Standalone App ↗</a></p>
+            </div>
+        </div>
+
+        <div class="directory-app">
+            <img src="app-icons/PlayMode.Icon.png" alt="PlayMode">
+            <div>
+                <h3>PlayMode</h3>
+                <p>
+                    Collect ESSAs, care for them, level up,
+                    and unlock new adventures.
+                </p>
+                <p><a href="https://raisingfloofz.github.io/ESSAzLife-PlayMode/" target="_blank" rel="noopener noreferrer">🌐 Open Standalone App ↗</a></p>
+            </div>
+        </div>
+
+        <div class="directory-app">
+            <img src="app-icons/Chorez.Icon.png" alt="Chorez">
+            <div>
+                <h3>Chorez</h3>
+                <p>
+                    Complete real-life chores, earn rewards,
+                    and keep MooCow fed and happy.
+                </p>
+                <p><a href="https://raisingfloofz.github.io/ESSAzLife-Chorez/" target="_blank" rel="noopener noreferrer">🌐 Open Standalone App ↗</a></p>
+            </div>
+        </div>
+
+        
+<!-- ESSAzLife Bookz -->
+<div class="directory-app">
+  <img
+    src="app-icons/Bookz.Icon.png"
+    alt="ESSAzLife Bookz"
+  />
+
+  <div>
+    <h3>ESSAzLife Bookz</h3>
+
+    <p>
+      Explore a free digital library of original
+      ESSA-themed stories! Read books, track your
+      progress, and organize your bookshelves.
+    </p>
+
+    <a
+      href="https://raisingfloofz.github.io/ESSAzLifeBookz/"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      🌐 Open Standalone App ↗
+    </a>
+  </div>
+</div>
+
+
+        <div class="directory-app">
+            <img src="app-icons/Billz.Icon.png" alt="ESSAzLife Billz">
+            <div>
+                <h3>ESSAzLife Billz</h3>
+                <p>Track paychecks, plan bills and overdrafts, and see your spending statistics.</p>
+                <p><a href="https://raisingfloofz.github.io/ESSAzLife-Billz/" target="_blank" rel="noopener noreferrer">🌐 Open Standalone App ↗</a></p>
+            </div>
+        </div>
+
+        <div class="directory-app">
+            <img src="app-icons/Echoz.Icon.png" alt="ESSAzLife Echoz">
+            <div>
+                <h3>ESSAzLife Echoz</h3>
+                <p>Bring your ESSA to life with sound reactions, voice commands, heartbeat, and saved companions.</p>
+                <p><a href="https://raisingfloofz.github.io/ESSAzLife-Echoz/" target="_blank" rel="noopener noreferrer">🌐 Open Standalone App ↗</a></p>
+            </div>
+        </div>
+
+        <div class="directory-app">
+            <img src="app-icons/Groceriez.Icon.png" alt="ESSAzLife Groceriez">
+            <div>
+                <h3>ESSAzLife Groceriez</h3>
+                <p>Organize reusable store lists, plan multi-store shopping trips, set optional budgets, and check off groceries as you shop.</p>
+                <p><a href="https://raisingfloofz.github.io/ESSAzLife-Groceriez/" target="_blank" rel="noopener noreferrer">🌐 Open Standalone App ↗</a></p>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="help-overlay" id="helpOverlay">
+
+    <div class="help-popup">
+
+        <button class="help-close" id="helpClose">×</button>
+
+        <h2>❓ ESSAzLife World Help</h2>
+<a
+    class="tutorial-button"
+    href="https://youtu.be/kRgJaMIpOGk?si=SMlHA5tBkazvHgrb"
+    target="_blank"
+    rel="noopener noreferrer"
+>
+    ▶️ Watch Tutorial
+</a>
+
+        <div class="help-section">
+            <h3>🌎 What is ESSAzLife World?</h3>
+            <p>
+                ESSAzLife World is the headquarters for ESSAzLife apps.
+                It gives you one place to access Handler Edition, PlayMode,
+                Chorez, and future ESSAzLife apps.
+            </p>
+        </div>
+
+        <div class="help-section">
+            <h3>📱 Do I need World?</h3>
+            <p>
+                Nope! ESSAzLife World is optional. You can use World as your
+                all-in-one ESSAzLife app, or use the individual ESSAzLife apps
+                separately.
+            </p>
+        </div>
+
+        <div class="help-section">
+            <h3>🔗 What is Directory?</h3>
+            <p>
+                Directory shows the individual ESSAzLife apps, what they do,
+                and where you can access each standalone app.
+            </p>
+        </div>
+
+        <div class="help-section">
+            <h3>💾 Where is my data stored?</h3>
+            <p>
+                ESSAzLife apps store their data locally in your browser.
+                Your data does not automatically follow you to another device
+                or browser. If you choose to change devices or browsers, or clear 
+                browser history, you will need to get your "Backup" file from <strong>Profile</strong>
+                in the individual app. Take your Downloaded Backup file and restore it in the specific
+                app under profile. Anything from that backup file will be restored on the new device, 
+                however, these will not sync. 
+            </p>
+        </div>
+
+        <div class="help-section">
+            <h3>⬇️ What is a PWA? <strong>(A Message from the developer)</strong></h3>
+            <p>
+                A Progressive Web App (PWA) is a website that can be installed
+                on your device and used more like an app. ESSAzLife World and
+                the individual ESSAzLife apps can be installed as PWAs when
+                supported by your browser and device. PWA is used for all ESSAzLife
+                Apps because if I were to upload the apps to Play Store or App Store, 
+                I would be unable to make these apps available for everyone to enjoy. 
+            </p>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="bulletin-overlay" id="bulletinOverlay">
+
+    <div class="bulletin-popup">
+
+        <button class="bulletin-close" id="bulletinClose">×</button>
+
+        <h2>📢 Update Bulletin Board</h2>
+
+        <p class="bulletin-intro">
+            News, updates, and announcements from ESSAzLife World.
+        </p>
+
+         <div class="bulletin-post">
+            <div class="bulletin-date">November 13, 2026 @ 4:18pm EST </div>
+            <h3><strong>⚠️VERY IMPORTANT PLEASE READ!⚠️</strong></h3>
+            <p><strong>CONSTRUCTION ZONE!</strong> 💚</p> <br>
+             I am currently constructing a new layout system, DO NOT BE ALARMED. <br>
+             Nothing will happen to your existing files. <br>
+             By the end of the day on Friday, November 13, 2026, we will have a new layout (swipe left and right to navigate), <br>
+             <strong>a NEW MooCow game,</strong> and <br>
+             <strong>a weekly pop-up reminder telling you to: </strong>
+            <p><strong>💾 Remember:</strong> Your ESSA information stays in your browser. Use Backup &amp; Restore when moving between the standalone and World versions.</p>
+        </div>
+
+          <div class="bulletin-post">
+            <div class="bulletin-date">November 12, 2026 @ 1:40am </div>
+            <h3>Major Update!</h3>
+            <p><strong>NEW ESSAzLife: DaisyBelle</strong> 💚</p> <br>
+              DaisyBelle has arrived with her brand new game! <br>
+              Play with your very own DaisyBelle and take care of her! <br>
+              She even goes to school during the week! <br>
+              She has a voice! She is the very first ESSAzLife character to have a voice in-app! <br>
+              New updates will arrive soon, with a special Christmas feature being automatically added December 1, 2026! <br>
+              New mini-games are in-progress! Play mini-games to earn coins to exchange for room wallpapers (full store coming soon) <br>
+            <p><strong>💾 Remember:</strong> Your ESSA information stays in your browser. Use Backup &amp; Restore when moving between the standalone and World versions.</p>
+        </div>
+
+         <div class="bulletin-post">
+            <div class="bulletin-date">November 11, 2026 @ 12:12am </div>
+            <h3>Major Update!</h3>
+            <p><strong>What Changed?</strong> 💚</p>
+          1. <strong>Handler Edition</strong> Restoring backup files fix. Users can now restore their backup files when using Handler Edition through world. <br>
+          2. <strong>ESSAzLife Social</strong> is cancelled. Sorry for the disappointment. It's supposed to be replaced with a magazine but I can't get enough entries :( <br>
+          3. <strong>ESSAzLife Tap</strong> is added to the <strong>Coming Soon</strong> Section, more information coming soon. <br>
+          4. <strong>ESSAzLife Go</strong>is added to the <strong>Coming Soon</strong> Section, more information coming soon. <br>
+          5. <strong>ESSAzLife DaisyBelle</strong> is in the final development stages. <strong>Releasing Thursday, November 12, 2026</strong> <br>
+          6. <strong>ESSAzLife MooCow</strong> is added to the <strong>Coming Soon</strong> Section, tap the icon for more information. <br>
+            <p><strong>💾 Remember:</strong> Your ESSA information stays in your browser. Use Backup &amp; Restore when moving between the standalone and World versions.</p>
+        </div>
+
+        <div class="bulletin-post">
+            <div class="bulletin-date">November 8, 2026 @ 10:45pm </div>
+            <h3>NEW ESSAzLife Echoz Is Here!</h3>
+            <p><strong>A Voice for your ESSAs!</strong> 💚</p>
+            With the ESSAzLife Echoz App, you can enable your ESSAs to hear your voice,
+            and they really respond! Sounds are currently utilized by cats, dogs, and cows.
+            <p><strong>💾 Remember:</strong> Your ESSA information stays in your browser. Use Backup &amp; Restore when moving between the standalone and World versions.</p>
+            <p><strong>Privacy:</strong> Your voice is not recorded or stored.</p>
+        </div>
+
+
+        <div class="bulletin-post">
+            <div class="bulletin-date">November 8, 2026 @ 9:15pm </div>
+            <h3>🛒 ESSAzLife Groceriez Is Here!</h3>
+            <p><strong>ESSAzLife Groceriez has joined ESSAzLife World!</strong> 💚</p>
+            <p>Build reusable grocery lists for your favorite stores, organize items by aisle, and plan shopping trips across multiple stores.</p>
+            <p>Set an optional trip budget, check items off as you shop, and save completed trips in your history.</p>
+            <p>Find Groceriez under <strong>✅ Use Now</strong>, or open the standalone version through the Directory.</p>
+            <p><strong>💾 Remember:</strong> Grocery data stays in your browser. Use Backup &amp; Restore when moving between the standalone and World versions.</p>
+        </div>
+
+
+
+         <div class="bulletin-post">
+            <div class="bulletin-date">November 8, 2026 @ 9pm EST</div>
+            <h3>💸 ESSAzLife Billz Is Here!</h3>
+            <p><strong>ESSAzLife Billz has joined ESSAzLife World!</strong> 🐮</p>
+            <p>Organize multiple paychecks, manage Needs and Wants, plan recurring bills and overdrafts, and view your spending statistics. Pick an ESSA buddy to keep you company!</p>
+            <p>Find Billz in <strong>✅ Use Now</strong>, or visit its standalone website through the Directory.</p>
+            <p><strong>💾 Remember:</strong> Budget data stays in your browser. Use Billz's Backup &amp; Restore to transfer data between standalone Billz and World.</p>
+             <br>
+             <h4>NEW ESSAZLIFE ROBLOX GAME!</h4>
+             <strong>ESSAzLife Roblox Game</strong>
+             <br>
+             Play a virtual pet experience with other members of the ESSA community.
+             In ESSAzLife Roblox Edition, you journey into the woods to tame wild 
+             ESSAs, and live in a house where you can take care of them.
+             <br>
+             This is an ongoing work-in-progress, some features may not work. 
+        </div>
+
+         <div class="bulletin-post">
+  <div class="bulletin-date">November 7, 2026 @ 12pm EST</div>
+
+  <h3>NEW ESSAzLife App!</h3>
+
+   <strong>ESSAzLife: Wishez</strong>
+    <br>
+     Arriving just in time for the Holidays! ESSAzLife Wishez
+     is a wishlist maker where you can create a list of things 
+     you want, and share the link with loved ones!
+     <br>
+     <strong>Please Note: Guest accounts are unable to 
+        share their wishlists via link.
+     </strong>
+     <br>
+     Wishez includes a custom birthday theme during your birth month, plus
+     holiday specific themes which update automatically.
+  </p>
+
+</div>
+
+
+        <div class="bulletin-post">
+  <div class="bulletin-date">November 5, 2026 @ 9am EST</div>
+
+  <h3>NEW ESSAzLife App!</h3>
+
+   <strong>ESSAzLife: Bookz</strong>
+    <br>
+     A free digital library featuring books with 
+     Emotional Support Stuffed Animal (ESSA) themes.
+     Users can read through their World Account, or
+     access the Standalone Website through the Directory. 
+     <br>
+     Accessing the standalone Bookz page allows offline reading
+     once all proper files are downloaded while connected to the internet.
+  </p>
+
+</div>
+
+    <div class="bulletin-post">
+  <div class="bulletin-date">November 4, 2026 @ 12pm EST</div>
+
+  <h3>ESSAzLife World - Visual Changes</h3>
+
+   <strong>You've Got Mail!</strong>
+    <br>
+     Users of ESSAzLife World will now receive a 
+     notification on their screen when there is a
+     new update added to the Updates Board.
+  </p>
+
+   <strong>Sections</strong>
+    <br>
+     The main World page has now been divided into two sections, 
+     ESSAzLife Apps that are available now and ESSAzLife Apps which
+     are coming soon!
+  </p>
+
+  <p>
+    <strong>Guest Mode in World</strong> 🎉
+    <br>
+    ESSAzLife World now functions with guest mode, 
+    while keeping the data for guest accounts and 
+    accounts that are created and loggin in separate,
+    unless in the event of a restored backup file.  
+  </p>
+
+  <p>
+    <strong>Forgot Password and Username</strong> 🎉
+    <br>
+    ESSAzLife World is currently running without the 
+    ability to reset your password. It is very IMPORTANT
+    that users create a backup file to restore as needed 
+    in each ESSAzLife App. 
+  </p>
+
+</div>
+         <div class="bulletin-post">
+  <div class="bulletin-date">October 31, 2026 @ 9pm EST</div>
+
+  <h3>ESSAzLife World - PlayMode Update!</h3>
+
+  <p>
+    <strong>Happy Halloween</strong> 🎉
+    <br>
+    ESSAzLife World will now be the only way to utilize the newest 
+    versions of ESSAzLife Handler Edition, PlayMode, and Chorez. 
+  </p>
+
+  <p>
+    ESSAzLife World now has a Guest Mode option on the login page.
+    <b>Make sure to download your backup files just in case, they <br> 
+    are available under the Profile section of each individual app.</b>
+  </p>
+
+</div>
+
+<div class="bulletin-post">
+  <div class="bulletin-date">October 30, 2026 @ 3pm EST</div>
+
+  <h3>ESSAzLife World - PlayMode Update!</h3>
+
+  <p>
+    <strong>I've brought the latest PlayMode features to ESSAzLife World!</strong> 🎉
+    <br>
+    Please be advised that ESSAzLife PlayMode, Handler Edition, and Chorez
+    will no longer receive updates on their standalone websites.
+    ESSAzLife World will be the only place to access new features instantly.
+    Users will still have access to the original standalone sites.
+  </p>
+
+  <p>
+    <strong>IMPORTANT FOR STANDALONE APP USERS!</strong>
+    <br>
+    If you want to start using the World versions of these apps,
+    you MUST create a backup file in your standalone app
+    (located under the Profile tab) and restore that backup
+    in the corresponding app inside ESSAzLife World.
+  </p>
+
+  <p>
+    <strong>Seasonal Voidy Dogs:</strong>
+    Seasonal Voidy Dogs now appear on the first page of the ESSA
+    selection menu and have improved interactions!
+  </p>
+
+  <p>
+    <strong>Toys &amp; Playroom:</strong>
+    New Voidy Store toys and balls, automatic coin collecting,
+    Stay/Wander controls, and improved ball interactions!
+    <br>
+    <strong>The toys are designed by ESSAzLife Testers!</strong>
+  </p>
+
+  <p>
+    <strong>Arcade Improvements:</strong>
+    Improved arcade selection, machine information popups,
+    and better fullscreen support!
+  </p>
+
+  <p>
+    <strong>Adoption Certificates:</strong>
+    FREE downloadable adoption certificates in multiple colors!
+    <br>
+    <strong>Designed by Sparkling Seafoam!</strong>
+  </p>
+
+  <p>
+    <strong>World Integration:</strong>
+    PlayMode now includes the latest gameplay improvements
+    while staying connected to your ESSAzLife World account!
+  </p>
+
+  <p>
+    💙 Thank you for playing! I hope you enjoy the new update!
+    <br>
+    <strong>🐮 - Raising Floofz</strong>
+  </p>
+</div>
+
+
+        <div class="bulletin-post">
+
+    <div class="bulletin-date">October 19, 2026 @ 12:23am EST</div>
+
+    <h3>Non-World App Users</h3>
+
+    <p>
+        <b>
+            This morning I have updated the 
+            Directory Tab to contain the actual
+            standalone app links. 
+        </b>
+    </p>
+
+    <p>
+        As of November 1st, 2026, 
+        the only way to see the 
+        standalone app links will
+        be through the ESSAzLife World
+        Directory tab. 
+        
+    </p>
+
+    <p>
+        Anyone using the ESSAzLife Apps 
+        via their individual links should
+        be advised that at the end of October
+        2026 the links will be removed from my
+        youtube channel! The only link that will
+        be there will be ESSAzLife World! <br> 
+        <strong>Don't forget to backup your files!</strong>
+    </p>
+
+</div>
+
+         
+       
+<div class="bulletin-post">
+
+    <div class="bulletin-date">October 18, 2026 @ 11:27pm EST</div>
+
+    <h3>☁️ Cloud Accounts</h3>
+
+    <p>
+        ESSAzLife World now supports cloud accounts!
+        Log in to your World account across multiple devices.
+    </p>
+
+    <p>
+        ☁️ <strong>WHAT SYNCS?</strong><br>
+        Your World username, nickname, and password changes.
+    </p>
+
+    <p>
+        💾 <strong>WHAT DOESN'T SYNC?</strong><br>
+        ESSA profiles, game progress, diaries, and other
+        individual app data remain stored locally.
+    </p>
+
+    <p>
+        ⚠️ <strong>CLOUD LIMITS</strong><br>
+        If login or registration limits are reached,
+        please wait and try again later. <b>If you are trying
+        to sign in and receive an error message that cloud 
+        sign-in is down, use your password you set BEFORE 
+        backing up to cloud account!</b>
+    </p>
+
+    <hr>
+
+    <p>
+        🚨 <strong>IMPORTANT BACKUP REMINDER!</strong><br>
+        Download and safely store your backup file from
+        each app's Profile section.
+    </p>
+
+    <p>
+        Backups protect against lost data from clearing browser
+        storage, uninstalling the PWA, changing devices,
+        or device problems.
+    </p>
+
+    <p>
+        <strong>
+            World Cloud does NOT automatically back up
+            your ESSA app data!
+        </strong>
+    </p>
+
+    <p>
+        <strong>💾 ALWAYS KEEP YOUR DOWNLOADED BACKUP FILE!</strong>
+    </p>
+
+</div>
+
+
+
+        
+        <div class="bulletin-post">
+
+    <div class="bulletin-date">October 10, 2026 @ 7:49am EST</div>
+
+    <h3>Automatic Updates</h3>
+
+    <p>
+        ESSAzLife World now works offline AND online as well to bring you
+        automatic updates. When there is a new update, open ESSAzLife World
+        and select the <strong>Updates</strong> tab from the top navigation.
+        Refresh the screen once, and if the new update is visible, you know
+        that the app version updated successfully. <br> Your saved data that
+        is specific to each app in World will NOT reset anymore, as you will 
+        no longer need to clear your browser history just for an update to be 
+        received. <br> <strong>ALWAYS KEEP YOUR DOWNLOADED BACKUP FILE!</strong>
+    </p>
+
+</div>
+
+        <div class="bulletin-post">
+
+    <div class="bulletin-date">October 10, 2026 @ 7:39am EST</div>
+
+    <h3>🧪 Automatic Update Test</h3>
+
+    <p>
+        ~Update inserted for automatic update testing~
+    </p>
+
+</div>
+
+        <div class="bulletin-post">
+
+    <div class="bulletin-date">October 10, 2026 @ 6:34am EST</div>
+
+    <h3>🎮 ESSAzLife PlayMode Improvements!</h3>
+
+    <p>
+        We've made improvements to ESSAzLife PlayMode
+        inside ESSAzLife World!
+    </p>
+
+    <p>
+        Updates include improved mobile landscape layouts,
+        Playroom screen sizing, and navigation adjustments.
+    </p>
+
+    <p>
+        📱 Mobile tip: Tap the ⛶ Full Screen button
+        for the best landscape gameplay experience.
+    </p>
+
+</div>
+
+        <div class="bulletin-post">
+
+            <div class="bulletin-date">October 8, 2026 @ 4:00pm EST</div>
+
+            <h3>🌎 Welcome to ESSAzLife World!</h3>
+
+            <p>
+                ESSAzLife World is officially here! World brings your
+                ESSAzLife apps together into one headquarters while still
+                allowing you to use the individual apps separately.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- SETTINGS -->
+<div class="settings-overlay" id="settingsOverlay">
+
+    <div class="settings-popup">
+
+        <button class="settings-close" id="settingsClose">×</button>
+
+        <h2>⚙️ Settings</h2>
+
+        <p class="settings-subheader">
+    Looking for <strong>Backup and Restore</strong>?
+    Find that under the individual app's Profile section.
+</p>
+
+        <div class="settings-section">
+
+            <h3>👤 Account Settings</h3>
+
+            <p class="settings-account-name" id="settingsAccountName"></p>
+
+            <button class="settings-option" id="changeNicknameButton">
+                Change Nickname
+            </button>
+
+            <button class="settings-option" id="changeUsernameButton">
+                Change Username
+            </button>
+
+            <button class="settings-option" id="changePasswordButton">
+                Change Password
+            </button>
+
+        </div>
+
+        <!-- OPTIONAL CLOUD SYNC -->
+<div class="settings-section">
+
+    <h3>☁️ World Cloud Account</h3>
+
+    <p class="settings-subheader">
+    World cloud accounts let you sign in on another device
+    using your username and password.
+
+    Your ESSA profiles, game progress, and other app data
+    remain stored locally. Use each app's Backup & Restore
+    to transfer that information.
+</p>
+
+    <button
+    class="settings-option"
+    id="upgradeWorldCloudButton"
+    type="button"
+>
+    🌎 Upgrade My World Account to Cloud
+</button>
+
+<p id="worldCloudUpgradeStatus"></p>
+
+    <button class="settings-option" id="googleSignInButton">
+        ☁️ Connect with Google
+    </button>
+
+    <button
+    class="settings-option"
+    id="googleSignOutButton"
+    style="display: none;"
+>
+    🔓 Disconnect Google
+</button>
+
+    <p id="cloudSyncStatus">
+        Not connected to cloud.
+    </p>
+
+</div>
+
+        <div class="settings-section danger-section">
+
+            <h3>Account</h3>
+
+            <button class="settings-option logout-button" id="logoutButton">
+                Log Out
+            </button>
+
+            <button class="settings-option delete-button" id="deleteAccountButton">
+                Delete Account
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- CHANGE NICKNAME -->
+<div class="account-overlay" id="changeNicknameOverlay">
+
+    <div class="account-popup">
+
+        <button class="account-close" id="changeNicknameClose">×</button>
+
+        <h2>Change Nickname</h2>
+
+        <form id="changeNicknameForm">
+
+            <label for="newNickname">Nickname</label>
+
+            <input
+                type="text"
+                id="newNickname"
+                required
+            >
+
+            <p class="account-error" id="nicknameError"></p>
+
+            <button type="submit" class="account-submit">
+                Save Nickname
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- CHANGE USERNAME -->
+<div class="account-overlay" id="changeUsernameOverlay">
+
+    <div class="account-popup">
+
+        <button class="account-close" id="changeUsernameClose">×</button>
+
+        <h2>Change Username</h2>
+
+        <form id="changeUsernameForm">
+
+            <label for="newUsername">Username</label>
+
+            <input
+                type="text"
+                id="newUsername"
+                autocomplete="username"
+                required
+            >
+
+            <p class="account-error" id="usernameError"></p>
+
+            <button type="submit" class="account-submit">
+                Save Username
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- CHANGE PASSWORD -->
+<div class="account-overlay" id="changePasswordOverlay">
+
+    <div class="account-popup">
+
+        <button class="account-close" id="changePasswordClose">×</button>
+
+        <h2>Change Password</h2>
+
+        <form id="changePasswordForm">
+
+            <label for="currentPassword">Current Password</label>
+
+            <input
+                type="password"
+                id="currentPassword"
+                autocomplete="current-password"
+                required
+            >
+
+            <label for="newPassword">New Password</label>
+
+            <input
+                type="password"
+                id="newPassword"
+                autocomplete="new-password"
+                required
+            >
+
+            <label for="confirmNewPassword">Confirm New Password</label>
+
+            <input
+                type="password"
+                id="confirmNewPassword"
+                autocomplete="new-password"
+                required
+            >
+
+            <p class="account-error" id="passwordChangeError"></p>
+
+            <button type="submit" class="account-submit">
+                Save Password
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+
+<!-- WORLD CLOUD PASSWORD VERIFICATION -->
+<div class="account-overlay" id="cloudVerifyOverlay">
+    <div class="account-popup">
+
+        <button
+            class="account-close"
+            id="cloudVerifyClose"
+            type="button"
+        >×</button>
+
+        <h2>🌎 Upgrade to World Cloud</h2>
+
+        <p class="account-intro">
+            Upgrade your existing World account so you
+            can log in on other devices using your
+            username and cloud password.
+        </p>
+
+        <form id="cloudVerifyForm">
+
+            <label for="cloudVerifyPassword">
+                Current World Password
+            </label>
+
+            <input
+                type="password"
+                id="cloudVerifyPassword"
+                autocomplete="current-password"
+                placeholder="Enter your current password"
+                required
+            >
+
+            <label for="cloudNewPassword">
+                New Cloud Password (if needed)
+            </label>
+
+            <input
+                type="password"
+                id="cloudNewPassword"
+                autocomplete="new-password"
+                minlength="12"
+                maxlength="128"
+                placeholder="At least 12 characters"
+            >
+
+            <p class="account-intro">
+                💙 If your current password has at least
+                12 characters, leave the new cloud
+                password field blank.
+
+                If your current password is shorter,
+                choose a new cloud password with at
+                least 12 characters.
+            </p>
+
+            <p
+                class="account-error"
+                id="cloudVerifyError"
+                role="alert"
+            ></p>
+
+            <button
+                type="submit"
+                class="account-submit"
+            >
+                ☁️ Create My Cloud Account
+            </button>
+
+        </form>
+
+        <p class="account-intro">
+            💾 Your existing local World account and
+            individual ESSAzLife app data will remain
+            on this device.
+        </p>
+
+    </div>
+</div>
+
+
+
+<!-- LOG OUT CONFIRMATION -->
+<div class="confirm-overlay" id="logoutConfirmOverlay">
+
+    <div class="confirm-popup">
+
+        <h2>Log Out?</h2>
+
+        <p>
+            Are you sure you want to log out of ESSAzLife World?
+        </p>
+
+        <div class="confirm-buttons">
+
+            <button class="cancel-button" id="cancelLogoutButton">
+                Cancel
+            </button>
+
+            <button class="confirm-logout-button" id="confirmLogoutButton">
+                Log Out
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- DELETE ACCOUNT CONFIRMATION -->
+<div class="confirm-overlay" id="deleteConfirmOverlay">
+
+    <div class="confirm-popup">
+
+        <h2>⚠️ Delete Account?</h2>
+
+        <p id="deleteExplanation">This removes your World account. Your ESSA app data is not deleted.</p>
+        <div id="cloudDeleteFields" hidden>
+            <label for="cloudDeletePassword">Current Cloud Password</label>
+            <input type="password" id="cloudDeletePassword" autocomplete="current-password">
+            <label for="cloudDeleteConfirmText">Type DELETE to confirm</label>
+            <input type="text" id="cloudDeleteConfirmText" autocomplete="off">
+            <p class="account-error" id="cloudDeleteError" role="alert"></p>
+        </div>
+
+        <p>
+            This will not delete data stored inside the individual
+            ESSAzLife apps.
+        </p>
+
+        <p>
+            <strong>This cannot be undone.</strong>
+        </p>
+
+        <div class="confirm-buttons">
+
+            <button class="cancel-button" id="cancelDeleteButton">
+                Cancel
+            </button>
+
+            <button class="confirm-delete-button" id="confirmDeleteButton">
+                Delete Account
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- NEW UPDATE NOTIFICATION -->
+<div id="newUpdateOverlay" class="new-update-overlay"
+     role="dialog" aria-modal="true"
+     aria-labelledby="newUpdateTitle"
+     style="display:none;">
+
+  <div class="new-update-popup">
+
+    <button id="newUpdateClose"
+            class="new-update-close"
+            type="button"
+            aria-label="Dismiss notification">×</button>
+
+    <div class="new-update-envelope">💌</div>
+
+    <h2 id="newUpdateTitle">
+      You've Got Mail!
+    </h2>
+
+    <p>
+      Changes were made to ESSAzLife World.
+      See what is new in the Updates Board. 
+    </p>
+
+    <button id="newUpdateShowMe"
+            class="new-update-show"
+            type="button">
+      Show Me!
+    </button>
+
+  </div>
+</div>
+
+
+
+
+
+<!-- ROBLOX EDITION LAUNCH POPUP -->
+<style>
+  #robloxWorldOverlay[hidden] { display: none !important; }
+  #robloxWorldOverlay { position: fixed; inset: 0; z-index: 100000; background: rgba(0,0,0,.68); display: flex; align-items: center; justify-content: center; padding: 18px; box-sizing: border-box; }
+  #robloxWorldOverlay .roblox-world-dialog { background: white; color: #263742; width: min(100%, 460px); border-radius: 22px; padding: 26px; box-sizing: border-box; box-shadow: 0 14px 45px rgba(0,0,0,.28); text-align: center; position: relative; }
+  #robloxWorldOverlay h2 { color: #179DF4; margin: 8px 22px 12px; }
+  #robloxWorldOverlay p { line-height: 1.55; }
+  #robloxWorldOverlay .roblox-world-note { font-weight: 700; margin: 16px 0; }
+  #robloxWorldOverlay .roblox-world-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 18px; }
+  #robloxWorldOverlay button { cursor: pointer; border-radius: 12px; padding: 12px 18px; font-weight: 700; font-size: 15px; }
+  #robloxWorldPlay { background: #179DF4; border: 2px solid #179DF4; color: white; }
+  #robloxWorldCancel { background: white; border: 2px solid #a9b9c4; color: #263742; }
+  #robloxWorldClose { position: absolute; right: 12px; top: 8px; background: transparent; border: 0; font-size: 28px !important; padding: 4px 10px !important; }
+</style>
+<div id="robloxWorldOverlay" hidden role="dialog" aria-modal="true" aria-labelledby="robloxWorldTitle" aria-describedby="robloxWorldDescription">
+  <div class="roblox-world-dialog">
+    <button type="button" id="robloxWorldClose" aria-label="Close Roblox popup">×</button>
+    <h2 id="robloxWorldTitle">🎮 ESSAzLife PlayMode: Roblox Edition</h2>
+    <p id="robloxWorldDescription">Explore ESSAzLife in Roblox with friends! Visit the game's Roblox page to play.</p>
+    <p class="roblox-world-note">⚠️ This is an ongoing work in progress.</p>
+    <div class="roblox-world-actions">
+      <button type="button" id="robloxWorldPlay">🎮 Play on Roblox</button>
+      <button type="button" id="robloxWorldCancel">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+<script type="module" src="firebase.js"></script>
+
+</body>
+</html>
