@@ -1995,7 +1995,7 @@ launchUrl: "apps/bookz/index.html",
     node.removeAttribute('aria-hidden');
     node.addEventListener('click',()=>source.click());
     registered.push({id,source,node,section,ready});
-    const target=document.getElementById('world'+section[0].toUpperCase()+section.slice(1)+'Apps');
+    const target=document.getElementById(section==='coming'?'comingSoonApps':'world'+section[0].toUpperCase()+section.slice(1)+'Apps');
     if(target)target.appendChild(node);
   }
   const legacy=[['handler','handlerApp','tools'],['playmode','playModeApp','games'],['chorez','chorezApp','tools']];
