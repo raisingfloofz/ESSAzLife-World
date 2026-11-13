@@ -1248,6 +1248,147 @@ cloudVerifyForm.addEventListener("submit", async function (event) {
 ========================================================= */
 
 const futureWorldApps = [
+  {
+    "id": "helperz",
+    "name": "ESSAzLife: Helperz",
+    "icon": "helperz.icon.png",
+    "status": "coming-soon",
+    "launchUrl": "",
+    "description": [
+      "A guide to ESSAzLife apps with information, history, tutorials, screenshots, and secrets."
+    ]
+  },
+  {
+    "id": "calculator",
+    "name": "Calculator",
+    "icon": "calculator.icon.png",
+    "status": "coming-soon",
+    "launchUrl": "",
+    "description": [
+      "A calculator for everyday calculations."
+    ]
+  },
+  {
+    "id": "cityz",
+    "name": "ESSAzLife: Cityz",
+    "icon": "cityz.icon.png",
+    "status": "coming-soon",
+    "launchUrl": "",
+    "description": [
+      "A life simulation game where ESSAs live, work, build relationships, and raise families."
+    ]
+  },
+  {
+    "id": "court",
+    "name": "ESSAzLife Court",
+    "icon": "court.icon.png",
+    "status": "coming-soon",
+    "launchUrl": "",
+    "description": [
+      "Become the judge as ESSAs face silly charges in a playful courtroom game."
+    ]
+  },
+  {
+    "id": "retroz",
+    "name": "ESSAzLife: Retroz",
+    "icon": "retroz.icon.png",
+    "status": "coming-soon",
+    "launchUrl": "",
+    "description": [
+      "Play your own Nintendo DS games through a touchscreen-focused emulator, with coins and unlockable themes."
+    ]
+  },
+  {
+    "id": "collectorz",
+    "name": "ESSAzLife: Collectorz",
+    "icon": "collectorz.icon.png",
+    "status": "coming-soon",
+    "launchUrl": "",
+    "description": [
+      "Catalog your ESSA collection with photos, breeds, species, brands, origins, dates, themes, and notes."
+    ]
+  },
+  {
+    "id": "gearz",
+    "name": "ESSAzLife: Gearz",
+    "icon": "gearz.icon.png",
+    "status": "coming-soon",
+    "launchUrl": "",
+    "description": [
+      "Use NFC stickers to track which ESSA owns each piece of gear, and reassign or delete gear."
+    ]
+  },
+  {
+    "id": "tapless",
+    "name": "ESSAzLife: Tapless",
+    "icon": "tapless.icon.png",
+    "status": "coming-soon",
+    "launchUrl": "",
+    "description": [
+      "Access touchscreen-based alternatives to ESSAzLife NFC apps."
+    ]
+  },
+  {
+    "id": "math",
+    "name": "ESSAzLife: Math",
+    "icon": "math.games.icon.png",
+    "status": "coming-soon",
+    "launchUrl": "",
+    "description": [
+      "Play math-learning games featuring ESSA artwork."
+    ]
+  },
+  {
+    "id": "breedz",
+    "name": "ESSAzLife: Breedz",
+    "icon": "breedz.icon.png",
+    "status": "coming-soon",
+    "launchUrl": "",
+    "description": [
+      "An educational ESSAzLife app about animal breeds."
+    ]
+  },
+  {
+    "id": "finderz",
+    "name": "ESSAzLife: Finderz",
+    "icon": "finderz.icon.png",
+    "status": "coming-soon",
+    "launchUrl": "",
+    "description": [
+      "Search a plush encyclopedia, view details, and build I Have It and I Want It lists."
+    ]
+  },
+  {
+    "id": "dictionary",
+    "name": "Dictionary",
+    "icon": "dictionary.icon.png",
+    "status": "coming-soon",
+    "launchUrl": "",
+    "description": [
+      "Look up words and their meanings."
+    ]
+  },
+  {
+    "id": "swipez",
+    "name": "ESSAzLife: Swipez",
+    "icon": "swipez.icon.png",
+    "status": "coming-soon",
+    "launchUrl": "",
+    "description": [
+      "Discover YouTube channels by swiping, and save channels you like or want to revisit."
+    ]
+  },
+  {
+    "id": "magazine",
+    "name": "ESSAzLife: Magazine",
+    "icon": "magazine.icon.png",
+    "status": "coming-soon",
+    "launchUrl": "",
+    "description": [
+      "Explore ESSAzLife magazine content and features."
+    ]
+  },
+
     
   {
     id: "bookz",
