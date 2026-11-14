@@ -271,7 +271,18 @@
     </div>
 
 </div>
-    <header class="world-header">
+    <div id="worldChristmasBanner" class="christmas-banner" hidden>
+  <div class="christmas-banner-inner"><strong id="christmasBannerTitle">Christmas Event Countdown</strong>
+  <span id="christmasCountdown" aria-live="off">Loading countdown…</span>
+  <button type="button" id="christmasWhatsComing">What's Coming?</button></div>
+</div>
+<div id="christmasEventOverlay" class="christmas-event-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="christmasEventTitle">
+ <div class="christmas-event-dialog"><button type="button" id="christmasEventClose" class="christmas-event-close" aria-label="Close">×</button><h2 id="christmasEventTitle">What's Coming?</h2>
+ <div class="christmas-event-app"><img src="app-icons/santa-voidy.icon.png" alt="" onerror="this.style.visibility='hidden'"><div><strong>Santa Voidy Saves Christmas</strong><p>A Christmas runner with special codes to redeem during December.</p></div></div>
+ <div class="christmas-event-app"><img src="app-icons/MooCow.Icon.png" alt="" onerror="this.style.visibility='hidden'"><div><strong>MooCow Game</strong><p>Christmas Tree Advent Calendar for prizes and a special pajamas outfit.</p></div></div>
+ <div class="christmas-event-app"><img src="app-icons/DaisyBelle.Icon.png" alt="" onerror="this.style.visibility='hidden'"><div><strong>DaisyBelle Game</strong><p>Christmas Tree Advent Calendar for prizes and a special pajamas outfit.</p></div></div>
+ </div></div>
+<header class="world-header">
 
 <div class="world-brand">
     <img src="ESSAzLife.World.Icon.png" alt="ESSAzLife World">
@@ -299,6 +310,7 @@
       </div>
       <div id="worldPageViewport" class="world-page-viewport" tabindex="0" aria-label="Swipe left or right to change World sections">
         <div id="worldPageTrack" class="world-page-track">
+          <section class="world-page" data-world-section="justadded"><h2>Just Added</h2><p class="world-page-hint">New apps from the past 7 days</p><div class="app-launcher" id="worldJustAddedApps"></div></section>
           <section class="world-page" data-world-section="favorites"><h2><button type="button" id="worldEditFavorites" class="world-favorites-heading">Favorites <span aria-hidden="true">✎</span></button></h2><p class="world-page-hint">Select Favorites to choose your apps.</p><div class="app-launcher" id="worldFavoritesApps"></div></section>
           <section class="world-page" data-world-section="tools"><h2>Tools</h2><div class="app-launcher" id="worldToolsApps"></div></section>
           <section class="world-page" data-world-section="games"><h2>Games</h2><div class="app-launcher" id="worldGamesApps"></div></section>
@@ -309,6 +321,7 @@
           <section class="world-page" data-world-section="coming"><h2>Coming Soon</h2><div class="app-launcher" id="comingSoonApps" aria-label="Coming Soon apps"></div></section>
         </div>
       </div>
+      <nav id="worldPageDots" class="world-page-dots" aria-label="World page dots"></nav>
       <section id="worldLegacyApps" hidden aria-hidden="true"><div id="availableApps">
 
     <div class="app-card" id="handlerApp">
