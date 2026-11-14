@@ -73,3 +73,10 @@
 /* MooCow mini-game hint and memory-card backs */
 .hint-lightbulb{display:grid;place-items:center;flex:none;width:46px;height:46px;min-height:46px;margin:3px auto;border:3px solid #fff;border-radius:50%;background:linear-gradient(#e8f7ff,#80c7f6);box-shadow:0 3px 8px #0005;font-size:27px;line-height:1;cursor:pointer}
 .game-grid .memory-card-back{width:92%;height:92%;object-fit:contain;border-radius:9px}
+
+/* In-game hint purchase confirmation (replaces browser-native dialog). */
+.hint-confirm-overlay{position:fixed;inset:0;z-index:150;display:grid;place-items:center;background:#092f55a8;padding:16px}
+.hint-confirm-card{width:min(92vw,370px);padding:22px 18px;background:linear-gradient(160deg,#e9f8ff,#a9dcff);border:4px solid white;border-radius:24px;box-shadow:0 12px 30px #092e5870;text-align:center;color:#174b76}
+.hint-confirm-card h2{margin:0 0 12px;font-size:25px}.hint-confirm-card p{font-size:18px;margin:0 0 22px}
+.hint-confirm-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}.hint-confirm-actions button{border:3px solid white;border-radius:24px;padding:10px 15px;background:linear-gradient(#bce7ff,#168ad6);color:#fff;font-weight:bold;box-shadow:0 3px 6px #0003}
+.hint-confirm-actions .hint-cancel{background:linear-gradient(#f8fcff,#c7e0f1);color:#174b76}
