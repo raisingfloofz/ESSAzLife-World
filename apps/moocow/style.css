@@ -69,3 +69,7 @@
 .world-return svg{width:70%;height:70%}
 .world-return:focus-visible{outline:3px solid #174b76;outline-offset:2px}
 @media(max-width:380px){.hud-right{gap:4px}.world-return{width:34px;height:34px}.coin-bar{gap:3px;padding:2px 3px}.coin-bar img{width:23px;height:23px}.coin-bar button{width:27px;height:27px;font-size:20px}}
+
+/* MooCow mini-game hint and memory-card backs */
+.hint-lightbulb{display:grid;place-items:center;flex:none;width:46px;height:46px;min-height:46px;margin:3px auto;border:3px solid #fff;border-radius:50%;background:linear-gradient(#e8f7ff,#80c7f6);box-shadow:0 3px 8px #0005;font-size:27px;line-height:1;cursor:pointer}
+.game-grid .memory-card-back{width:92%;height:92%;object-fit:contain;border-radius:9px}
