@@ -63,3 +63,9 @@
 #fullScreen.rush-fullscreen #highwayRestart{left:10px}
 #fullScreen.rush-fullscreen #highwayBack{right:10px}
 @media(max-width:480px){#fullScreen.rush-fullscreen .rush-volume-label{display:none}#fullScreen.rush-fullscreen .rush-volume{gap:3px;padding:5px}#fullScreen.rush-fullscreen .rush-volume input{width:70px}#fullScreen.rush-fullscreen #highwayScore{padding:8px 6px;font-size:12px}}
+/* ESSAzLife World globe, immediately left of the coin counter */
+.hud-right{display:flex;align-items:center;justify-content:flex-end;gap:6px;min-width:0;pointer-events:auto}
+.world-return{width:clamp(35px,8.5vw,48px);height:clamp(35px,8.5vw,48px);flex:none;display:grid;place-items:center;border:3px solid white;border-radius:50%;background:linear-gradient(#e7f5ff,#91d1ff);color:#167fcb;box-shadow:0 3px 7px #0007;text-decoration:none;touch-action:manipulation}
+.world-return svg{width:70%;height:70%}
+.world-return:focus-visible{outline:3px solid #174b76;outline-offset:2px}
+@media(max-width:380px){.hud-right{gap:4px}.world-return{width:34px;height:34px}.coin-bar{gap:3px;padding:2px 3px}.coin-bar img{width:23px;height:23px}.coin-bar button{width:27px;height:27px;font-size:20px}}
