@@ -80,3 +80,14 @@
 .hint-confirm-card h2{margin:0 0 12px;font-size:25px}.hint-confirm-card p{font-size:18px;margin:0 0 22px}
 .hint-confirm-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}.hint-confirm-actions button{border:3px solid white;border-radius:24px;padding:10px 15px;background:linear-gradient(#bce7ff,#168ad6);color:#fff;font-weight:bold;box-shadow:0 3px 6px #0003}
 .hint-confirm-actions .hint-cancel{background:linear-gradient(#f8fcff,#c7e0f1);color:#174b76}
+
+/* ESSA Tiles: large, scrollable boards for increasingly difficult levels. */
+.full-main.tiles-main{justify-content:flex-start;gap:9px;overflow-y:auto;overscroll-behavior:contain;padding-top:75px;padding-bottom:28px}
+.full-main.tiles-main .tiles-board{width:min(94vw,520px);flex:0 0 auto;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px}
+.full-main.tiles-main .tiles-board button{min-width:0;aspect-ratio:1}
+.full-main.tiles-main .tiles-board img{width:94%;height:94%}
+.full-main.tiles-main .tray{flex:0 0 auto;flex-wrap:wrap;min-height:45px}
+.full-main.tiles-main .hint-lightbulb{flex:0 0 auto}
+.full-main.tiles-main #restartGame,.full-main.tiles-main #backGames{flex:0 0 auto}
+/* Mobile players swipe the road; do not cover it with directional buttons. */
+@media (pointer:coarse),(max-width:600px){#fullScreen.rush-fullscreen .highway-controls{display:none!important}}
