@@ -1537,3 +1537,15 @@ body {
 .world-page-dot{width:9px;height:9px;flex-shrink:0;border:0;border-radius:99px;background:#a7b8c5;padding:0;cursor:pointer}.world-page-dot.active{width:21px;background:#179df4}
 .world-paged-main{padding-bottom:65px!important}
 @media(max-width:700px){.christmas-banner-inner{gap:5px 10px}.christmas-banner-inner strong{width:100%}.christmas-event-app img{width:55px;height:55px}.world-page-dots{gap:6px}.world-page-dot{width:7px;height:7px}.world-page-dot.active{width:16px}}
+/* Popup layering repair: overlays always sit above the sticky banner and dots. */
+.christmas-banner{z-index:100!important}
+.world-page-dots{z-index:100!important}
+.directory-overlay,.help-overlay,.bulletin-overlay,.settings-overlay,
+.account-overlay,.confirm-overlay,.coming-soon-overlay,
+.christmas-event-overlay,.world-favorites-overlay,
+#worldBackupFridayOverlay,.app-info-overlay,
+[class$="-overlay"].show{z-index:20000!important}
+.welcome-screen{z-index:30000!important}
+#forgotLoginOverlay{z-index:40000!important}
+
+.account-overlay.show,.confirm-overlay.show{z-index:35000!important}
