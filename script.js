@@ -1249,6 +1249,17 @@ cloudVerifyForm.addEventListener("submit", async function (event) {
 
 const futureWorldApps = [
   {
+    "id": "essaztube",
+    "name": "ESSAzTube",
+    "icon": "ESSAzTube.png",
+    "status": "coming-soon",
+    "launchUrl": "",
+    "description": [
+      "Discover ESSA-related YouTube videos and Shorts in one place.",
+      "Favorite ESSA channels and find their latest videos."
+    ]
+  },
+  {
     "id": "helperz",
     "name": "ESSAzLife: Helperz",
     "icon": "helperz.icon.png",
@@ -1987,8 +1998,17 @@ launchUrl: "apps/bookz/index.html",
   const appSections={handler:'tools',chorez:'tools',wishez:'tools',billz:'tools',groceriez:'tools',playmode:'games',daisybelle:'games',moocow:'games',roblox:'games',babiez:'nfc',tap:'nfc',go:'nfc',collectorz:'nfc',gearz:'nfc',tapless:'sims',echoz:'sims',math:'educational',breedz:'educational',finderz:'educational',bookz:'media',dictionary:'media',swipez:'media',magazine:'media',helperz:'tools',calculator:'tools',cityz:'games',court:'games',retroz:'games'};
   // Seven-day launch windows, in America/New_York calendar dates.
   const worldReleaseDates={billz:'2026-11-08',daisybelle:'2026-11-11',echoz:'2026-11-08',groceriez:'2026-11-08',moocow:'2026-11-13'};
-  function nyDate(){return new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());}
-  function isJustAdded(id){const released=worldReleaseDates[id];if(!released)return false;const age=(Date.parse(nyDate()+'T00:00:00Z')-Date.parse(released+'T00:00:00Z'))/86400000;return age>=0&&age<7;}
+  function nyDate(){
+    const parts=new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());
+    const part=t=>parts.find(p=>p.type===t).value;
+    return `${part('year')}-${part('month')}-${part('day')}`;
+  }
+  function isJustAdded(id){
+    const released=worldReleaseDates[id];
+    if(!released)return false;
+    const age=(Date.parse(nyDate()+'T00:00:00Z')-Date.parse(released+'T00:00:00Z'))/86400000;
+    return age>=0&&age<7;
+  }
   const registered=[];
   function register(id,source,section,ready){
     if(!source)return;
@@ -1999,8 +2019,8 @@ launchUrl: "apps/bookz/index.html",
     node.removeAttribute('aria-hidden');
     node.addEventListener('click',()=>source.click());
     registered.push({id,source,node,section,ready});
-    const displaySection=ready&&isJustAdded(id)?'justadded':section;
-    const target=document.getElementById(displaySection==='coming'?'comingSoonApps':'world'+displaySection[0].toUpperCase()+displaySection.slice(1)+'Apps');
+    // Always show the original card in its permanent category.
+    const target=document.getElementById(section==='coming'?'comingSoonApps':'world'+section[0].toUpperCase()+section.slice(1)+'Apps');
     if(target)target.appendChild(node);
   }
   const legacy=[['handler','handlerApp','tools'],['playmode','playModeApp','games'],['chorez','chorezApp','tools']];
@@ -2027,17 +2047,25 @@ launchUrl: "apps/bookz/index.html",
     const container=document.getElementById('world'+key[0].toUpperCase()+key.slice(1)+'Apps');
     if(container&&!container.children.length){const p=document.createElement('p');p.className='world-empty-message';p.textContent='Nothing is here yet… 👀';container.appendChild(p);}
   }
-  // App cards live in Just Added during their first seven calendar days,
-  // then move automatically to their permanent categories.
+  // Just Added is a second, temporary display of each app, not a move.
+  // Each copy retains the same launch/info behavior through its source card.
   function updateReleaseSections(){
-    for(const app of registered){
-      if(!app.ready || !worldReleaseDates[app.id])continue;
-      const targetSection=isJustAdded(app.id)?'justadded':app.section;
-      const target=document.getElementById('world'+targetSection[0].toUpperCase()+targetSection.slice(1)+'Apps');
-      if(target && app.node.parentElement!==target)target.appendChild(app.node);
-    }
     const area=document.getElementById('worldJustAddedApps');
-    if(area){const empty=area.querySelector('.world-empty-message');if(empty)empty.remove();if(!area.children.length){const p=document.createElement('p');p.className='world-empty-message';p.textContent='No new apps this week. Check back soon!';area.appendChild(p);}}
+    if(!area)return;
+    area.replaceChildren();
+    for(const app of registered){
+      if(!app.ready || !isJustAdded(app.id))continue;
+      const clone=app.node.cloneNode(true);
+      clone.removeAttribute('id');
+      clone.addEventListener('click',()=>app.source.click());
+      area.appendChild(clone);
+    }
+    if(!area.children.length){
+      const p=document.createElement('p');
+      p.className='world-empty-message';
+      p.textContent='No new apps this week. Check back soon!';
+      area.appendChild(p);
+    }
   }
   updateReleaseSections();
   const storageKey='essazlifeWorldFavoritesV1';
