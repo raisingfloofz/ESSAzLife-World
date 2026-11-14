@@ -1,191 +1,1444 @@
-<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#111111"><title>ESSAzLife Babiez</title><style>
-:root{font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:#161616;background:#f5f5f5}*{box-sizing:border-box}body{margin:0}button,input,select{font:inherit}button{cursor:pointer}button:disabled{opacity:.4;cursor:not-allowed}#app{min-height:100dvh;display:flex;justify-content:center}.shell{width:100%;height:100dvh;min-height:0;background:#fff;display:flex;flex-direction:column;overflow:hidden}.top{padding:18px 20px 10px;border-bottom:2px solid #111;display:flex;align-items:center;justify-content:space-between;gap:10px}.brand{font-weight:900;letter-spacing:.03em;font-size:1.05rem}.tiny{font-size:.75rem;color:#666}.content{padding:clamp(12px,3vh,24px) clamp(14px,4vw,28px);flex:1;min-height:0;display:flex;flex-direction:column;gap:clamp(8px,2vh,16px);overflow-y:auto;overscroll-behavior:contain}.content h1{font-size:clamp(1.45rem,5vw,2rem);line-height:1.15;margin:0}.content h2{font-size:1.2rem;margin:0}.content p{margin:0;line-height:1.45}.muted{color:#626262}.footer{position:sticky;bottom:0;background:white;border-top:1px solid #ddd;padding:12px 18px calc(12px + env(safe-area-inset-bottom));display:flex;gap:10px}.btn{border:2px solid #111;background:#111;color:#fff;padding:12px 15px;border-radius:12px;font-weight:750;min-height:46px}.btn.alt{background:#fff;color:#111}.btn.subtle{border-color:#ddd;background:#f6f6f6;color:#111}.footer .btn{flex:1}.link{background:none;border:0;padding:0;color:#1556d4;text-decoration:underline;font-weight:650;text-align:left}.field{display:flex;flex-direction:column;gap:6px;font-weight:650}.field input,.field select{width:100%;padding:12px;border:2px solid #bbb;border-radius:10px;background:white;min-height:46px}.card{border:2px solid #ddd;border-radius:14px;padding:13px;display:flex;flex-direction:column;gap:9px}.card.selected{border-color:#111;background:#f6f6f6}.choice{display:flex;align-items:center;gap:12px;text-align:left;width:100%;border:2px solid #ddd;background:white;border-radius:13px;padding:14px;font-weight:700;min-height:56px}.choice.selected{border-color:#111;background:#f2f2f2}.choice .grow{flex:1}.pill{display:inline-block;padding:4px 8px;border:1px solid #ccc;border-radius:99px;font-size:.75rem}.status{padding:12px;border-radius:10px;background:#f1f1f1;font-size:.92rem}.ok{color:#167b34;font-weight:900}.bad{color:#b52d2d;font-weight:900}.gradeA,.gradeB{color:#16843a}.gradeC{color:#a77900}.gradeD,.gradeF{color:#bc2929}.score{font-size:3.6rem;font-weight:900;line-height:1}.progress{height:9px;background:#ddd;border-radius:99px;overflow:hidden}.progress>div{height:100%;background:#111}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.small{font-size:.86rem}.notice{border-left:4px solid #111;padding:9px 12px;background:#f5f5f5}.center{text-align:center}.grow{flex:1}.right{margin-left:auto}.tag{font-size:.76rem;background:#eee;border-radius:6px;padding:4px 7px;overflow-wrap:anywhere}.checkrow{display:flex;align-items:center;gap:10px;justify-content:space-between;border-bottom:1px solid #eee;padding:8px 0}.checkrow strong{flex:1}.scrolllist{min-height:0;overflow:auto;padding-right:3px;flex:1}.hide{display:none!important}.inline{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.toast{position:fixed;top:15px;left:50%;transform:translateX(-50%);background:#111;color:#fff;padding:12px 18px;border-radius:12px;z-index:20;max-width:92vw;text-align:center;box-shadow:0 6px 24px #0004}.warning{color:#b52d2d;font-weight:700}@media(max-height:720px){.content{padding-top:14px;gap:11px}.card{padding:10px}.top{padding:12px 18px 8px}.choice{padding:10px;min-height:44px}} 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-/* Mobile-first immersive simulation */
-html,body,#app{height:100%;height:100dvh;overflow:hidden} .top{flex-shrink:0;padding:12px 18px}.footer{position:relative;flex-shrink:0;z-index:2}.shell{box-shadow:none}.content:has(.care-stage){overflow:hidden;padding:10px 14px;gap:9px}.care-stage{display:flex;flex:1;min-height:0;flex-direction:column;gap:10px}.care-head{display:flex;align-items:center;justify-content:space-between;gap:8px}.care-head h1{font-size:clamp(1.1rem,4vw,1.6rem)}.baby-stage{flex:1;min-height:100px;display:flex;flex-direction:column;justify-content:center;align-items:center;border:2px solid #111;border-radius:22px;background:linear-gradient(160deg,#fff,#f0f0f0);padding:12px;text-align:center;gap:9px}.baby-figure{font-size:clamp(3.2rem,12vh,6.5rem);line-height:1}.baby-stage h2{font-size:clamp(1.15rem,4vw,1.65rem);margin:0}.baby-stage p{font-size:clamp(.86rem,2.7vw,1.08rem);margin:0}.care-instruction{border:2px dashed #111;border-radius:16px;padding:12px;text-align:center;font-weight:800;background:#fafafa}.care-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.care-actions button{min-height:44px}.care-actions .wide{grid-column:1/-1}.nfc-indicator{font-size:.8rem;text-align:center;color:#555}.demo-counter{font-weight:800;font-size:.82rem}.accessory-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;overflow:auto;min-height:0;flex:1}.accessory-tile{border:1.5px solid #bbb;border-radius:12px;padding:9px;display:flex;flex-direction:column;gap:6px;justify-content:space-between}.accessory-tile button{min-height:34px;padding:6px}.accessory-tile strong{font-size:.86rem}.accessory-tile .ok,.accessory-tile .bad{font-size:1.25rem}.choice{padding:11px}.content:has(.accessory-grid){overflow:hidden}@media(min-width:750px){.care-stage,.content:not(:has(.care-stage)){width:min(100%,760px);margin-inline:auto}.accessory-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-height:620px){.top{padding:7px 12px}.footer{padding:7px 12px calc(7px + env(safe-area-inset-bottom))}.baby-figure{font-size:2.8rem}.baby-stage{gap:4px;padding:7px}.care-stage{gap:5px}.care-instruction{padding:7px}}
-.scan-overlay{position:fixed;inset:0;background:#fffefef2;z-index:999;display:flex;align-items:center;justify-content:center}.scan-mark{width:min(64vw,300px);height:min(64vw,300px);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:clamp(6rem,35vw,12rem);font-weight:900}.scan-ok{background:#1b963c}.scan-no{background:#d72e2e}.scan-mark{font-family:Arial,Helvetica,sans-serif;line-height:1}.modal{position:fixed;inset:0;z-index:1000;background:#0008;display:flex;align-items:center;justify-content:center;padding:18px}.modal-box{width:min(100%,480px);background:#fff;border-radius:18px;padding:22px;display:flex;flex-direction:column;gap:18px}.bottle-amount{font-size:3rem;text-align:center;font-weight:900}.modal input[type=range]{width:100%;height:32px;accent-color:#111} .content:has(.care-stage){overflow-y:auto}.baby-stage{min-height:210px} .demo-outro{position:fixed;inset:0;z-index:500;background:#10121b;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px;text-align:center;gap:30px}.demo-outro-text{font-size:clamp(1.65rem,6vw,3rem);font-weight:850;max-width:760px;line-height:1.3;opacity:0;transition:opacity .9s ease}.demo-outro-text.visible{opacity:1}.demo-outro-hint{font-size:1rem;color:#cbd5e1;min-height:24px}
+    <title>ESSAzLife World</title>
 
-:root{font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:#1d2939;background:#f3f5f8}
-body{background:#f3f5f8}
-.shell{background:#f8fafc;color:#1d2939}
-.top{background:#fff;border-bottom:1px solid #e4e7ec}
-.brand{font-weight:750;letter-spacing:-.025em}
-.btn{border-radius:10px;box-shadow:none;letter-spacing:0}
-.card{border-radius:13px;border:1px solid #e4e7ec;box-shadow:none;background:#fff}
-.pill{border-radius:8px}
-.baby-figure{font-size:0!important;min-height:74px;display:flex;align-items:center;justify-content:center}
-.baby-figure::after{content:"";display:block;width:68px;height:68px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#e5ebf3 0 26%,#cbd5e1 27% 100%);box-shadow:inset 0 0 0 1px #cbd5e1}
-.nfc-indicator{font-weight:600}
-.demo-outro{background:#111827}
-</style></head><body><div id="app"></div><script>
-'use strict';
-// Audio files live beside index.html in the repository root.
-const SOUND_FILES={breathing:'breathing.wav',heartbeat:'heartbeat.wav',sleeping:'sleeping.wav',crying:'crying.wav',gassy:'gassy-crying.wav',fart:'fart.mp3',spit:'spit-up.wav',drinking:'drinking.wav',burp:'burp.mp3',neh:'neh.wav',owh:'owh.wav',eh:'eh.wav',caregiver:'caregiver-detected.wav',registered:'caregiver-registered.wav',lost:'points-lost.wav',passing:'passing.mp3',failing:'failing.m4a',babbling:'babbling.wav',happy:'happy.wav',attention:'attention.mp3',fussy:'fussy.wav',sneeze:'sneeze.wav'};
-const audioState={foreground:null,background:null,heartbeat:null,crying:null,muted:false,unlocked:false};
-function makeSound(key,loop=false){const a=new Audio('./'+SOUND_FILES[key]);a.preload='none';a.loop=loop;a.volume=key==='heartbeat'?.09:key==='breathing'?.23:key==='sleeping'?.34:.8;return a}
-function stopAudio(a){if(a){a.pause();try{a.currentTime=0}catch{}}}
-function silenceAll(){stopAudio(audioState.crying);audioState.crying=null;stopAudio(audioState.foreground);stopAudio(audioState.background);stopAudio(audioState.heartbeat);audioState.foreground=null;audioState.background=null;audioState.heartbeat=null}
-function sound(key,{background=false,loop=false}={}){if(audioState.muted||!SOUND_FILES[key])return;
-if(key==='crying'){
-  if(audioState.crying&&!audioState.crying.paused)return;
-  const cry=audioState.crying||makeSound('crying',true);cry.loop=true;cry.volume=1;audioState.crying=cry;
-  cry.play().catch(err=>{console.warn('Crying audio playback blocked:',err);});
-  return;
-}
-let a=makeSound(key,loop);if(background){stopAudio(audioState.background);audioState.background=a;if(key==='breathing'){stopAudio(audioState.heartbeat);audioState.heartbeat=makeSound('heartbeat',true);audioState.heartbeat.play().catch(()=>{})}else{stopAudio(audioState.heartbeat);audioState.heartbeat=null}a.play().catch(()=>{});return}
-stopAudio(audioState.foreground);audioState.foreground=a;if(audioState.background)audioState.background.volume=.035;if(audioState.heartbeat)audioState.heartbeat.volume=.015;
-a.addEventListener('ended',()=>{if(audioState.foreground===a){audioState.foreground=null;if(audioState.background)audioState.background.volume=(audioState.background.src.endsWith('/crying.wav')?.85:.23);if(audioState.heartbeat)audioState.heartbeat.volume=.09}},{once:true});a.play().catch(()=>{});}
-// Prepare the crying recording during the user's I'm Ready tap, before timed needs begin.
-function primeCrying(){
-  if(audioState.crying)return;
-  const cry=makeSound('crying',true);
-  cry.volume=0;
-  cry.preload='auto';
-  audioState.crying=cry;
-  const started=cry.play();
-  if(started&&typeof started.then==='function')started.then(()=>{
-    if(audioState.crying===cry){if(!session?.running||!session.need){cry.pause();cry.currentTime=0;}cry.volume=1;}
-  }).catch(err=>console.warn('Could not prepare crying audio:',err));
-}
-document.addEventListener('pointerdown',()=>{if(session?.running&&!session.paused&&session.need&&audioState.crying?.paused){sound('crying');}});
-function startAmbient(){if(!session?.running||session.paused||session.need)return;sound('breathing',{background:true,loop:true})}
-function stopAmbient(){stopAudio(audioState.background);stopAudio(audioState.heartbeat);audioState.background=null;audioState.heartbeat=null}
-const KEY='essazlife-babiez-v3';
-const ROLES=['Mom','Dad','Grandma','Grandpa','Aunt','Uncle','Sibling','Babysitter','Guardian','Custom'];
-const ITEMS=[['bottle','Bottle'],['diaper1','Diaper #1'],['diaper2','Diaper #2'],['wipes','Baby Wipes'],['cream','Diaper Rash Cream'],['thermometer','Thermometer'],['teether','Teething Ring'],['soap','Soap'],['sleep','Safe Sleeping Spot'],['carseat','Car Seat'],['medicine','Medicine'],['aspirator','Nasal Aspirator'],['pacifier','Pacifier']];
-const REQUIRED=ITEMS.filter(x=>x[0]!=='pacifier');
-const DEMO_IDS=Object.fromEntries(ITEMS.map(([k])=>[k,'ESSAZ-'+({diaper1:'DIAPER1',diaper2:'DIAPER2',sleep:'SLEEP',teether:'TEETHER',carseat:'CARSEAT',aspirator:'ASPIRATOR',cream:'CREAM'}[k]||k.toUpperCase())+'-DEMO']));
-const NEEDS=[{id:'feed',label:'Hungry baby',item:'bottle',prompt:'Scan the bottle NFC sticker.',message:'Neh… baby is hungry.'},{id:'diaper',label:'Diaper change',item:'diaper1',prompt:'Scan either diaper sticker.',message:'Baby needs a fresh diaper.'},{id:'wipe',label:'Wipe baby',item:'wipes',prompt:'Scan baby wipes.',message:'Time to clean baby.'},{id:'cream',label:'Apply rash cream',item:'cream',prompt:'Scan diaper rash cream.',message:'Baby has a little diaper irritation.'},{id:'temperature',label:'Check temperature',item:'thermometer',prompt:'Scan the thermometer.',message:'Baby feels warm.'},{id:'sleep',label:'Sleepy baby',item:'sleep',prompt:'Scan the safe sleeping spot.',message:'Owh… baby is sleepy.'},{id:'bath',label:'Bath time',item:'soap',prompt:'Scan the soap.',message:'Baby needs a bath.'},{id:'outing',label:'Car seat',item:'carseat',prompt:'Scan the car seat.',message:'Time for an outing.'},{id:'medicine',label:'Medicine check',item:'medicine',prompt:'Scan the medicine bottle.',message:'Follow the simulated care plan.'},{id:'nose',label:'Stuffy nose',item:'aspirator',prompt:'Scan the nasal aspirator.',message:'Baby sounds stuffy.'},{id:'diaper2',label:'Another diaper change',item:'diaper2',prompt:'Scan the second diaper sticker.',message:'Baby needs another diaper.'},{id:'pacifier',label:'Comfort baby',item:'pacifier',prompt:'Scan the pacifier or caregiver band.',message:'Baby wants comforting.'},{id:'teether',label:'Teething',item:'teether',prompt:'Scan the teething ring.',message:'Baby wants to chew.'}];
-const uid=()=>Math.random().toString(36).slice(2)+Date.now().toString(36);
-const safe=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-let db;try{db=JSON.parse(localStorage.getItem(KEY))||{};}catch{db={}};
-db.caregivers ||= [];db.babies ||= [];db.tags ||= {};db.reports ||= [];db.settings ||= {helpUrl:''};
-let page='home', wizard=null, session=null, pendingScan=null, nfcController=null, scannerActive=false, toastTimer=null, tickTimer=null, audioCtx=null, toneEnabled=true;
-const save=()=>localStorage.setItem(KEY,JSON.stringify(db));
-const babyById=id=>db.babies.find(x=>x.id===id);
-const caregiverById=id=>db.caregivers.find(x=>x.id===id);
-const ageMonths=b=>b?.ageMode==='birth'&&b.birth?Math.max(0,Math.min(24,Math.floor((Date.now()-new Date(b.birth+'T12:00:00').getTime())/2629800000))):Number(b?.months||0);
-const neededItems=b=>REQUIRED.filter(([k])=>k!=='teether'||ageMonths(b)>=3);
-const allRegistered=b=>neededItems(b).every(([k])=>!!db.tags[k]);
-const $=id=>document.getElementById(id);
-function showToast(msg){let el=$('toast');if(!el){el=document.createElement('div');el.id='toast';el.className='toast';document.body.append(el)}el.textContent=msg;el.classList.remove('hide');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.add('hide'),3400)}
-function beep(freq=520,ms=120){if(!toneEnabled)return;try{audioCtx ||=new(window.AudioContext||window.webkitAudioContext)();const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='sine';o.frequency.value=freq;g.gain.value=.045;o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+ms/1000)}catch{}}
-function render(){const app=$('app');if(page==='outro'){renderDemoOutro();return}app.innerHTML=`<main class="shell"><header class="top"><div><div class="brand">ESSAzLife Babiez </div><div class="tiny">NFC-powered baby care</div></div><button class="btn alt small" style="padding:7px 10px;min-height:36px" onclick="goHome()">Home</button></header><section class="content" id="screen"></section><footer class="footer" id="footer"></footer></main>`;const f=$('footer');if(!db.caregivers.length&&page==='home')page='welcome';({welcome:welcomeScreen,caregiver:caregiverScreen,caregiverMore:moreCaregiversScreen,baby:babyScreen,primary:primaryScreen,accessories:accessoriesScreen,home:homeScreen,choose:chooseScreen,modes:modesScreen,demoBandChoice:demoBandChoiceScreen,prepare:prepareScreen,live:liveScreen,report:reportScreen,settings:settingsScreen,reports:reportsScreen,help:helpScreen}[page]||homeScreen)();if(!f.children.length)f.classList.add('hide')}
-function screen(html,buttons=[]){$('screen').innerHTML=html;const f=$('footer');f.innerHTML=buttons.map((b,i)=>`<button class="btn ${b.alt?'alt':''}" id="action${i}" ${b.disabled?'disabled':''}>${safe(b.label)}</button>`).join('');buttons.forEach((b,i)=>$('action'+i).onclick=b.fn)}
-function goHome(){cancelPending();if(session?.running){silenceAll();stopNfc();session.running=false}wizard=null;page='home';render()}
-function beginWizard(kind){wizard={kind,babyId:null,caregiverId:null,step:kind==='first'?'caregiver':'baby'};page=wizard.step;render()}
-function welcomeScreen(){screen(`<h1>Welcome to ESSAzLife Babiez.</h1><p>An app designed with NFC Tag use.</p><button class="link" onclick="page='help';render()">I need setup help</button><div class="card"><h2>Care for your baby, one tap at a time.</h2><p class="muted">Set up caregivers, babies, and NFC accessories. Then choose a simulation.</p></div><p class="small muted">For Android Chrome with NFC on, use HTTPS. Keep this page open while scanning.</p>`,[{label:'Get Started',fn:()=>beginWizard('first')}])}
-function helpScreen(){screen(`<h1>Setup help</h1><p>Write an NDEF <b>text</b> record to each NFC sticker using an NFC writing app. You can use IDs such as <span class="tag">ESSAZ-BOTTLE-DEMO</span>, or let Babiez learn any unique text tag.</p><p>Tap <b>Scan Tag</b>, then hold your phone against the sticker. Chrome on Android requires NFC permission and HTTPS.</p><p class="notice">Video help: paste your YouTube URL in Settings. The help button will open YouTube directly, not an embedded player.</p><button class="btn alt" onclick="openHelpVideo()">Open YouTube setup video</button>`,[{label:'Back',alt:true,fn:()=>{page=db.caregivers.length?'home':'welcome';render()}}])}
-function openHelpVideo(){if(!db.settings.helpUrl){showToast('Add your YouTube setup URL in Settings first.');return}window.open(db.settings.helpUrl,'_blank','noopener,noreferrer')}
-function caregiverScreen(){screen(`<h1>Add your ${db.caregivers.length?'next':'first'} caregiver.</h1><label class="field">Caregiver name<input id="cgName" maxlength="45" placeholder="e.g. Alex" autocomplete="off"></label><label class="field">Permanent relationship role<select id="cgRole">${ROLES.map(r=>`<option>${r}</option>`).join('')}</select></label><label class="field hide" id="customRoleBox">Custom role<input id="cgCustom" maxlength="30" placeholder="Relationship"></label><div class="card"><p>Caregiver NFC band</p><button class="btn alt" onclick="scanFor('caregiver')">Scan caregiver tag</button><div class="small muted" id="tagStatus">No tag scanned yet</div></div><p class="small muted">Relationship role is permanent once saved. You can replace a lost band later without losing care history.</p>`,[{label:'Back',alt:true,fn:()=>{page=wizard?.kind==='first'?'welcome':'settings';render()}},{label:'Save Caregiver',fn:saveCaregiver}]);$('cgRole').onchange=()=>$('customRoleBox').classList.toggle('hide',$('cgRole').value!=='Custom')}
-function saveCaregiver(){const name=$('cgName').value.trim(),role=$('cgRole').value==='Custom'?$('cgCustom').value.trim():$('cgRole').value,tag=wizard?.newTag;if(!name||!role)return showToast('Enter a name and role.');if(!tag)return showToast('Scan the caregiver NFC band first.');if(db.caregivers.some(c=>c.tag===tag))return showToast('This band belongs to another caregiver.');const c={id:uid(),name,role,tag};db.caregivers.push(c);save();sound('registered');if(wizard?.kind==='first'){wizard.caregiverId=c.id;page='caregiverMore'}else{page='settings'}render();if(page==='caregiverMore')moreCaregiversScreen()}
-function moreCaregiversScreen(){page='caregiverMore';screen(`<h1>Add another caregiver?</h1><p>You can always add more caregivers later.</p><div class="card">${db.caregivers.map(c=>`<p><b>${safe(c.name)}</b> · ${safe(c.role)}</p>`).join('')}</div>`,[{label:'Add Another',alt:true,fn:()=>{wizard.newTag=null;page='caregiver';render()}},{label:'Next',fn:()=>{page='baby';render()}}])}
-function babyScreen(){screen(`<h1>Add your ${db.babies.length?'new':'first'} baby.</h1><label class="field">Baby's name<input id="babyName" maxlength="45" placeholder="Baby name"></label><label class="field">Gender<select id="babyGender"><option>Girl</option><option>Boy</option><option>Other / Prefer not to say</option></select></label><label class="field">Age method<select id="ageMode"><option value="months">Age in months</option><option value="birth">Birth date (updates automatically)</option></select></label><label class="field" id="monthsBox">Age (0–24 months)<input id="babyMonths" type="number" min="0" max="24" value="0"></label><label class="field hide" id="birthBox">Birth date<input id="babyBirth" type="date"></label><p class="small muted">Teething ring is required only for babies 3 months or older.</p>`,[{label:'Back',alt:true,fn:()=>{page=wizard?.kind==='first'?'caregiverMore':'home';render()}},{label:'Next',fn:saveBaby}]);$('ageMode').onchange=()=>{$('monthsBox').classList.toggle('hide',$('ageMode').value==='birth');$('birthBox').classList.toggle('hide',$('ageMode').value!=='birth')}}
-function saveBaby(){const name=$('babyName').value.trim(),ageMode=$('ageMode').value,months=Number($('babyMonths').value),birth=$('babyBirth').value;if(!name)return showToast('Enter a baby name.');if(ageMode==='months'&&(!Number.isInteger(months)||months<0||months>24))return showToast('Choose an age from 0 to 24 months.');if(ageMode==='birth'&&(!birth||new Date(birth)>new Date()))return showToast('Enter a valid birth date.');const b={id:uid(),name,gender:$('babyGender').value,ageMode,months,birth,primaryId:null};db.babies.push(b);wizard ||= {};wizard.babyId=b.id;save();page='primary';render()}
-function primaryScreen(){const b=babyById(wizard?.babyId);if(!b)return goHome();screen(`<h1>Who will be ${safe(b.name)}'s primary caregiver?</h1><div class="scrolllist">${db.caregivers.map(c=>`<button class="choice ${wizard.caregiverId===c.id?'selected':''}" onclick="wizard.caregiverId='${c.id}';render()"><span class="grow">${safe(c.name)}</span><span class="pill">${safe(c.role)}</span></button>`).join('')}</div>`,[{label:'Next',fn:()=>{if(!wizard.caregiverId)return showToast('Choose a caregiver.');b.primaryId=wizard.caregiverId;save();page='accessories';render()}}])}
-function accessoriesScreen(){const b=babyById(wizard?.babyId||session?.babyId);if(!b)return goHome();const items=neededItems(b),done=items.filter(([k])=>db.tags[k]).length;screen(`<h1>${safe(b.name)}'s accessories</h1><p class="small muted">Tap Scan beside each item. Registered stickers work for every baby.</p><div class="progress"><div style="width:${100*done/items.length}%"></div></div><p class="small"><b>${done} / ${items.length}</b> required tags ready</p><div class="accessory-grid">${[...items,['pacifier','Pacifier (optional)']].map(([k,label])=>`<div class="accessory-tile"><div><span class="${db.tags[k]?'ok':'bad'}">${db.tags[k]?'':''}</span> <strong>${safe(label)}</strong></div><button class="btn alt small" onclick="scanFor('accessory','${k}')">${db.tags[k]?'Replace tag':'Scan tag'}</button></div>`).join('')}</div><p class="small muted">In simulations, a caregiver band can provide assisted care if an item is unavailable.</p>`,[{label:'Back',alt:true,fn:()=>{page='primary';render()}},{label:'Next',fn:()=>{if(!allRegistered(b))return showToast('Register the required tags to continue.');wizard=null;session={babyId:b.id};page='modes';render()}}])}
+    <link rel="manifest" href="manifest.json">
 
-// The choose route is the returning-user baby picker.
-function chooseScreen(){homeScreen()}
-function homeScreen(){if(!db.caregivers.length){page='welcome';return welcomeScreen()}screen(`<h1>Choose a baby to begin</h1>${session?.running?`<div class="notice"><b>Active Session</b> · ${safe(babyById(session.babyId)?.name)} ${session.paused?'(Paused)':''}<button class="btn alt" style="margin-top:9px;width:100%" onclick="page='live';render()">Return to session</button></div>`:''}<div class="scrolllist">${db.babies.map(b=>`<button class="choice" onclick="chooseBaby('${b.id}')"><span class="grow">${safe(b.name)}<div class="small muted">${ageMonths(b)} months · ${safe(b.gender)}</div></span><span>›</span></button>`).join('')}</div><button class="choice" onclick="beginWizard('newbaby')"><span class="grow">＋ Add a new baby</span></button><div class="grid2"><button class="btn alt" onclick="page='settings';render()">Caregivers & Settings</button><button class="btn alt" onclick="page='reports';render()">Report Cards</button></div>`,[])}
-function chooseBaby(id){const b=babyById(id);if(!b)return;if(!b.primaryId){wizard={babyId:id,caregiverId:null};page='primary'}else if(!allRegistered(b)){wizard={babyId:id,caregiverId:b.primaryId};page='accessories'}else{session={babyId:id};page='modes'}render()}
-function modesScreen(){const b=babyById(session?.babyId);if(!b)return goHome();screen(`<h1>Choose a simulation</h1><p class="muted">${safe(b.name)} · ${ageMonths(b)} months</p><button class="choice" onclick="startMode('demo')"><span class="grow"> Demo<div class="small muted">Guided, immediate accessory practice</div></span>›</button><div class="card"><h2>Classic</h2><div class="grid2"><button class="btn alt" onclick="startMode('easy')">Easy</button><button class="btn alt" onclick="startMode('medium')">Medium</button><button class="btn alt" onclick="startMode('hard')">Hard</button><button class="btn alt" onclick="startMode('sick')">Sick (Cold)</button></div><p class="small muted">Babies can develop mild cold symptoms in other modes, too.</p></div><button class="choice" onclick="startMode('daycare')"><span class="grow"> Daycare<div class="small muted">Care needs arise in scheduled windows</div></span>›</button>`,[{label:'Back',alt:true,fn:goHome}])}
-function demoBandChoiceScreen(){screen(`<h1> Demo setup</h1><div class="card"><h2>Use caregiver band for all?</h2><p>Would you like to use your caregiver NFC bracelet as a stand-in for every accessory during this demo?</p><p class="small muted">Yes: scan your band once to respond to baby, then scan it again whenever the demo asks for an accessory. No: use the separate accessory NFC tags.</p></div><button class="btn" onclick="setDemoBandForAll(true)">Yes — use caregiver band for all</button><button class="btn alt" onclick="setDemoBandForAll(false)">No — use individual NFC tags</button>`,[{label:'Back',alt:true,fn:()=>{page='modes';render()}}])}
-function setDemoBandForAll(yes){if(!session||session.mode!=='demo')return;session.demoBandForAll=!!yes;page='prepare';render()}
-function feedingGuide(m){return m<1?[2.5,2,3]:m<2?[3.5,2,3]:m<3?[4,2.5,4]:m<6?[5,3,4]:m<12?[6,3.5,5]:[5,3,5]}
-function fmtClock(t){return new Date(t).toLocaleTimeString([],{hour:'numeric',minute:'2-digit',hour12:db.settings.clock!=='24'})}
-function startMode(mode){silenceAll();const b=babyById(session.babyId),guide=feedingGuide(ageMonths(b));session={babyId:b.id,mode,caregiverId:b.primaryId,started:0,score:100,events:[],completed:0,paused:false,running:false,need:null,needSince:0,nextAt:0,step:0,feedingStage:'',prepEnd:Date.now()+300000,location:'held',attended:false,responseDeadline:0,responded:false,late:false,feedDue:0,diaperDue:0,sleepDue:0,comfortDue:0,feedOz:0,consumedOz:0,remainingOz:0,feedStarted:0,feedUntil:0,feedTarget:0,burpDue:0,burpCount:0,cryStarted:0,warningCount:0,warningAt:0,autoEnd:'',daycareWindows:[],guide,temperature:36.9,demoBandForAll:null};page=mode==='demo'?'demoBandChoice':'prepare';render()}
-function prepareScreen(){const b=babyById(session?.babyId);if(!b)return goHome();const [oz,lo,hi]=session.guide;screen(`<h1>Get ready for ${safe(b.name)}!</h1><div class="card"><h2> Feeding guide</h2><p>Typical bottle: <b>about ${oz} oz</b></p><p>Typically every <b>${lo}–${hi} hours</b> (from the start of one feeding to the next).</p><p class="small muted">These are approximate hints, not guaranteed feeding times. Baby may drink less or refuse.</p></div><div class="card center"><div class="score" id="prepClock">5:00</div><p>Preparation time remaining</p></div><button class="btn alt" onclick="session.prepEnd+=300000;updatePrepClock()">I Need More Time (+5 min)</button><label class="field">Starting caregiver<select onchange="session.caregiverId=this.value">${db.caregivers.map(c=>`<option value="${c.id}" ${session.caregiverId===c.id?'selected':''}>${safe(c.name)} (${safe(c.role)})</option>`).join('')}</select></label><div class="card"><label class="inline"><input type="checkbox" id="autoOn" ${session.autoEnd?'checked':''} onchange="$('autoTime').disabled=!this.checked;session.autoEnd=this.checked?$('autoTime').value:''"> End simulation automatically</label><label class="field">When do you want baby to end simulation automatically?<input type="time" id="autoTime" ${session.autoEnd?'':'disabled'} value="${session.autoEnd||'15:00'}" onchange="session.autoEnd=this.value"></label><p class="small muted">If the selected time has already passed today, it will end tomorrow. The app must remain open.</p></div>${session.mode==='daycare'?`<div class="card"><h2>Daycare no-care windows</h2><p class="small muted">Baby will remain content and require no care during these times.</p><div id="windows">${session.daycareWindows.map((w,i)=>`<p>${safe(w.start)}–${safe(w.end)} <button class="btn alt" onclick="session.daycareWindows.splice(${i},1);render()">Remove</button></p>`).join('')}</div><div class="inline"><input type="time" id="windowStart" value="12:00"><input type="time" id="windowEnd" value="13:00"></div><button class="btn alt" onclick="addDaycareWindow()">Add no-care window</button></div>`:''}<p class="notice">The simulation never starts automatically. Tap I'm Ready.</p>`,[{label:'Back',alt:true,fn:()=>{page='modes';render()}},{label:"I'm Ready",fn:beginSession}]);updatePrepClock()}
-function addDaycareWindow(){const start=$('windowStart').value,end=$('windowEnd').value;if(!start||!end||start===end)return showToast('Choose two different times.');session.daycareWindows.push({start,end});render()}
-function updatePrepClock(){if(page!=='prepare'||!session)return;const sec=Math.max(0,Math.ceil((session.prepEnd-Date.now())/1000));if($('prepClock'))$('prepClock').textContent=`${Math.floor(sec/60)}:${String(sec%60).padStart(2,'0')}`}
-function clockDeadline(hm,now=Date.now()){const [h,m]=hm.split(':').map(Number),d=new Date(now);d.setHours(h,m,0,0);if(d.getTime()<=now)d.setDate(d.getDate()+1);return d.getTime()}
-function beginSession(){primeCrying();const now=Date.now(),s=session;if(s.mode==='demo'&&s.demoBandForAll===null){page='demoBandChoice';render();return}s.running=true;s.started=now;s.events=[];s.score=100;s.completed=0;s.attended=false;s.autoEndAt=s.autoEnd?clockDeadline(s.autoEnd,now):0;s.feedDue=now+(s.mode==='demo'?0:Math.max(10*60000,(s.guide[1]+Math.random()*(s.guide[2]-s.guide[1]))*3600000));s.diaperDue=now+((1.5+Math.random()*1.5)*3600000);s.sleepDue=now+(30+Math.random()*45)*60000;s.comfortDue=now+(45+Math.random()*90)*60000;s.nextAt=now+(s.mode==='demo'?0:15000);s.demoWaiting=false;page='live';render();startNfcListener();startAmbient();if(s.mode==='demo')activateNextNeed();else showToast('Simulation started. Keep the app open for NFC scanning.')}
-function modeNeeds(){return NEEDS.filter(n=>!['outing','temperature','wipe','cream','diaper2'].includes(n.id)&&(n.id!=='teether'||ageMonths(babyById(session.babyId))>=3)&&(n.id!=='pacifier'||!!db.tags.pacifier))}
-function inNoCareWindow(now){if(session.mode!=='daycare')return false;const t=new Date(now),hm=String(t.getHours()).padStart(2,'0')+':'+String(t.getMinutes()).padStart(2,'0');return session.daycareWindows.some(w=>w.start<w.end?hm>=w.start&&hm<w.end:hm>=w.start||hm<w.end)}
-function scheduleAfter(id,now=Date.now(),oz=0){const s=session;switch(id){case'feed':{const fraction=Math.max(.3,Math.min(1.2,oz/s.guide[0]));s.feedDue=now+Math.max(25*60000,(s.guide[1]+Math.random()*(s.guide[2]-s.guide[1]))*3600000*fraction);break}case'diaper':s.diaperDue=now+(1.5+Math.random()*2)*3600000;break;case'sleep':s.sleepDue=now+(1+Math.random()*2)*3600000;break;default:s.comfortDue=now+(45+Math.random()*90)*60000}}
-function startCrying(id){const s=session,now=Date.now();if(s.need||s.paused)return;s.need={id,item:({feed:'bottle',diaper:'diaper1',sleep:'sleep',bath:'soap',nose:'aspirator',medicine:'medicine',pacifier:'pacifier',teether:'teether'}[id]||id)};s.needSince=now;s.cryStarted=now;s.responseDeadline=now+300000;s.responded=false;s.attended=false;s.late=false;s.events.push({type:'need',id,at:now});if(id==='nose')s.nextSneezeAt=now+5000;if(id==='diaper'&&s.mode!=='demo')sound('fart');stopAudio(audioState.foreground);audioState.foreground=null;sound('crying');render()}
-function activateNextNeed(){if(!session?.running||session.paused)return;if(session.mode==='demo'){const needs=modeNeeds();if(session.step>=needs.length){finishSession();return}startCrying(needs[session.step].id);if(session.need?.id==='feed')beginRealCry();return}const now=Date.now();const due=[['feed',session.feedDue],['diaper',session.diaperDue],['sleep',session.sleepDue],['pacifier',session.comfortDue]].filter(x=>x[1]<=now).sort((a,b)=>a[1]-b[1]);if(due.length)startCrying(due[0][0])}
-function beginRealCry(){const s=session;if(!s.need||s.cryStarted)return;const now=Date.now();s.cryStarted=now;s.responseDeadline=now+300000;s.needSince=now;stopAudio(audioState.foreground);audioState.foreground=null;sound('crying');render()}
-function liveScreen(){if(!session?.running)return goHome();const s=session,b=babyById(s.babyId),n=s.need,demo=s.mode==='demo';const feeding=!!s.feedingStage;let status=s.paused?'Taking a break':feeding?'Feeding in progress':n?(demo?('Practice: '+(NEEDS.find(x=>x.id===n.id)?.label||n.id)):'Baby is crying '):(s.location==='held'?'Baby is content ':s.location==='sleep'?'Baby is in bed ':'Baby is resting');const instruction=s.paused?'Simulation paused':feeding?({making:'Choose how many ounces to prepare.',drinking:'Baby is drinking. Listen for a pause.',burp:'Baby has paused. Try responding to their cue.',continue:'Continue feeding with the same bottle.'}[s.feedingStage]||''):(n?(demo?('Scan caregiver band, then '+(NEEDS.find(x=>x.id===n.id)?.prompt||'the matching accessory')):'Scan your caregiver bracelet to respond, then investigate the crying.'):'You can scan your caregiver band and provide care proactively.');const countdown=n&&s.cryStarted&&!s.responded?Math.max(0,s.responseDeadline-Date.now()):null;
-screen(`<div class="care-stage"><div class="care-head"><h1>${safe(b.name)}</h1><span class="pill">${safe(s.mode.toUpperCase())}</span><span class="pill" id="liveTime">00:00</span></div><div class="inline"><span class="pill">${safe(s.location==='held'?'Being held':s.location==='sleep'?'In bed':'In resting spot')}</span><span class="pill">Score <b id="liveScore">${s.score}%</b></span>${demo?`<span class="pill">${s.step+1}/${modeNeeds().length}</span>`:''}</div><div class="baby-stage"><div class="baby-figure">${s.paused?'⏸':feeding?'':n?'':s.location==='held'?'':''}</div><h2>${safe(status)}</h2>${countdown!==null?`<div class="score" id="responseClock">${formatTime(countdown)}</div><p class="small">Time to scan caregiver band</p>`:n&&s.responded?'<p class="small">Caregiver responded </p>':''}<p>${safe(instruction)}</p>${feeding?`<p class="small">Prepared: ${s.feedOz.toFixed(1)} oz · Consumed: ${s.consumedOz.toFixed(1)} oz · Remaining: ${s.remainingOz.toFixed(1)} oz</p>`:''}</div><div class="nfc-indicator" id="nfcState">${scannerActive?' NFC listening':' Enable NFC to scan'}</div><div class="care-actions">${s.feedingStage==='making'?'<button class="btn wide" onclick="openBottleDialog()"> Choose bottle ounces</button>':''}${demo&&s.demoBandForAll?'<div class="small center">Demo: caregiver band stands in for every accessory. Scan once to respond, then again for the prompted item.</div>':'<button class="btn alt wide" onclick="useBandForBottle()"> Use caregiver band as bottle (next scan)</button>'}<button class="btn alt" onclick="startNfcListener()">Enable NFC</button><button class="btn alt" onclick="togglePause()">${s.paused?'Resume':'I Need a Break'}</button><button class="btn alt wide" onclick="finishSession()">End Simulation</button></div></div>`,[])}
-function nextDemoCare(){if(session.mode!=='demo'||!session.demoWaiting)return;session.demoWaiting=false;activateNextNeed()}
-function togglePause(){const s=session;if(!s?.running)return;if(!s.paused){s.paused=true;s.pauseAt=Date.now();silenceAll();s.events.push({type:'break',at:s.pauseAt})}else{const d=Date.now()-s.pauseAt;s.paused=false;for(const k of ['started','needSince','responseDeadline','feedDue','diaperDue','sleepDue','comfortDue','feedUntil','burpDue','warningAt'])if(s[k])s[k]+=d;startAmbient();if(s.cryStarted){s.cryStarted+=d;sound('crying')}}render()}
-function tick(){if(page==='prepare')updatePrepClock();const s=session;if(!s?.running||s.paused)return;const now=Date.now();if(s.autoEndAt&&now>=s.autoEndAt){finishSession();return}if(page==='live'){if($('liveScore'))$('liveScore').textContent=s.score+'%';if($('liveTime'))$('liveTime').textContent=formatTime(now-s.started);if($('responseClock'))$('responseClock').textContent=formatTime(Math.max(0,s.responseDeadline-now))}if(s.mode==='daycare'&&inNoCareWindow(now)){if(!s.noCareSince){s.noCareSince=now;silenceAll()}return}else if(s.noCareSince){const d=now-s.noCareSince;s.noCareSince=0;for(const k of ['needSince','responseDeadline','feedDue','diaperDue','sleepDue','comfortDue','feedUntil','warningAt'])if(s[k])s[k]+=d;if(s.cryStarted){s.cryStarted+=d;sound('crying')}else startAmbient()}
-if(s.need?.id==='nose'&&s.nextSneezeAt&&now>=s.nextSneezeAt){s.nextSneezeAt=now+6500+Math.random()*8500;sound('sneeze')}if(s.feedingStage==='drinking'&&now>=s.feedUntil){s.feedingStage='burp';stopAudio(audioState.foreground);sound('eh');render();return}
-if(s.need?.id==='feed'&&!s.cryStarted&&!s.feedingStage&&now>=s.warningAt+12000){s.warningCount++;s.warningAt=now;if(s.warningCount>=5)beginRealCry();else sound('neh')}
-if(s.need?.cryStarted&&!s.responded&&!s.late&&now>=s.responseDeadline){s.late=true;s.score=Math.max(0,s.score-10);s.events.push({type:'late',need:s.need.id,at:now});sound('lost');showToast('Response time exceeded. −10 points.')}
-if(!s.need&&!s.feedingStage){if(s.mode==='demo'){if(!s.demoWaiting)activateNextNeed()}else activateNextNeed()}}
-function formatTime(ms){const t=Math.max(0,Math.floor(ms/1000));return `${String(Math.floor(t/60)).padStart(2,'0')}:${String(t%60).padStart(2,'0')}`}
-function openBottleDialog(){const s=session;if(!s?.running||!s.attended)return showToast('Scan caregiver band first.');if(s.feedingStage==='drinking'||s.feedingStage==='burp')return showToast('Finish the current feeding step first.');const max=8,initial=Math.max(.5,Math.min(max,s.guide[0]));let d=$('bottleDialog');if(d)d.remove();d=document.createElement('div');d.id='bottleDialog';d.className='modal';d.innerHTML=`<div class="modal-box"><h2> Prepare a bottle</h2><p>Drag the rectangle to choose the ounces.</p><div class="bottle-amount" id="bottleAmount">${initial.toFixed(1)} oz</div><input id="bottleOz" type="range" min="0.5" max="8" step="0.5" value="${initial}" oninput="$('bottleAmount').textContent=Number(this.value).toFixed(1)+' oz'"><div class="inline"><button class="btn alt" onclick="$('bottleDialog').remove()">Cancel</button><button class="btn" onclick="bottleMade()">Bottle Made</button></div></div>`;document.body.append(d)}
-function bottleMade(){const s=session;if(!s?.running||!s.attended)return;const oz=Number($('bottleOz')?.value||s.guide[0]);$('bottleDialog')?.remove();s.feedOz=oz;s.remainingOz=oz;s.consumedOz=0;s.feedStarted=Date.now();s.feedTarget=Math.min(oz,Math.max(0,Math.round((s.guide[0]*(.35+Math.random()*.85))*2)/2));if(s.need?.id!=='feed'&&Date.now()<s.feedDue-45*60000&&Math.random()<.45)s.feedTarget=0;s.events.push({type:'bottle-made',at:Date.now(),oz});if(s.mode==='demo'&&s.need?.id==='feed')s.feedTarget=Math.max(.5,Math.min(oz,s.guide[0]));if(!s.feedTarget){showToast('Bottle offered. Baby is full and did not drink.');s.feedingStage='';s.attended=false;if(s.need?.id==='feed')beginRealCry();render();return}startDrinking();render()}
-function startDrinking(){stopAudio(audioState.crying);audioState.crying=null;const s=session;if(s.remainingOz<=0||s.consumedOz>=s.feedTarget){finishFeeding();return}s.feedingStage='drinking';s.feedUntil=Date.now()+(s.mode==='demo'?4000:Math.round((2+Math.random()*3)*60000));stopAmbient();sound('drinking');render()}
-function finishFeeding(){const s=session;const oz=s.consumedOz;s.events.push({type:'feeding',at:Date.now(),prepared:s.feedOz,consumed:oz,remaining:s.remainingOz,caregiverId:s.caregiverId});s.feedingStage='';s.attended=false;s.completed++;if(oz>0)scheduleAfter('feed',Date.now(),oz);if(s.need?.id==='feed')completeNeed('bottle');else{showScanOverlay(true);render()}startAmbient()}
-function handleLiveTag(value){const s=session;if(!s?.running||s.paused)return;const caregiver=db.caregivers.find(c=>c.tag===value);if(caregiver&&s.mode==='demo'&&s.demoBandForAll&&s.attended&&s.feedingStage!=='burp'){scanSound();if(s.feedingStage==='drinking'){showScanOverlay(false);return}if(s.feedingStage==='continue'){showScanOverlay(true);startDrinking();return}const item=s.need?.item;if(!item){showScanOverlay(false);showToast('No accessory needed yet.');return}if(item==='bottle'){s.feedingStage='making';showScanOverlay(true);openBottleDialog();return}showScanOverlay(true);if(item==='sleep'||item==='carseat'){s.location=item==='sleep'?'sleep':'carseat';s.attended=false;stopAmbient();sound('sleeping',{background:true,loop:true})}completeNeed(item);return}if(caregiver&&s.attended&&s.useBandAsBottle){s.useBandAsBottle=false;scanSound();if(s.feedingStage==='continue'){startDrinking();return}if(s.feedingStage==='drinking'||s.feedingStage==='burp'){showScanOverlay(false);return}s.feedingStage='making';showScanOverlay(true);openBottleDialog();return}if(caregiver){s.caregiverId=caregiver.id;s.attended=true;s.events.push({type:'caregiver',caregiverId:caregiver.id,at:Date.now()});scanSound();if(s.need?.cryStarted&&!s.responded){s.responded=true;s.events.push({type:'response',need:s.need.id,ms:Date.now()-s.needSince,caregiverId:caregiver.id});}if(s.location!=='held'){s.location='held';s.events.push({type:'pickup',at:Date.now(),caregiverId:caregiver.id})}if(s.feedingStage==='burp'){stopAudio(audioState.crying);audioState.crying=null;sound('burp');s.burpCount++;s.consumedOz=Math.min(s.feedTarget,s.consumedOz+1);s.remainingOz=Math.max(0,s.feedOz-s.consumedOz);if(s.consumedOz>=s.feedTarget||s.remainingOz<=0){finishFeeding()}else{s.feedingStage='continue';showToast('Baby burped. Scan the same bottle to continue.');render()}return}if(s.need?.id==='pacifier'&&s.responded){completeNeed('caregiver');return}showToast(`${caregiver.role} detected. Baby is being held.`);render();return}
-const k=Object.keys(db.tags).find(k=>db.tags[k]===value)||Object.keys(DEMO_IDS).find(k=>DEMO_IDS[k]===value&&db.tags[k]===value);if(!k){showToast('Unrecognized NFC tag.');return}scanSound();if(!s.attended){showScanOverlay(false);showToast('Scan your caregiver bracelet first.');return}if(k==='teether'&&ageMonths(babyById(s.babyId))<3){showScanOverlay(false);showToast('Teether is only available from 3 months.');return}if(k==='thermometer'){showScanOverlay(true);showTemperature();return}if(k==='bottle'){if(s.feedingStage==='continue'){startDrinking();return}if(s.feedingStage==='drinking'||s.feedingStage==='burp'){showScanOverlay(false);return}s.feedingStage='making';showScanOverlay(true);openBottleDialog();return}
-const expected=s.need?.item;const correct=!s.need||k===expected||(s.need.id==='diaper'&&k==='diaper2');if(!correct){showScanOverlay(false);return}showScanOverlay(true);if(k==='sleep'||k==='carseat'){s.location=k==='sleep'?'sleep':'carseat';s.attended=false;stopAmbient();sound('sleeping',{background:true,loop:true});scheduleAfter('sleep')}else if(k==='diaper1'||k==='diaper2'||k==='wipes'){scheduleAfter('diaper')}else if(k==='pacifier'||k==='teether'||k==='soap'){scheduleAfter('pacifier')}if(s.need){completeNeed(k)}else{s.events.push({type:'proactive',item:k,at:Date.now(),caregiverId:s.caregiverId});s.completed++;s.attended=false;render()}}
-function useBandForBottle(){const s=session;if(!s?.running||s.paused)return;if(!s.attended)return showToast('Scan caregiver band to respond first.');s.useBandAsBottle=true;showToast('Now scan your caregiver band again to use it as the bottle.')}
-function scanSound(){if(audioState.muted)return;const a=new Audio('./caregiver-detected.wav');a.volume=Math.min(1,(db.settings.scanVolume??1));a.play().catch(()=>{})}
-function showScanOverlay(correct){let el=$('scanOverlay');if(el)el.remove();el=document.createElement('div');el.id='scanOverlay';el.className='scan-overlay';el.innerHTML=`<div class="scan-mark ${correct?'scan-ok':'scan-no'}">${correct?'✓':'×'}</div>`;document.body.append(el);setTimeout(()=>el.remove(),1000)}
-function showTemperature(){const s=session;const f=s.temperature*9/5+32,unit=db.settings.tempUnit||'F';const value=unit==='C'?s.temperature:f;const color=s.temperature>=38?'#bb2222':s.temperature>=37.4?'#a67a00':'#16843a';let el=$('temperatureDialog');if(el)el.remove();el=document.createElement('div');el.id='temperatureDialog';el.className='modal';el.innerHTML=`<div class="modal-box center"><h2> Temperature</h2><div class="score" style="color:${color}">${value.toFixed(1)}°${unit}</div><p>${s.temperature>=38?'Fever':s.temperature>=37.4?'Elevated':'Normal'}</p><p class="small muted">Simulation reading. Fever in a real baby under 3 months needs prompt medical assessment.</p><button class="btn" onclick="$('temperatureDialog').remove()">Close</button></div>`;document.body.append(el);s.events.push({type:'temperature',value:s.temperature,at:Date.now()})}
-function completeNeed(method){const s=session,n=s.need;if(!n)return;const now=Date.now();s.events.push({type:'resolved',need:n.id,at:now,delay:now-n.needSince,method,caregiverId:s.caregiverId});s.completed++;if(n.id!=='feed')scheduleAfter(n.id,now);s.need=null;stopAudio(audioState.crying);audioState.crying=null;s.cryStarted=0;s.responseDeadline=0;s.responded=false;s.attended=false;s.feedingStage='';s.score=Math.min(100,s.score+1);stopAmbient();if(s.location==='held')startAmbient();if(s.mode==='demo'){s.step++;s.demoWaiting=true;if(s.step>=modeNeeds().length){finishSession();return}setTimeout(()=>{if(session===s&&s.running&&s.demoWaiting){s.demoWaiting=false;activateNextNeed()}},1800)}render()}
-function finishSession(){const s=session;if(!s)return;s.running=false;s.ended=Date.now();s.score=Math.max(0,Math.min(100,s.score));s.grade=s.score>=90?'A':s.score>=80?'B':s.score>=70?'C':s.score>=60?'D':'F';if(s.mode!=='demo'){db.reports.unshift({id:uid(),babyId:s.babyId,mode:s.mode,at:s.ended,score:s.score,grade:s.grade,events:s.events,completed:s.completed,late:s.events.filter(e=>e.type==='late').length});db.reports=db.reports.slice(0,100);save()}if(s.mode!=='demo')stopNfc();silenceAll();page='report';render();sound(s.score>=70?'passing':'failing');if(s.mode==='demo'){setTimeout(()=>{if(page==='report'&&session===s)startDemoOutro()},1000)}}
-function reportScreen(){const s=session;if(!s)return goHome();const resolutions=s.events.filter(e=>e.type==='resolved'),late=s.events.filter(e=>e.type==='late');const grade=s.grade||'A';const cgStats=db.caregivers.map(c=>({c,done:resolutions.filter(e=>e.caregiverId===c.id).length})).filter(x=>x.done||x.c.id===s.caregiverId);screen(`<h1>${s.mode==='demo'?'Demo':'Simulation'} Report Card</h1><div class="card center"><div class="score grade${grade}">${grade}</div><h2>${s.score}%</h2><p>${safe(babyById(s.babyId)?.name)} · ${safe(s.mode)}</p></div><div class="grid2"><div class="card center"><b>${resolutions.length}</b><span class="small">Care activities</span></div><div class="card center"><b>${late.length}</b><span class="small">Delayed responses</span></div></div><div class="card"><h2>Caregivers</h2>${cgStats.map(x=>`<p>${safe(x.c.name)} (${safe(x.c.role)}): ${x.done} care actions</p>`).join('')||'<p>No completed care yet.</p>'}</div><button class="link" onclick="$('tips').classList.toggle('hide')">What can you do better?</button><div class="card hide" id="tips">${late.length?`<p>Respond sooner to: ${safe([...new Set(late.map(x=>NEEDS.find(n=>n.id===x.need)?.label||x.need))].join(', '))}.</p>`:'<p>Nice work responding promptly! Keep following the care prompts.</p>'}${resolutions.some(e=>e.fallback)?'<p>Try using the physical accessory tags when available; caregiver fallback was used.</p>':''}<p>Response times: ${resolutions.length?resolutions.map(e=>`${safe(NEEDS.find(n=>n.id===e.need)?.label||e.need)} ${formatTime(e.delay)}`).join(' · '):'None yet'}</p></div>${s.mode==='demo'?'<p class="small muted">Demo report only. The finale starts automatically in 1 second. It was not added to your live history.</p>':''}`, [{label:'Choose Baby',alt:true,fn:goHome},{label:s.mode==='demo'?'Restart Demo':'New Simulation',fn:()=>{const id=s.babyId;session={babyId:id};page='modes';render()}}])}
-function settingsScreen(){screen(`<h1>Caregivers & Settings</h1><h2>Caregivers</h2><div class="scrolllist">${db.caregivers.map(c=>`<div class="card"><p><b>${safe(c.name)}</b> · ${safe(c.role)}</p><div class="inline"><button class="btn alt small" onclick="replaceBand('${c.id}')">Replace NFC Band</button><button class="btn alt small" onclick="removeCaregiver('${c.id}')">Remove</button></div></div>`).join('')}</div><button class="btn alt" onclick="wizard={kind:'addcaregiver',newTag:null};page='caregiver';render()">＋ Add Caregiver</button><div class="card"><h2>Simulation preferences</h2><label class="field">Temperature units<select onchange="db.settings.tempUnit=this.value;save()"><option value="F" ${db.settings.tempUnit!=='C'?'selected':''}>Fahrenheit (°F)</option><option value="C" ${db.settings.tempUnit==='C'?'selected':''}>Celsius (°C)</option></select></label><label class="field">Clock format<select onchange="db.settings.clock=this.value;save()"><option value="12" ${db.settings.clock!=='24'?'selected':''}>12-hour clock</option><option value="24" ${db.settings.clock==='24'?'selected':''}>24-hour clock</option></select></label><label class="field">NFC confirmation volume<input type="range" min="0.2" max="1" step="0.1" value="${db.settings.scanVolume??1}" oninput="db.settings.scanVolume=Number(this.value);save()"></label></div><h2>Video setup help</h2><label class="field">YouTube video URL<input id="helpUrl" type="url" placeholder="https://www.youtube.com/watch?v=..." value="${safe(db.settings.helpUrl||'')}"></label><button class="btn alt" onclick="saveHelpUrl()">Save Video Link</button><div class="card"><h2>Sound</h2><label class="inline"><input type="checkbox" ${toneEnabled?'checked':''} onchange="toneEnabled=this.checked"> Enable notification tones</label><p class="small muted">Baby audio plays from the sound files in your repository. Sound effects are downloaded when needed.</p></div>`,[{label:'Done',fn:goHome}])}
-function saveHelpUrl(){const v=$('helpUrl').value.trim();if(v&&!/^https:\/\/(www\.)?(youtube\.com|youtu\.be)\//i.test(v))return showToast('Use a YouTube URL.');db.settings.helpUrl=v;save();showToast('Video link saved.')}
-function replaceBand(id){const c=caregiverById(id);if(!c)return;scanFor('replace',id)}
-function removeCaregiver(id){const c=caregiverById(id);if(!c||!confirm('Remove '+c.name+'? Past report data will remain but the profile will be removed.'))return;if(db.caregivers.length<=1)return showToast('Keep at least one caregiver.');db.caregivers=db.caregivers.filter(x=>x.id!==id);db.babies.forEach(b=>{if(b.primaryId===id)b.primaryId=db.caregivers[0].id});save();render()}
-function reportsScreen(){screen(`<h1>Saved Report Cards</h1><div class="scrolllist">${db.reports.map(r=>`<div class="card"><p><b>${safe(babyById(r.babyId)?.name||'Baby')}</b> · ${new Date(r.at).toLocaleDateString()}</p><p><b class="grade${r.grade}">${r.grade} · ${r.score}%</b> · ${safe(r.mode)} · ${r.completed} tasks</p></div>`).join('')||'<p>No saved simulations yet.</p>'}</div>`,[{label:'Back',fn:goHome}])}
-function cancelPending(){pendingScan=null}
-async function scanFor(type,id){if(!('NDEFReader'in window)){showToast('Web NFC requires Android Chrome, NFC enabled, and HTTPS.');return}pendingScan={type,id};if(type==='caregiver')wizard.newTag=null;showToast('Hold your phone near the NFC sticker…');await startNfcListener()}
-async function startNfcListener(){if(!('NDEFReader'in window)){showToast('Web NFC is unavailable here. Use Android Chrome over HTTPS.');return}if(scannerActive){if($('nfcState'))$('nfcState').textContent='Listening for NFC tags';return}try{nfcController=new AbortController();const reader=new NDEFReader();await reader.scan({signal:nfcController.signal});reader.addEventListener('reading',e=>{for(const record of e.message.records){if(record.recordType==='text'){let value='';try{value=new TextDecoder(record.encoding||'utf-8').decode(record.data).trim()}catch{}if(value){receiveTag(value);break}}}});reader.addEventListener('readingerror',()=>showToast('Could not read tag. Try again.'));scannerActive=true;if($('nfcState'))$('nfcState').textContent='Listening for NFC tags';showToast('NFC ready. Tap a sticker.')}catch(err){scannerActive=false;showToast('NFC could not start: '+(err?.message||'Permission denied'))}}
-function stopNfc(){try{nfcController?.abort()}catch{}nfcController=null;scannerActive=false;pendingScan=null}
-function receiveTag(value){if(page==='outro'&&demoOutroWaiting){const caregiver=db.caregivers.find(c=>c.tag===value);if(caregiver){finishDemoOutroScan();return}showScanOverlay(false);return}if(pendingScan){const p=pendingScan;pendingScan=null;if(p.type==='caregiver'){if(db.caregivers.some(c=>c.tag===value)){showToast('That tag is already assigned.');return}wizard.newTag=value;const el=$('tagStatus');if(el)el.textContent=' Tag detected: '+value;beep(720);return}if(p.type==='replace'){const c=caregiverById(p.id);if(!c)return;if(db.caregivers.some(x=>x.id!==c.id&&x.tag===value))return showToast('Tag already belongs to another caregiver.');c.tag=value;save();sound('registered');showToast(c.name+' band replaced.');render();return}if(p.type==='accessory'){const collision=Object.keys(db.tags).find(k=>k!==p.id&&db.tags[k]===value);if(collision)return showToast('That tag is assigned to another accessory.');db.tags[p.id]=value;save();beep(730);showToast((ITEMS.find(x=>x[0]===p.id)?.[1]||p.id)+' registered!');render();return}}if(session?.running)handleLiveTag(value)}
+<link
+    rel="icon"
+    type="image/png"
+    href="ESSAzLife.World.Icon.png"
+>
 
-let demoOutroWaiting=false,demoOutroTimer=null,demoOutroToken=0;
-function renderDemoOutro(){
- const app=$('app');
- app.innerHTML=`<main class="demo-outro" aria-live="polite"><div class="demo-outro-text" id="demoOutroText"></div><div class="demo-outro-hint" id="demoOutroHint"></div></main>`;
-}
-function demoOutroScene(message,hold,next){
- if(page!=='outro')return;
- const el=$('demoOutroText');if(!el)return;
- el.classList.remove('visible');clearTimeout(demoOutroTimer);
- demoOutroTimer=setTimeout(()=>{
-  if(page!=='outro')return;
-  el.textContent=message;el.classList.add('visible');
-  if(next)demoOutroTimer=setTimeout(()=>{if(page!=='outro')return;el.classList.remove('visible');demoOutroTimer=setTimeout(next,950)},hold);
- },650);
-}
-function startDemoOutro(){
- if(!session||session.mode!=='demo')return;
- clearTimeout(demoOutroTimer);demoOutroToken++;demoOutroWaiting=false;
- silenceAll();page='outro';render();
- sound('crying');
- demoOutroScene('Now the fun part...',2900,()=>{
-  demoOutroScene('In Classic and Daycare Modes, you will not know what baby needs. It’s your job to guess.',5500,()=>{
-   demoOutroScene('Tell baby you are here by tapping the caregiver band.',0,null);
-   setTimeout(()=>{if(page!=='outro')return;demoOutroWaiting=true;const hint=$('demoOutroHint');if(hint)hint.textContent=' Waiting for caregiver band';if(!scannerActive)startNfcListener()},900);
-  });
- });
-}
-function finishDemoOutroScan(){
- if(page!=='outro'||!demoOutroWaiting)return;
- demoOutroWaiting=false;clearTimeout(demoOutroTimer);
- stopAmbient();stopAudio(audioState.crying);audioState.crying=null;stopAudio(audioState.foreground);
- showScanOverlay(true);scanSound();
- const hint=$('demoOutroHint');if(hint)hint.textContent='';
- setTimeout(()=>{
-  if(page!=='outro')return;
-  sound('happy');
-  demoOutroScene('Good luck.',2600,()=>{
-   stopNfc();silenceAll();session=null;page='home';render();
-  });
- },1100);
-}
+<link
+    rel="apple-touch-icon"
+    href="icons/icon-192.png"
+>
 
-window.setDemoBandForAll=setDemoBandForAll;window.nextDemoCare=nextDemoCare;window.goHome=goHome;window.beginWizard=beginWizard;window.openHelpVideo=openHelpVideo;window.scanFor=scanFor;window.saveCaregiver=saveCaregiver;window.saveBaby=saveBaby;window.chooseBaby=chooseBaby;window.startMode=startMode;window.beginSession=beginSession;window.startNfcListener=startNfcListener;window.togglePause=togglePause;window.finishSession=finishSession;window.bottleMade=bottleMade;window.useBandForBottle=useBandForBottle;window.saveHelpUrl=saveHelpUrl;window.replaceBand=replaceBand;window.removeCaregiver=removeCaregiver;window.render=render;window.page=page;window.wizard=wizard;window.session=session;
-// Keep inline onclick references synchronized with state changes.
-Object.defineProperty(window,'page',{get:()=>page,set:v=>page=v});Object.defineProperty(window,'wizard',{get:()=>wizard,set:v=>wizard=v});Object.defineProperty(window,'session',{get:()=>session,set:v=>session=v});
-setInterval(tick,1000);render();
-</script></body></html>
+<meta
+    name="theme-color"
+    content="#179DF4"
+>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ESSAzLife World Entrance -->
+<div class="welcome-screen" id="welcomeScreen">
+
+    <div class="welcome-card">
+
+        <img
+            src="ESSAzLife.World.Icon.png"
+            alt="ESSAzLife World"
+            class="welcome-logo"
+        >
+
+        <h1>ESSAzLife World</h1>
+
+        <p class="welcome-message">
+            Welcome to the headquarters of ESSAzLife.
+        </p>
+
+        
+
+<div class="welcome-buttons">
+    <button id="welcomeCreateButton">Create Account</button>
+    <button id="welcomeLoginButton">Log In</button>
+    <button id="welcomeGuestButton" type="button">👤 Continue as Guest</button>
+</div>
+
+<button
+    id="forgotLoginButton"
+    type="button"
+    onclick="document.getElementById('forgotLoginOverlay').style.display = 'flex'"
+    style="
+        display:block;
+        margin:18px auto 0;
+        padding:6px;
+        background:none;
+        border:none;
+        color:#179DF4;
+        text-decoration:underline;
+        font-size:14px;
+        cursor:pointer;
+    "
+>
+    Uh-Oh, I forgot my...
+</button>
+
+
+
+    </div>
+
+</div>
+
+
+<!-- FORGOT LOGIN INFORMATION POPUP -->
+<div
+    id="forgotLoginOverlay"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="forgotLoginTitle"
+    style="
+        display:none;
+        position:fixed;
+        inset:0;
+        background:rgba(0,0,0,0.6);
+        z-index:99999;
+        align-items:center;
+        justify-content:center;
+        padding:20px;
+        box-sizing:border-box;
+    "
+>
+    <div
+        style="
+            background:white;
+            border-radius:22px;
+            padding:28px;
+            max-width:420px;
+            width:100%;
+            text-align:center;
+            box-shadow:0 12px 35px rgba(0,0,0,0.25);
+        "
+    >
+        <h2 id="forgotLoginTitle" style="color:#179DF4;">
+            🔐 Forgot Your Login Information?
+        </h2>
+
+        <p style="color:#344349;line-height:1.7;">
+            If you forget your password or username, then
+            you should have your backup to restore.
+            Create a new account with your desired username,
+            or choose guest mode, and restore your file.
+        </p>
+
+        <button
+            type="button"
+            onclick="document.getElementById('forgotLoginOverlay').style.display = 'none'"
+            style="
+                background:#179DF4;
+                color:white;
+                border:none;
+                padding:12px 28px;
+                border-radius:12px;
+                font-size:16px;
+                font-weight:bold;
+                cursor:pointer;
+                margin-top:12px;
+            "
+        >
+            Got It!
+        </button>
+    </div>
+</div>
+
+
+<!-- WORLD GUEST MODE CONFIRMATION -->
+<div class="confirm-overlay" id="guestConfirmOverlay">
+    <div class="confirm-popup">
+        <h2>Continue as Guest?</h2>
+
+        <p>
+            You can explore ESSAzLife World without creating an account!
+        </p>
+
+        <p>
+            Just remember not to clear your browser's site data,
+            and regularly download your backup file in each
+            individual app so you don't lose your progress.
+        </p>
+
+        <div class="confirm-buttons">
+            <button class="cancel-button" id="cancelGuestButton" type="button">
+                Cancel
+            </button>
+
+            <button class="confirm-logout-button" id="confirmGuestButton" type="button">
+                Continue as Guest
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Create Account -->
+<div class="account-overlay" id="createAccountOverlay">
+
+    <div class="account-popup">
+
+        <button class="account-close" id="createAccountClose">×</button>
+
+        <h2>🌎 Create Your World Account</h2>
+
+        <p class="account-intro">
+            Create an account to enter ESSAzLife World. 
+            When you access the apps through here, you will <strong>not</strong>
+            need to create an account or sign in when choosing an app to use.
+        </p>
+
+        <form id="createAccountForm">
+
+            <label for="createNickname">Nickname</label>
+<input
+    type="text"
+    id="createNickname"
+    autocomplete="nickname"
+    required
+>
+
+            <label for="createUsername">Username</label>
+            <input
+                type="text"
+                id="createUsername"
+                autocomplete="username"
+                required
+            >
+
+            <label for="createPassword">Password</label>
+            <input
+                type="password"
+                id="createPassword"
+                autocomplete="new-password"
+                required
+            >
+
+            <label for="confirmPassword">Confirm Password</label>
+            <input
+                type="password"
+                id="confirmPassword"
+                autocomplete="new-password"
+                required
+            >
+
+            <p class="account-error" id="createAccountError"></p>
+
+            <button type="submit" class="account-submit">
+                Create Account
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<!-- Log In -->
+<div class="account-overlay" id="loginOverlay">
+
+    <div class="account-popup">
+
+        <button class="account-close" id="loginClose">×</button>
+
+        <h2>🌎 Log In to World</h2>
+
+        <p class="account-intro">
+            Welcome back! Enter your World account information.
+        </p>
+
+        <form id="loginForm">
+
+            <label for="loginUsername">Username</label>
+            <input
+                type="text"
+                id="loginUsername"
+                autocomplete="username"
+                required
+            >
+
+            <label for="loginPassword">Password</label>
+            <input
+                type="password"
+                id="loginPassword"
+                autocomplete="current-password"
+                required
+            >
+
+            <p class="account-error" id="loginError"></p>
+
+            <button type="submit" class="account-submit">
+                Log In
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+<div id="christmasEventOverlay" class="christmas-event-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="christmasEventTitle">
+ <div class="christmas-event-dialog"><button type="button" id="christmasEventClose" class="christmas-event-close" aria-label="Close">×</button><h2 id="christmasEventTitle">What's Coming?</h2>
+ <div class="christmas-event-app"><img src="app-icons/santa-voidy-icon.png" alt="" onerror="this.style.visibility='hidden'"><div><strong>Santa Voidy Saves Christmas</strong><p>A Christmas runner with special codes to redeem during December.</p></div></div>
+ <div class="christmas-event-app"><img src="app-icons/MooCow.Icon.png" alt="" onerror="this.style.visibility='hidden'"><div><strong>MooCow Game</strong><p>Christmas Tree Advent Calendar for prizes and a special pajamas outfit.</p></div></div>
+ <div class="christmas-event-app"><img src="app-icons/DaisyBelle.Icon.png" alt="" onerror="this.style.visibility='hidden'"><div><strong>DaisyBelle Game</strong><p>Christmas Tree Advent Calendar for prizes and a special pajamas outfit.</p></div></div>
+ </div></div>
+<header class="world-header">
+
+<div class="world-brand">
+    <img src="ESSAzLife.World.Icon.png" alt="ESSAzLife World">
+
+    <div class="world-brand-text">
+        <h1>ESSAzLife World</h1>
+        <p id="welcomeBackMessage"></p>
+    </div>
+</div>
+
+        <div class="world-controls">
+    <button id="helpButton">❓ Help</button>
+    <button id="bulletinButton">📢 Updates</button>
+    <button id="directoryButton">🔗 Directory</button>
+    <button id="settingsButton">⚙️ Settings</button>
+</div>
+
+    </header>
+
+    <main class="world-main world-paged-main">
+    <div id="worldChristmasBanner" class="christmas-banner" hidden>
+  <div class="christmas-banner-inner"><strong id="christmasBannerTitle">Christmas Event Countdown</strong>
+  <span id="christmasCountdown" aria-live="off">Loading countdown…</span>
+  <button type="button" id="christmasWhatsComing">What's Coming?</button></div>
+</div>
+
+      <div class="world-page-navigation" aria-label="World section navigation">
+        <button type="button" id="worldPreviousPage">Previous</button>
+        <span id="worldPageIndicator" aria-live="polite">Favorites</span>
+        <button type="button" id="worldNextPage">Next</button>
+      </div>
+      <div id="worldPageViewport" class="world-page-viewport" tabindex="0" aria-label="Swipe left or right to change World sections">
+        <div id="worldPageTrack" class="world-page-track">
+          <section class="world-page" data-world-section="justadded"><h2>Just Added</h2><p class="world-page-hint">New apps from the past 7 days</p><div class="app-launcher" id="worldJustAddedApps"></div></section>
+          <section class="world-page" data-world-section="favorites"><h2><button type="button" id="worldEditFavorites" class="world-favorites-heading">Favorites <span aria-hidden="true">✎</span></button></h2><p class="world-page-hint">Select Favorites to choose your apps.</p><div class="app-launcher" id="worldFavoritesApps"></div></section>
+          <section class="world-page" data-world-section="tools"><h2>Tools</h2><div class="app-launcher" id="worldToolsApps"></div></section>
+          <section class="world-page" data-world-section="games"><h2>Games</h2><div class="app-launcher" id="worldGamesApps"></div></section>
+          <section class="world-page" data-world-section="nfc"><h2>NFC</h2><p class="world-page-hint">You need NFC stickers to play these</p><div class="app-launcher" id="worldNfcApps"></div></section>
+          <section class="world-page" data-world-section="sims"><h2>Sims</h2><div class="app-launcher" id="worldSimsApps"></div></section>
+          <section class="world-page" data-world-section="educational"><h2>Educational</h2><div class="app-launcher" id="worldEducationalApps"></div></section>
+          <section class="world-page" data-world-section="media"><h2>Media</h2><div class="app-launcher" id="worldMediaApps"></div></section>
+          <section class="world-page" data-world-section="coming"><h2>Coming Soon</h2><div class="app-launcher" id="comingSoonApps" aria-label="Coming Soon apps"></div></section>
+        </div>
+      </div>
+      <nav id="worldPageDots" class="world-page-dots" aria-label="World page dots"></nav>
+      <section id="worldLegacyApps" hidden aria-hidden="true"><div id="availableApps">
+
+    <div class="app-card" id="handlerApp">
+        <img src="app-icons/Handler.Icon.png" alt="ESSAzLife Handler Edition">
+        <h2>Handler Edition</h2>
+        <p>
+            Log your ESSAs, train them, earn certifications,
+            and access coping tools for anxiety.
+        </p>
+    </div>
+
+    <div class="app-card" id="playModeApp">
+        <img src="app-icons/PlayMode.Icon.png" alt="ESSAzLife PlayMode">
+        <h2>PlayMode</h2>
+        <p>
+            Collect ESSAs, care for them, level up,
+            and unlock new adventures.
+        </p>
+    </div>
+
+    <div class="app-card" id="chorezApp">
+        <img class="chorez-icon" src="app-icons/Chorez.Icon.png" alt="ESSAzLife Chorez">
+        <h2>Chorez</h2>
+        <p>
+            Complete real-life chores, earn rewards,
+            and keep MooCow fed and happy.
+        </p>
+    </div>
+
+</div></section>
+    </main>
+    <div id="worldFavoritesOverlay" class="world-favorites-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="worldFavoritesTitle">
+      <div class="world-favorites-dialog"><h2 id="worldFavoritesTitle">Choose Your Favorites</h2><p>Green apps are favorites. Red apps are not selected. Tap to change them.</p><div id="worldFavoritesChoices" class="world-favorites-choices"></div><div class="world-favorites-actions"><button type="button" id="worldFavoritesCancel">Cancel</button><button type="button" id="worldFavoritesSave">Save</button></div></div>
+    </div>
+
+<!-- COMING SOON INFORMATION POPUP -->
+<div class="coming-soon-overlay" id="comingSoonOverlay" role="dialog" aria-modal="true" aria-labelledby="comingSoonTitle" aria-hidden="true">
+  <div class="coming-soon-popup">
+    <button type="button" class="coming-soon-close" id="comingSoonClose" aria-label="Close">×</button>
+    <img id="comingSoonIcon" alt="" class="coming-soon-icon">
+    <h2 id="comingSoonTitle"></h2>
+    <div id="comingSoonDescription" class="coming-soon-description"></div>
+    <p class="coming-soon-label">✨ Coming Soon! ✨</p>
+    <button type="button" class="coming-soon-done" id="comingSoonDone">Got It!</button>
+  </div>
+</div>
+
+<div class="directory-overlay" id="directoryOverlay">
+
+    <div class="directory-popup">
+
+        <button class="directory-close" id="directoryClose">×</button>
+
+        <h2>🔗 ESSAzLife App Directory</h2>
+
+      <p class="directory-subheading">
+    Here are the individual ESSAzLife apps and their descriptions.
+    Choose an app to visit its page and download it individually as a PWA.
+    See ❓<strong>Help</strong> for details.
+    <b>DON'T FORGET YOUR BACKUP FILES!</b>
+</p>
+
+        <div class="directory-app">
+            <img src="app-icons/Handler.Icon.png" alt="Handler Edition">
+            <div>
+                <h3>Handler Edition</h3>
+                <p>
+                    Log your ESSAs, train them, earn certifications,
+                    and access coping tools for anxiety.
+                </p>
+                <p><a href="https://raisingfloofz.github.io/ESSAzLife-Handler-Edition/" target="_blank" rel="noopener noreferrer">🌐 Open Standalone App ↗</a></p>
+            </div>
+        </div>
+
+        <div class="directory-app">
+            <img src="app-icons/PlayMode.Icon.png" alt="PlayMode">
+            <div>
+                <h3>PlayMode</h3>
+                <p>
+                    Collect ESSAs, care for them, level up,
+                    and unlock new adventures.
+                </p>
+                <p><a href="https://raisingfloofz.github.io/ESSAzLife-PlayMode/" target="_blank" rel="noopener noreferrer">🌐 Open Standalone App ↗</a></p>
+            </div>
+        </div>
+
+        <div class="directory-app">
+            <img src="app-icons/Chorez.Icon.png" alt="Chorez">
+            <div>
+                <h3>Chorez</h3>
+                <p>
+                    Complete real-life chores, earn rewards,
+                    and keep MooCow fed and happy.
+                </p>
+                <p><a href="https://raisingfloofz.github.io/ESSAzLife-Chorez/" target="_blank" rel="noopener noreferrer">🌐 Open Standalone App ↗</a></p>
+            </div>
+        </div>
+
+        
+<!-- ESSAzLife Bookz -->
+<div class="directory-app">
+  <img
+    src="app-icons/Bookz.Icon.png"
+    alt="ESSAzLife Bookz"
+  />
+
+  <div>
+    <h3>ESSAzLife Bookz</h3>
+
+    <p>
+      Explore a free digital library of original
+      ESSA-themed stories! Read books, track your
+      progress, and organize your bookshelves.
+    </p>
+
+    <a
+      href="https://raisingfloofz.github.io/ESSAzLifeBookz/"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      🌐 Open Standalone App ↗
+    </a>
+  </div>
+</div>
+
+
+        <div class="directory-app">
+            <img src="app-icons/Billz.Icon.png" alt="ESSAzLife Billz">
+            <div>
+                <h3>ESSAzLife Billz</h3>
+                <p>Track paychecks, plan bills and overdrafts, and see your spending statistics.</p>
+                <p><a href="https://raisingfloofz.github.io/ESSAzLife-Billz/" target="_blank" rel="noopener noreferrer">🌐 Open Standalone App ↗</a></p>
+            </div>
+        </div>
+
+        <div class="directory-app">
+            <img src="app-icons/Echoz.Icon.png" alt="ESSAzLife Echoz">
+            <div>
+                <h3>ESSAzLife Echoz</h3>
+                <p>Bring your ESSA to life with sound reactions, voice commands, heartbeat, and saved companions.</p>
+                <p><a href="https://raisingfloofz.github.io/ESSAzLife-Echoz/" target="_blank" rel="noopener noreferrer">🌐 Open Standalone App ↗</a></p>
+            </div>
+        </div>
+
+        <div class="directory-app">
+            <img src="app-icons/Groceriez.Icon.png" alt="ESSAzLife Groceriez">
+            <div>
+                <h3>ESSAzLife Groceriez</h3>
+                <p>Organize reusable store lists, plan multi-store shopping trips, set optional budgets, and check off groceries as you shop.</p>
+                <p><a href="https://raisingfloofz.github.io/ESSAzLife-Groceriez/" target="_blank" rel="noopener noreferrer">🌐 Open Standalone App ↗</a></p>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="help-overlay" id="helpOverlay">
+
+    <div class="help-popup">
+
+        <button class="help-close" id="helpClose">×</button>
+
+        <h2>❓ ESSAzLife World Help</h2>
+<a
+    class="tutorial-button"
+    href="https://youtu.be/kRgJaMIpOGk?si=SMlHA5tBkazvHgrb"
+    target="_blank"
+    rel="noopener noreferrer"
+>
+    ▶️ Watch Tutorial
+</a>
+
+        <div class="help-section">
+            <h3>🌎 What is ESSAzLife World?</h3>
+            <p>
+                ESSAzLife World is the headquarters for ESSAzLife apps.
+                It gives you one place to access Handler Edition, PlayMode,
+                Chorez, and future ESSAzLife apps.
+            </p>
+        </div>
+
+        <div class="help-section">
+            <h3>📱 Do I need World?</h3>
+            <p>
+                Nope! ESSAzLife World is optional. You can use World as your
+                all-in-one ESSAzLife app, or use the individual ESSAzLife apps
+                separately.
+            </p>
+        </div>
+
+        <div class="help-section">
+            <h3>🔗 What is Directory?</h3>
+            <p>
+                Directory shows the individual ESSAzLife apps, what they do,
+                and where you can access each standalone app.
+            </p>
+        </div>
+
+        <div class="help-section">
+            <h3>💾 Where is my data stored?</h3>
+            <p>
+                ESSAzLife apps store their data locally in your browser.
+                Your data does not automatically follow you to another device
+                or browser. If you choose to change devices or browsers, or clear 
+                browser history, you will need to get your "Backup" file from <strong>Profile</strong>
+                in the individual app. Take your Downloaded Backup file and restore it in the specific
+                app under profile. Anything from that backup file will be restored on the new device, 
+                however, these will not sync. 
+            </p>
+        </div>
+
+        <div class="help-section">
+            <h3>⬇️ What is a PWA? <strong>(A Message from the developer)</strong></h3>
+            <p>
+                A Progressive Web App (PWA) is a website that can be installed
+                on your device and used more like an app. ESSAzLife World and
+                the individual ESSAzLife apps can be installed as PWAs when
+                supported by your browser and device. PWA is used for all ESSAzLife
+                Apps because if I were to upload the apps to Play Store or App Store, 
+                I would be unable to make these apps available for everyone to enjoy. 
+            </p>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="bulletin-overlay" id="bulletinOverlay">
+
+    <div class="bulletin-popup">
+
+        <button class="bulletin-close" id="bulletinClose">×</button>
+
+        <h2>📢 Update Bulletin Board</h2>
+
+        <p class="bulletin-intro">
+            News, updates, and announcements from ESSAzLife World.
+        </p>
+
+          <div class="bulletin-post">
+            <div class="bulletin-date">November 13, 2026 @ 10pm EST </div>
+            <h3><strong>LET THE COUNTDOWN BEGIN!</strong></h3>
+            <p><strong>Christmas Update coming soon!</strong> 💚</p> <br>
+             1. See how much time until the Christmas update in the banner on top of the screen <br>
+             2. Added dots at the bottom of the screen so you can see what page you are on easier <br>
+             3. New "Just Added" Section for apps that were added <7 days ago <br>
+             4. ESSAzTube is now in progress of being made. <br>
+             5. ESSAzLife Babiez will be finished by end of day today. <br> 
+             6. Turkey Voidy Game is being added by end of day today. <br>
+             <p><strong>💾 Remember:</strong> Your ESSA information stays in your browser. Use Backup &amp; Restore when moving between the standalone and World versions.</p>
+        </div>
+
+         <div class="bulletin-post">
+            <div class="bulletin-date">November 13, 2026 @ 7:24pm EST </div>
+            <h3><strong>NEW MOOCOW GAME!</strong></h3>
+            <p><strong>TAKE CARE OF MOOCOW!</strong> 💚</p> <br>
+             MooCow now has a new app under the Games Page in ESSAzLife World!
+             Take care of MooCow, play games, earn coins, and win prizes!
+             <strong>This game features an exclusive arcade machine, ESSA Rush!</strong>
+             <p><strong>💾 Remember:</strong> Your ESSA information stays in your browser. Use Backup &amp; Restore when moving between the standalone and World versions.</p>
+        </div>
+
+
+         <div class="bulletin-post">
+            <div class="bulletin-date">November 13, 2026 @ 4:18pm EST </div>
+            <h3><strong>⚠️VERY IMPORTANT PLEASE READ!⚠️</strong></h3>
+            <p><strong>CONSTRUCTION ZONE!</strong> 💚</p> <br>
+             We are now using the NEW LAYOUT for ESSAzLife World! <br>
+             Swipe left and right on mobile to navigate. <br>
+             On the <strong>Favorites</strong> page, tap the pencil to add your favorite apps! <br>
+             I am currently constructing a new layout system, DO NOT BE ALARMED. <br>
+             Nothing will happen to your existing files. <br>
+             By the end of the day on Friday, November 13, 2026, we will have a new layout (swipe left and right to navigate), <br>
+             <strong>a NEW MooCow game,</strong> and <br>
+             <strong>a weekly pop-up reminder telling you to: </strong>
+            <p><strong>💾 Remember:</strong> Your ESSA information stays in your browser. Use Backup &amp; Restore when moving between the standalone and World versions.</p>
+        </div>
+
+          <div class="bulletin-post">
+            <div class="bulletin-date">November 12, 2026 @ 1:40am </div>
+            <h3>Major Update!</h3>
+            <p><strong>NEW ESSAzLife: DaisyBelle</strong> 💚</p> <br>
+              DaisyBelle has arrived with her brand new game! <br>
+              Play with your very own DaisyBelle and take care of her! <br>
+              She even goes to school during the week! <br>
+              She has a voice! She is the very first ESSAzLife character to have a voice in-app! <br>
+              New updates will arrive soon, with a special Christmas feature being automatically added December 1, 2026! <br>
+              New mini-games are in-progress! Play mini-games to earn coins to exchange for room wallpapers (full store coming soon) <br>
+            <p><strong>💾 Remember:</strong> Your ESSA information stays in your browser. Use Backup &amp; Restore when moving between the standalone and World versions.</p>
+        </div>
+
+         <div class="bulletin-post">
+            <div class="bulletin-date">November 11, 2026 @ 12:12am </div>
+            <h3>Major Update!</h3>
+            <p><strong>What Changed?</strong> 💚</p>
+          1. <strong>Handler Edition</strong> Restoring backup files fix. Users can now restore their backup files when using Handler Edition through world. <br>
+          2. <strong>ESSAzLife Social</strong> is cancelled. Sorry for the disappointment. It's supposed to be replaced with a magazine but I can't get enough entries :( <br>
+          3. <strong>ESSAzLife Tap</strong> is added to the <strong>Coming Soon</strong> Section, more information coming soon. <br>
+          4. <strong>ESSAzLife Go</strong>is added to the <strong>Coming Soon</strong> Section, more information coming soon. <br>
+          5. <strong>ESSAzLife DaisyBelle</strong> is in the final development stages. <strong>Releasing Thursday, November 12, 2026</strong> <br>
+          6. <strong>ESSAzLife MooCow</strong> is added to the <strong>Coming Soon</strong> Section, tap the icon for more information. <br>
+            <p><strong>💾 Remember:</strong> Your ESSA information stays in your browser. Use Backup &amp; Restore when moving between the standalone and World versions.</p>
+        </div>
+
+        <div class="bulletin-post">
+            <div class="bulletin-date">November 8, 2026 @ 10:45pm </div>
+            <h3>NEW ESSAzLife Echoz Is Here!</h3>
+            <p><strong>A Voice for your ESSAs!</strong> 💚</p>
+            With the ESSAzLife Echoz App, you can enable your ESSAs to hear your voice,
+            and they really respond! Sounds are currently utilized by cats, dogs, and cows.
+            <p><strong>💾 Remember:</strong> Your ESSA information stays in your browser. Use Backup &amp; Restore when moving between the standalone and World versions.</p>
+            <p><strong>Privacy:</strong> Your voice is not recorded or stored.</p>
+        </div>
+
+
+        <div class="bulletin-post">
+            <div class="bulletin-date">November 8, 2026 @ 9:15pm </div>
+            <h3>🛒 ESSAzLife Groceriez Is Here!</h3>
+            <p><strong>ESSAzLife Groceriez has joined ESSAzLife World!</strong> 💚</p>
+            <p>Build reusable grocery lists for your favorite stores, organize items by aisle, and plan shopping trips across multiple stores.</p>
+            <p>Set an optional trip budget, check items off as you shop, and save completed trips in your history.</p>
+            <p>Find Groceriez under <strong>✅ Use Now</strong>, or open the standalone version through the Directory.</p>
+            <p><strong>💾 Remember:</strong> Grocery data stays in your browser. Use Backup &amp; Restore when moving between the standalone and World versions.</p>
+        </div>
+
+
+
+         <div class="bulletin-post">
+            <div class="bulletin-date">November 8, 2026 @ 9pm EST</div>
+            <h3>💸 ESSAzLife Billz Is Here!</h3>
+            <p><strong>ESSAzLife Billz has joined ESSAzLife World!</strong> 🐮</p>
+            <p>Organize multiple paychecks, manage Needs and Wants, plan recurring bills and overdrafts, and view your spending statistics. Pick an ESSA buddy to keep you company!</p>
+            <p>Find Billz in <strong>✅ Use Now</strong>, or visit its standalone website through the Directory.</p>
+            <p><strong>💾 Remember:</strong> Budget data stays in your browser. Use Billz's Backup &amp; Restore to transfer data between standalone Billz and World.</p>
+             <br>
+             <h4>NEW ESSAZLIFE ROBLOX GAME!</h4>
+             <strong>ESSAzLife Roblox Game</strong>
+             <br>
+             Play a virtual pet experience with other members of the ESSA community.
+             In ESSAzLife Roblox Edition, you journey into the woods to tame wild 
+             ESSAs, and live in a house where you can take care of them.
+             <br>
+             This is an ongoing work-in-progress, some features may not work. 
+        </div>
+
+         <div class="bulletin-post">
+  <div class="bulletin-date">November 7, 2026 @ 12pm EST</div>
+
+  <h3>NEW ESSAzLife App!</h3>
+
+   <strong>ESSAzLife: Wishez</strong>
+    <br>
+     Arriving just in time for the Holidays! ESSAzLife Wishez
+     is a wishlist maker where you can create a list of things 
+     you want, and share the link with loved ones!
+     <br>
+     <strong>Please Note: Guest accounts are unable to 
+        share their wishlists via link.
+     </strong>
+     <br>
+     Wishez includes a custom birthday theme during your birth month, plus
+     holiday specific themes which update automatically.
+  </p>
+
+</div>
+
+
+        <div class="bulletin-post">
+  <div class="bulletin-date">November 5, 2026 @ 9am EST</div>
+
+  <h3>NEW ESSAzLife App!</h3>
+
+   <strong>ESSAzLife: Bookz</strong>
+    <br>
+     A free digital library featuring books with 
+     Emotional Support Stuffed Animal (ESSA) themes.
+     Users can read through their World Account, or
+     access the Standalone Website through the Directory. 
+     <br>
+     Accessing the standalone Bookz page allows offline reading
+     once all proper files are downloaded while connected to the internet.
+  </p>
+
+</div>
+
+    <div class="bulletin-post">
+  <div class="bulletin-date">November 4, 2026 @ 12pm EST</div>
+
+  <h3>ESSAzLife World - Visual Changes</h3>
+
+   <strong>You've Got Mail!</strong>
+    <br>
+     Users of ESSAzLife World will now receive a 
+     notification on their screen when there is a
+     new update added to the Updates Board.
+  </p>
+
+   <strong>Sections</strong>
+    <br>
+     The main World page has now been divided into two sections, 
+     ESSAzLife Apps that are available now and ESSAzLife Apps which
+     are coming soon!
+  </p>
+
+  <p>
+    <strong>Guest Mode in World</strong> 🎉
+    <br>
+    ESSAzLife World now functions with guest mode, 
+    while keeping the data for guest accounts and 
+    accounts that are created and loggin in separate,
+    unless in the event of a restored backup file.  
+  </p>
+
+  <p>
+    <strong>Forgot Password and Username</strong> 🎉
+    <br>
+    ESSAzLife World is currently running without the 
+    ability to reset your password. It is very IMPORTANT
+    that users create a backup file to restore as needed 
+    in each ESSAzLife App. 
+  </p>
+
+</div>
+         <div class="bulletin-post">
+  <div class="bulletin-date">October 31, 2026 @ 9pm EST</div>
+
+  <h3>ESSAzLife World - PlayMode Update!</h3>
+
+  <p>
+    <strong>Happy Halloween</strong> 🎉
+    <br>
+    ESSAzLife World will now be the only way to utilize the newest 
+    versions of ESSAzLife Handler Edition, PlayMode, and Chorez. 
+  </p>
+
+  <p>
+    ESSAzLife World now has a Guest Mode option on the login page.
+    <b>Make sure to download your backup files just in case, they <br> 
+    are available under the Profile section of each individual app.</b>
+  </p>
+
+</div>
+
+<div class="bulletin-post">
+  <div class="bulletin-date">October 30, 2026 @ 3pm EST</div>
+
+  <h3>ESSAzLife World - PlayMode Update!</h3>
+
+  <p>
+    <strong>I've brought the latest PlayMode features to ESSAzLife World!</strong> 🎉
+    <br>
+    Please be advised that ESSAzLife PlayMode, Handler Edition, and Chorez
+    will no longer receive updates on their standalone websites.
+    ESSAzLife World will be the only place to access new features instantly.
+    Users will still have access to the original standalone sites.
+  </p>
+
+  <p>
+    <strong>IMPORTANT FOR STANDALONE APP USERS!</strong>
+    <br>
+    If you want to start using the World versions of these apps,
+    you MUST create a backup file in your standalone app
+    (located under the Profile tab) and restore that backup
+    in the corresponding app inside ESSAzLife World.
+  </p>
+
+  <p>
+    <strong>Seasonal Voidy Dogs:</strong>
+    Seasonal Voidy Dogs now appear on the first page of the ESSA
+    selection menu and have improved interactions!
+  </p>
+
+  <p>
+    <strong>Toys &amp; Playroom:</strong>
+    New Voidy Store toys and balls, automatic coin collecting,
+    Stay/Wander controls, and improved ball interactions!
+    <br>
+    <strong>The toys are designed by ESSAzLife Testers!</strong>
+  </p>
+
+  <p>
+    <strong>Arcade Improvements:</strong>
+    Improved arcade selection, machine information popups,
+    and better fullscreen support!
+  </p>
+
+  <p>
+    <strong>Adoption Certificates:</strong>
+    FREE downloadable adoption certificates in multiple colors!
+    <br>
+    <strong>Designed by Sparkling Seafoam!</strong>
+  </p>
+
+  <p>
+    <strong>World Integration:</strong>
+    PlayMode now includes the latest gameplay improvements
+    while staying connected to your ESSAzLife World account!
+  </p>
+
+  <p>
+    💙 Thank you for playing! I hope you enjoy the new update!
+    <br>
+    <strong>🐮 - Raising Floofz</strong>
+  </p>
+</div>
+
+
+        <div class="bulletin-post">
+
+    <div class="bulletin-date">October 19, 2026 @ 12:23am EST</div>
+
+    <h3>Non-World App Users</h3>
+
+    <p>
+        <b>
+            This morning I have updated the 
+            Directory Tab to contain the actual
+            standalone app links. 
+        </b>
+    </p>
+
+    <p>
+        As of November 1st, 2026, 
+        the only way to see the 
+        standalone app links will
+        be through the ESSAzLife World
+        Directory tab. 
+        
+    </p>
+
+    <p>
+        Anyone using the ESSAzLife Apps 
+        via their individual links should
+        be advised that at the end of October
+        2026 the links will be removed from my
+        youtube channel! The only link that will
+        be there will be ESSAzLife World! <br> 
+        <strong>Don't forget to backup your files!</strong>
+    </p>
+
+</div>
+
+         
+       
+<div class="bulletin-post">
+
+    <div class="bulletin-date">October 18, 2026 @ 11:27pm EST</div>
+
+    <h3>☁️ Cloud Accounts</h3>
+
+    <p>
+        ESSAzLife World now supports cloud accounts!
+        Log in to your World account across multiple devices.
+    </p>
+
+    <p>
+        ☁️ <strong>WHAT SYNCS?</strong><br>
+        Your World username, nickname, and password changes.
+    </p>
+
+    <p>
+        💾 <strong>WHAT DOESN'T SYNC?</strong><br>
+        ESSA profiles, game progress, diaries, and other
+        individual app data remain stored locally.
+    </p>
+
+    <p>
+        ⚠️ <strong>CLOUD LIMITS</strong><br>
+        If login or registration limits are reached,
+        please wait and try again later. <b>If you are trying
+        to sign in and receive an error message that cloud 
+        sign-in is down, use your password you set BEFORE 
+        backing up to cloud account!</b>
+    </p>
+
+    <hr>
+
+    <p>
+        🚨 <strong>IMPORTANT BACKUP REMINDER!</strong><br>
+        Download and safely store your backup file from
+        each app's Profile section.
+    </p>
+
+    <p>
+        Backups protect against lost data from clearing browser
+        storage, uninstalling the PWA, changing devices,
+        or device problems.
+    </p>
+
+    <p>
+        <strong>
+            World Cloud does NOT automatically back up
+            your ESSA app data!
+        </strong>
+    </p>
+
+    <p>
+        <strong>💾 ALWAYS KEEP YOUR DOWNLOADED BACKUP FILE!</strong>
+    </p>
+
+</div>
+
+
+
+        
+        <div class="bulletin-post">
+
+    <div class="bulletin-date">October 10, 2026 @ 7:49am EST</div>
+
+    <h3>Automatic Updates</h3>
+
+    <p>
+        ESSAzLife World now works offline AND online as well to bring you
+        automatic updates. When there is a new update, open ESSAzLife World
+        and select the <strong>Updates</strong> tab from the top navigation.
+        Refresh the screen once, and if the new update is visible, you know
+        that the app version updated successfully. <br> Your saved data that
+        is specific to each app in World will NOT reset anymore, as you will 
+        no longer need to clear your browser history just for an update to be 
+        received. <br> <strong>ALWAYS KEEP YOUR DOWNLOADED BACKUP FILE!</strong>
+    </p>
+
+</div>
+
+        <div class="bulletin-post">
+
+    <div class="bulletin-date">October 10, 2026 @ 7:39am EST</div>
+
+    <h3>🧪 Automatic Update Test</h3>
+
+    <p>
+        ~Update inserted for automatic update testing~
+    </p>
+
+</div>
+
+        <div class="bulletin-post">
+
+    <div class="bulletin-date">October 10, 2026 @ 6:34am EST</div>
+
+    <h3>🎮 ESSAzLife PlayMode Improvements!</h3>
+
+    <p>
+        We've made improvements to ESSAzLife PlayMode
+        inside ESSAzLife World!
+    </p>
+
+    <p>
+        Updates include improved mobile landscape layouts,
+        Playroom screen sizing, and navigation adjustments.
+    </p>
+
+    <p>
+        📱 Mobile tip: Tap the ⛶ Full Screen button
+        for the best landscape gameplay experience.
+    </p>
+
+</div>
+
+        <div class="bulletin-post">
+
+            <div class="bulletin-date">October 8, 2026 @ 4:00pm EST</div>
+
+            <h3>🌎 Welcome to ESSAzLife World!</h3>
+
+            <p>
+                ESSAzLife World is officially here! World brings your
+                ESSAzLife apps together into one headquarters while still
+                allowing you to use the individual apps separately.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- SETTINGS -->
+<div class="settings-overlay" id="settingsOverlay">
+
+    <div class="settings-popup">
+
+        <button class="settings-close" id="settingsClose">×</button>
+
+        <h2>⚙️ Settings</h2>
+
+        <p class="settings-subheader">
+    Looking for <strong>Backup and Restore</strong>?
+    Find that under the individual app's Profile section.
+</p>
+
+        <div class="settings-section">
+
+            <h3>👤 Account Settings</h3>
+
+            <p class="settings-account-name" id="settingsAccountName"></p>
+
+            <button class="settings-option" id="changeNicknameButton">
+                Change Nickname
+            </button>
+
+            <button class="settings-option" id="changeUsernameButton">
+                Change Username
+            </button>
+
+            <button class="settings-option" id="changePasswordButton">
+                Change Password
+            </button>
+
+        </div>
+
+        <!-- OPTIONAL CLOUD SYNC -->
+<div class="settings-section">
+
+    <h3>☁️ World Cloud Account</h3>
+
+    <p class="settings-subheader">
+    World cloud accounts let you sign in on another device
+    using your username and password.
+
+    Your ESSA profiles, game progress, and other app data
+    remain stored locally. Use each app's Backup & Restore
+    to transfer that information.
+</p>
+
+    <button
+    class="settings-option"
+    id="upgradeWorldCloudButton"
+    type="button"
+>
+    🌎 Upgrade My World Account to Cloud
+</button>
+
+<p id="worldCloudUpgradeStatus"></p>
+
+    <button class="settings-option" id="googleSignInButton">
+        ☁️ Connect with Google
+    </button>
+
+    <button
+    class="settings-option"
+    id="googleSignOutButton"
+    style="display: none;"
+>
+    🔓 Disconnect Google
+</button>
+
+    <p id="cloudSyncStatus">
+        Not connected to cloud.
+    </p>
+
+</div>
+
+        <div class="settings-section danger-section">
+
+            <h3>Account</h3>
+
+            <button class="settings-option logout-button" id="logoutButton">
+                Log Out
+            </button>
+
+            <button class="settings-option delete-button" id="deleteAccountButton">
+                Delete Account
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- CHANGE NICKNAME -->
+<div class="account-overlay" id="changeNicknameOverlay">
+
+    <div class="account-popup">
+
+        <button class="account-close" id="changeNicknameClose">×</button>
+
+        <h2>Change Nickname</h2>
+
+        <form id="changeNicknameForm">
+
+            <label for="newNickname">Nickname</label>
+
+            <input
+                type="text"
+                id="newNickname"
+                required
+            >
+
+            <p class="account-error" id="nicknameError"></p>
+
+            <button type="submit" class="account-submit">
+                Save Nickname
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- CHANGE USERNAME -->
+<div class="account-overlay" id="changeUsernameOverlay">
+
+    <div class="account-popup">
+
+        <button class="account-close" id="changeUsernameClose">×</button>
+
+        <h2>Change Username</h2>
+
+        <form id="changeUsernameForm">
+
+            <label for="newUsername">Username</label>
+
+            <input
+                type="text"
+                id="newUsername"
+                autocomplete="username"
+                required
+            >
+
+            <p class="account-error" id="usernameError"></p>
+
+            <button type="submit" class="account-submit">
+                Save Username
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- CHANGE PASSWORD -->
+<div class="account-overlay" id="changePasswordOverlay">
+
+    <div class="account-popup">
+
+        <button class="account-close" id="changePasswordClose">×</button>
+
+        <h2>Change Password</h2>
+
+        <form id="changePasswordForm">
+
+            <label for="currentPassword">Current Password</label>
+
+            <input
+                type="password"
+                id="currentPassword"
+                autocomplete="current-password"
+                required
+            >
+
+            <label for="newPassword">New Password</label>
+
+            <input
+                type="password"
+                id="newPassword"
+                autocomplete="new-password"
+                required
+            >
+
+            <label for="confirmNewPassword">Confirm New Password</label>
+
+            <input
+                type="password"
+                id="confirmNewPassword"
+                autocomplete="new-password"
+                required
+            >
+
+            <p class="account-error" id="passwordChangeError"></p>
+
+            <button type="submit" class="account-submit">
+                Save Password
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+
+<!-- WORLD CLOUD PASSWORD VERIFICATION -->
+<div class="account-overlay" id="cloudVerifyOverlay">
+    <div class="account-popup">
+
+        <button
+            class="account-close"
+            id="cloudVerifyClose"
+            type="button"
+        >×</button>
+
+        <h2>🌎 Upgrade to World Cloud</h2>
+
+        <p class="account-intro">
+            Upgrade your existing World account so you
+            can log in on other devices using your
+            username and cloud password.
+        </p>
+
+        <form id="cloudVerifyForm">
+
+            <label for="cloudVerifyPassword">
+                Current World Password
+            </label>
+
+            <input
+                type="password"
+                id="cloudVerifyPassword"
+                autocomplete="current-password"
+                placeholder="Enter your current password"
+                required
+            >
+
+            <label for="cloudNewPassword">
+                New Cloud Password (if needed)
+            </label>
+
+            <input
+                type="password"
+                id="cloudNewPassword"
+                autocomplete="new-password"
+                minlength="12"
+                maxlength="128"
+                placeholder="At least 12 characters"
+            >
+
+            <p class="account-intro">
+                💙 If your current password has at least
+                12 characters, leave the new cloud
+                password field blank.
+
+                If your current password is shorter,
+                choose a new cloud password with at
+                least 12 characters.
+            </p>
+
+            <p
+                class="account-error"
+                id="cloudVerifyError"
+                role="alert"
+            ></p>
+
+            <button
+                type="submit"
+                class="account-submit"
+            >
+                ☁️ Create My Cloud Account
+            </button>
+
+        </form>
+
+        <p class="account-intro">
+            💾 Your existing local World account and
+            individual ESSAzLife app data will remain
+            on this device.
+        </p>
+
+    </div>
+</div>
+
+
+
+<!-- LOG OUT CONFIRMATION -->
+<div class="confirm-overlay" id="logoutConfirmOverlay">
+
+    <div class="confirm-popup">
+
+        <h2>Log Out?</h2>
+
+        <p>
+            Are you sure you want to log out of ESSAzLife World?
+        </p>
+
+        <div class="confirm-buttons">
+
+            <button class="cancel-button" id="cancelLogoutButton">
+                Cancel
+            </button>
+
+            <button class="confirm-logout-button" id="confirmLogoutButton">
+                Log Out
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- DELETE ACCOUNT CONFIRMATION -->
+<div class="confirm-overlay" id="deleteConfirmOverlay">
+
+    <div class="confirm-popup">
+
+        <h2>⚠️ Delete Account?</h2>
+
+        <p id="deleteExplanation">This removes your World account. Your ESSA app data is not deleted.</p>
+        <div id="cloudDeleteFields" hidden>
+            <label for="cloudDeletePassword">Current Cloud Password</label>
+            <input type="password" id="cloudDeletePassword" autocomplete="current-password">
+            <label for="cloudDeleteConfirmText">Type DELETE to confirm</label>
+            <input type="text" id="cloudDeleteConfirmText" autocomplete="off">
+            <p class="account-error" id="cloudDeleteError" role="alert"></p>
+        </div>
+
+        <p>
+            This will not delete data stored inside the individual
+            ESSAzLife apps.
+        </p>
+
+        <p>
+            <strong>This cannot be undone.</strong>
+        </p>
+
+        <div class="confirm-buttons">
+
+            <button class="cancel-button" id="cancelDeleteButton">
+                Cancel
+            </button>
+
+            <button class="confirm-delete-button" id="confirmDeleteButton">
+                Delete Account
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- NEW UPDATE NOTIFICATION -->
+<div id="newUpdateOverlay" class="new-update-overlay"
+     role="dialog" aria-modal="true"
+     aria-labelledby="newUpdateTitle"
+     style="display:none;">
+
+  <div class="new-update-popup">
+
+    <button id="newUpdateClose"
+            class="new-update-close"
+            type="button"
+            aria-label="Dismiss notification">×</button>
+
+    <div class="new-update-envelope">💌</div>
+
+    <h2 id="newUpdateTitle">
+      You've Got Mail!
+    </h2>
+
+    <p>
+      Changes were made to ESSAzLife World.
+      See what is new in the Updates Board. 
+    </p>
+
+    <button id="newUpdateShowMe"
+            class="new-update-show"
+            type="button">
+      Show Me!
+    </button>
+
+  </div>
+</div>
+
+
+
+
+
+<!-- ROBLOX EDITION LAUNCH POPUP -->
+<style>
+  #robloxWorldOverlay[hidden] { display: none !important; }
+  #robloxWorldOverlay { position: fixed; inset: 0; z-index: 100000; background: rgba(0,0,0,.68); display: flex; align-items: center; justify-content: center; padding: 18px; box-sizing: border-box; }
+  #robloxWorldOverlay .roblox-world-dialog { background: white; color: #263742; width: min(100%, 460px); border-radius: 22px; padding: 26px; box-sizing: border-box; box-shadow: 0 14px 45px rgba(0,0,0,.28); text-align: center; position: relative; }
+  #robloxWorldOverlay h2 { color: #179DF4; margin: 8px 22px 12px; }
+  #robloxWorldOverlay p { line-height: 1.55; }
+  #robloxWorldOverlay .roblox-world-note { font-weight: 700; margin: 16px 0; }
+  #robloxWorldOverlay .roblox-world-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 18px; }
+  #robloxWorldOverlay button { cursor: pointer; border-radius: 12px; padding: 12px 18px; font-weight: 700; font-size: 15px; }
+  #robloxWorldPlay { background: #179DF4; border: 2px solid #179DF4; color: white; }
+  #robloxWorldCancel { background: white; border: 2px solid #a9b9c4; color: #263742; }
+  #robloxWorldClose { position: absolute; right: 12px; top: 8px; background: transparent; border: 0; font-size: 28px !important; padding: 4px 10px !important; }
+</style>
+<div id="robloxWorldOverlay" hidden role="dialog" aria-modal="true" aria-labelledby="robloxWorldTitle" aria-describedby="robloxWorldDescription">
+  <div class="roblox-world-dialog">
+    <button type="button" id="robloxWorldClose" aria-label="Close Roblox popup">×</button>
+    <h2 id="robloxWorldTitle">🎮 ESSAzLife PlayMode: Roblox Edition</h2>
+    <p id="robloxWorldDescription">Explore ESSAzLife in Roblox with friends! Visit the game's Roblox page to play.</p>
+    <p class="roblox-world-note">⚠️ This is an ongoing work in progress.</p>
+    <div class="roblox-world-actions">
+      <button type="button" id="robloxWorldPlay">🎮 Play on Roblox</button>
+      <button type="button" id="robloxWorldCancel">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- FRIDAY BACKUP DAY REMINDER -->
+<div id="worldBackupFridayOverlay" hidden role="dialog" aria-modal="true" aria-labelledby="worldBackupFridayTitle">
+  <div class="world-backup-friday-dialog">
+    <h2 id="worldBackupFridayTitle">Friday Backup Day!</h2>
+    <p>It's 5 PM Eastern! Remember to download your Backup files from each ESSAzLife app you use so your progress stays safe.</p>
+    <p>Open each app's Backup &amp; Restore section and save a fresh copy of your data.</p>
+    <button type="button" id="worldBackupFridayDismiss">Got it!</button>
+  </div>
+</div>
+<script src="script.js"></script>
+<script type="module" src="firebase.js"></script>
+
+</body>
+</html>
