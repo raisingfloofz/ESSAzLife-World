@@ -1985,6 +1985,10 @@ launchUrl: "apps/bookz/index.html",
   if(!track||!viewport)return;
   const prev=document.getElementById('worldPreviousPage'),next=document.getElementById('worldNextPage'),indicator=document.getElementById('worldPageIndicator');
   const appSections={handler:'tools',chorez:'tools',wishez:'tools',billz:'tools',groceriez:'tools',playmode:'games',daisybelle:'games',moocow:'games',roblox:'games',babiez:'nfc',tap:'nfc',go:'nfc',collectorz:'nfc',gearz:'nfc',tapless:'sims',echoz:'sims',math:'educational',breedz:'educational',finderz:'educational',bookz:'media',dictionary:'media',swipez:'media',magazine:'media',helperz:'tools',calculator:'tools',cityz:'games',court:'games',retroz:'games'};
+  // Seven-day launch windows, in America/New_York calendar dates.
+  const worldReleaseDates={billz:'2026-11-08',daisybelle:'2026-11-11',echoz:'2026-11-08',groceriez:'2026-11-08',moocow:'2026-11-13'};
+  function nyDate(){return new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());}
+  function isJustAdded(id){const released=worldReleaseDates[id];if(!released)return false;const age=(Date.parse(nyDate()+'T00:00:00Z')-Date.parse(released+'T00:00:00Z'))/86400000;return age>=0&&age<7;}
   const registered=[];
   function register(id,source,section,ready){
     if(!source)return;
@@ -1995,7 +1999,8 @@ launchUrl: "apps/bookz/index.html",
     node.removeAttribute('aria-hidden');
     node.addEventListener('click',()=>source.click());
     registered.push({id,source,node,section,ready});
-    const target=document.getElementById(section==='coming'?'comingSoonApps':'world'+section[0].toUpperCase()+section.slice(1)+'Apps');
+    const displaySection=ready&&isJustAdded(id)?'justadded':section;
+    const target=document.getElementById(displaySection==='coming'?'comingSoonApps':'world'+displaySection[0].toUpperCase()+displaySection.slice(1)+'Apps');
     if(target)target.appendChild(node);
   }
   const legacy=[['handler','handlerApp','tools'],['playmode','playModeApp','games'],['chorez','chorezApp','tools']];
@@ -2022,12 +2027,19 @@ launchUrl: "apps/bookz/index.html",
     const container=document.getElementById('world'+key[0].toUpperCase()+key.slice(1)+'Apps');
     if(container&&!container.children.length){const p=document.createElement('p');p.className='world-empty-message';p.textContent='Nothing is here yet… 👀';container.appendChild(p);}
   }
-  // Edit release dates here when a new app launches (America/New_York dates).
-  const worldReleaseDates={};
-  // Example: worldReleaseDates['turkey-voidy']='2026-11-13';
-  function nyDate(){return new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());}
-  function renderJustAdded(){const area=document.getElementById('worldJustAddedApps');if(!area)return;area.replaceChildren();const today=Date.parse(nyDate()+'T00:00:00Z');for(const app of registered){const released=worldReleaseDates[app.id];if(!app.ready||!released)continue;const age=(today-Date.parse(released+'T00:00:00Z'))/86400000;if(age<0||age>=7)continue;const clone=app.node.cloneNode(true);clone.addEventListener('click',()=>app.source.click());area.appendChild(clone);}if(!area.children.length){const p=document.createElement('p');p.className='world-empty-message';p.textContent='No new apps this week. Check back soon!';area.appendChild(p);}}
-  renderJustAdded();
+  // App cards live in Just Added during their first seven calendar days,
+  // then move automatically to their permanent categories.
+  function updateReleaseSections(){
+    for(const app of registered){
+      if(!app.ready || !worldReleaseDates[app.id])continue;
+      const targetSection=isJustAdded(app.id)?'justadded':app.section;
+      const target=document.getElementById('world'+targetSection[0].toUpperCase()+targetSection.slice(1)+'Apps');
+      if(target && app.node.parentElement!==target)target.appendChild(app.node);
+    }
+    const area=document.getElementById('worldJustAddedApps');
+    if(area){const empty=area.querySelector('.world-empty-message');if(empty)empty.remove();if(!area.children.length){const p=document.createElement('p');p.className='world-empty-message';p.textContent='No new apps this week. Check back soon!';area.appendChild(p);}}
+  }
+  updateReleaseSections();
   const storageKey='essazlifeWorldFavoritesV1';
   let favorites=[];
   try{const saved=JSON.parse(localStorage.getItem(storageKey)||'[]');if(Array.isArray(saved))favorites=saved.filter(x=>typeof x==='string');}catch(e){}
@@ -2042,7 +2054,7 @@ launchUrl: "apps/bookz/index.html",
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!overlay.hidden)closeFavorites();});
   renderFavorites();
   // Keep each section on one horizontal page; Coming Soon has its own internal pages.
-  let pages=[];let index=0;
+  let pages=[];let index=1; // Open on Favorites, immediately right of Just Added.
   function repaginate(){
     track.querySelectorAll('.world-extra-page').forEach(n=>n.remove());
     const originalPages=[...track.querySelectorAll('.world-page')];
@@ -2057,6 +2069,12 @@ launchUrl: "apps/bookz/index.html",
   viewport.addEventListener('touchend',e=>{if(!e.changedTouches.length)return;const dx=e.changedTouches[0].clientX-startX,dy=e.changedTouches[0].clientY-startY;if(Math.abs(dx)>55&&Math.abs(dx)>Math.abs(dy)*1.4)show(index+(dx<0?1:-1));},{passive:true});
   viewport.addEventListener('keydown',e=>{if(e.target!==viewport)return;if(e.key==='ArrowRight')show(index+1);if(e.key==='ArrowLeft')show(index-1);});
   repaginate();
+  // Refresh when a launch window expires, without requiring users to clear data.
+  let lastReleaseDay=nyDate();
+  function refreshReleaseDay(){const day=nyDate();if(day===lastReleaseDay)return;lastReleaseDay=day;updateReleaseSections();repaginate();}
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden)refreshReleaseDay();});
+  window.addEventListener('focus',refreshReleaseDay);
+  setInterval(refreshReleaseDay,60000);
 })();
 
 /* Friday 5 PM America/New_York: once per Friday, per browser. */
