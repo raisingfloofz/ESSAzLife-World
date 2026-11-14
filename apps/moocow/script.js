@@ -125,28 +125,48 @@ function tic(){let board=Array(9).fill(''),over=false;gameScreen('ESSA Tic-Tac-T
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function memory(){let deck=shuffle([...outfits,...outfits]),revealed=[],matched=new Set(),moves=0,locked=false,hintPair=[],hintTimer=null;gameScreen('Memory Game','Match all seven MooCow outfit pairs!');const hint=document.createElement('button');hint.className='hint-lightbulb';hint.textContent='💡';hint.title='Buy a hint';hint.setAttribute('aria-label','Buy a hint for 5 coins');$('#gameScore').after(hint);const clearHint=()=>{clearTimeout(hintTimer);hintPair=[]};hint.onclick=()=>{if(locked||matched.size===deck.length)return;confirmHint(()=>{if(locked||matched.size===deck.length||state.coins<5){if(state.coins<5)toast('You need 5 MooCow Coins');return}const options=deck.map((n,i)=>({n,i})).filter(x=>!matched.has(x.i)&&!revealed.includes(x.i));const first=options.find(x=>options.filter(y=>y.n===x.n).length>=2);if(!first)return;state.coins-=5;save();status();clearHint();hintPair=options.filter(x=>x.n===first.n).slice(0,2).map(x=>x.i);draw();hintTimer=setTimeout(()=>{hintPair=[];draw()},10000)})};function draw(){$('#gameScore').textContent=`Moves: ${moves} • Pairs: ${matched.size/2}/${outfits.length}`;$('#gameBoard').innerHTML='';deck.forEach((name,i)=>{const b=document.createElement('button');b.innerHTML=matched.has(i)||revealed.includes(i)?iconTile(name):'<img class="memory-card-back" src="MooCow.Icon.png" alt="MooCow app icon" onerror="if(!this.dataset.fallback){this.dataset.fallback=1;this.src=\'../app-icons/MooCow.Icon.png\'}else if(this.dataset.fallback===\'1\'){this.dataset.fallback=2;this.src=\'../../app-icons/MooCow.Icon.png\'}else{this.onerror=null;this.src=\'Outfits/cars-outfit.png\'}">';if(hintPair.includes(i))b.classList.add('hint-green');b.disabled=locked||matched.has(i)||revealed.includes(i);b.onclick=()=>{gameTap();revealed.push(i);draw();if(revealed.length===2){moves++;locked=true;const [a,c]=revealed;if(deck[a]===deck[c]){matched.add(a);matched.add(c);objectiveMet();revealed=[];locked=false;clearHint();draw();if(matched.size===deck.length)earned()}else{const token=activeGame;setTimeout(()=>{if(activeGame!==token||$('#fullScreen').hidden)return;revealed=[];locked=false;draw()},850)}}};$('#gameBoard').append(b)})}$('#restartGame').onclick=()=>{clearHint();memory()};gameCleanup=clearHint;draw()}
 function tiles(){
- let deck=shuffle([...outfits,...outfits,...outfits]),tray=[],score=0,ended=false,hintCells=[],hintTimer=null;
- gameScreen('ESSA Tiles','Select three matching MooCow outfits. Seven unmatched tiles in the tray ends the round!','five');
+ // Each level has a whole number of triples. The previous game used seven
+ // outfit types (21 tiles) but incorrectly required eight matches (24 tiles).
+ const levels=[
+  {pairs:7,columns:5,label:'Level 1'},
+  {pairs:14,columns:5,label:'Level 2'},
+  {pairs:21,columns:5,label:'Level 3'},
+  {pairs:28,columns:5,label:'Level 4'}
+ ];
+ let levelIndex=0,deck=[],tray=[],score=0,ended=false,hintCells=[],hintTimer=null;
+ gameScreen('ESSA Tiles','Collect three matching outfits. Avoid filling the tray with seven unmatched tiles!','five');
+ const main=$('.full-main');main.classList.add('tiles-main');
+ const board=$('#gameBoard');board.classList.add('tiles-board');
  const hint=document.createElement('button');hint.className='hint-lightbulb';hint.textContent='💡';hint.title='Buy a hint';hint.setAttribute('aria-label','Buy a hint for 5 coins');$('#gameScore').after(hint);
  const clearHint=()=>{clearTimeout(hintTimer);hintCells=[]};
+ function setupLevel(index){
+  levelIndex=index;score=0;tray=[];ended=false;clearHint();
+  // Repeat each of the seven outfits 3 times per round, and repeat rounds
+  // for harder levels; this guarantees every tile has a matching triple.
+  const repetitions=levels[index].pairs/outfits.length;
+  deck=shuffle(Array.from({length:repetitions},()=>outfits.flatMap(n=>[n,n,n])).flat());
+  draw();
+ }
  function findHint(){
-  // Prioritize a set already started in the tray, then any complete set in the deck.
   const names=[...new Set([...tray,...deck])];
   for(const name of names){const needed=3-tray.filter(n=>n===name).length;const indexes=deck.map((n,i)=>n===name?i:-1).filter(i=>i>=0);if(needed>0&&indexes.length>=needed)return indexes.slice(0,needed)}
   return [];
  }
- hint.onclick=()=>{
-  if(ended)return;
-  const indexes=findHint();if(!indexes.length){toast('No matching set available right now');return}
-  confirmHint(()=>{if(ended)return;if(state.coins<5){toast('You need 5 MooCow Coins');return}const current=findHint();if(!current.length)return;state.coins-=5;save();status();clearHint();hintCells=current;draw();hintTimer=setTimeout(()=>{hintCells=[];draw()},10000)});
- };
+ hint.onclick=()=>{if(ended)return;const indexes=findHint();if(!indexes.length){toast('No matching set available right now');return}confirmHint(()=>{if(ended||state.coins<5){if(state.coins<5)toast('You need 5 MooCow Coins');return}const current=findHint();if(!current.length)return;state.coins-=5;save();status();clearHint();hintCells=current;draw();hintTimer=setTimeout(()=>{hintCells=[];draw()},10000)})};
  function draw(){
-  $('#gameScore').textContent=`Matches: ${score/3} / 8`;
-  $('#gameTray').innerHTML=tray.map(iconTile).join('');$('#gameBoard').innerHTML='';
+  const level=levels[levelIndex];
+  $('#gameScore').textContent=`${level.label} • Matches: ${score/3} / ${level.pairs}`;
+  $('#gameTray').innerHTML=tray.map(iconTile).join('');board.innerHTML='';
   deck.forEach((name,i)=>{const b=document.createElement('button');b.innerHTML=iconTile(name);if(hintCells.includes(i))b.classList.add('hint-green');b.disabled=ended;
-   b.onclick=()=>{if(ended)return;gameTap();deck.splice(i,1);tray.push(name);clearHint();if(tray.filter(n=>n===name).length===3){tray=tray.filter(n=>n!==name);score+=3;objectiveMet()}draw();if(tray.length>=7){ended=true;play('oh-yeah');result('Tray Full!','Game over! Try again.');return}if(deck.length===0&&tray.length===0){ended=true;earned()}};$('#gameBoard').append(b)});
+   b.onclick=()=>{if(ended)return;gameTap();deck.splice(i,1);tray.push(name);clearHint();if(tray.filter(n=>n===name).length===3){tray=tray.filter(n=>n!==name);score+=3;objectiveMet()}
+    draw();
+    if(deck.length===0&&tray.length===0){ended=true;clearHint();if(levelIndex<levels.length-1){reward(20,5);result(`${level.label} Complete!`,`20 MooCow Coins + 5 XP earned. Ready for ${levels[levelIndex+1].label}?`,()=>setupLevel(levelIndex+1))}else{reward(50,10);play('good-job');result('All Levels Complete!','You cleared all four ESSA Tiles levels! 50 MooCow Coins + 10 XP earned!')}}
+    else if(tray.length>=7){ended=true;play('oh-yeah');result('Tray Full!','Try this level again.',()=>setupLevel(levelIndex))}
+   };board.append(b)});
  }
- $('#restartGame').onclick=()=>{clearHint();tiles()};gameCleanup=clearHint;draw();
+ $('#restartGame').onclick=()=>setupLevel(levelIndex);
+ gameCleanup=()=>{clearHint();main.classList.remove('tiles-main')};
+ setupLevel(0);
 }
 function twist(){let board=Array.from({length:25},()=>outfits[Math.floor(Math.random()*outfits.length)]),selected=-1,score=0,turns=0,hintCells=[],hintTimer=null;gameScreen('ESSA Twist','Swap adjacent outfits to make three in a row. Make 10 matches to win!','five');const hint=document.createElement('button');hint.className='hint-lightbulb';hint.textContent='💡';hint.title='Buy a hint';hint.setAttribute('aria-label','Buy a hint for 5 coins');$('#gameScore').after(hint);const adjacent=(a,b)=>Math.abs(a-b)===5||(Math.floor(a/5)===Math.floor(b/5)&&Math.abs(a-b)===1);function findMatches(){const found=new Set();for(let r=0;r<5;r++)for(let c=0;c<5;c++){const i=r*5+c;if(c<3&&board[i]===board[i+1]&&board[i]===board[i+2])[i,i+1,i+2].forEach(x=>found.add(x));if(r<3&&board[i]===board[i+5]&&board[i]===board[i+10])[i,i+5,i+10].forEach(x=>found.add(x))}return found}const clearHint=()=>{clearTimeout(hintTimer);hintCells=[]};function validSwap(){for(let a=0;a<25;a++)for(const b of [a+1,a+5]){if(b>=25||!adjacent(a,b))continue;[board[a],board[b]]=[board[b],board[a]];const match=findMatches().size>0;[board[a],board[b]]=[board[b],board[a]];if(match)return[a,b]}return null}hint.onclick=()=>{const pair=validSwap();if(!pair){toast('No available match — restart to shuffle');return}confirmHint(()=>{if(state.coins<5){toast('You need 5 MooCow Coins');return}state.coins-=5;save();status();clearHint();hintCells=pair;draw();hintTimer=setTimeout(()=>{hintCells=[];draw()},10000)})};function draw(){$('#gameScore').textContent=`Matches: ${score}/10 • Swaps: ${turns}`;$('#gameBoard').innerHTML='';board.forEach((name,i)=>{const b=document.createElement('button');b.innerHTML=iconTile(name);if(selected===i)b.style.background='#ffe378';if(hintCells.includes(i))b.classList.add('hint-green');b.onclick=()=>{gameTap();if(selected<0)selected=i;else{const a=selected;selected=-1;if(adjacent(a,i)){[board[a],board[i]]=[board[i],board[a]];turns++;const hit=findMatches();if(hit.size){clearHint();objectiveMet();score++;hit.forEach(k=>board[k]=outfits[Math.floor(Math.random()*outfits.length)]);if(score>=10){draw();earned();return}}else [board[a],board[i]]=[board[i],board[a]]}}draw()};$('#gameBoard').append(b)})}$('#restartGame').onclick=()=>{clearHint();twist()};gameCleanup=clearHint;draw()}
 function highway(){gameCleanup?.();activeGame='highway';full('ESSA Rush',`<div class="highway-wrap"><div class="rush-topbar"><div id="highwayScore">ESSAs dodged: 0</div><label class="rush-volume" for="rushVolume"><span aria-hidden="true">🔊</span><span class="rush-volume-label">Music</span><input id="rushVolume" type="range" min="0" max="100" step="1" value="50" aria-label="ESSA Rush music volume"><output id="rushVolumeValue">50%</output></label></div><div id="highwayRoad" class="highway-road" role="application" aria-label="Swipe left or right to dodge approaching ESSAs"><div class="highway-lines"></div><div id="highwayPlayer" class="highway-car player-car"><img src="essa-rush-essas/essa-rush-moocow.png" alt="MooCow"></div></div><div class="highway-controls"><button id="highwayLeft" class="pink-button">◀ Left</button><button id="highwayRight" class="pink-button">Right ▶</button></div><p>Swipe left or right, or use the buttons and arrow keys.</p><button id="highwayRestart" class="pink-button">Restart</button><button id="highwayBack" class="pink-button">← Games Menu</button></div>`);let lane=1,obstacles=[],avoided=0,ended=false,elapsed=0,last=performance.now(),spawn=0,raf=0,downX=null;const road=$('#highwayRoad'),player=$('#highwayPlayer');
@@ -178,8 +198,9 @@ function highway(){gameCleanup?.();activeGame='highway';full('ESSA Rush',`<div c
       // A browser gesture restriction is different from a missing/unsupported file.
       if(err?.name==='NotAllowedError'){
         console.warn('ESSA Rush music needs a user gesture:',err);
-        toast('Tap Left or Right to enable ESSA Rush music');
+        toast('Tap the road to enable ESSA Rush music');
         const resume=()=>{if(highwayAudio===audio&&!ended)audio.play().catch(e=>console.warn('Music retry failed:',e));};
+        road.addEventListener('pointerdown',resume,{once:true});
         $('#highwayLeft').addEventListener('click',resume,{once:true});
         $('#highwayRight').addEventListener('click',resume,{once:true});
       }else fallback(err);
