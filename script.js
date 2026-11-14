@@ -1978,8 +1978,8 @@ launchUrl: "apps/bookz/index.html",
 
 /* World horizontal section navigation and favorites. Existing account and app code is unchanged. */
 (function initWorldPages(){
-  const order=['favorites','tools','games','nfc','sims','educational','media','coming'];
-  const names=['Favorites','Tools','Games','NFC','Sims','Educational','Media','Coming Soon'];
+  const order=['justadded','favorites','tools','games','nfc','sims','educational','media','coming'];
+  const names=['Just Added','Favorites','Tools','Games','NFC','Sims','Educational','Media','Coming Soon'];
   const track=document.getElementById('worldPageTrack');
   const viewport=document.getElementById('worldPageViewport');
   if(!track||!viewport)return;
@@ -2022,6 +2022,12 @@ launchUrl: "apps/bookz/index.html",
     const container=document.getElementById('world'+key[0].toUpperCase()+key.slice(1)+'Apps');
     if(container&&!container.children.length){const p=document.createElement('p');p.className='world-empty-message';p.textContent='Nothing is here yet… 👀';container.appendChild(p);}
   }
+  // Edit release dates here when a new app launches (America/New_York dates).
+  const worldReleaseDates={};
+  // Example: worldReleaseDates['turkey-voidy']='2026-11-13';
+  function nyDate(){return new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());}
+  function renderJustAdded(){const area=document.getElementById('worldJustAddedApps');if(!area)return;area.replaceChildren();const today=Date.parse(nyDate()+'T00:00:00Z');for(const app of registered){const released=worldReleaseDates[app.id];if(!app.ready||!released)continue;const age=(today-Date.parse(released+'T00:00:00Z'))/86400000;if(age<0||age>=7)continue;const clone=app.node.cloneNode(true);clone.addEventListener('click',()=>app.source.click());area.appendChild(clone);}if(!area.children.length){const p=document.createElement('p');p.className='world-empty-message';p.textContent='No new apps this week. Check back soon!';area.appendChild(p);}}
+  renderJustAdded();
   const storageKey='essazlifeWorldFavoritesV1';
   let favorites=[];
   try{const saved=JSON.parse(localStorage.getItem(storageKey)||'[]');if(Array.isArray(saved))favorites=saved.filter(x=>typeof x==='string');}catch(e){}
@@ -2044,7 +2050,7 @@ launchUrl: "apps/bookz/index.html",
     for(let section of originalPages){const grid=section.querySelector('.app-launcher');if(!grid)continue;const nodes=[...grid.children];const max=section.dataset.worldSection==='coming'?9:12;if(nodes.length>max){const chunks=[];for(let i=max;i<nodes.length;i+=max)chunks.push(nodes.slice(i,i+max));for(const chunk of chunks){const extra=document.createElement('section');extra.className='world-page world-extra-page';extra.dataset.worldSection=section.dataset.worldSection;const title=document.createElement('h2');title.textContent=section.querySelector('h2')?.textContent+' (continued)';extra.appendChild(title);const g=document.createElement('div');g.className='app-launcher';chunk.forEach(n=>g.appendChild(n));extra.appendChild(g);section.after(extra);section=extra;}}}
     pages=[...track.querySelectorAll('.world-page')];index=Math.min(index,pages.length-1);show(index);
   }
-  function show(i){index=Math.max(0,Math.min(i,pages.length-1));track.style.transform='translateX(-'+(index*100)+'%)';indicator.textContent=pages[index]?.querySelector('h2')?.textContent||names[index]||'World';prev.disabled=index===0;next.disabled=index===pages.length-1;}
+  function show(i){index=Math.max(0,Math.min(i,pages.length-1));track.style.transform='translateX(-'+(index*100)+'%)';indicator.textContent=pages[index]?.querySelector('h2')?.textContent||names[index]||'World';prev.disabled=index===0;next.disabled=index===pages.length-1;const dots=document.getElementById('worldPageDots');if(dots){dots.replaceChildren();pages.forEach((page,n)=>{const b=document.createElement('button');b.type='button';b.className='world-page-dot'+(n===index?' active':'');b.setAttribute('aria-label','Go to '+(page.querySelector('h2')?.textContent||'page '+(n+1)));b.setAttribute('aria-current',n===index?'page':'false');b.addEventListener('click',()=>show(n));dots.appendChild(b);});}}
   prev.addEventListener('click',()=>show(index-1));next.addEventListener('click',()=>show(index+1));
   let startX=0,startY=0;
   viewport.addEventListener('touchstart',e=>{if(e.touches.length===1){startX=e.touches[0].clientX;startY=e.touches[0].clientY;}},{passive:true});
@@ -2082,4 +2088,13 @@ launchUrl: "apps/bookz/index.html",
   checkFridayBackup();
   setInterval(checkFridayBackup, 15000);
   document.addEventListener('visibilitychange', () => { if (!document.hidden) checkFridayBackup(); });
+})();
+/* Christmas event banner, America/New_York seasonal timing. */
+(function(){
+ const banner=document.getElementById('worldChristmasBanner'),count=document.getElementById('christmasCountdown'),title=document.getElementById('christmasBannerTitle');
+ const modal=document.getElementById('christmasEventOverlay');if(!banner||!modal)return;
+ const start=Date.parse('2026-11-13T00:00:00-05:00'),launch=Date.parse('2026-12-01T00:00:00-05:00'),end=Date.parse('2026-12-27T00:00:00-05:00');
+ function update(){const now=Date.now();banner.hidden=now<start||now>=end;if(banner.hidden)return;if(now>=launch){title.textContent='Christmas Event Is Live!';count.textContent='December 1–26, 2026';return;}title.textContent='Christmas Event Countdown';const secs=Math.max(0,Math.ceil((launch-now)/1000));const d=Math.floor(secs/86400),h=Math.floor(secs%86400/3600),m=Math.floor(secs%3600/60),s=secs%60;count.textContent=`${d}d ${String(h).padStart(2,'0')}h ${String(m).padStart(2,'0')}m ${String(s).padStart(2,'0')}s`;}
+ update();setInterval(update,1000);
+ const open=document.getElementById('christmasWhatsComing'),close=document.getElementById('christmasEventClose');open.addEventListener('click',()=>{modal.hidden=false;close.focus();});close.addEventListener('click',()=>{modal.hidden=true;open.focus();});modal.addEventListener('click',e=>{if(e.target===modal)modal.hidden=true;});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!modal.hidden)modal.hidden=true;});
 })();
