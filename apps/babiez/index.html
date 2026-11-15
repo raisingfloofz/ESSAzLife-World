@@ -40,7 +40,7 @@ body{background:#f3f5f8}
 // Audio files live beside index.html in the repository root.
 const SOUND_FILES={breathing:'breathing.wav',heartbeat:'heartbeat.wav',sleeping:'sleeping.wav',crying:'crying.wav',gassy:'gassy-crying.wav',fart:'fart.mp3',spit:'spit-up.wav',drinking:'drinking.wav',burp:'burp.mp3',neh:'neh.wav',owh:'owh.wav',eh:'eh.wav',caregiver:'caregiver-detected.wav',registered:'caregiver-registered.wav',lost:'points-lost.wav',passing:'passing.mp3',failing:'failing.m4a',babbling:'babbling.wav',happy:'happy.wav',attention:'attention.mp3',fussy:'fussy.wav',sneeze:'sneeze.wav',coo:'coo.wav',talking:'talking.wav',laugh:'laugh.wav',mama:'baby.calling.mama.wav',daddy:'baby.calling.daddy.wav',nana:'baby.calling.nana.wav'};
 const audioState={foreground:null,background:null,heartbeat:null,crying:null,muted:false,unlocked:false};
-let sleepTimer=null, micStream=null,micCtx=null,micAnalyser=null,micData=null,micLevel=0,micStatus='Microphone off',speechRecognition=null,lastSpeechAt=0,lastStartleAt=0,lastVoiceAt=0,voiceBusy=false;
+let sleepTimer=null, micStream=null,micCtx=null,micAnalyser=null,micData=null,micLevel=0,micStatus='Microphone off',speechRecognition=null,lastSpeechAt=0,lastStartleAt=0,lastVoiceAt=0,voiceBusy=false,loudSamples=0,previousMicLevel=0;
 function makeSound(key,loop=false){const a=new Audio('./'+SOUND_FILES[key]);a.preload='none';a.loop=loop;a.volume=key==='heartbeat'?.09:key==='breathing'?.23:key==='sleeping'?.34:.8;return a}
 function stopAudio(a){if(a){a.pause();try{a.currentTime=0}catch{}}}
 function silenceAll(){stopAudio(audioState.crying);audioState.crying=null;stopAudio(audioState.foreground);stopAudio(audioState.background);stopAudio(audioState.heartbeat);audioState.foreground=null;audioState.background=null;audioState.heartbeat=null}
@@ -53,7 +53,7 @@ if(key==='crying'){
 }
 let a=makeSound(key,loop);if(background){stopAudio(audioState.background);audioState.background=a;if(key==='breathing'){stopAudio(audioState.heartbeat);audioState.heartbeat=makeSound('heartbeat',true);audioState.heartbeat.play().catch(()=>{})}else{stopAudio(audioState.heartbeat);audioState.heartbeat=null}a.play().catch(()=>{});return}
 stopAudio(audioState.foreground);audioState.foreground=a;if(audioState.background)audioState.background.volume=.035;if(audioState.heartbeat)audioState.heartbeat.volume=.015;
-a.addEventListener('ended',()=>{if(audioState.foreground===a){audioState.foreground=null;if(audioState.background)audioState.background.volume=(audioState.background.src.endsWith('/crying.wav')?.85:.23);if(audioState.heartbeat)audioState.heartbeat.volume=.09}},{once:true});a.play().catch(()=>{});}
+a.addEventListener('ended',()=>{if(audioState.foreground===a){audioState.foreground=null;if(audioState.background)audioState.background.volume=audioState.background.src.endsWith('/'+SOUND_FILES.sleeping)?.34:.23;if(audioState.heartbeat)audioState.heartbeat.volume=.09}},{once:true});a.play().catch(()=>{});}
 // Prepare the crying recording during the user's I'm Ready tap, before timed needs begin.
 function primeCrying(){
   if(audioState.crying)return;
@@ -253,8 +253,34 @@ function showCustomDialog(title,content){document.getElementById('careDialog')?.
 function openCareMenu(){const s=session;if(!s?.running)return;showCustomDialog('Use caregiver ID',`<p class="small muted">Choose an activity. Babiez will show whether it matches the baby's needs.</p><div class="grid2">${[['bottle','Bottle'],['diaper1','Diaper'],['wipes','Wipes'],['cream','Cream'],['thermometer','Thermometer'],['medicine','Medicine'],['sleep','Bed'],['carseat','Car seat'],['soap','Bath'],['aspirator','Nasal care'],['pacifier','Pacifier'],['toy001','Toy']].map(([k,l])=>`<button class="btn alt" onclick="careMenuAction('${k}')">${l}</button>`).join('')}</div>`)}
 function careMenuAction(k){document.getElementById('careDialog')?.remove();const s=session;if(!s?.running)return;const expected=s.need?.item;const correct=!s.need||k===expected||(s.need?.id==='diaper'&&k==='diaper1');showScanOverlay(correct);if(!correct){s.events.push({type:'incorrect',item:k,at:Date.now()});return}if(k==='thermometer')return showTemperature();if(k==='medicine')return handleMedicine();if(k.startsWith('toy'))return handleToy();if(k==='bottle'){s.attended=true;s.feedingStage='making';activity('Feeding started');render();return openBottleDialog()}if(k==='sleep'||k==='carseat')placeBaby(k);else activity(({diaper1:'Diaper change started',wipes:'Diaper change started',cream:'Rash care started',soap:'Bath started',aspirator:'Nasal care started',pacifier:'Soothing started'}[k]||'Care started'));if(s.need)completeNeed(k);else{s.events.push({type:'proactive',item:k,at:Date.now()});s.completed++;render()}}
 async function startMicrophone(){if(micStream||!session?.running||session.paused)return;try{if(!navigator.mediaDevices?.getUserMedia){micStatus='Microphone unavailable';return}micStream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:false}});micCtx=new(window.AudioContext||window.webkitAudioContext)();const source=micCtx.createMediaStreamSource(micStream);micAnalyser=micCtx.createAnalyser();micAnalyser.fftSize=1024;source.connect(micAnalyser);micData=new Uint8Array(micAnalyser.fftSize);micStatus='Quiet';startSpeechRecognition()}catch(e){micStatus='Microphone unavailable';console.warn('Mic permission:',e)}}
-function stopMicrophone(){try{speechRecognition?.abort()}catch{}speechRecognition=null;try{micStream?.getTracks().forEach(t=>t.stop())}catch{}micStream=null;try{micCtx?.close()}catch{}micCtx=null;micAnalyser=null;micData=null;micStatus='Microphone off';micLevel=0}
-function updateMicrophoneLevel(){if(!micAnalyser||!micData||!session?.running)return;micAnalyser.getByteTimeDomainData(micData);let sum=0;for(const x of micData){const v=(x-128)/128;sum+=v*v}const rms=Math.sqrt(sum/micData.length);micLevel=Math.min(100,Math.round(rms*430));const s=session;s.envLevel=micLevel;micStatus=micLevel>=75?'Loud':micLevel>=35?'Moderate / White Noise':'Quiet';const bar=$('environmentBar'),txt=$('environmentText');if(bar){bar.style.width=micLevel+'%';bar.style.background=micLevel>=75?'#dc4141':micLevel>=35?'#e5b338':'#27a66a'}if(txt)txt.textContent=micStatus;if(s.asleep&&micLevel>=80&&Date.now()-lastStartleAt>15000){lastStartleAt=Date.now();wakeBaby('startle');activity('Baby startled by loud noise');if(!s.need)startCrying('pacifier')}}
+function stopMicrophone(){try{speechRecognition?.abort()}catch{}speechRecognition=null;try{micStream?.getTracks().forEach(t=>t.stop())}catch{}micStream=null;try{micCtx?.close()}catch{}micCtx=null;micAnalyser=null;micData=null;micStatus='Microphone off';micLevel=0;loudSamples=0;previousMicLevel=0}
+function updateMicrophoneLevel(){
+ const s=session;if(!s?.running)return;
+ const bar=$('environmentBar'),txt=$('environmentText');
+ if(!micAnalyser||!micData||micCtx?.state!=='running'){
+  s.envLevel=0;micLevel=0;loudSamples=0;micStatus='Microphone off / unavailable';
+  if(bar){bar.style.width='0%';bar.style.background='#a0a0a0'}
+  if(txt)txt.textContent=micStatus;
+  return;
+ }
+ micAnalyser.getByteTimeDomainData(micData);
+ let sum=0;for(const x of micData){const v=(x-128)/128;sum+=v*v}
+ const rms=Math.sqrt(sum/micData.length);
+ micLevel=Math.min(100,Math.round(rms*430));s.envLevel=micLevel;
+ micStatus=micLevel>=75?'Loud':micLevel>=35?'Moderate / White Noise':'Quiet';
+ if(bar){bar.style.width=micLevel+'%';bar.style.background=micLevel>=75?'#dc4141':micLevel>=35?'#e5b338':'#27a66a'}
+ if(txt)txt.textContent=micStatus;
+ // Only a sustained loud environment can startle a sleeping baby.
+ // Demo is for guided NFC practice, not environmental startle testing.
+ // Never react to the baby's own crying or to short audio peaks.
+ const eligible=s.mode!=='demo'&&s.asleep&&!s.need&&!audioState.crying&&!audioState.foreground;
+ loudSamples=eligible&&micLevel>=80?loudSamples+1:0;
+ if(loudSamples>=3&&Date.now()-lastStartleAt>30000){
+  loudSamples=0;lastStartleAt=Date.now();
+  activity('Baby startled by loud noise');startCrying('pacifier');
+ }
+ previousMicLevel=micLevel;
+}
 function startSpeechRecognition(){const C=window.SpeechRecognition||window.webkitSpeechRecognition;if(!C||speechRecognition||!micStream)return;try{const r=new C();speechRecognition=r;r.lang='en-US';r.continuous=true;r.interimResults=false;r.onresult=e=>{if(!session?.running||session.asleep||session.need||session.location!=='held'||session.feedingStage)return;if(Date.now()-lastVoiceAt<2500||Date.now()-lastSpeechAt<3500)return;const heard=Array.from(e.results).slice(e.resultIndex).map(x=>x[0]?.transcript||'').join(' ').toLowerCase();const key=/\b(mama|momma)\b/.test(heard)?'mama':/\b(dada|daddy)\b/.test(heard)?'daddy':/\bnana\b/.test(heard)?'nana':null;lastSpeechAt=Date.now();if(key)playVoice(key);else if(heard.trim())sound('talking')};r.onend=()=>{if(speechRecognition===r&&session?.running&&!session.paused&&micStream){try{r.start()}catch{}}};r.onerror=e=>{if(e.error==='not-allowed'||e.error==='service-not-allowed'){speechRecognition=null}};r.start()}catch(e){console.warn('Speech recognition unavailable',e);speechRecognition=null}}
 window.prepareDollPermissions=prepareDollPermissions;window.openCareHistory=openCareHistory;window.openCareMenu=openCareMenu;window.careMenuAction=careMenuAction;window.setDemoBandForAll=setDemoBandForAll;window.nextDemoCare=nextDemoCare;window.goHome=goHome;window.beginWizard=beginWizard;window.openHelpVideo=openHelpVideo;window.scanFor=scanFor;window.saveCaregiver=saveCaregiver;window.saveBaby=saveBaby;window.chooseBaby=chooseBaby;window.startMode=startMode;window.beginSession=beginSession;window.startNfcListener=startNfcListener;window.togglePause=togglePause;window.finishSession=finishSession;window.bottleMade=bottleMade;window.useBandForBottle=useBandForBottle;window.saveHelpUrl=saveHelpUrl;window.replaceBand=replaceBand;window.removeCaregiver=removeCaregiver;window.render=render;window.page=page;window.wizard=wizard;window.session=session;
 // Keep inline onclick references synchronized with state changes.
