@@ -1249,7 +1249,7 @@ cloudVerifyForm.addEventListener("submit", async function (event) {
 
 const futureWorldApps = [
   {
-    id: "dimensionz", name: "Dimensionz", icon: "Dimensionz.Icon.png",
+    id: "dimensionz", name: "Dimensionz", icon: "dimensionz.icon.png",
     status: "available", launchUrl: "apps/dimensionz/index.html",
     description: ["Your personal fictional chat diary. Create characters, conversations, stories, and memories."]
   },
@@ -2042,7 +2042,7 @@ launchUrl: "apps/bookz/index.html",
     registered.push({id,source,node,section,ready});
     // Seasonal Turkey Voidy lives only in Just Added. Babiez enters NFC Nov 20.
     if(id==='turkey-voidy-game'||id==='babiez')return;
-    const target=document.getElementById(section==='coming'?'comingSoonApps':'world'+section[0].toUpperCase()+section.slice(1)+'Apps');
+    const target=document.getElementById(section==='coming'?'comingSoonApps':section==='nonessa'?'worldNonessaApps':'world'+section[0].toUpperCase()+section.slice(1)+'Apps');
     if(target)target.appendChild(node);
   }
   const legacy=[['handler','handlerApp','tools'],['playmode','playModeApp','games'],['chorez','chorezApp','tools']];
