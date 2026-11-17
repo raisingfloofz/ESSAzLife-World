@@ -1080,7 +1080,7 @@ render();playIntro();syncScheduledCalls();if(!db.settings.lastProactiveAt||Date.
 </script>
 <!-- World return navigation: stays visible on every Dimensionz screen. -->
 <style>
-  #dimensionzWorldReturn{position:fixed;right:12px;top:calc(10px + env(safe-area-inset-top, 0px));z-index:2147483000;width:43px;height:43px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:#20243b;color:white;font-size:24px;line-height:1;display:grid;place-items:center;box-shadow:0 3px 12px #0006;cursor:pointer}
+  #dimensionzWorldReturn{position:fixed;right:12px;top:50%;transform:translateY(-50%);z-index:2147483000;width:43px;height:43px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:#20243b;color:white;font-size:24px;line-height:1;display:grid;place-items:center;box-shadow:0 3px 12px #0006;cursor:pointer}
   #dimensionzWorldReturn:focus-visible{outline:3px solid #fff;outline-offset:3px}
 </style>
 <button id="dimensionzWorldReturn" type="button" title="Return to ESSAzLife World" aria-label="Return to ESSAzLife World">🌎</button>
