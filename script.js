@@ -1397,8 +1397,8 @@ const futureWorldApps = [
     "id": "dictionary",
     "name": "Dictionary",
     "icon": "dictionary.icon.png",
-    "status": "coming-soon",
-    "launchUrl": "",
+    "status": "available",
+    "launchUrl": "apps/dictionary/index.html",
     "description": [
       "Look up words and their meanings."
     ]
@@ -2019,7 +2019,7 @@ launchUrl: "apps/bookz/index.html",
   const viewport=document.getElementById('worldPageViewport');
   if(!track||!viewport)return;
   const prev=document.getElementById('worldPreviousPage'),next=document.getElementById('worldNextPage'),indicator=document.getElementById('worldPageIndicator');
-  const appSections={handler:'tools',chorez:'tools',wishez:'tools',billz:'tools',groceriez:'tools',playmode:'games',daisybelle:'games',moocow:'games',roblox:'games',babiez:'nfc',tap:'nfc',go:'nfc',collectorz:'nfc',gearz:'nfc',tapless:'sims',echoz:'sims',math:'educational',breedz:'educational',finderz:'educational',bookz:'media',dictionary:'media',swipez:'media',magazine:'media',helperz:'tools',calculator:'tools',cityz:'games',court:'games',retroz:'games',driverz:'educational',dimensionz:'nonessa',essaztube:'media'};
+  const appSections={handler:'tools',chorez:'tools',wishez:'tools',billz:'tools',groceriez:'tools',playmode:'games',daisybelle:'games',moocow:'games',roblox:'games',babiez:'nfc',tap:'nfc',go:'nfc',collectorz:'nfc',gearz:'nfc',tapless:'sims',echoz:'sims',math:'educational',breedz:'educational',finderz:'educational',bookz:'media',dictionary:'educational',swipez:'media',magazine:'media',helperz:'tools',calculator:'tools',cityz:'games',court:'games',retroz:'games',driverz:'educational',dimensionz:'nonessa',essaztube:'media'};
   // Seven-day launch windows, in America/New_York calendar dates.
   const worldReleaseDates={'turkey-voidy-game':'2026-11-13',babiez:'2026-11-13',billz:'2026-11-08',daisybelle:'2026-11-11',echoz:'2026-11-08',groceriez:'2026-11-08',moocow:'2026-11-13',calculator:'2026-11-15',dimensionz:'2026-11-17',essaztube:'2026-11-17'};
   function nyDate(){
@@ -2031,6 +2031,7 @@ launchUrl: "apps/bookz/index.html",
     if(id==='turkey-voidy-game')return nyDate()>='2026-11-13'&&nyDate()<'2026-12-01';
     if(id==='dimensionz')return nyDate()>='2026-11-17'&&nyDate()<='2026-11-24';
     if(id==='driverz')return nyDate()>='2026-11-17'&&nyDate()<='2026-11-24';
+    if(id==='dictionary')return nyDate()>='2026-11-17'&&nyDate()<='2026-11-24';
     if(id==='essaztube')return nyDate()>='2026-11-17'&&nyDate()<='2026-11-24';
     if(id==='calculator')return nyDate()>='2026-11-15'&&nyDate()<='2026-11-21';
     const released=worldReleaseDates[id];
