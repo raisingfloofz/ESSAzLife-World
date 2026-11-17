@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#171321"><title>Dimensionz — Your Personal Chat Diary</title><meta name="dimensionz-version" content="Final Conversation Edition 1.0"><style>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#171321"><title>Dimensionz — Your Personal Chat Diary</title><style>
 :root{color-scheme:dark;--bg:#12101b;--panel:#241d32;--line:#483a59;--muted:#b7aac7;--accent:#7855b5;--in:#352e43;--out:#7652b3}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#f8f4ff;font:16px system-ui,Arial}button,input,textarea,select{font:inherit}button{cursor:pointer;color:inherit;background:#3d3251;border:0;border-radius:14px;padding:11px 14px}button:disabled{opacity:.45}input,textarea,select{color:#fff;background:#181422;border:1px solid #5a496e;border-radius:13px;padding:12px;width:100%}textarea{resize:vertical;min-height:45px;max-height:130px}label{display:block;margin:12px 0 5px;color:#d5cce0;font-size:14px}h1,h2,h3,p{margin-top:0}.muted{color:var(--muted)}.tiny{font-size:12px}.app{max-width:900px;margin:auto;min-height:100dvh}.top{background:#251d34;padding:15px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--line)}.top h1{font-size:22px;margin:0}.grow{flex:1;min-width:0}.page{padding:18px 15px 100px}.nav{position:fixed;bottom:0;left:0;right:0;background:#251d34;border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:8px max(5px,env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom));z-index:10}.nav button{background:transparent;font-size:12px;padding:9px 5px}.nav button.active{color:#c3a0ff}.primary{background:var(--accent)}.danger{background:#7d334b}.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:13px}.contact{display:flex;align-items:center;gap:12px;cursor:pointer}.avatar{width:48px;height:48px;object-fit:cover;border-radius:50%;background:#624783;display:grid;place-items:center;flex:none;font-weight:700;font-size:20px}.avatar img{width:100%;height:100%;border-radius:50%;object-fit:cover}.status{display:inline-block;width:10px;height:10px;border-radius:50%;background:#e05274;margin-right:4px}.status.online{background:#50d18e}.status.away{background:#f3c54d}.stack{display:flex;gap:9px;flex-wrap:wrap}.stack>*{flex-shrink:0}.row{display:flex;align-items:center;gap:10px}.row>*{min-width:0}.screen-chat{height:100dvh;display:flex;flex-direction:column}.chat-head{flex:none}.disclosure{text-align:center;background:#211b2d;color:#c8bed5;padding:8px;font-size:11px}.messages{flex:1;overflow:auto;padding:18px 14px;display:flex;flex-direction:column;gap:10px}.bubble{max-width:83%;width:max-content;min-width:68px;padding:11px 13px;border-radius:23px;white-space:pre-wrap;overflow-wrap:anywhere;position:relative;animation:appear .22s ease}.bubble.out{align-self:flex-end;background:var(--out);border-bottom-right-radius:6px}.bubble.in{align-self:flex-start;background:var(--in);border-bottom-left-radius:6px}.bubble .meta{font-size:11px;opacity:.72;text-align:right;margin-top:6px}.bubble.deleted{font-style:italic;color:#d3c9df}.bubble img{max-width:250px;max-height:320px;display:block;border-radius:12px}.composer{background:#251d34;padding:10px 12px calc(12px + env(safe-area-inset-bottom));border-top:1px solid var(--line)}.composer .row{align-items:end}.composer textarea{flex:1}.composer button{min-width:42px}.compose-extras{display:flex;gap:8px;align-items:center;margin-top:8px}.compose-extras button{font-size:13px;padding:8px}.modal-back{position:fixed;inset:0;background:#000b;z-index:30;display:flex;align-items:center;justify-content:center;padding:20px}.modal{background:#292139;border:1px solid #72588f;border-radius:22px;padding:20px;width:min(100%,520px);max-height:90dvh;overflow:auto}.modal h2{margin-bottom:15px}.hidden{display:none!important}.gender{display:flex;gap:8px}.gender button{flex:1;font-size:25px}.gender button.selected{outline:2px solid #b49aff;background:#684a99}.notice{border:1px solid #6e568c;border-radius:12px;padding:10px;background:#30273e;color:#ddd1ed;font-size:13px}.typing{align-self:flex-start;background:var(--in);padding:12px 16px;border-radius:22px;color:#cabbe0;letter-spacing:4px;animation:pulse 1s infinite}.intro{position:fixed;inset:0;background:#050505;z-index:50;display:grid;place-items:center;padding:30px;text-align:center}.intro button{position:absolute;bottom:calc(24px + env(safe-area-inset-bottom));right:20px;background:#352b48;border:1px solid #6c548a}.intro div{font-size:clamp(24px,6vw,38px);font-weight:700;animation:introf 2.6s ease both}.story{position:fixed;inset:0;background:#120e1d;z-index:40;display:flex;flex-direction:column}.story .messages{max-width:650px;width:100%;margin:auto}.story-head{padding:18px;background:#251d34}.reader{line-height:1.75;font-size:18px;white-space:pre-wrap}.small{font-size:13px}.sep{border:0;border-top:1px solid var(--line);margin:18px 0}.link{color:#94e4e1;text-decoration:underline}.chip{border:1px solid var(--line);padding:7px 10px;border-radius:20px;font-size:13px}.badge{font-size:12px;color:#d1b9f6}.empty{text-align:center;color:#b8aac8;margin:40px 0}@keyframes appear{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}@keyframes pulse{50%{opacity:.35}}@keyframes introf{0%,100%{opacity:0}20%,75%{opacity:1}}@media(min-width:700px){.nav{max-width:900px;margin:auto}.bubble{max-width:65%}}
 .setup-wrap{min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:22px 15px;background:radial-gradient(circle at top,#342449,var(--bg) 65%)}.setup-card{width:min(100%,530px);background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:24px}.setup-card h1{font-size:28px}.color-grid{display:flex;flex-wrap:wrap;gap:11px;margin:10px 0 17px}.color-choice{width:42px;height:42px;border:3px solid transparent;border-radius:50%;padding:0;box-shadow:0 0 0 1px #ffffff44}.color-choice.selected{outline:3px solid white;outline-offset:2px}.typing .dot{display:inline-block;animation:dotbounce 1s infinite}.typing .dot:nth-child(2){animation-delay:.17s}.typing .dot:nth-child(3){animation-delay:.34s}@keyframes dotbounce{0%,65%,100%{opacity:.35;transform:translateY(0)}30%{opacity:1;transform:translateY(-4px)}}
 
@@ -621,78 +621,6 @@ function dzReact(c,raw,history,romantic){
  return reply;
 }
 
-
-// Dimensionz final conversation director. Rule-based, offline, per-character state.
-// High-confidence intentions take precedence over combinatorial filler.
-const DZ_FINAL_ROMANCE=/^(?:crush|love interest|dating|boyfriend|girlfriend|partner|fianc[eé]e?|husband|wife|spouse|ex|ex-boyfriend|ex-girlfriend|ex-partner|ex-spouse|situationship|complicated)$/i;
-function dzFinalRomantic(c){return DZ_FINAL_ROMANCE.test(String(c.relationship||'').trim())}
-function dzFinalPick(c,key,choices,history=[]){
- const st=c.dzDirector||(c.dzDirector={});
- const recent=(history||[]).filter(m=>m.side==='in'&&!m.deleted).slice(-12).map(m=>String(m.text||'').trim().toLowerCase());
- const options=choices.filter(v=>v&&!recent.includes(String(v).trim().toLowerCase())&&!((st.lastReplies||[]).includes(v)));
- const pool=options.length?options:choices.filter(v=>v&&!recent.includes(String(v).trim().toLowerCase()));
- const out=(pool.length?pool:choices)[Math.floor(Math.random()*(pool.length||choices.length))]||'';
- st.lastReplies=[...(st.lastReplies||[]).slice(-14),out];st.lastKey=key;
- return out.replaceAll('{you}',String(c.callsYou||db.profile.name||'').trim()||'you');
-}
-function dzFinalDirector(c,input,history=[]){
- const raw=String(input||'').trim(),t=raw.toLowerCase().replace(/[’]/g,"'").replace(/\s+/g,' ');
- const st=c.dzDirector||(c.dzDirector={}),rom=dzFinalRomantic(c),ex=/^ex(?:-|$)/i.test(c.relationship||'');
- const last=[...history].reverse().find(m=>m.side==='in'&&m.type==='text'&&!m.deleted),prev=String(last?.text||'').toLowerCase();
- const answer=(key,options)=>dzFinalPick(c,key,options,history);
- const fresh=Date.now()-(st.threadAt||0)<35*60*1000;
- const set=(topic,stage=0)=>{st.thread=topic;st.stage=stage;st.threadAt=Date.now()};
- const follow=/^(?:why|why\?|how come|what happened|what happened\?|what happened\?!|tell me more|go on|what do you mean|what was it|and then|then what|what next|what happened next|really\??|seriously\??|are you okay|you okay|what's wrong|what went wrong)[?!. ]*$/i.test(t);
- // Reply to the character's immediately preceding statement before starting a new topic.
- if(follow){
-  if(/(?:the way you laugh|your laugh|your smile|you make me smile)/.test(prev))return answer('laugh-follow',rom?['Because your laugh makes even a terrible day feel lighter, {you}.','Because when you laugh, I can’t help smiling too.','Because hearing you happy means more to me than you know.']:['Because your laugh is contagious.','Because it always cheers me up.']);
-  if(/(?:ridiculous situation|made a fool|something funny|could not stop laughing)/.test(prev)||fresh&&st.thread==='funny'){
-   set('funny',Math.min(3,(st.stage||0)+1));
-   return st.stage===1?answer('funny-detail',['I tried to look composed, caught my foot on a chair, and nearly sent everything flying. 😂','I waved at someone who wasn’t waving at me, then had to pretend I was stretching.','I was so distracted I walked into the wrong room and carried on talking like I belonged there.']):st.stage===2?answer('funny-next',['The worst part? Someone saw the whole thing. I’ll never live it down. 😂','I laughed so hard at myself I couldn’t even explain what happened.']):answer('funny-end',['At least I can laugh about it now. Tell me you’ve done something equally embarrassing. 😂','That’s the whole ridiculous story. I hope it gave you a smile.']);
-  }
-  if(/(?:stressful|rough day|hard day|frustrat|one thing after another|hectic|tiring)/.test(prev)||fresh&&st.thread==='stress'){
-   set('stress',Math.min(3,(st.stage||0)+1));
-   return st.stage===1?answer('stress-detail',isKillian(c)?['Bloody hell, a plan fell apart, then everyone wanted answers at once. I just needed a moment to breathe.','Aye, it was one frustrating thing after another. Nothing dangerous, just exhausting.']:['A plan fell apart at the last minute, and I spent the afternoon trying to fix it.','There was a misunderstanding that took ages to straighten out. It wore me down.']):answer('stress-more',['It’s settled now, thankfully. Talking with you is a much nicer way to end the day.','I’m alright now. I appreciate you asking about it.']);
-  }
-  if(/(?:i miss you|missed you|love you|thinking of you|thinking about you)/.test(prev))return answer('affection-why',rom?['Because you still matter to me, {you}. ❤️','Because some feelings don’t just disappear.','Because you make the quiet moments feel less empty. 🥺']:['Because I care about you.','Because I value having you in my life. ❤️']);
-  if(/(?:wondering how you were|checking on you|you alright)/.test(prev))return answer('checkin-follow',['I wanted to make sure you were doing okay.','You crossed my mind, so I thought I’d check in.']);
-  if(fresh&&st.thread==='baby')return answer('baby-follow',['I was thinking about what having a child would mean for both of us. Have you imagined what that life might look like?','I want to hear what having a baby means to you. Is it something you’ve wanted for a long time?']);
-  if(fresh&&st.thread==='future')return answer('future-follow',['I’m thinking about what we both want, and whether we’re ready to talk about it seriously.','I don’t want to make promises lightly. But I do want to understand what you’re hoping for.']);
-  if(fresh&&st.thread==='feelings')return answer('feelings-follow',rom?['Because you’re still important to me. I don’t always know how to say that.','Because I meant it, {you}. ❤️']:['Because I meant what I said.','Because I care about how you feel.']);
-  if(/\b(?:you first|what should we talk about|your choice)\b/.test(prev))return answer('topic-choice',['Alright, I’ll pick something. What’s one thing that made you smile today?','Then tell me about something you’re looking forward to.','Let’s talk about dreams. What’s something you hope happens this year?']);
-  return null; // Don't invent an explanation when the prior statement offers no clue.
- }
- // Serious topics override greeting banks and ordinary scripted responses.
- if(/\b(?:i want (?:to have )?(?:a baby|children|a child|kids)|i wish (?:i|we) (?:had|could have) (?:a baby|children)|i want to be (?:a mom|a dad|a parent))\b/.test(t)){
-  set('baby');return answer('baby',rom?(ex?['A baby? That’s a big thing to tell me, {you}. Have you been thinking about what a second chance for us might look like?','You want a baby? I won’t pretend that doesn’t stir something in me. Tell me what you’re imagining.']:['A baby? ❤️ Have you been thinking about starting a family together?','That’s a beautiful, enormous decision. Tell me what’s on your heart.']):['That sounds important to you. Have you been thinking about parenthood for a while?','A baby? Tell me what’s brought that to your mind.']);
- }
- if(/\b(?:will you marry me|would you marry me|do you want to marry me)\b/.test(t)){
-  set('future');return answer('marriage',rom?(ex?["If we had another chance, I'd want to do things differently. Marriage would mean choosing each other with our eyes open.","Aye, I’ve thought about what a second chance could mean. I wouldn’t want to rush a promise that important."]:['I’d want us to choose each other every day, not just on one beautiful day. ❤️','That’s a promise I’d want to make with my whole heart.']):['That’s a very personal question. What made you ask me?','I care about you, and I’d want us to talk about what that would mean.']);
- }
- if(/^(?:what'?s on your mind|what are you thinking(?: about)?|what's going through your head|tell me what you're thinking)[?!. ]*$/.test(t)){
-  set('feelings');return answer('mind',rom?(ex?['Truthfully? You, {you}. More often than I care to admit.','I’ve been thinking about us. About what we were, and what we might still be.','Aye, I was thinking about the good moments we shared. 🥺']:['You, actually. I was wondering how I got so lucky. 💕','I’ve been thinking about the next time we get to talk.']):['A few things from today. Mostly I’m glad we’re talking.','I’ve been thinking about what I want to do next. What about you?']);
- }
- if(/\b(?:the thought of you|thinking about you|i'm thinking of you|you make me smile|you made me smile)\b/.test(t)){
-  set('feelings');return answer('thoughtofyou',rom?(ex?['🥺❤️','Aye, you’ve got me smiling now too, {you}.','Careful, {you}. You’ll have me falling for you all over again. 😘']:['🥺💕','You make me smile too, {you}. ❤️','I wish I could kiss you right now. 😘']):['That’s sweet of you to say. ❤️','You’ve made me smile too.']);
- }
- if(/\b(?:i miss you|missing you|missed you|wish you were here|wish i was there|wish we were together|wish i were with you)\b/.test(t)){
-  set('feelings');return answer('missing',rom?['🥺💕','I miss you too, {you}. More than I can say.','I wish we could be together right now. ❤️']:['I miss talking with you too. 🥺','I wish we could catch up in person.']);
- }
- if(/^(?:perfectly said|well said|beautifully said|that was beautiful|that's beautiful|so sweet|that's sweet|you said that perfectly|i love that)[.! 🥺❤️💕]*$/.test(t))return answer('compliment',rom?['Aye. I meant every word, {you}. ❤️','I’m glad you understood what I meant. 🥺','You deserve to hear it. 💕']:['Thank you. I meant it.','That means a lot to me. ❤️']);
- if(/^(?:of course i do|i do|me too|same here|of course|absolutely|definitely)[.! 🥺❤️💕]*$/.test(t)&&/\b(?:miss|love|care|think|smile|want|wish)\b/.test(prev))return answer('agree-affection',rom?['🥺💕','Aye, {you}. ❤️','I’m glad we feel the same way.']:['❤️','That means a lot to me.']);
- if(/^(?:😘|💋|❤️|♥️|💗|💖|💕|🥺|😭|😢|😂|🤣|🥰|😍|🫂|😔|😞|😊|☺️|👍|💜|💞|💓|💘|💝|😘💕|🥺❤️)+$/u.test(raw.replace(/\s/g,''))){
-  if(/[😘💋]/u.test(raw))return answer('emoji-kiss',rom?['😘','😘💕','🥰']:['❤️','😊']);
-  if(/[😭😢😔😞]/u.test(raw))return answer('emoji-cry',['🥺','🫂','😭']);
-  if(/[😂🤣]/u.test(raw))return answer('emoji-laugh',['😂','🤣','😂❤️']);
-  if(/[❤️♥💗💖💕💜💞💓💘💝🥰😍🥺]/u.test(raw))return answer('emoji-heart',rom?['💕','🥺','😘','🥺❤️']:['❤️','🥰','💕']);
- }
- if(/\b(?:i love you|love you)\b/.test(t)){set('feelings');return answer('love',rom?['I love you too. ❤️','I love you too, {you}.','I love you too. 😘']:['I love you too. ❤️','Love you too. 💕']);}
- if(/\b(?:i'm (?:crying|sad|upset|heartbroken)|i feel (?:lonely|hurt|scared|sad)|i had a terrible day)\b/.test(t)){set('feelings');return answer('support',['Oh, {you}. I’m sorry. Do you want to tell me what happened? 🥺','I’m here. You don’t have to pretend everything’s okay. 🫂','That sounds painful. Do you want to talk about it, or would you rather have a distraction?']);}
- if(/\b(?:i'm (?:sick|ill|exhausted|tired)|i can't sleep|i have a headache)\b/.test(t))return answer('care',['That sounds rough, {you}. Have you been able to rest?','I’m sorry you’re dealing with that. Is there anything that would make tonight easier?','I wish I could help you feel more comfortable. 🥺']);
- if(/^(?:your choice|you choose|pick a topic|you decide|surprise me)[.! ]*$/.test(t))return answer('choose-topic',['Alright, tell me one thing you’ve been dreaming about lately.','Then I’ll ask: what’s something that made you happy this week?','I’ll choose. What would your perfect day look like?']);
- return null;
-}
-
 function engineV4(c,input,history=[]){
  const raw=String(input||'').trim(),s=raw.toLowerCase().replace(/[’]/g,"'").replace(/\s+/g,' '),plain=s.replace(/[.!?…\s]+$/g,'').trim();
  const st=c.scriptState||(c.scriptState={}),recent=[...history].filter(x=>x.type==='text'&&x.text),lastIncoming=recent.slice().reverse().find(x=>x.side==='in');
@@ -701,7 +629,6 @@ function engineV4(c,input,history=[]){
  const has=(re)=>re.test(s),exact=(re)=>re.test(plain);
  const remembered=recallCharacterMemory(c,raw);if(remembered)return remembered;
  const newlyLearned=rememberFromMessage(c,raw);if(newlyLearned)return newlyLearned.freeform?`I'll remember that: ${newlyLearned.name}.`:`I'll remember that your ${newlyLearned.relation}'s name is ${newlyLearned.name}.`;
- const directed=dzFinalDirector(c,raw,history);if(directed)return directed;
  const continuity=dzContinuity(c,raw,history);if(continuity)return continuity;
  // Recognize the contact's actual name and chat nickname before generic dialogue.
  // Also recognize the name this character uses for the user.
@@ -849,17 +776,7 @@ function killianVoice(c,reply,input=''){
  return out;
 }
 // Route every non-Heaven, non-ESSA-Sitter scripted message through the new engine.
-function scriptedReply(c,text,history=[]){
- let reply=killianVoice(c,engineV4(c,text,history),text);
- reply=dzPersonalityPolish(c,reply,text);
- const prior=history.filter(m=>m.side==='in'&&m.type==='text'&&!m.deleted).slice(-8).map(m=>String(m.text||'').trim().toLowerCase());
- if(prior.includes(String(reply).trim().toLowerCase())){
-   const alternative=dzFinalDirector(c,text,history);
-   if(alternative&&!prior.includes(alternative.toLowerCase()))reply=killianVoice(c,alternative,text);
-   else reply=dzFinalPick(c,'repeat-recovery',["Tell me a little more about that.","I want to give that a proper answer, not repeat myself.","I'm still thinking about what you said."],history);
- }
- return reply;
-}
+function scriptedReply(c,text,history=[]){const reply=killianVoice(c,engineV4(c,text,history),text);return dzPersonalityPolish(c,reply,text)}
 function scheduleScriptedReply(id,t){const c=db.contacts.find(x=>x.id===id);if(!c||c.blocked==='receive')return;const history=previousConversation(id).slice(0,-1);const reply=scriptedReply(c,t,history);save();const outgoing=String(reply||'');const personality=c.personality||'natural';if(personality==='playful'&&outgoing.length>115&&Math.random()<.3){const boundary=outgoing.indexOf('. ',45);if(boundary>0&&boundary<outgoing.length-20){queueIncoming(id,outgoing.slice(0,boundary+1),850);queueIncoming(id,outgoing.slice(boundary+2),3900);return}}queueIncoming(id,reply,Math.min(2400,650+Math.random()*1400))}
 function heavenReply(text){const s=text.toLowerCase();if(/\b(i|we)\s+(really\s+|so\s+)?miss\s+you\b/.test(s))return 'I miss you too';if(/\b(proud of me|be proud of me)\b/.test(s))return "I'm so proud of you.";if(/\b(i want to|i'm going to|i might|thinking about|i feel like)\b.{0,65}\b(kill myself|end my life|hurt myself|self.harm|relapse|kill someone|hurt someone)\b/i.test(s)||/\b(suicidal|want to die|kill him|kill her|kill them)\b/i.test(s))return "I know it's hard that I'm gone. But I need you to keep going for me. I love you so much. Reach out to https://www.crisistextline.org/ and talk to someone. I want to see you someday, but not yet.";if(/[😢😭😞😔☹️]/u.test(text))return '🫂';return null}
 function scheduleHeaven(id,t){const reply=heavenReply(t);if(reply)queueIncoming(id,reply,3400)}
@@ -1134,7 +1051,7 @@ function dzContinuity(c,raw,history=[]){
  const askWhy=/^(?:what happened|what happened\??|why|how come|tell me more|what do you mean|what's wrong|what was it|what went wrong)[?!. ]*$/i.test(s);
  if(story&&Date.now()-story.at<60*60*1000&&!story.answered&&askWhy){story.answered=true;save();return story.detail;}
  if(askWhy&&/stress|rough|frustrat|difficult|hard day|one thing after another/.test(prev))return isKillian(c)?'Bloody hell, just one frustration after another. I needed a moment to clear my head.':'A few things went wrong, one after another. I needed a little time to unwind.';
- if(askWhy&&/funny|laugh|hilarious|ridiculous/.test(prev))return dzFinalPick(c,'funny-follow',['I waved at someone who was actually waving at the person behind me. 😂','I walked into the wrong room and kept talking for a full minute before I noticed.','I spilled a drink while trying to look impressive. So much for that. 😂'],history);
+ if(askWhy&&/funny|laugh|hilarious|ridiculous/.test(prev))return 'I got myself into a ridiculous situation. I can laugh about it now, at least. 😂';
  if(askWhy&&/nice|great|good day|wonderful/.test(prev))return 'I finally had a little peace and quiet. It felt good.';
  if(/^(?:perfectly said|well said|beautifully said|that's beautiful|that was sweet|so sweet|i appreciate that|thank you for saying that)[! .]*$/i.test(s))return isKillian(c)?'Aye. I meant every word. ❤️':'I meant it. ❤️';
  if(/^(?:of course i do|i do too|me too|same here|i wish i was|i wish you were)[! .]*$/i.test(s)&&/miss|wish|love|care|want you/.test(prev))return '🥺💕';
@@ -1160,4 +1077,19 @@ function dzSuggestRelationship(id,newRelationship){const c=db.contacts.find(x=>x
 function dzApproveRelationship(id,value){const c=db.contacts.find(x=>x.id===id);if(c){c.relationship=value;save()}closeModal();if(selected===id)renderChat($('#app'));else render()}
 
 render();playIntro();syncScheduledCalls();if(!db.settings.lastProactiveAt||Date.now()-db.settings.lastProactiveAt>12*60*1000){db.settings.lastProactiveAt=Date.now();save()}syncAutoTexts();setInterval(refreshReceipts,350);setInterval(()=>{if(selected&&!storyRunning){const c=db.contacts.find(c=>c.id===selected);const el=document.querySelector('.chat-head .muted');if(c&&el){const s=status(c);el.innerHTML=`<span class="status ${s.cls}"></span>${s.text} · ${esc(c.dimension)}`}}},30000);
-</script></body></html>
+</script>
+<!-- World return navigation: stays visible on every Dimensionz screen. -->
+<style>
+  #dimensionzWorldReturn{position:fixed;right:12px;top:calc(10px + env(safe-area-inset-top, 0px));z-index:2147483000;width:43px;height:43px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:#20243b;color:white;font-size:24px;line-height:1;display:grid;place-items:center;box-shadow:0 3px 12px #0006;cursor:pointer}
+  #dimensionzWorldReturn:focus-visible{outline:3px solid #fff;outline-offset:3px}
+</style>
+<button id="dimensionzWorldReturn" type="button" title="Return to ESSAzLife World" aria-label="Return to ESSAzLife World">🌎</button>
+<script>
+(function(){
+  document.getElementById('dimensionzWorldReturn').addEventListener('click',function(){
+    const inWorld=/\/apps\/dimensionz\/index\.html$/i.test(location.pathname)||/\/apps\/dimensionz\/$/i.test(location.pathname);
+    location.href=inWorld?'../../index.html':'https://raisingfloofz.github.io/ESSAzLife-World/';
+  });
+})();
+</script>
+</body></html>
