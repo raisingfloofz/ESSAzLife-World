@@ -2048,8 +2048,8 @@ launchUrl: "apps/bookz/index.html",
     node.removeAttribute('aria-hidden');
     node.addEventListener('click',()=>source.click());
     registered.push({id,source,node,section,ready});
-    // Seasonal Turkey Voidy lives only in Just Added. Babiez enters NFC Nov 20.
-    if(id==='turkey-voidy-game'||id==='babiez')return;
+    // Seasonal Turkey Voidy lives only in Just Added. Babiez belongs in NFC permanently.
+    if(id==='turkey-voidy-game')return;
     const target=document.getElementById(section==='coming'?'comingSoonApps':section==='nonessa'?'worldNonessaApps':'world'+section[0].toUpperCase()+section.slice(1)+'Apps');
     if(target)target.appendChild(node);
   }
@@ -2072,22 +2072,6 @@ launchUrl: "apps/bookz/index.html",
   originals.forEach(n=>document.getElementById('worldLegacyApps').appendChild(n));
   // Coming Soon originals are moved to the legacy area; only copies stay visible.
   [...coming.querySelectorAll('.future-app-card')].forEach(n=>document.getElementById('worldLegacyApps').appendChild(n));
-  // Date-gated permanent NFC card for Babiez, starting November 20.
-  const babiezEntry=registered.find(a=>a.id==='babiez');
-  const babiezNfcArea=document.getElementById('worldNfcApps');
-  let babiezNfcCard=null;
-  function updateBabiezNfc(){
-    if(!babiezEntry||!babiezNfcArea)return;
-    const shouldShow=nyDate()>='2026-11-20';
-    if(shouldShow&&!babiezNfcCard){
-      babiezNfcCard=babiezEntry.node.cloneNode(true);
-      babiezNfcCard.addEventListener('click',()=>babiezEntry.source.click());
-      babiezNfcArea.appendChild(babiezNfcCard);
-    }else if(!shouldShow&&babiezNfcCard){babiezNfcCard.remove();babiezNfcCard=null;}
-    const empty=babiezNfcArea.querySelector('.world-empty-message');
-    if(empty&&babiezNfcArea.querySelector('.app-card'))empty.remove();
-  }
-  updateBabiezNfc();
   // Keep empty category messages.
   for(const key of ['nfc','educational']){
     const container=document.getElementById('world'+key[0].toUpperCase()+key.slice(1)+'Apps');
@@ -2119,9 +2103,9 @@ launchUrl: "apps/bookz/index.html",
   let favorites=[];
   try{const saved=JSON.parse(localStorage.getItem(storageKey)||'[]');if(Array.isArray(saved))favorites=saved.filter(x=>typeof x==='string');}catch(e){}
   const favoriteArea=document.getElementById('worldFavoritesApps');
-  function renderFavorites(){favoriteArea.replaceChildren();for(const app of registered){if(!app.ready||app.id==='turkey-voidy-game'||(app.id==='babiez'&&nyDate()<'2026-11-20')||!favorites.includes(app.id))continue;const clone=app.node.cloneNode(true);clone.addEventListener('click',()=>app.source.click());favoriteArea.appendChild(clone);}if(!favoriteArea.children.length){const p=document.createElement('p');p.className='world-empty-message';p.textContent='No favorites selected yet. Tap Favorites to add some!';favoriteArea.appendChild(p);}}
+  function renderFavorites(){favoriteArea.replaceChildren();for(const app of registered){if(!app.ready||app.id==='turkey-voidy-game'||!favorites.includes(app.id))continue;const clone=app.node.cloneNode(true);clone.addEventListener('click',()=>app.source.click());favoriteArea.appendChild(clone);}if(!favoriteArea.children.length){const p=document.createElement('p');p.className='world-empty-message';p.textContent='No favorites selected yet. Tap Favorites to add some!';favoriteArea.appendChild(p);}}
   const overlay=document.getElementById('worldFavoritesOverlay'),choices=document.getElementById('worldFavoritesChoices');let draft=[];
-  document.getElementById('worldEditFavorites').addEventListener('click',()=>{draft=[...favorites];choices.replaceChildren();for(const app of registered.filter(a=>a.ready&&a.id!=='turkey-voidy-game'&&(a.id!=='babiez'||nyDate()>='2026-11-20'))){const button=document.createElement('button');button.type='button';button.textContent=app.node.querySelector('h2')?.textContent||app.id;button.dataset.app=app.id;button.className=draft.includes(app.id)?'is-favorite':'not-favorite';button.addEventListener('click',()=>{if(draft.includes(app.id))draft=draft.filter(x=>x!==app.id);else draft.push(app.id);button.className=draft.includes(app.id)?'is-favorite':'not-favorite';});choices.appendChild(button);}overlay.hidden=false;});
+  document.getElementById('worldEditFavorites').addEventListener('click',()=>{draft=[...favorites];choices.replaceChildren();for(const app of registered.filter(a=>a.ready&&a.id!=='turkey-voidy-game')){const button=document.createElement('button');button.type='button';button.textContent=app.node.querySelector('h2')?.textContent||app.id;button.dataset.app=app.id;button.className=draft.includes(app.id)?'is-favorite':'not-favorite';button.addEventListener('click',()=>{if(draft.includes(app.id))draft=draft.filter(x=>x!==app.id);else draft.push(app.id);button.className=draft.includes(app.id)?'is-favorite':'not-favorite';});choices.appendChild(button);}overlay.hidden=false;});
   function closeFavorites(){overlay.hidden=true;}
   document.getElementById('worldFavoritesCancel').addEventListener('click',closeFavorites);
   document.getElementById('worldFavoritesSave').addEventListener('click',()=>{favorites=[...draft];try{localStorage.setItem(storageKey,JSON.stringify(favorites));}catch(e){}renderFavorites();closeFavorites();});
@@ -2146,7 +2130,7 @@ launchUrl: "apps/bookz/index.html",
   repaginate();
   // Refresh when a launch window expires, without requiring users to clear data.
   let lastReleaseDay=nyDate();
-  function refreshReleaseDay(){const day=nyDate();if(day===lastReleaseDay)return;lastReleaseDay=day;updateBabiezNfc();updateReleaseSections();renderFavorites();repaginate();}
+  function refreshReleaseDay(){const day=nyDate();if(day===lastReleaseDay)return;lastReleaseDay=day;updateReleaseSections();renderFavorites();repaginate();}
   document.addEventListener('visibilitychange',()=>{if(!document.hidden)refreshReleaseDay();});
   window.addEventListener('focus',refreshReleaseDay);
   setInterval(refreshReleaseDay,60000);
