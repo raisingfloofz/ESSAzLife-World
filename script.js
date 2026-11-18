@@ -1526,11 +1526,11 @@ launchUrl: "apps/bookz/index.html",
     id: "go",
     name: "ESSAzLife Go",
     icon: "Go.Icon.png",
-    status: "coming-soon",
-    launchUrl: "",
+    status: "available",
+    launchUrl: "apps/go/index.html",
     description: [
-      "ESSAzLife Go is coming soon!",
-      "More details about the app will be announced as development continues."
+      "Care for your ESSAs using a single caregiver NFC badge.",
+      "Choose Babiez or Tap and explore Comfort, Easy, Medium, Hard, and Sick care modes."
     ]
   }
 ];
@@ -2026,6 +2026,7 @@ launchUrl: "apps/bookz/index.html",
     if(id==='turkey-voidy-game')return nyDate()>='2026-11-13'&&nyDate()<'2026-12-01';
 
     if(id==='tap')return nyDate()>='2026-11-18'&&nyDate()<='2026-11-25';
+    if(id==='go')return nyDate()>='2026-11-18'&&nyDate()<='2026-11-25';
     if(id==='driverz')return nyDate()>='2026-11-17'&&nyDate()<='2026-11-24';
     if(id==='dictionary')return nyDate()>='2026-11-17'&&nyDate()<='2026-11-24';
     if(id==='essaztube')return nyDate()>='2026-11-17'&&nyDate()<='2026-11-24';
