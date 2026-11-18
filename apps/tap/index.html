@@ -99,6 +99,28 @@ html,body,#app{height:100%;height:100dvh;min-height:0;overflow:hidden}
   padding-bottom:12px;
 }
 .content:has(.care-stage) .care-actions .btn{min-width:0;white-space:normal}
+
+/* Unified mobile screen layout: all page actions scroll with their page.
+   This also fixes report-card actions disappearing below Android's nav bar. */
+html,body,#app{height:100%;height:100dvh;overflow:hidden}
+.shell{height:100dvh;max-height:100dvh;min-height:0;display:flex;flex-direction:column;overflow:hidden}
+.top{flex:0 0 auto}
+.content,.content:has(.care-stage),.content:has(.accessory-grid){
+  flex:1 1 auto;min-height:0;overflow-y:auto !important;overflow-x:hidden;
+  display:block !important;-webkit-overflow-scrolling:touch;
+  overscroll-behavior-y:contain;
+  padding-bottom:calc(24px + env(safe-area-inset-bottom, 0px)) !important;
+}
+.content>.footer{
+  position:static !important;display:flex;flex-wrap:wrap;flex:0 0 auto;
+  width:100%;margin-top:22px;padding:12px 0 20px !important;
+  background:#fff;border-top:1px solid #e4e7ec;z-index:auto;
+}
+.content>.footer:empty{display:none !important}
+.content>.footer .btn{min-width:0;flex:1 1 120px}
+.content>.care-stage{height:auto !important;min-height:0;flex:none !important;overflow:visible}
+.content>.care-stage .baby-stage{flex:none !important;min-height:clamp(210px,37dvh,420px) !important}
+.content>.care-stage .care-actions{padding-bottom:14px}
 </style></head><body><div id="app"></div><div id="overlay" class="overlay"><div class="dialog" id="dialog"></div></div><div id="scanresult" class="scanresult"></div>
 <script>
 'use strict';
@@ -111,7 +133,7 @@ let recognition=null,voiceWindowUntil=0,voiceTimer=null,workPottyTimer=null;
 let page=(db.essas.length&&db.handlers.length?'home':'welcome'),wizard=null,session=null,scanner=null,scanning=false,pending=null,activeAudio=null,ambientAudio=null,loopTimer=null,needTimer=null,careTimer=null,lastTag='',lastTagAt=0,selectedEssa=null;
 const $=id=>document.getElementById(id),save=()=>localStorage.setItem(KEY,JSON.stringify(db)),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const id=()=>Math.random().toString(36).slice(2,11);
-function screen(html,buttons=[]){$('app').innerHTML=`<main class="shell"><header class="top"><div><div class="brand">ESSAzLife Tap</div><div class="tiny">NFC-powered ESSA care</div></div><div class="top-actions"><a class="world-link" title="Return to ESSAzLife World" aria-label="Return to ESSAzLife World" href="../../index.html" onclick="if(session?.running&&!confirm('Leave Tap and return to World? Your active session will end.'))event.preventDefault()">🌎</a><button class="btn alt small" style="padding:7px 10px;min-height:36px" title="Refresh Tap" aria-label="Refresh Tap" onclick="refreshTap()">↻</button><button class="btn alt small" style="padding:7px 10px;min-height:36px" onclick="home()">Home</button></div></header><section class="content" id="screen">${html}</section><footer class="footer" id="footer">${buttons.map((b,i)=>`<button class="btn ${b.alt?'alt':''}" id="action${i}">${esc(b.label)}</button>`).join('')}</footer></main>`;buttons.forEach((b,i)=>$('action'+i).onclick=b.fn)}
+function screen(html,buttons=[]){$('app').innerHTML=`<main class="shell"><header class="top"><div><div class="brand">ESSAzLife Tap</div><div class="tiny">NFC-powered ESSA care</div></div><div class="top-actions"><a class="world-link" title="Return to ESSAzLife World" aria-label="Return to ESSAzLife World" href="../../index.html" onclick="if(session?.running&&!confirm('Leave Tap and return to World? Your active session will end.'))event.preventDefault()">🌎</a><button class="btn alt small" style="padding:7px 10px;min-height:36px" title="Refresh Tap" aria-label="Refresh Tap" onclick="refreshTap()">↻</button><button class="btn alt small" style="padding:7px 10px;min-height:36px" onclick="home()">Home</button></div></header><section class="content" id="screen">${html}<footer class="footer" id="footer">${buttons.map((b,i)=>`<button class="btn ${b.alt?'alt':''}" id="action${i}">${esc(b.label)}</button>`).join('')}</footer></section></main>`;buttons.forEach((b,i)=>$('action'+i).onclick=b.fn)}
 function refreshTap(){if(session?.running&&!confirm('Refresh Tap? Your current simulation will end.'))return;window.location.reload()}
 function modal(html){$('dialog').innerHTML=html;$('overlay').classList.add('show')}
 function closeModal(){stopPreview();$('overlay').classList.remove('show')}
