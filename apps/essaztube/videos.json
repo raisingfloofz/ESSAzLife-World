@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-18T10:02:13.463936+00:00",
+  "updatedAt": "2026-11-18T19:42:30.257588+00:00",
   "channels": [
     {
       "handle": "raisingfloofz",
@@ -52,6 +52,26 @@
     }
   ],
   "videos": [
+    {
+      "id": "s9_Nh3-QEho",
+      "channelId": "UCM6bVi_txFlfakBPgpA1Fuw",
+      "handle": "raisingfloofz",
+      "title": "ESSAzLife: Tap #ad #essacommunity #essa",
+      "published": "2026-11-18T19:30:32+00:00",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/s9_Nh3-QEho/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
+      "id": "mTau1Iklm1U",
+      "channelId": "UCM6bVi_txFlfakBPgpA1Fuw",
+      "handle": "raisingfloofz",
+      "title": "Raising Floofz Live Stream",
+      "published": "2026-11-18T19:14:32+00:00",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/mTau1Iklm1U/hqdefault.jpg",
+      "videoType": "unknown"
+    },
     {
       "id": "uJy80YTw3FY",
       "channelId": "UC0ku6aOVIqhIqBERx5qqozQ",
