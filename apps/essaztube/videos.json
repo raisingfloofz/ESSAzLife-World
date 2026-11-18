@@ -1,11 +1,11 @@
 {
-  "updatedAt": "2026-11-17T09:34:52.970230+00:00",
+  "updatedAt": "2026-11-18T10:02:13.463936+00:00",
   "channels": [
     {
       "handle": "raisingfloofz",
       "id": "UCM6bVi_txFlfakBPgpA1Fuw",
       "name": "Raising Floofz",
-      "avatar": "https://yt3.googleusercontent.com/19V7IbR6z7k6-SrMTV0jKGYUXsJnPSJdryhG5CscudZGaJg9ZUNQYa2xx6HIqzfFBsveUg97R9I=s900-c-k-c0x00ffffff-no-rj",
+      "avatar": "https://yt3.googleusercontent.com/byb7Cu8k-PEW_jaXgyY_HL2UMSAomhTh4Pk_JSPf3j3_OVmcw4AELIpyUvbeQYn_rKMGJcBu8w=s900-c-k-c0x00ffffff-no-rj",
       "featured": true
     },
     {
@@ -35,9 +35,43 @@
       "name": "𝑪𝒖𝒅𝒅𝒍𝒚𝑯𝒐𝒘𝒍𝒆𝒓𝒔 ۶ৎ",
       "avatar": "https://yt3.googleusercontent.com/FYwAzkZZ8xpDp7eoZdd-aN9cNBEhTo8l_oQ6qZS-h6VYAgcGOMU89NJHfZGoJHEMLPieN2NL=s900-c-k-c0x00ffffff-no-rj",
       "featured": true
+    },
+    {
+      "handle": "KodaESSAS",
+      "id": "UCx_1587UYPv82JDai9NZeyg",
+      "name": "𝓚𝓸𝓭𝓪! 𝓔𝓢𝓢𝓐𝓢! ",
+      "avatar": "https://yt3.googleusercontent.com/cyW-hkKX6COUtbaFILB029Wx0W1QCUdUYi7RMW0hLNUgMqq6cNaUHeJKnwaVVJS_xANZKHQr=s900-c-k-c0x00ffffff-no-rj",
+      "featured": true
+    },
+    {
+      "handle": "Sharky-sharks5892",
+      "id": "UC4RMvAG9z6x58N0wnnfB1nw",
+      "name": "🦈๋࣭⭑ [sharky ] ദ",
+      "avatar": "https://yt3.googleusercontent.com/m6WJcicvjm5FddLSEf9218AjPO-55TEovD4asvCxcF9LCdntt0h7ZL2-o9CLXewG0bAThJiegQ=s900-c-k-c0x00ffffff-no-rj",
+      "featured": true
     }
   ],
   "videos": [
+    {
+      "id": "uJy80YTw3FY",
+      "channelId": "UC0ku6aOVIqhIqBERx5qqozQ",
+      "handle": "CuddlyHowlers",
+      "title": "my most sad looking essa 🪻🥹#essa #essacommunity #plush #douglasdog #fyp",
+      "published": "2026-11-17T20:26:45+00:00",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/uJy80YTw3FY/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
+      "id": "1HEi3BA_ZS4",
+      "channelId": "UCx_1587UYPv82JDai9NZeyg",
+      "handle": "KodaESSAS",
+      "title": "I’m flopping yall",
+      "published": "2026-11-17T01:54:52+00:00",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/1HEi3BA_ZS4/hqdefault.jpg",
+      "videoType": "unknown"
+    },
     {
       "id": "oFvKsMQFu-Q",
       "channelId": "UCSvMD3HKwg2_RplLji4qr-g",
@@ -86,6 +120,16 @@
       "published": "2026-11-16T03:14:45+00:00",
       "description": "",
       "thumbnail": "https://i.ytimg.com/vi/WDs70jysVd4/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
+      "id": "dJKjGtL-px8",
+      "channelId": "UC4RMvAG9z6x58N0wnnfB1nw",
+      "handle": "Sharky-sharks5892",
+      "title": "#puppy #fypシ゚viral #mom #dog #cutebaby #cutepuppy #viral",
+      "published": "2026-11-15T21:38:07+00:00",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/dJKjGtL-px8/hqdefault.jpg",
       "videoType": "unknown"
     },
     {
@@ -189,6 +233,16 @@
       "videoType": "unknown"
     },
     {
+      "id": "oNjIy2WFc28",
+      "channelId": "UCx_1587UYPv82JDai9NZeyg",
+      "handle": "KodaESSAS",
+      "title": "Yall should I ?",
+      "published": "2026-11-14T16:00:13+00:00",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/oNjIy2WFc28/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
       "id": "irU0OuuA0gI",
       "channelId": "UC06XdZ7KsbDk8QoOHlHbWYg",
       "handle": "Vicky_and_her_Essas",
@@ -249,6 +303,16 @@
       "videoType": "unknown"
     },
     {
+      "id": "OydnMK39BaA",
+      "channelId": "UCx_1587UYPv82JDai9NZeyg",
+      "handle": "KodaESSAS",
+      "title": "Gurwm!",
+      "published": "2026-11-13T01:59:02+00:00",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/OydnMK39BaA/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
       "id": "urJA_gAUtI4",
       "channelId": "UCSvMD3HKwg2_RplLji4qr-g",
       "handle": "Wobbles_Essa",
@@ -266,6 +330,16 @@
       "published": "2026-11-12T19:08:36+00:00",
       "description": "",
       "thumbnail": "https://i.ytimg.com/vi/i-6pN4q3iUs/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
+      "id": "fWyJWTZ_lvg",
+      "channelId": "UC4RMvAG9z6x58N0wnnfB1nw",
+      "handle": "Sharky-sharks5892",
+      "title": "I love all my essa(s)#essa#essaplush #essacommunity # #fypシ゚viral #viral #dssa #nondouglas",
+      "published": "2026-11-12T15:08:06+00:00",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/fWyJWTZ_lvg/hqdefault.jpg",
       "videoType": "unknown"
     },
     {
@@ -499,6 +573,16 @@
       "videoType": "unknown"
     },
     {
+      "id": "wHvrXf8ZRSo",
+      "channelId": "UCx_1587UYPv82JDai9NZeyg",
+      "handle": "KodaESSAS",
+      "title": "Free pfp",
+      "published": "2026-11-06T16:00:55+00:00",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/wHvrXf8ZRSo/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
       "id": "E2P6p-ikwLU",
       "channelId": "UCSvMD3HKwg2_RplLji4qr-g",
       "handle": "Wobbles_Essa",
@@ -506,6 +590,16 @@
       "published": "2026-11-05T20:18:59+00:00",
       "description": "#essa​ #foryou​ #fypシ゚viral​ #kandi​ #emotional​ support #puppeteering​ #shortvideo​ #shorts​ \n\n#essa #foryou #kandi #puppeteering \n#essa​ #foryou​ #fypシ゚viral​ #kandi​ #emotional​ support #puppeteering​ #shortvideo​ #shorts​ \n\n#essa #foryou #kandi #puppeteering \n#essa​ #foryou​ #fypシ゚viral​ #kandi​ #emotional​ support #puppeteering​ #shortvideo​ #shorts​ \n\n#essa #foryou #kandi #puppeteering \n#essa​ #foryou​ #fypシ゚viral​ #kandi​ #emotional​ support #puppeteering​ #shortvideo​ #shorts​ \n\n#essa #f",
       "thumbnail": "https://i.ytimg.com/vi/E2P6p-ikwLU/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
+      "id": "B3LKq-1ppfw",
+      "channelId": "UCx_1587UYPv82JDai9NZeyg",
+      "handle": "KodaESSAS",
+      "title": "Thus is not enoughhhhhhhh\"! Smol edit",
+      "published": "2026-11-05T00:31:43+00:00",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/B3LKq-1ppfw/hqdefault.jpg",
       "videoType": "unknown"
     },
     {
@@ -549,6 +643,56 @@
       "videoType": "unknown"
     },
     {
+      "id": "8XSeK8_z7tA",
+      "channelId": "UC4RMvAG9z6x58N0wnnfB1nw",
+      "handle": "Sharky-sharks5892",
+      "title": "That's too bad #essa #dssa #essacommunity #puppy #fypシ゚viral # #furry",
+      "published": "2026-11-01T16:31:15+00:00",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/8XSeK8_z7tA/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
+      "id": "gwjSjsjKmKI",
+      "channelId": "UC4RMvAG9z6x58N0wnnfB1nw",
+      "handle": "Sharky-sharks5892",
+      "title": "Bite work #essa #dssa #essacommunity #training #dog #essatraining",
+      "published": "2026-11-01T16:25:24+00:00",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/gwjSjsjKmKI/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
+      "id": "JfgeZZJrmR0",
+      "channelId": "UC4RMvAG9z6x58N0wnnfB1nw",
+      "handle": "Sharky-sharks5892",
+      "title": "(Title took my cat) #truama #sad #life #fypシ゚viral #youngerme #xyzbca",
+      "published": "2026-11-01T14:58:10+00:00",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/JfgeZZJrmR0/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
+      "id": "LOIcVZ7c-vA",
+      "channelId": "UC4RMvAG9z6x58N0wnnfB1nw",
+      "handle": "Sharky-sharks5892",
+      "title": "Happy Halloween 🎃👻🍬#halloween #transition #tadc #happyhalloween2026",
+      "published": "2026-10-31T22:46:40+00:00",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/LOIcVZ7c-vA/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
+      "id": "SY7kdgvmSOQ",
+      "channelId": "UC4RMvAG9z6x58N0wnnfB1nw",
+      "handle": "Sharky-sharks5892",
+      "title": "My shayla #dandysworld #myfavorite #myshayla #roblox #fypシ゚viral",
+      "published": "2026-10-31T15:00:07+00:00",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/SY7kdgvmSOQ/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
       "id": "mAlavHCEXj0",
       "channelId": "UC06XdZ7KsbDk8QoOHlHbWYg",
       "handle": "Vicky_and_her_Essas",
@@ -556,6 +700,46 @@
       "published": "2026-10-31T14:41:48+00:00",
       "description": "",
       "thumbnail": "https://i.ytimg.com/vi/mAlavHCEXj0/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
+      "id": "tk1EmLHBlGE",
+      "channelId": "UC4RMvAG9z6x58N0wnnfB1nw",
+      "handle": "Sharky-sharks5892",
+      "title": "This title is delicious 🐾 #essa #dssa # #furry #xyzbca #fypシ゚viral #dog",
+      "published": "2026-10-30T22:03:22+00:00",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/tk1EmLHBlGE/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
+      "id": "rmTE2wz5SXo",
+      "channelId": "UCx_1587UYPv82JDai9NZeyg",
+      "handle": "KodaESSAS",
+      "title": "Smol post bc im flopping",
+      "published": "2026-10-30T16:20:45+00:00",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/rmTE2wz5SXo/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
+      "id": "sUPnl6HTxxg",
+      "channelId": "UCx_1587UYPv82JDai9NZeyg",
+      "handle": "KodaESSAS",
+      "title": "I kinda got a crush yall",
+      "published": "2026-10-30T15:01:49+00:00",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/sUPnl6HTxxg/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
+      "id": "-j7DNga8eV8",
+      "channelId": "UC4RMvAG9z6x58N0wnnfB1nw",
+      "handle": "Sharky-sharks5892",
+      "title": "Blow this up fr📌",
+      "published": "2026-10-29T20:52:47+00:00",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/-j7DNga8eV8/hqdefault.jpg",
       "videoType": "unknown"
     },
     {
@@ -579,6 +763,26 @@
       "videoType": "unknown"
     },
     {
+      "id": "MXvlr1eq7Bk",
+      "channelId": "UC4RMvAG9z6x58N0wnnfB1nw",
+      "handle": "Sharky-sharks5892",
+      "title": "#essa #dssa #puppy #viral #viralshorts",
+      "published": "2026-10-28T20:15:04+00:00",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/MXvlr1eq7Bk/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
+      "id": "GIkAgJU0yoQ",
+      "channelId": "UCx_1587UYPv82JDai9NZeyg",
+      "handle": "KodaESSAS",
+      "title": "Grwm and 𝓚𝓸𝓭𝓪!",
+      "published": "2026-10-25T01:02:48+00:00",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/GIkAgJU0yoQ/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
       "id": "dW2JShtevu0",
       "channelId": "UC06XdZ7KsbDk8QoOHlHbWYg",
       "handle": "Vicky_and_her_Essas",
@@ -586,6 +790,16 @@
       "published": "2026-10-24T22:25:12+00:00",
       "description": "",
       "thumbnail": "https://i.ytimg.com/vi/dW2JShtevu0/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
+      "id": "rONgDsmjAK0",
+      "channelId": "UCx_1587UYPv82JDai9NZeyg",
+      "handle": "KodaESSAS",
+      "title": "New essa!!!",
+      "published": "2026-10-24T19:51:54+00:00",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/rONgDsmjAK0/hqdefault.jpg",
       "videoType": "unknown"
     },
     {
@@ -609,6 +823,76 @@
       "videoType": "unknown"
     },
     {
+      "id": "sP9ETuSgV2g",
+      "channelId": "UCx_1587UYPv82JDai9NZeyg",
+      "handle": "KodaESSAS",
+      "title": "Essa tour!",
+      "published": "2026-10-23T23:22:10+00:00",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/sP9ETuSgV2g/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
+      "id": "Xx_zyzduUvo",
+      "channelId": "UCx_1587UYPv82JDai9NZeyg",
+      "handle": "KodaESSAS",
+      "title": "The flop bro also haul! pt: 1",
+      "published": "2026-10-23T16:32:04+00:00",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/Xx_zyzduUvo/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
+      "id": "TmdrsDQ18Jg",
+      "channelId": "UCx_1587UYPv82JDai9NZeyg",
+      "handle": "KodaESSAS",
+      "title": "Do a deer a female deer [tag meh if you Dute",
+      "published": "2026-10-22T16:17:34+00:00",
+      "description": "Some ppl who might do it @Sorbet_Essa  @LilysWorkingPupz @Acornsessas @ESSAsilly @you?",
+      "thumbnail": "https://i.ytimg.com/vi/TmdrsDQ18Jg/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
+      "id": "ueQ7FZCB6b8",
+      "channelId": "UCx_1587UYPv82JDai9NZeyg",
+      "handle": "KodaESSAS",
+      "title": "@i forgot",
+      "published": "2026-10-22T02:20:07+00:00",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/ueQ7FZCB6b8/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
+      "id": "8uf0KnBpROk",
+      "channelId": "UCx_1587UYPv82JDai9NZeyg",
+      "handle": "KodaESSAS",
+      "title": "Grwm and 𝓚𝓸𝓭𝓪!",
+      "published": "2026-10-18T20:16:43+00:00",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/8uf0KnBpROk/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
+      "id": "8uFmwaQFFEk",
+      "channelId": "UCx_1587UYPv82JDai9NZeyg",
+      "handle": "KodaESSAS",
+      "title": "Yk",
+      "published": "2026-10-18T17:49:08+00:00",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/8uFmwaQFFEk/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
+      "id": "BxX98MRIav0",
+      "channelId": "UC4RMvAG9z6x58N0wnnfB1nw",
+      "handle": "Sharky-sharks5892",
+      "title": "#cute #furry #therian #viralvideo",
+      "published": "2026-10-17T18:28:26+00:00",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/BxX98MRIav0/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
       "id": "sPlHLrgPNVg",
       "channelId": "UC06XdZ7KsbDk8QoOHlHbWYg",
       "handle": "Vicky_and_her_Essas",
@@ -616,6 +900,16 @@
       "published": "2026-10-17T13:17:15+00:00",
       "description": "",
       "thumbnail": "https://i.ytimg.com/vi/sPlHLrgPNVg/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
+      "id": "JYtKXHGCoP8",
+      "channelId": "UC4RMvAG9z6x58N0wnnfB1nw",
+      "handle": "Sharky-sharks5892",
+      "title": "#cover #funny #xyzbca #dancevideo #onlineparenting",
+      "published": "2026-10-17T03:41:29+00:00",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/JYtKXHGCoP8/hqdefault.jpg",
       "videoType": "unknown"
     },
     {
@@ -649,6 +943,26 @@
       "videoType": "unknown"
     },
     {
+      "id": "VUgW8VVAjvA",
+      "channelId": "UC4RMvAG9z6x58N0wnnfB1nw",
+      "handle": "Sharky-sharks5892",
+      "title": "October 14, 2026",
+      "published": "2026-10-14T19:01:08+00:00",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/VUgW8VVAjvA/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
+      "id": "kwTScavKdHA",
+      "channelId": "UC4RMvAG9z6x58N0wnnfB1nw",
+      "handle": "Sharky-sharks5892",
+      "title": "October 14, 2026",
+      "published": "2026-10-14T18:58:41+00:00",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/kwTScavKdHA/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
       "id": "Hda2ELVJg7s",
       "channelId": "UC06XdZ7KsbDk8QoOHlHbWYg",
       "handle": "Vicky_and_her_Essas",
@@ -656,6 +970,16 @@
       "published": "2026-10-13T22:01:28+00:00",
       "description": "",
       "thumbnail": "https://i.ytimg.com/vi/Hda2ELVJg7s/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
+      "id": "Uk8PALyMH3s",
+      "channelId": "UC4RMvAG9z6x58N0wnnfB1nw",
+      "handle": "Sharky-sharks5892",
+      "title": "I ate the title: 3 #therian #workout #fun #fypシ",
+      "published": "2026-10-12T19:24:35+00:00",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/Uk8PALyMH3s/hqdefault.jpg",
       "videoType": "unknown"
     },
     {
