@@ -5,7 +5,7 @@ from pathlib import Path
 from datetime import datetime, timezone
 ROOT=Path(__file__).resolve().parent
 OUT=ROOT/'videos.json'
-HANDLES=['raisingfloofz','Vicky_and_her_Essas','Wobbles_Essa','OliPaws_ESSA','CuddlyHowlers']
+HANDLES=['raisingfloofz','Vicky_and_her_Essas','Wobbles_Essa','OliPaws_ESSA','CuddlyHowlers', 'KodaESSAS', 'Sharky-sharks5892',]
 HEADERS={'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36','Accept-Language':'en-US,en;q=0.9'}
 def fetch(url):
     with urllib.request.urlopen(urllib.request.Request(url,headers=HEADERS),timeout=22) as r:return r.read().decode('utf-8','replace')
