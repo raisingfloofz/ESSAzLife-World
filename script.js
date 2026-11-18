@@ -1254,11 +1254,6 @@ const futureWorldApps = [
     launchUrl: "apps/driverz/index.html",
     description: ["Learn driving fundamentals with ESSA teachers, interactive lessons, and practice assessments.", "Study at your own pace with saved progress and a selectable ESSA Buddy."]
   },
-  {
-    id: "dimensionz", name: "Dimensionz", icon: "dimensionz.icon.png",
-    status: "available", launchUrl: "apps/dimensionz/index.html",
-    description: ["Your personal fictional chat diary. Create characters, conversations, stories, and memories."]
-  },
   // World app icons.
   {
     id: "turkey-voidy-game", name: "Turkey Voidy: Feasting Face-Off",
@@ -2019,9 +2014,9 @@ launchUrl: "apps/bookz/index.html",
   const viewport=document.getElementById('worldPageViewport');
   if(!track||!viewport)return;
   const prev=document.getElementById('worldPreviousPage'),next=document.getElementById('worldNextPage'),indicator=document.getElementById('worldPageIndicator');
-  const appSections={handler:'tools',chorez:'tools',wishez:'tools',billz:'tools',groceriez:'tools',playmode:'games',daisybelle:'games',moocow:'games',roblox:'games',babiez:'nfc',tap:'nfc',go:'nfc',collectorz:'nfc',gearz:'nfc',tapless:'sims',echoz:'sims',math:'educational',breedz:'educational',finderz:'educational',bookz:'media',dictionary:'educational',swipez:'media',magazine:'media',helperz:'tools',calculator:'tools',cityz:'games',court:'games',retroz:'games',driverz:'educational',dimensionz:'nonessa',essaztube:'media'};
+  const appSections={handler:'tools',chorez:'tools',wishez:'tools',billz:'tools',groceriez:'tools',playmode:'games',daisybelle:'games',moocow:'games',roblox:'games',babiez:'nfc',tap:'nfc',go:'nfc',collectorz:'nfc',gearz:'nfc',tapless:'sims',echoz:'sims',math:'educational',breedz:'educational',finderz:'educational',bookz:'media',dictionary:'educational',swipez:'media',magazine:'media',helperz:'tools',calculator:'tools',cityz:'games',court:'games',retroz:'games',driverz:'educational',essaztube:'media'};
   // Seven-day launch windows, in America/New_York calendar dates.
-  const worldReleaseDates={'turkey-voidy-game':'2026-11-13',babiez:'2026-11-13',billz:'2026-11-08',daisybelle:'2026-11-11',echoz:'2026-11-08',groceriez:'2026-11-08',moocow:'2026-11-13',calculator:'2026-11-15',dimensionz:'2026-11-17',essaztube:'2026-11-17'};
+  const worldReleaseDates={'turkey-voidy-game':'2026-11-13',babiez:'2026-11-13',billz:'2026-11-08',daisybelle:'2026-11-11',echoz:'2026-11-08',groceriez:'2026-11-08',moocow:'2026-11-13',calculator:'2026-11-15',essaztube:'2026-11-17'};
   function nyDate(){
     const parts=new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());
     const part=t=>parts.find(p=>p.type===t).value;
@@ -2029,7 +2024,7 @@ launchUrl: "apps/bookz/index.html",
   }
   function isJustAdded(id){
     if(id==='turkey-voidy-game')return nyDate()>='2026-11-13'&&nyDate()<'2026-12-01';
-    if(id==='dimensionz')return nyDate()>='2026-11-17'&&nyDate()<='2026-11-24';
+
     if(id==='tap')return nyDate()>='2026-11-18'&&nyDate()<='2026-11-25';
     if(id==='driverz')return nyDate()>='2026-11-17'&&nyDate()<='2026-11-24';
     if(id==='dictionary')return nyDate()>='2026-11-17'&&nyDate()<='2026-11-24';
