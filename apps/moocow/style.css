@@ -91,3 +91,13 @@
 .full-main.tiles-main #restartGame,.full-main.tiles-main #backGames{flex:0 0 auto}
 /* Mobile players swipe the road; do not cover it with directional buttons. */
 @media (pointer:coarse),(max-width:600px){#fullScreen.rush-fullscreen .highway-controls{display:none!important}}
+/* Christmas 2026: subtle motion, no flashing effects */
+.voidy-code-tree{position:absolute;right:6%;bottom:57%;z-index:11;pointer-events:auto;border:3px solid white;border-radius:20px;padding:8px 12px;background:linear-gradient(#ffe9a8,#e9ac39);color:#633608;font-size:clamp(11px,2vw,18px);font-weight:900;box-shadow:0 3px 8px #0005;cursor:pointer}
+.vanilla-tree-present{position:absolute;right:8%;bottom:19.6%;height:clamp(48px,13vh,110px);width:clamp(65px,13vw,135px);z-index:12;pointer-events:auto;border:0;background:transparent;padding:0;cursor:pointer;transform-origin:50% 90%;animation:vanillaGiftWiggle 5s ease-in-out infinite}
+.vanilla-tree-present img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(2px 4px 3px #0005)}
+@keyframes vanillaGiftWiggle{0%,89%,100%{transform:rotate(0deg)}92%{transform:rotate(.6deg)}95%{transform:rotate(-.6deg)}98%{transform:rotate(0deg)}}
+@media(prefers-reduced-motion:reduce){.vanilla-tree-present{animation:none}}
+.christmas-modal-image{display:block;max-width:min(65%,240px);max-height:30vh;object-fit:contain;margin:8px auto}
+.christmas-card-image{display:block;width:min(100%,400px);max-height:30vh;object-fit:contain;margin:8px auto}
+.voidy-code-input{display:block;width:100%;padding:13px;margin:9px 0;border:2px solid #80bde7;border-radius:12px;font:inherit;color:#174b76;background:white}
+#voidyCodeMessage{font-weight:bold;color:#8b2855}
