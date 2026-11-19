@@ -122,3 +122,12 @@
   #roomProps .tree-object{right:-27%;bottom:23%;width:72%;height:57%;max-width:none}
   #scene > .vanilla-tree-present{right:8%;bottom:21%;width:15%;height:10%}
 }
+
+/* Vanilla sits behind the kitchen feeding table. Keep food draggable above it. */
+#roomProps .food-table{z-index:1;pointer-events:none}
+#roomProps .food-on-table{z-index:15;pointer-events:auto}
+
+/* Kitchen table foreground and bathroom tools above either character. */
+#roomProps .food-table{z-index:1;pointer-events:none}
+#roomProps .food-on-table{z-index:15;pointer-events:auto}
+#roomProps .wall-tool{z-index:20;pointer-events:auto}
