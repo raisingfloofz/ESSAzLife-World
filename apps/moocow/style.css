@@ -101,3 +101,16 @@
 .christmas-card-image{display:block;width:min(100%,400px);max-height:30vh;object-fit:contain;margin:8px auto}
 .voidy-code-input{display:block;width:100%;padding:13px;margin:9px 0;border:2px solid #80bde7;border-radius:12px;font:inherit;color:#174b76;background:white}
 #voidyCodeMessage{font-weight:bold;color:#8b2855}
+
+/* Christmas tree and gift visibility adjustment, November 2026. */
+#roomProps .tree-object{right:0%;bottom:19.5%;width:clamp(175px,48vw,440px);height:clamp(260px,53vh,560px);max-width:60%;z-index:8;overflow:visible}
+#roomProps .tree-object img{width:100%;height:100%;object-fit:contain;object-position:center bottom}
+#roomProps .voidy-code-tree{right:4%;bottom:69%;z-index:15;max-width:46%;font-size:clamp(11px,2.8vw,16px);padding:8px 10px}
+#roomProps .vanilla-tree-present{right:7%;bottom:21%;width:clamp(82px,23vw,160px);height:clamp(80px,18vh,145px);z-index:16}
+@media(max-width:480px){#roomProps .tree-object{right:-3%;bottom:19.5%;width:57%;height:49%;max-width:none}#roomProps .voidy-code-tree{right:2%;bottom:68%}#roomProps .vanilla-tree-present{right:7%;bottom:21%;width:27%;height:15%}}
+
+/* Keep the large Christmas tree behind MooCow, while its controls stay tappable. */
+#roomProps{z-index:4}
+#scene > .voidy-code-tree{z-index:11;right:4%;bottom:69%;max-width:46%;font-size:clamp(11px,2.8vw,16px);padding:8px 10px}
+#scene > .vanilla-tree-present{z-index:12;right:7%;bottom:21%;width:clamp(82px,23vw,160px);height:clamp(80px,18vh,145px)}
+@media(max-width:480px){#scene > .voidy-code-tree{right:2%;bottom:68%}#scene > .vanilla-tree-present{right:7%;bottom:21%;width:27%;height:15%}}
