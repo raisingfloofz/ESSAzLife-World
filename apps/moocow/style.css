@@ -114,3 +114,11 @@
 #scene > .voidy-code-tree{z-index:11;right:4%;bottom:69%;max-width:46%;font-size:clamp(11px,2.8vw,16px);padding:8px 10px}
 #scene > .vanilla-tree-present{z-index:12;right:7%;bottom:21%;width:clamp(82px,23vw,160px);height:clamp(80px,18vh,145px)}
 @media(max-width:480px){#scene > .voidy-code-tree{right:2%;bottom:68%}#scene > .vanilla-tree-present{right:7%;bottom:21%;width:27%;height:15%}}
+
+/* Christmas placement refinement: tree partly off the right edge, behind MooCow. */
+#roomProps .tree-object{right:-24%;bottom:23%;width:68%;height:57%;max-width:none;z-index:4}
+#scene > .vanilla-tree-present{right:8%;bottom:21%;width:clamp(48px,15vw,95px);height:clamp(45px,10vh,85px);z-index:12}
+@media(max-width:480px){
+  #roomProps .tree-object{right:-27%;bottom:23%;width:72%;height:57%;max-width:none}
+  #scene > .vanilla-tree-present{right:8%;bottom:21%;width:15%;height:10%}
+}
