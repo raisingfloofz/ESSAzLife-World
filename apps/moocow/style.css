@@ -131,3 +131,6 @@
 #roomProps .food-table{z-index:1;pointer-events:none}
 #roomProps .food-on-table{z-index:15;pointer-events:auto}
 #roomProps .wall-tool{z-index:20;pointer-events:auto}
+
+/* Santa Voidy seasonal follower, positioned relative to MooCow */
+#santaVoidyBuddy{position:absolute;bottom:0;left:calc(50% + min(17vw,100px));height:31%;max-width:30%;object-fit:contain;pointer-events:none;filter:drop-shadow(0 3px 3px #0005);z-index:1}#santaVoidyBuddy[hidden]{display:none}
