@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-22T13:43:31.894850+00:00",
+  "updatedAt": "2026-11-22T16:49:03.214699+00:00",
   "channels": [
     {
       "handle": "raisingfloofz",
@@ -49,9 +49,74 @@
       "name": "🦈๋࣭⭑ [sharky ] ദ",
       "avatar": "https://yt3.googleusercontent.com/m6WJcicvjm5FddLSEf9218AjPO-55TEovD4asvCxcF9LCdntt0h7ZL2-o9CLXewG0bAThJiegQ=s900-c-k-c0x00ffffff-no-rj",
       "featured": true
+    },
+    {
+      "handle": "EssaSharkie",
+      "id": "UCfGhoSU_36oPit0wmIaDJPg",
+      "name": "~Sharkie~",
+      "avatar": "https://yt3.googleusercontent.com/imXuHFrsO1Ra9lHlfjoL1wufXsHHQzWy8O9EqrLL1-0HwivDxEBKe1Ec_IBE5OD2fZtRB8Jissg=s900-c-k-c0x00ffffff-no-rj",
+      "featured": true
+    },
+    {
+      "handle": "Those-fluffy-pupz-q6r",
+      "id": "UCMdBjQTdOJhKIt3C-9Luq-Q",
+      "name": "Those Fluffy Puppiez 🫧",
+      "avatar": "https://yt3.googleusercontent.com/3skjDWwlN92GDhSr8UwS6pJdMoIE77xdBGxhk8uNxXsGonk2lti-4QbFz7yHImQta9dJw1JJ-A=s900-c-k-c0x00ffffff-no-rj",
+      "featured": true
     }
   ],
   "videos": [
+    {
+      "id": "IeylnH3imqc",
+      "channelId": "UCM6bVi_txFlfakBPgpA1Fuw",
+      "handle": "raisingfloofz",
+      "title": "I'm so tired 😩 #essacommunity",
+      "published": "2026-11-22T16:00:32+00:00",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/IeylnH3imqc/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
+      "id": "bK-KwdLagaQ",
+      "channelId": "UCSvMD3HKwg2_RplLji4qr-g",
+      "handle": "Wobbles_Essa",
+      "title": "mall trip video!w/my best friend#essa​ #foryou​ #fypシ゚viral​ #kandi​ #mall#trip#shortvideo​ #shorts",
+      "published": "2026-11-22T15:38:29+00:00",
+      "description": "#essa​ #foryou​ #fypシ゚viral​ #kandi​ #emotional​ support #puppeteering​ #shortvideo​ #shorts​ \n\n#essa #foryou #kandi #puppeteering \n#essa​ #foryou​ #fypシ゚viral​ #kandi​ #emotional​ support #puppeteering​ #shortvideo​ #shorts​ \n\n#essa #foryou #kandi #puppeteering \n#essa​ #foryou​ #fypシ゚viral​ #kandi​ #emotional​ support #puppeteering​ #shortvideo​ #shorts​ \n\n#essa #foryou #kandi #puppeteering \n#essa​ #foryou​ #fypシ゚viral​ #kandi​ #emotional​ support #puppeteering​ #shortvideo​ #shorts​ \n\n#essa #f",
+      "thumbnail": "https://i.ytimg.com/vi/bK-KwdLagaQ/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
+      "id": "Gb-iIxEBY-A",
+      "channelId": "UCfGhoSU_36oPit0wmIaDJPg",
+      "handle": "EssaSharkie",
+      "title": "Keep it going #essa #emotionalsupport #emotionalsupport #essacommunity",
+      "published": "2026-11-22T14:32:32+00:00",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/Gb-iIxEBY-A/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
+      "id": "gMdrVmlOnUI",
+      "channelId": "UCfGhoSU_36oPit0wmIaDJPg",
+      "handle": "EssaSharkie",
+      "title": "@ForestScalez duet #essa #emotionalsupport #essacommunity #edit",
+      "published": "2026-11-22T14:17:43+00:00",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/gMdrVmlOnUI/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
+      "id": "THwyKqCqzPo",
+      "channelId": "UCM6bVi_txFlfakBPgpA1Fuw",
+      "handle": "raisingfloofz",
+      "title": "ESSAzLife DaisyBelle | Game Creation BTS",
+      "published": "2026-11-22T14:00:10+00:00",
+      "description": "Behind the scenes of the ESSAzLife: DaisyBelle Game. \n\n#essacommunity",
+      "thumbnail": "https://i.ytimg.com/vi/THwyKqCqzPo/hqdefault.jpg",
+      "durationSeconds": 0,
+      "videoType": "short"
+    },
     {
       "id": "9ddQmYCK8KQ",
       "channelId": "UC06XdZ7KsbDk8QoOHlHbWYg",
@@ -73,6 +138,16 @@
       "videoType": "unknown"
     },
     {
+      "id": "Id1RcjH4P9s",
+      "channelId": "UCMdBjQTdOJhKIt3C-9Luq-Q",
+      "handle": "Those-fluffy-pupz-q6r",
+      "title": "“Why do you have a comfort plush?”",
+      "published": "2026-11-22T00:56:53+00:00",
+      "description": "#funny #cute #dog #plush #essa #essacommunity #viral",
+      "thumbnail": "https://i.ytimg.com/vi/Id1RcjH4P9s/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
       "id": "C08Gharjwao",
       "channelId": "UC4RMvAG9z6x58N0wnnfB1nw",
       "handle": "Sharky-sharks5892",
@@ -80,6 +155,106 @@
       "published": "2026-11-21T22:22:26+00:00",
       "description": "",
       "thumbnail": "https://i.ytimg.com/vi/C08Gharjwao/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
+      "id": "vIqyb7nhAfg",
+      "channelId": "UCfGhoSU_36oPit0wmIaDJPg",
+      "handle": "EssaSharkie",
+      "title": "Singing with your Essas is so fun #essa #emotionalsupport #emotionalsupport #essacommunity #therian",
+      "published": "2026-11-21T22:20:44+00:00",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/vIqyb7nhAfg/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
+      "id": "gX5Vt1ZiyMg",
+      "channelId": "UCfGhoSU_36oPit0wmIaDJPg",
+      "handle": "EssaSharkie",
+      "title": "Another duet heheh 🤭 #essa #emotionalsupport #essacommunity #edit",
+      "published": "2026-11-21T22:12:58+00:00",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/gX5Vt1ZiyMg/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
+      "id": "_TbTlR10shg",
+      "channelId": "UCfGhoSU_36oPit0wmIaDJPg",
+      "handle": "EssaSharkie",
+      "title": "Outside with Mable #essa #essa #emotionalsupport",
+      "published": "2026-11-21T20:22:06+00:00",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/_TbTlR10shg/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
+      "id": "Mboz7k-4Qtk",
+      "channelId": "UCfGhoSU_36oPit0wmIaDJPg",
+      "handle": "EssaSharkie",
+      "title": "Mable loves her training sessions #essa #emotionalsupport",
+      "published": "2026-11-21T20:22:02+00:00",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/Mboz7k-4Qtk/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
+      "id": "mlLbT4u82iU",
+      "channelId": "UCfGhoSU_36oPit0wmIaDJPg",
+      "handle": "EssaSharkie",
+      "title": "Thank you so much @raisingfloofz for these amazing apps #essa #emotionalsupport #essacommunity",
+      "published": "2026-11-21T20:12:40+00:00",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/mlLbT4u82iU/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
+      "id": "Xbx8pXuR8og",
+      "channelId": "UCfGhoSU_36oPit0wmIaDJPg",
+      "handle": "EssaSharkie",
+      "title": "Response #emotionalsupport #essa #essa #essacommunity ￼",
+      "published": "2026-11-21T20:08:14+00:00",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/Xbx8pXuR8og/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
+      "id": "WoQK4vhyPE8",
+      "channelId": "UCfGhoSU_36oPit0wmIaDJPg",
+      "handle": "EssaSharkie",
+      "title": "Random video #emotionalsupport #essacommunity #essa # #edit",
+      "published": "2026-11-21T20:04:39+00:00",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/WoQK4vhyPE8/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
+      "id": "lT2J_uZryMs",
+      "channelId": "UCfGhoSU_36oPit0wmIaDJPg",
+      "handle": "EssaSharkie",
+      "title": "Duet hehe 😝 #essa #emotionalsupport #emotionalsupport #essacommunity #therian",
+      "published": "2026-11-21T19:57:53+00:00",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/lT2J_uZryMs/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
+      "id": "3mL3pDjsYWs",
+      "channelId": "UCfGhoSU_36oPit0wmIaDJPg",
+      "handle": "EssaSharkie",
+      "title": "Training Mable how to retrieve #essa #emotionalsupport #essacommunity #edit",
+      "published": "2026-11-21T19:44:25+00:00",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/3mL3pDjsYWs/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
+      "id": "G6-BW8H8IXs",
+      "channelId": "UCfGhoSU_36oPit0wmIaDJPg",
+      "handle": "EssaSharkie",
+      "title": "Training season with Mable #essa #emotionalsupport #essacommunity #edit",
+      "published": "2026-11-21T19:39:54+00:00",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/G6-BW8H8IXs/hqdefault.jpg",
       "videoType": "unknown"
     },
     {
@@ -144,17 +319,6 @@
       "videoType": "unknown"
     },
     {
-      "id": "THwyKqCqzPo",
-      "channelId": "UCM6bVi_txFlfakBPgpA1Fuw",
-      "handle": "raisingfloofz",
-      "title": "ESSAzLife DaisyBelle | Game Creation BTS",
-      "published": "2026-11-20T18:44:38+00:00",
-      "description": "Behind the scenes of the ESSAzLife: DaisyBelle Game. \n\n#essacommunity",
-      "thumbnail": "https://i.ytimg.com/vi/THwyKqCqzPo/hqdefault.jpg",
-      "durationSeconds": 0,
-      "videoType": "short"
-    },
-    {
       "id": "JNqCXeCkaeg",
       "channelId": "UCM6bVi_txFlfakBPgpA1Fuw",
       "handle": "raisingfloofz",
@@ -165,6 +329,26 @@
       "videoType": "unknown"
     },
     {
+      "id": "tjhjTjo1t9U",
+      "channelId": "UCMdBjQTdOJhKIt3C-9Luq-Q",
+      "handle": "Those-fluffy-pupz-q6r",
+      "title": "600 sub special!!✨✨",
+      "published": "2026-11-20T17:58:34+00:00",
+      "description": "#funny #cute #essa #essacommunity #plush #viral #thankyou #jesus",
+      "thumbnail": "https://i.ytimg.com/vi/tjhjTjo1t9U/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
+      "id": "RNpSJ-nnBU0",
+      "channelId": "UCfGhoSU_36oPit0wmIaDJPg",
+      "handle": "EssaSharkie",
+      "title": "Mable #essa #essa #emotionalsupport #emotionalsupport #essacommunity",
+      "published": "2026-11-20T12:00:11+00:00",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/RNpSJ-nnBU0/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
       "id": "So-Qd0ccNag",
       "channelId": "UC0ku6aOVIqhIqBERx5qqozQ",
       "handle": "CuddlyHowlers",
@@ -172,6 +356,16 @@
       "published": "2026-11-19T21:29:22+00:00",
       "description": "",
       "thumbnail": "https://i.ytimg.com/vi/So-Qd0ccNag/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
+      "id": "7vblxEupwXk",
+      "channelId": "UCMdBjQTdOJhKIt3C-9Luq-Q",
+      "handle": "Those-fluffy-pupz-q6r",
+      "title": "Oops Santa ate the tittle! 💕🥹🎅🍪",
+      "published": "2026-11-19T15:32:58+00:00",
+      "description": "#funny #cute #essa #essacommunity #plush #dog #viral",
+      "thumbnail": "https://i.ytimg.com/vi/7vblxEupwXk/hqdefault.jpg",
       "videoType": "unknown"
     },
     {
@@ -195,6 +389,16 @@
       "videoType": "unknown"
     },
     {
+      "id": "4DdXjJ-vR-A",
+      "channelId": "UCfGhoSU_36oPit0wmIaDJPg",
+      "handle": "EssaSharkie",
+      "title": "Training like a Essa #essa #emotionalsupport #essacommunity",
+      "published": "2026-11-19T12:00:25+00:00",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/4DdXjJ-vR-A/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
       "id": "7OVwxkMdxtc",
       "channelId": "UC06XdZ7KsbDk8QoOHlHbWYg",
       "handle": "Vicky_and_her_Essas",
@@ -202,6 +406,16 @@
       "published": "2026-11-19T03:04:35+00:00",
       "description": "",
       "thumbnail": "https://i.ytimg.com/vi/7OVwxkMdxtc/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
+      "id": "xloSn29qTKU",
+      "channelId": "UCfGhoSU_36oPit0wmIaDJPg",
+      "handle": "EssaSharkie",
+      "title": "ESSA duet #essa #emotionalsupport #essacommunity",
+      "published": "2026-11-18T23:57:52+00:00",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/xloSn29qTKU/hqdefault.jpg",
       "videoType": "unknown"
     },
     {
@@ -253,6 +467,16 @@
       "published": "2026-11-17T01:54:52+00:00",
       "description": "",
       "thumbnail": "https://i.ytimg.com/vi/1HEi3BA_ZS4/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
+      "id": "y_lcSG_Ksns",
+      "channelId": "UCMdBjQTdOJhKIt3C-9Luq-Q",
+      "handle": "Those-fluffy-pupz-q6r",
+      "title": "“Do I look like I care🤨”",
+      "published": "2026-11-17T01:49:14+00:00",
+      "description": "Btw I don’t actually swim in it like I don’t put my head under the water and stuff like that #water #flood #cute #funny #essa #essacommunity #dog #plush",
+      "thumbnail": "https://i.ytimg.com/vi/y_lcSG_Ksns/hqdefault.jpg",
       "videoType": "unknown"
     },
     {
@@ -466,6 +690,16 @@
       "videoType": "unknown"
     },
     {
+      "id": "Ne7MjLWqbf8",
+      "channelId": "UCMdBjQTdOJhKIt3C-9Luq-Q",
+      "handle": "Those-fluffy-pupz-q6r",
+      "title": "“ NOT FRIENDLY! 😡￼”",
+      "published": "2026-11-13T20:12:07+00:00",
+      "description": "#funny #cute #viral #essa #essacommunity #plush #dog #goat",
+      "thumbnail": "https://i.ytimg.com/vi/Ne7MjLWqbf8/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
       "id": "zjiHPuKQSZ4",
       "channelId": "UC0ku6aOVIqhIqBERx5qqozQ",
       "handle": "CuddlyHowlers",
@@ -503,6 +737,16 @@
       "published": "2026-11-12T23:54:50+00:00",
       "description": "#essa​ #foryou​ #fypシ゚viral​ #kandi​ #emotional​ support #puppeteering​ #shortvideo​ #shorts​ \n\n#essa #foryou #kandi #puppeteering \n#essa​ #foryou​ #fypシ゚viral​ #kandi​ #emotional​ support #puppeteering​ #shortvideo​ #shorts​ \n\n#essa #foryou #kandi #puppeteering \n#essa​ #foryou​ #fypシ゚viral​ #kandi​ #emotional​ support #puppeteering​ #shortvideo​ #shorts​ \n\n#essa #foryou #kandi #puppeteering \n#essa​ #foryou​ #fypシ゚viral​ #kandi​ #emotional​ support #puppeteering​ #shortvideo​ #shorts​ \n\n#essa #f",
       "thumbnail": "https://i.ytimg.com/vi/urJA_gAUtI4/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
+      "id": "QJXkijneAsI",
+      "channelId": "UCMdBjQTdOJhKIt3C-9Luq-Q",
+      "handle": "Those-fluffy-pupz-q6r",
+      "title": "“I’m joy!😃”",
+      "published": "2026-11-12T20:20:58+00:00",
+      "description": "#funny #cute #plush #essa #essacommunity #jesus #jesuslovesyou #jesusislord #viral",
+      "thumbnail": "https://i.ytimg.com/vi/QJXkijneAsI/hqdefault.jpg",
       "videoType": "unknown"
     },
     {
@@ -666,6 +910,16 @@
       "videoType": "unknown"
     },
     {
+      "id": "gGWwAqm9f1c",
+      "channelId": "UCMdBjQTdOJhKIt3C-9Luq-Q",
+      "handle": "Those-fluffy-pupz-q6r",
+      "title": "POV: I forget I have ￼other Douglas",
+      "published": "2026-11-09T14:44:39+00:00",
+      "description": "#funny #cute #essa #essacommunity #dog #douglas #dog #plush",
+      "thumbnail": "https://i.ytimg.com/vi/gGWwAqm9f1c/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
       "id": "Yq1ipCFq81w",
       "channelId": "UCSvMD3HKwg2_RplLji4qr-g",
       "handle": "Wobbles_Essa",
@@ -673,6 +927,16 @@
       "published": "2026-11-08T23:17:03+00:00",
       "description": "#essa​ #foryou​ #fypシ゚viral​ #kandi​ #emotional​ support #puppeteering​ #shortvideo​ #shorts​ \n\n#essa #foryou #kandi #puppeteering \n#essa​ #foryou​ #fypシ゚viral​ #kandi​ #emotional​ support #puppeteering​ #shortvideo​ #shorts​ \n\n#essa #foryou #kandi #puppeteering \n#essa​ #foryou​ #fypシ゚viral​ #kandi​ #emotional​ support #puppeteering​ #shortvideo​ #shorts​ \n\n#essa #foryou #kandi #puppeteering \n#essa​ #foryou​ #fypシ゚viral​ #kandi​ #emotional​ support #puppeteering​ #shortvideo​ #shorts​ \n\n#essa #f",
       "thumbnail": "https://i.ytimg.com/vi/Yq1ipCFq81w/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
+      "id": "gJSQyWLLuhU",
+      "channelId": "UCMdBjQTdOJhKIt3C-9Luq-Q",
+      "handle": "Those-fluffy-pupz-q6r",
+      "title": "“If god says go you gotta GO🔥✨”",
+      "published": "2026-11-08T22:37:59+00:00",
+      "description": "#cute #viral #essacommunity #essa #dog #plush #music",
+      "thumbnail": "https://i.ytimg.com/vi/gJSQyWLLuhU/hqdefault.jpg",
       "videoType": "unknown"
     },
     {
@@ -723,6 +987,16 @@
       "published": "2026-11-07T18:01:40+00:00",
       "description": "",
       "thumbnail": "https://i.ytimg.com/vi/E7BlSETUOG0/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
+      "id": "vjz6NX6ynFg",
+      "channelId": "UCMdBjQTdOJhKIt3C-9Luq-Q",
+      "handle": "Those-fluffy-pupz-q6r",
+      "title": "Hey hey viewer ✨💫❤️",
+      "published": "2026-11-07T15:11:35+00:00",
+      "description": "#funny #cute #viral #essa #essacommunity #plush #dog",
+      "thumbnail": "https://i.ytimg.com/vi/vjz6NX6ynFg/hqdefault.jpg",
       "videoType": "unknown"
     },
     {
@@ -793,6 +1067,16 @@
       "published": "2026-11-04T23:25:37+00:00",
       "description": "",
       "thumbnail": "https://i.ytimg.com/vi/uRch03TmF_0/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
+      "id": "CXGs2h-RjTI",
+      "channelId": "UCMdBjQTdOJhKIt3C-9Luq-Q",
+      "handle": "Those-fluffy-pupz-q6r",
+      "title": "A PROUD MEMBER OF THE PLUSH COMMUNITY!❤️",
+      "published": "2026-11-04T19:10:04+00:00",
+      "description": "#plush #essa #cute #viral #essacommunity",
+      "thumbnail": "https://i.ytimg.com/vi/CXGs2h-RjTI/hqdefault.jpg",
       "videoType": "unknown"
     },
     {
@@ -886,6 +1170,16 @@
       "videoType": "unknown"
     },
     {
+      "id": "hL0ObYchVWg",
+      "channelId": "UCMdBjQTdOJhKIt3C-9Luq-Q",
+      "handle": "Those-fluffy-pupz-q6r",
+      "title": "What a life ❤️✨😊",
+      "published": "2026-10-31T00:39:41+00:00",
+      "description": "#cute #viral #plush #dog",
+      "thumbnail": "https://i.ytimg.com/vi/hL0ObYchVWg/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
       "id": "tk1EmLHBlGE",
       "channelId": "UC4RMvAG9z6x58N0wnnfB1nw",
       "handle": "Sharky-sharks5892",
@@ -956,6 +1250,26 @@
       "videoType": "unknown"
     },
     {
+      "id": "y1vZwyW_tK4",
+      "channelId": "UCMdBjQTdOJhKIt3C-9Luq-Q",
+      "handle": "Those-fluffy-pupz-q6r",
+      "title": "GOING TO THE DENTIST WITH ￼RIVERR😝",
+      "published": "2026-10-27T16:17:24+00:00",
+      "description": "#cute #funny #viral",
+      "thumbnail": "https://i.ytimg.com/vi/y1vZwyW_tK4/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
+      "id": "qYw4rsHHNmI",
+      "channelId": "UCMdBjQTdOJhKIt3C-9Luq-Q",
+      "handle": "Those-fluffy-pupz-q6r",
+      "title": "I fell outta bed :)",
+      "published": "2026-10-25T21:41:24+00:00",
+      "description": "#funny #viral #cute",
+      "thumbnail": "https://i.ytimg.com/vi/qYw4rsHHNmI/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
       "id": "GIkAgJU0yoQ",
       "channelId": "UCx_1587UYPv82JDai9NZeyg",
       "handle": "KodaESSAS",
@@ -1023,6 +1337,26 @@
       "published": "2026-10-23T16:32:04+00:00",
       "description": "",
       "thumbnail": "https://i.ytimg.com/vi/Xx_zyzduUvo/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
+      "id": "k32zvM7lsMA",
+      "channelId": "UCMdBjQTdOJhKIt3C-9Luq-Q",
+      "handle": "Those-fluffy-pupz-q6r",
+      "title": "￼ LIFE-CHANGING TITLE!!!🥹❤️✨💅￼",
+      "published": "2026-10-23T16:01:03+00:00",
+      "description": "#funny #cute #viral",
+      "thumbnail": "https://i.ytimg.com/vi/k32zvM7lsMA/hqdefault.jpg",
+      "videoType": "unknown"
+    },
+    {
+      "id": "iEnfJrW1uBc",
+      "channelId": "UCMdBjQTdOJhKIt3C-9Luq-Q",
+      "handle": "Those-fluffy-pupz-q6r",
+      "title": "Go and chat with me (no talking)￼",
+      "published": "2026-10-23T10:52:50+00:00",
+      "description": "",
+      "thumbnail": "https://i.ytimg.com/vi/iEnfJrW1uBc/hqdefault.jpg",
       "videoType": "unknown"
     },
     {
