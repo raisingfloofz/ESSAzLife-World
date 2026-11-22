@@ -39,3 +39,5 @@ box-shadow:0 3px 7px #0007;text-decoration:none}
 .christmas-modal-image{display:block;max-width:min(65%,240px);max-height:30vh;object-fit:contain;margin:8px auto}.christmas-card-image{display:block;width:min(100%,400px);max-height:30vh;object-fit:contain;margin:8px auto}.voidy-code-input{display:block;width:100%;padding:13px;margin:9px 0;border:2px solid #f47daf;border-radius:12px;font:inherit;color:#812350;background:white}#voidyCodeMessage{font-weight:bold;color:#8b2855}
 #roomProps .food-table{z-index:1;pointer-events:none}#roomProps .food-on-table{z-index:15;pointer-events:auto}#roomProps .wall-tool{z-index:20;pointer-events:auto}
 #santaVoidyBuddy{position:absolute;bottom:0;left:calc(50% + min(17vw,100px));height:31%;max-width:30%;object-fit:contain;pointer-events:none;filter:drop-shadow(0 3px 3px #0005);z-index:1}#santaVoidyBuddy[hidden]{display:none}
+/* Seasonal Buddy stays positioned relative to DaisyBelle's character wrapper. */
+#daisyWrap #santaVoidyBuddy{user-select:none;-webkit-user-drag:none}
