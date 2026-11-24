@@ -1299,26 +1299,6 @@ const futureWorldApps = [
     ]
   },
   {
-    "id": "cityz",
-    "name": "ESSAzLife: Cityz",
-    "icon": "cityz.icon.png",
-    "status": "coming-soon",
-    "launchUrl": "",
-    "description": [
-      "A life simulation game where ESSAs live, work, build relationships, and raise families."
-    ]
-  },
-  {
-    "id": "court",
-    "name": "ESSAzLife Court",
-    "icon": "court.icon.png",
-    "status": "coming-soon",
-    "launchUrl": "",
-    "description": [
-      "Become the judge as ESSAs face silly charges in a playful courtroom game."
-    ]
-  },
-  {
     "id": "retroz",
     "name": "ESSAzLife: Retroz",
     "icon": "retroz.icon.png",
@@ -1326,36 +1306,6 @@ const futureWorldApps = [
     "launchUrl": "",
     "description": [
       "Play your own Nintendo DS games through a touchscreen-focused emulator, with coins and unlockable themes."
-    ]
-  },
-  {
-    "id": "collectorz",
-    "name": "ESSAzLife: Collectorz",
-    "icon": "collectorz.icon.png",
-    "status": "coming-soon",
-    "launchUrl": "",
-    "description": [
-      "Catalog your ESSA collection with photos, breeds, species, brands, origins, dates, themes, and notes."
-    ]
-  },
-  {
-    "id": "gearz",
-    "name": "ESSAzLife: Gearz",
-    "icon": "gearz.icon.png",
-    "status": "coming-soon",
-    "launchUrl": "",
-    "description": [
-      "Use NFC stickers to track which ESSA owns each piece of gear, and reassign or delete gear."
-    ]
-  },
-  {
-    "id": "tapless",
-    "name": "ESSAzLife: Tapless",
-    "icon": "tapless.icon.png",
-    "status": "coming-soon",
-    "launchUrl": "",
-    "description": [
-      "Access touchscreen-based alternatives to ESSAzLife NFC apps."
     ]
   },
   {
@@ -1372,8 +1322,8 @@ const futureWorldApps = [
     "id": "breedz",
     "name": "ESSAzLife: Breedz",
     "icon": "breedz.icon.png",
-    "status": "coming-soon",
-    "launchUrl": "",
+    "status": "available",
+    "launchUrl": "apps/breedz/index.html",
     "description": [
       "An educational ESSAzLife app about animal breeds."
     ]
@@ -1406,16 +1356,6 @@ const futureWorldApps = [
     "launchUrl": "",
     "description": [
       "Discover YouTube channels by swiping, and save channels you like or want to revisit."
-    ]
-  },
-  {
-    "id": "magazine",
-    "name": "ESSAzLife: Magazine",
-    "icon": "magazine.icon.png",
-    "status": "coming-soon",
-    "launchUrl": "",
-    "description": [
-      "Explore ESSAzLife magazine content and features."
     ]
   },
 
@@ -1564,7 +1504,7 @@ launchUrl: "apps/bookz/index.html",
     previousFocus = document.activeElement;
 
     popupTitle.textContent = app.name;
-    popupIcon.src = "app-icons/" + app.icon;
+    popupIcon.src = (app.id === "breedz" ? "apps/breedz/" : "app-icons/") + app.icon;
     popupIcon.alt = app.name;
 
     popupDescription.replaceChildren();
@@ -1624,7 +1564,7 @@ launchUrl: "apps/bookz/index.html",
     );
 
     const img = document.createElement("img");
-    img.src = "app-icons/" + app.icon;
+    img.src = (app.id === "breedz" ? "apps/breedz/" : "app-icons/") + app.icon;
     img.alt = app.name;
     card.appendChild(img);
 
@@ -2012,6 +1952,7 @@ launchUrl: "apps/bookz/index.html",
     return `${part('year')}-${part('month')}-${part('day')}`;
   }
   function isJustAdded(id){
+    if(id==='breedz')return nyDate()>='2026-11-23'&&nyDate()<='2026-11-30';
     if(id==='turkey-voidy-game')return nyDate()>='2026-11-13'&&nyDate()<'2026-12-01';
 
     if(id==='tap')return nyDate()>='2026-11-18'&&nyDate()<='2026-11-25';
@@ -2044,7 +1985,7 @@ launchUrl: "apps/bookz/index.html",
   const catalog=typeof futureWorldApps!=='undefined'?futureWorldApps:[];
   const catalogNodes=[...document.querySelectorAll('#availableApps > .future-app-card, #comingSoonApps > .future-app-card')];
   catalog.forEach((app,i)=>{
-    const source=catalogNodes.find(n=>n.querySelector('img')?.getAttribute('src')==='app-icons/'+app.icon && n.querySelector('h2')?.textContent===app.name);if(!source)return;
+    const source=catalogNodes.find(n=>n.querySelector('img')?.getAttribute('src')===(app.id==='breedz'?'apps/breedz/':'app-icons/')+app.icon && n.querySelector('h2')?.textContent===app.name);if(!source)return;
     const ready=app.status==='available'&&!!app.launchUrl;
     const section=ready?(appSections[app.id]||'tools'):'coming';
     register(app.id,source,section,ready);
