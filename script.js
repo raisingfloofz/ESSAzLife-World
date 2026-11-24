@@ -1249,6 +1249,12 @@ cloudVerifyForm.addEventListener("submit", async function (event) {
 
 const futureWorldApps = [
   {
+    id: "fibroandfloofz", name: "Fibro & Floofz",
+    icon: "fibroandfloofz.icon.png", status: "available",
+    launchUrl: "apps/fibroandfloofz/index.html",
+    description: ["A personal journal about life with ESSAs, chronic illness, and everyday adventures."]
+  },
+  {
     id: "magazine", name: "ESSAz Monthly",
     icon: "magazine.icon.png", status: "available",
     launchUrl: "apps/magazine/index.html",
@@ -1949,7 +1955,7 @@ launchUrl: "apps/bookz/index.html",
   const viewport=document.getElementById('worldPageViewport');
   if(!track||!viewport)return;
   const prev=document.getElementById('worldPreviousPage'),next=document.getElementById('worldNextPage'),indicator=document.getElementById('worldPageIndicator');
-  const appSections={handler:'tools',chorez:'tools',wishez:'tools',billz:'tools',groceriez:'tools',playmode:'games',daisybelle:'games',moocow:'games',roblox:'games',babiez:'nfc',tap:'nfc',collectorz:'nfc',gearz:'nfc',tapless:'sims',echoz:'sims',math:'educational',breedz:'educational',finderz:'educational',bookz:'media',dictionary:'educational',swipez:'media',magazine:'media',helperz:'tools',calculator:'tools',cityz:'games',court:'games',retroz:'games',driverz:'educational',essaztube:'media'};
+  const appSections={handler:'tools',chorez:'tools',wishez:'tools',billz:'tools',groceriez:'tools',playmode:'games',daisybelle:'games',moocow:'games',roblox:'games',babiez:'nfc',tap:'nfc',collectorz:'nfc',gearz:'nfc',tapless:'sims',echoz:'sims',math:'educational',breedz:'educational',finderz:'educational',bookz:'media',dictionary:'educational',swipez:'media',magazine:'media',fibroandfloofz:'media',helperz:'tools',calculator:'tools',cityz:'games',court:'games',retroz:'games',driverz:'educational',essaztube:'media'};
   // Seven-day launch windows, in America/New_York calendar dates.
   const worldReleaseDates={'turkey-voidy-game':'2026-11-13',babiez:'2026-11-13',billz:'2026-11-08',daisybelle:'2026-11-11',echoz:'2026-11-08',groceriez:'2026-11-08',moocow:'2026-11-13',calculator:'2026-11-15',essaztube:'2026-11-17'};
   function nyDate(){
@@ -1958,7 +1964,7 @@ launchUrl: "apps/bookz/index.html",
     return `${part('year')}-${part('month')}-${part('day')}`;
   }
   function isJustAdded(id){
-    if(id==='magazine')return nyDate()>='2026-11-24'&&nyDate()<='2026-12-01';
+    if(id==='magazine'||id==='fibroandfloofz')return nyDate()>='2026-11-24'&&nyDate()<='2026-12-01';
     if(id==='breedz')return nyDate()>='2026-11-23'&&nyDate()<='2026-11-30';
     if(id==='turkey-voidy-game')return nyDate()>='2026-11-13'&&nyDate()<'2026-12-01';
 
