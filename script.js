@@ -1249,6 +1249,12 @@ cloudVerifyForm.addEventListener("submit", async function (event) {
 
 const futureWorldApps = [
   {
+    id: "magazine", name: "ESSAz Monthly",
+    icon: "magazine.icon.png", status: "available",
+    launchUrl: "apps/magazine/index.html",
+    description: ["Read the monthly ESSA community magazine, featuring creator spotlights, stories, artwork, and adventures."]
+  },
+  {
     id: "driverz", name: "ESSAzLife: Driverz",
     icon: "driverz.icon.png", status: "available",
     launchUrl: "apps/driverz/index.html",
@@ -1952,6 +1958,7 @@ launchUrl: "apps/bookz/index.html",
     return `${part('year')}-${part('month')}-${part('day')}`;
   }
   function isJustAdded(id){
+    if(id==='magazine')return nyDate()>='2026-11-24'&&nyDate()<='2026-12-01';
     if(id==='breedz')return nyDate()>='2026-11-23'&&nyDate()<='2026-11-30';
     if(id==='turkey-voidy-game')return nyDate()>='2026-11-13'&&nyDate()<'2026-12-01';
 
