@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-24T03:34:56.440818+00:00",
+  "updatedAt": "2026-11-24T16:40:09.461491+00:00",
   "channels": [
     {
       "handle": "raisingfloofz",
@@ -66,6 +66,17 @@
     }
   ],
   "videos": [
+    {
+      "id": "DFc1xRYyAJc",
+      "channelId": "UCM6bVi_txFlfakBPgpA1Fuw",
+      "handle": "raisingfloofz",
+      "title": "Bring Your ESSA to Life! | ESSAzLife Tap | GitHub Web App Tutorial",
+      "published": "2026-11-24T11:33:55+00:00",
+      "description": "it's also important to note that if using chatgpt for your index.html, it might ask you to describe better what you are envisioning because some sites and projects require chat to also make style.css (cascading style sheet that tells the the site what to look like), script.js (JavaScript, a type of coding language), and index.html (tells the page what to look like and what to do).\n\nmy recommendation for NFC tags: \n50 Pcs NFC Tags Sticker with NTAG215 Chip NFC Stickers Adhesive Labels Transparent",
+      "thumbnail": "https://i.ytimg.com/vi/DFc1xRYyAJc/hqdefault.jpg",
+      "durationSeconds": 0,
+      "videoType": "short"
+    },
     {
       "id": "GwI6eaZisKg",
       "channelId": "UCMdBjQTdOJhKIt3C-9Luq-Q",
