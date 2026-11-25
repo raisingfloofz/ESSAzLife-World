@@ -892,7 +892,8 @@ function compressWishImage(file) {
   });
 }
 
-function showAddWishForm() {
+function showAddWishForm(product = null) {
+  if (!product || !product.name) product = null;
   if (!activeWishlistId || activeWishlistId === "received") {
     return;
   }
@@ -916,15 +917,15 @@ function showAddWishForm() {
     "phone number, email address, or other personal information " +
     "anywhere in your wishlist. Check screenshots for private details, too.";
 
-  const name = createWishFormField("Item Name *");
-  const price = createWishFormField("Estimated Price", "", "number");
-  const store = createWishFormField("Store");
+  const name = createWishFormField("Item Name *", product?.name || "");
+  const price = createWishFormField("Estimated Price", product?.price?.replace(/[^0-9.]/g, "") || "", "number");
+  const store = createWishFormField("Store", product?.brand || "");
   const description = createWishFormField(
     "Why I Want It",
     "",
     "textarea"
   );
-  const link = createWishFormField("Product Link", "", "url");
+  const link = createWishFormField("Product Link", product?.sourceUrl || "", "url");
 
   
 const wishlistSelector = createWishlistSelector([
@@ -1009,7 +1010,7 @@ if (selectedWishlistIds.length === 0) {
             }
           }
 
-          let photo = "";
+          let photo = product?.imageUrl || "";
 
 if (file) {
   try {
@@ -2970,3 +2971,26 @@ openWishlist = function (...args) {
   updateDeleteWishlistButton();
   return result;
 };
+/* Discover — shared catalog, without changing existing storage or sharing. */
+const discoverScreen = document.getElementById('discoverScreen');
+const storesScreen = document.getElementById('storesScreen');
+const productGrid = document.getElementById('productGrid');
+const productSearch = document.getElementById('productSearch');
+const brandFilter = document.getElementById('brandFilter');
+const catalogStatus = document.getElementById('catalogStatus');
+const moreProducts = document.getElementById('moreProducts');
+let catalog = [], catalogLoaded = false, catalogLoading = false, productLimit = 48;
+function safeShopUrl(value){try{const u=new URL(value);return u.protocol==='https:'||u.protocol==='http:'?u.href:'';}catch{return '';}}
+function shopTab(tab){
+ for(const [id,key] of [['discoverTab','discover'],['listsTab','lists'],['storesTab','stores']]){const b=document.getElementById(id);b.className=tab===key?'primary-button':'secondary-button';b.setAttribute('aria-pressed',String(tab===key));}
+ discoverScreen.classList.toggle('hidden',tab!=='discover');storesScreen.classList.toggle('hidden',tab!=='stores');
+ if(tab!=='lists'){homeScreen.classList.add('hidden');wishlistScreen.classList.add('hidden');}
+}
+const beforeShopHome=showHome;showHome=function(){shopTab('lists');return beforeShopHome();};
+const beforeShopWishlist=openWishlist;openWishlist=function(id){shopTab('lists');return beforeShopWishlist(id);};
+async function showDiscover(){shopTab('discover');if(catalogLoaded){renderProducts();return;}if(catalogLoading)return;catalogLoading=true;catalogStatus.textContent='Loading products…';try{const r=await fetch('../shared/plush-catalog.json');if(!r.ok)throw Error('Catalog unavailable');const d=await r.json();if(!Array.isArray(d.products))throw Error('Invalid catalog');catalog=d.products.filter(p=>p&&p.name&&safeShopUrl(p.sourceUrl));catalogLoaded=true;for(const brand of [...new Set(catalog.map(p=>p.brand).filter(Boolean))].sort()){brandFilter.add(new Option(brand,brand));}renderProducts();}catch{catalogStatus.textContent='Could not load the catalog. Tap Discover to retry. You can still add wishes manually.';}finally{catalogLoading=false;}}
+function renderProducts(){if(!catalogLoaded)return;const terms=productSearch.value.toLowerCase().trim().split(/\s+/).filter(Boolean);const matches=catalog.filter(p=>(!brandFilter.value||p.brand===brandFilter.value)&&terms.every(t=>[p.name,p.brand,p.species,p.breed,...(p.categories||[])].join(' ').toLowerCase().includes(t)));productGrid.replaceChildren();catalogStatus.textContent=`${matches.length} products · Prices and stock are catalog snapshots`;for(const p of matches.slice(0,productLimit)){const card=document.createElement('article');card.className='wish-card discover-product';const img=document.createElement('img');img.alt=p.name;img.loading='lazy';const url=safeShopUrl(p.imageUrl);if(url)img.src=url;img.addEventListener('error',()=>{img.hidden=true;});img.addEventListener('click',()=>catalogWish(p));const h=document.createElement('h3');h.textContent=p.name;const meta=document.createElement('p');meta.className='product-meta';meta.textContent=[p.brand,p.price,p.size,p.availability].filter(Boolean).join(' · ');const source=document.createElement('a');source.href=safeShopUrl(p.sourceUrl);source.target='_blank';source.rel='noopener noreferrer';source.textContent=new URL(source.href).hostname;const add=document.createElement('button');add.className='primary-button';add.textContent='＋ Add Wish';add.onclick=()=>catalogWish(p);card.append(img,h,meta,source,add);productGrid.append(card);}moreProducts.classList.toggle('hidden',matches.length<=productLimit);}
+function catalogWish(product){if(!wishezData.wishlists.length){const name=createField('Wishlist name','My Wishez');openModal('Create your first wishlist',c=>c.append(name.group),[{label:'Cancel',action:closeModal},{label:'Create & continue',primary:true,action:()=>{if(!name.field.value.trim())return;const previous=structuredClone(wishezData);wishezData.wishlists.push({id:makeId(),name:name.field.value.trim(),description:''});if(!saveWishezData()){wishezData=previous;return;}catalogWish(product);}}]);return;}activeWishlistId=wishezData.wishlists.some(l=>l.id===activeWishlistId)?activeWishlistId:wishezData.wishlists[0].id;showAddWishForm(product);}
+function showStores(){shopTab('stores');const grid=document.getElementById('storeGrid');grid.replaceChildren();for(const [name,url] of [['Douglas','https://douglascuddletoy.com/'],['Amazon','https://www.amazon.com/'],['Walmart','https://www.walmart.com/'],['Target','https://www.target.com/'],['Aurora','https://auroragift.com/'],['Jellycat','https://us.jellycat.com/']]){const card=document.createElement('article');card.className='wish-card';const h=document.createElement('h3');h.textContent=name;const a=document.createElement('a');a.className='store-link';a.href=url;a.target='_blank';a.rel='noopener noreferrer';a.textContent='Open store ↗';card.append(h,a);if(name==='Douglas'){const b=document.createElement('button');b.className='primary-button';b.textContent='Browse in Wishez';b.onclick=()=>{productSearch.value='';showDiscover();};card.append(b);}grid.append(card);}}
+document.getElementById('discoverTab').onclick=showDiscover;document.getElementById('listsTab').onclick=showHome;document.getElementById('storesTab').onclick=showStores;document.getElementById('manualStoreWish').onclick=()=>catalogWish(null);productSearch.oninput=brandFilter.onchange=()=>{productLimit=48;renderProducts();};moreProducts.onclick=()=>{productLimit+=48;renderProducts();};
+showDiscover();
