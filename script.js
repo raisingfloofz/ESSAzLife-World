@@ -1354,10 +1354,10 @@ const futureWorldApps = [
     "id": "swipez",
     "name": "ESSAzLife: Swipez",
     "icon": "swipez.icon.png",
-    "status": "coming-soon",
-    "launchUrl": "",
+    "status": "available",
+    "launchUrl": "apps/swipez/index.html",
     "description": [
-      "Discover YouTube channels by swiping, and save channels you like or want to revisit."
+      "Discover plush animals by swiping and organize your favorites, maybes, and owned plushies."
     ]
   },
 
@@ -1939,13 +1939,26 @@ launchUrl: "apps/bookz/index.html",
 
 /* World horizontal section navigation and favorites. Existing account and app code is unchanged. */
 (function initWorldPages(){
-  const order=['justadded','favorites','tools','games','nfc','sims','educational','media','coming','nonessa'];
-  const names=['Just Added','Favorites','Tools','Games','NFC','Sims','Educational','Media','Coming Soon','Non-ESSA'];
+  const order=['justadded','favorites','tools','games','nfc','sims','educational','media','shopping','coming','nonessa'];
+  const names=['Just Added','Favorites','Tools','Games','NFC','Sims','Educational','Media','Shopping','Coming Soon','Non-ESSA'];
   const track=document.getElementById('worldPageTrack');
   const viewport=document.getElementById('worldPageViewport');
   if(!track||!viewport)return;
+  // Insert Shopping using the existing World page layout, before Coming Soon.
+  if(!document.getElementById('worldShoppingApps')){
+    const comingPage=document.getElementById('comingSoonApps')?.closest('.world-page');
+    const page=document.createElement('section');
+    page.className='world-page';
+    page.dataset.worldSection='shopping';
+    const heading=document.createElement('h2');heading.textContent='Shopping';
+    const grid=document.createElement('div');grid.className='app-launcher';grid.id='worldShoppingApps';
+    page.append(heading,grid);
+    if(comingPage && comingPage.parentNode===track)track.insertBefore(page,comingPage);
+    else track.appendChild(page);
+  }
+
   const prev=document.getElementById('worldPreviousPage'),next=document.getElementById('worldNextPage'),indicator=document.getElementById('worldPageIndicator');
-  const appSections={handler:'tools',chorez:'tools',wishez:'tools',billz:'tools',groceriez:'tools',playmode:'games',daisybelle:'games',moocow:'games',roblox:'games',babiez:'nfc',tap:'nfc',collectorz:'nfc',gearz:'nfc',tapless:'sims',echoz:'sims',math:'educational',breedz:'educational',finderz:'educational',bookz:'media',dictionary:'educational',swipez:'media',magazine:'media',fibroandfloofz:'media',helperz:'tools',calculator:'tools',cityz:'games',court:'games',driverz:'educational',essaztube:'media'};
+  const appSections={handler:'tools',chorez:'tools',wishez:'shopping',billz:'tools',groceriez:'tools',playmode:'games',daisybelle:'games',moocow:'games',roblox:'games',babiez:'nfc',tap:'nfc',collectorz:'nfc',gearz:'nfc',tapless:'sims',echoz:'sims',math:'educational',breedz:'educational',finderz:'educational',bookz:'media',dictionary:'educational',swipez:'shopping',magazine:'media',fibroandfloofz:'media',helperz:'tools',calculator:'tools',cityz:'games',court:'games',driverz:'educational',essaztube:'media'};
   // Seven-day launch windows, in America/New_York calendar dates.
   const worldReleaseDates={'turkey-voidy-game':'2026-11-13',babiez:'2026-11-13',billz:'2026-11-08',daisybelle:'2026-11-11',echoz:'2026-11-08',groceriez:'2026-11-08',moocow:'2026-11-13',calculator:'2026-11-15',essaztube:'2026-11-17'};
   function nyDate(){
@@ -1954,6 +1967,7 @@ launchUrl: "apps/bookz/index.html",
     return `${part('year')}-${part('month')}-${part('day')}`;
   }
   function isJustAdded(id){
+    if(id==='swipez')return nyDate()>='2026-11-25'&&nyDate()<='2026-12-02';
     if(id==='magazine'||id==='fibroandfloofz')return nyDate()>='2026-11-24'&&nyDate()<='2026-12-01';
     if(id==='breedz')return nyDate()>='2026-11-23'&&nyDate()<='2026-11-30';
     if(id==='turkey-voidy-game')return nyDate()>='2026-11-13'&&nyDate()<'2026-12-01';
