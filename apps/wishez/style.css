@@ -814,4 +814,4 @@ main {
 #shareWishlistButton.hidden {
   display: none;
 }
-
+.discover-nav{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:28px}.discover-nav button{flex:1;max-width:230px;padding:12px 8px}.discover-filters{display:flex;gap:10px;flex-wrap:wrap}.discover-filters input,.discover-filters select{padding:13px;border:2px solid var(--border);border-radius:12px;background:white;color:var(--text);min-width:0}.discover-filters input{flex:2;min-width:200px}.discover-filters select{flex:1}.discover-product{display:flex;flex-direction:column;gap:6px}.discover-product h3,.discover-product p{margin:0}.discover-product .primary-button{margin-top:auto;width:100%}.discover-product a{color:var(--primary);font-size:12px;overflow-wrap:anywhere}.discover-product .product-meta{font-size:13px}.discover-product img{cursor:pointer}#moreProducts,#manualStoreWish{display:block;margin:20px auto}.store-link{display:inline-block;margin:8px 0;color:var(--primary)}
